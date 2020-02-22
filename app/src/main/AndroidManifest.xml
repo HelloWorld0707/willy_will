@@ -2,25 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.willy.will">
 
-
-    <uses-permission android:name="android.permission.INTERNET">
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION">
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
 
     <application
-        android:usesCleartextTraffic="true"
+        android:name=".common.controller.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".common.controller.App">
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="02bcc5ccac3144389ff97078106a8721"/>
+        android:usesCleartextTraffic="true">
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="02bcc5ccac3144389ff97078106a8721" />
 
         <activity
-            android:name="com.willy.will.main.view.activityBase"
+            android:name=".main.view.activityBase"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -29,32 +28,36 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- set addItem Activity -->
+        </activity> <!-- set addItem Activity -->
         <activity
-            android:name="com.willy.will.add.view.activityItemAdd"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <!-- set searchItem Activity -->
+            android:name=".add.view.activityItemAdd"
+            android:configChanges="keyboardHidden|orientation|screenSize" /> <!-- set searchItem Activity -->
         <activity
-            android:name="com.willy.will.search.view.SearchActivity"
+            android:name=".search.view.SearchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name="com.willy.will.search.view.GroupSearchSettingActivity"
+            android:name=".search.view.GroupSearchSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
-        <activity android:name="com.willy.will.search.view.DoneRepeatSearchSettingActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/PopupTheme" />
-        <activity android:name="com.willy.will.search.view.PeriodSearchSettingActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/PopupTheme" />
-        <activity android:name="com.willy.will.search.view.DistanceSearchSettingActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/PopupTheme" />
-        <!-- set detail Activity -->
         <activity
-            android:name="com.willy.will.detail.view.activityDetail"
+            android:name=".search.view.DoneRepeatSearchSettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".search.view.PeriodSearchSettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".search.view.DistanceSearchSettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme" /> <!-- set detail Activity -->
+        <activity
+            android:name=".detail.view.activityDetail"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".add.view.activityItemAdd_group"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".add.view.activityItemAdd"/>
     </application>
 
 </manifest>

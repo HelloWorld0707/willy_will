@@ -71,4 +71,11 @@
     <string name="unit_long">km</string>
     <!-- ~distance -->
     <!-- #################### ~value #################### -->
+
+    <!-- add text -->
+    <string name="edit_Title">Title</string>
+    <string name="btn_color">color</string>
+    <string name="edit_Group">Group_Title</string>
+    <string name="Date">0000-00-00</string>
+    <!-- add text -->
 </resources>
