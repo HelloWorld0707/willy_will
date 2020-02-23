@@ -2,6 +2,7 @@ package com.willy.will.search.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,11 @@ import java.util.Iterator;
 
 public class DistanceSearchSettingActivity extends PopupActivity {
 
+    private String selectedDistanceKey = null;
+
     private RecyclerView recyclerView = null;
+
+    private ArrayList<Distance> distancelist = null;
 
     /**
      * Last Modified: -
@@ -31,7 +36,7 @@ public class DistanceSearchSettingActivity extends PopupActivity {
     }
 
     /**
-     * Last Modified: 2020-02-19
+     * Last Modified: 2020-02-23
      * Last Modified By: Shin Minyong
      * Created: -
      * Created By: -
@@ -41,14 +46,25 @@ public class DistanceSearchSettingActivity extends PopupActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set a selected item
+        selectedDistanceKey = getResources().getString(R.string.selectedDistance);
+        Distance selectedDistance = getIntent().getParcelableExtra(selectedDistanceKey);
+        long selectedPosition = 0L;
+        // ~Set a selected item
+
         // Set data of item
-        ArrayList<Distance> list = new ArrayList<>();
+        distancelist = new ArrayList<>();
         Iterator<Distance> iterator = DistanceSet.distances.iterator();
         Distance distance = null;
         while(iterator.hasNext()) {
             distance = iterator.next();
+            // Set a selected item
+            if(distance.getLength() == selectedDistance.getLength()) {
+                selectedPosition = Long.valueOf(distancelist.size());
+            }
+            // ~Set a selected item
             if(distance.isUse()) {
-                list.add(distance);
+                distancelist.add(distance);
             }
         }
         // ~Set data of item
@@ -56,19 +72,43 @@ public class DistanceSearchSettingActivity extends PopupActivity {
         // Set RecyclerView
         recyclerView = new RecyclerViewSetter(
                 R.id.distance_search_setting_recycler_view, getWindow().getDecorView(),
-                R.integer.distance_search_setting_recycler_item_type, list,
+                R.integer.distance_search_setting_recycler_item_type, distancelist,
                 R.string.selection_id_distance_search_setting, false
         ).setRecyclerView();
         // ~Set RecyclerView
 
-        // Set selecting all TextView
-        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().select(0L);
-        // ~Set selecting all TextView
+        // Set a selected item
+        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().select(selectedPosition);
+        // ~Set a selected item
     }
 
+    /**
+     * Last Modified: 2020-02-23
+     * Last Modified By: Shin Minyong
+     * Created: -
+     * Created By: -
+     * @param intent
+     * @return success
+     */
     @Override
     protected boolean setResults(Intent intent) {
-        return false;
+        boolean success = true;
+        Distance selectedDistance = null;
+        try {
+            Iterator selectIter = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection().iterator();
+            int selectedIndex = Math.toIntExact((Long) selectIter.next());
+            selectedDistance = distancelist.get(selectedIndex);
+        }
+        catch (Exception e) {
+            selectedDistance = distancelist.get(0);
+            success = false;
+            Log.e("GroupSearchSettingActivity", "Results: "+e.getMessage());
+            e.printStackTrace();
+        }
+        finally {
+            intent.putExtra(selectedDistanceKey, selectedDistance);
+            return success;
+        }
     }
 
 }

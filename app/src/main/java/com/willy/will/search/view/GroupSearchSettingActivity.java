@@ -24,7 +24,6 @@ public class GroupSearchSettingActivity extends PopupActivity {
     private String selectedGroupsKey = null;
 
     private ArrayList<Group> groupList = null;
-    private ArrayList<Group> selectedGroups = null;
 
     private TextView selectingAllView = null;
     private RecyclerView recyclerView = null;
@@ -72,7 +71,7 @@ public class GroupSearchSettingActivity extends PopupActivity {
 
         // Set selected items
         selectedGroupsKey = getResources().getString(R.string.selectedGroups);
-        selectedGroups = getIntent().getParcelableArrayListExtra(selectedGroupsKey);
+        ArrayList<Group> selectedGroups = getIntent().getParcelableArrayListExtra(selectedGroupsKey);
 
         SelectionTracker tracker = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker();
         if(selectedGroups.size() > 0) {
@@ -80,7 +79,6 @@ public class GroupSearchSettingActivity extends PopupActivity {
             Group selectGroup = null;
             int i = 0;
             int groupListSize = groupList.size();
-            Group group = null;
             while(selectIter.hasNext()) {
                 selectGroup = selectIter.next();
                 for(; i < groupListSize; i++) {
@@ -133,10 +131,10 @@ public class GroupSearchSettingActivity extends PopupActivity {
             Selection selection = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection();
             if (selection.size() > 0) {
                 Iterator selectIter = selection.iterator();
-                int selectedPosition = -1;
+                int selectedIndex = -1;
                 while (selectIter.hasNext()) {
-                    selectedPosition = Math.toIntExact((Long) selectIter.next());
-                    selectedGroups.add(groupList.get(selectedPosition));
+                    selectedIndex = Math.toIntExact((Long) selectIter.next());
+                    selectedGroups.add(groupList.get(selectedIndex));
                 }
             }
         }

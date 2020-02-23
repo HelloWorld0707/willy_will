@@ -79,6 +79,16 @@
     </style>
     <!-- ~Button Style -->
 
+    <!-- CheckBox Style -->
+    <style name="CheckBoxStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/checkbox_margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/checkbox_margin_end</item>
+        <item name="android:buttonTint">@color/colorPrimary</item>
+    </style>
+    <!-- ~CheckBox Style -->
+
     <!-- Text Recycler Item Style -->
     <style name="TextRecyclerItemStyle">
         <item name="android:layout_width">match_parent</item>

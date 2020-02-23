@@ -103,10 +103,11 @@
             android:layout_marginStart="@dimen/button_margin"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:foreground="@drawable/ic_replay_24px"
-            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="initSearchSetting"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/distance_search_setting_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
