@@ -23,6 +23,7 @@ public class RecyclerItemKeyProvider extends ItemKeyProvider<Long> {
     @Override
     public int getPosition(@NonNull Long key) {
         RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForItemId(key);
-        return viewHolder.getLayoutPosition();
+        return viewHolder == null ? RecyclerView.NO_POSITION : viewHolder.getLayoutPosition();
     }
+
 }
