@@ -1,7 +1,6 @@
 package com.willy.will.main.view;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,6 +8,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.activityItemAdd;
 import com.willy.will.search.view.SearchActivity;
+import com.willy.will.calander.view.fragmentCalander;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,6 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class activityBase extends AppCompatActivity{
 
@@ -49,6 +48,7 @@ public class activityBase extends AppCompatActivity{
 
 
     fragmentMain fragmentmain;
+    fragmentCalander fragmentcalender;
 
 
     @Override
@@ -170,16 +170,24 @@ public class activityBase extends AppCompatActivity{
 
 
     /**
-     * Last Modified: 20.02.24
+     * Last Modified: 20-02-24
      * Last Modified By: Lee Jaeeun
      * Created: -
      * Created By: Lee Jaeeun
-     * Function: Move to CalendarView (temporary connect to search)
+     * Function: Move to CalendarView (temporary connect to fragment)
      * @param view
      */
     public void btnCalendarClick(View view) {
-        Intent intent = new Intent(activityBase.this , SearchActivity.class);
-        startActivity(intent);
+        fragmentcalender = fragmentcalender.newInstance(0,"temp");
+        //delete fragment(now using)
+        getSupportFragmentManager()
+                .beginTransaction().remove(fragmentmain).commit();
+        Log.d("Deleted Fragment","***********메인 프래그먼트 삭제*************");
+
+        //make new fragment
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentcalender).commit();
+        Log.d("Created Fragment","***********캘린더 프래그먼트 오픈*************");
     }
 
     /**
