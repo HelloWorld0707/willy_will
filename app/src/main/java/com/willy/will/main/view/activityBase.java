@@ -1,23 +1,23 @@
 package com.willy.will.main.view;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.activityItemAdd;
-import com.willy.will.calander.view.fragmentCalander;
 import com.willy.will.search.view.SearchActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.willy.will.adapter.viewPagerAdapter;
 
 public class activityBase extends AppCompatActivity{
 
@@ -41,6 +39,13 @@ public class activityBase extends AppCompatActivity{
     private DrawerLayout drawer;
     private View drawerView;
     //~var for navigation drawer
+
+    //var for date txt
+    TextView tv_date;
+    Calendar todayDate;
+    SimpleDateFormat sdf;
+    String dateString;
+
 
     fragmentMain fragmentmain;
 
@@ -62,14 +67,21 @@ public class activityBase extends AppCompatActivity{
 
         //setDate
 
-        TextView tv_date = (TextView) findViewById(R.id.tv_date);
-        Date todaydate = Calendar.getInstance().getTime();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
-        String dateString = sdf.format(todaydate);
+        tv_date = (TextView) findViewById(R.id.tv_date);
+        todayDate = Calendar.getInstance();
+        sdf = new SimpleDateFormat("MM.dd");
+        dateString = sdf.format(todayDate.getInstance().getTime());
         tv_date.setText(dateString);
-
         //~setDate
+
+        //open picker & change txt
+        tv_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(activityBase.this, datepicker,
+                        todayDate.get(Calendar.YEAR), todayDate.get(Calendar.MONTH), todayDate.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         //set fragment
         fragmentmain = fragmentMain.getInstance(0);
@@ -180,6 +192,39 @@ public class activityBase extends AppCompatActivity{
         naviListener.onDrawerOpened(drawerView);
     }
 
+
+    /**
+     * Last Modified: -
+     * Last Modified By: -
+     * Created: 2020-02-24
+     * Created By: Lee Jaeeun
+     * Function: Open Date picker
+     * @param y (year)
+     * @param m (month)
+     * @param d (day)
+     */
+
+    DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+            todayDate.set(Calendar.YEAR, y);
+            todayDate.set(Calendar.MONTH, m);
+            todayDate.set(Calendar.DAY_OF_MONTH, d);
+            updateLabel();
+        }
+    };
+
+    /**
+     * Last Modified: -
+     * Last Modified By: -
+     * Created: 2020-02-24
+     * Created By: Lee Jaeeun
+     * Function: Change Date Using by Date Picker
+     */
+    private void updateLabel(){
+        dateString = sdf.format(todayDate.getTime());
+        tv_date.setText(dateString);
+    }
 
     /*
     @Override

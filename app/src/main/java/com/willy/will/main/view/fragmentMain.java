@@ -1,15 +1,12 @@
 package com.willy.will.main.view;
 
-import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
@@ -120,13 +117,16 @@ public class fragmentMain extends Fragment {
         ).build(); // 하나만 선택
         adapter.setTracker(tracker);
         tracker.addObserver(new SelectionTracker.SelectionObserver() {
-            *//**
+            */
+        /**
              * Last Modified: 2020-02-12
              * Last Modified By: Shin Minyong
              * Created: -
              * Created By: -
              * Function: Initialization (including Item View)
-             * *//*
+             * */
+
+            /*
             @Override //선택에 변화가 있을 떄 사용함
             public void onSelectionChanged() {
                 super.onSelectionChanged();
