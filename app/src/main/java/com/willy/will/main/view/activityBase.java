@@ -200,7 +200,8 @@ public class activityBase extends AppCompatActivity{
      * Last Modified By: -
      * Created: 2020-02-24
      * Created By: Lee Jaeeun
-     * Function: Open Date picker
+     * Function: Open Date picker and deleting original fragment
+     *           and creating new fragment of selected date
      * @param y (year)
      * @param m (month)
      * @param d (day)
@@ -232,7 +233,7 @@ public class activityBase extends AppCompatActivity{
      * Last Modified By: -
      * Created: 2020-02-24
      * Created By: Lee Jaeeun
-     * Function: Change Date Using by Date Picker
+     * Function: Change Date Using from selected date by Date Picker
      */
     private void updateLabel(){
         dateString = sdf.format(todayDate.getTime());
