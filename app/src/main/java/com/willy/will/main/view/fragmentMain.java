@@ -19,9 +19,6 @@ public class fragmentMain extends Fragment {
     // dont fix it
     private final static String EXTRA_ADAPTER = "BaseAdpater";
 
-    //fragment var
-    private static final String ARG_NO = "ARG_NO";
-
     // example extra string
     /*
     private final static String EXTRA_INT = "someInt";
@@ -30,6 +27,9 @@ public class fragmentMain extends Fragment {
 
     //Recycler View
     private RecyclerView recyclerView = null;
+
+    //fragment var
+    private static final String ARG_NO = "ARG_NO";
 
 
     /**

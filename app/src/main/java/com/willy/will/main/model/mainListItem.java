@@ -1,8 +1,11 @@
 package com.willy.will.main.model;
 
 
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+
 public class mainListItem {
-    private String rank;
+    private Drawable rank;
     private String name;
     private String time;
     private String routine;
@@ -32,11 +35,11 @@ public class mainListItem {
         this.routine = routine;
     }
 
-    public String getRank() {
+    public Drawable getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(Drawable rank) {
         this.rank = rank;
     }
 
