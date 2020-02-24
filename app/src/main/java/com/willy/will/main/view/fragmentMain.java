@@ -85,7 +85,9 @@ public class fragmentMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        ViewGroup rootView =
+                (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
+
         ArrayList<mainListItem> list = new ArrayList<>();
         for(int i=0; i<20;i++){
             list.add(new mainListItem());
@@ -94,7 +96,7 @@ public class fragmentMain extends Fragment {
         // Set RecyclerView
         // ↓↓↓↓↓↓↓↓↓↓ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
         recyclerView = new RecyclerViewSetter(
-                R.id.mainItemList, view,
+                R.id.mainItemList, rootView,
                 R.integer.to_do_recycler_item_type, list,
                 R.string.selection_id_main, false
         ).setRecyclerView();
@@ -136,7 +138,7 @@ public class fragmentMain extends Fragment {
         });*/
         // ↑↑↑↑↑↑↑↑↑↑ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
 
-        return recyclerView;
+        return rootView;
 
     }
 

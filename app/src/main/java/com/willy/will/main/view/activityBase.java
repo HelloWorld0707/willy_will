@@ -42,9 +42,6 @@ public class activityBase extends AppCompatActivity{
     private View drawerView;
     //~var for navigation drawer
 
-    viewPagerAdapter viewAdapter;
-
-    fragmentCalander fragmentcalander;
     fragmentMain fragmentmain;
 
 
@@ -52,10 +49,6 @@ public class activityBase extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-
-        fragmentcalander = new fragmentCalander();
-        fragmentmain = new fragmentMain();
-
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -77,6 +70,14 @@ public class activityBase extends AppCompatActivity{
         tv_date.setText(dateString);
 
         //~setDate
+
+        //set fragment
+        fragmentmain = fragmentMain.getInstance(0);
+
+        //add the fragment to container(frame layout)
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+        //~set fragment
 
         //set sp_group (fix later)
         spgroupList = new ArrayList<>();
@@ -105,7 +106,6 @@ public class activityBase extends AppCompatActivity{
 
         //~Set sp_group
 
-
         // set fab event Listener
         FloatingActionButton fab = findViewById(R.id.fabItemAdd);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -117,11 +117,6 @@ public class activityBase extends AppCompatActivity{
             }
         });
         // ~set fab event Listener
-
-        // viewPagerbtnSearchClick
-        ViewPager viewPager = findViewById(R.id.calanderViewPager);
-        viewPager.setAdapter(new viewPagerAdapter(getSupportFragmentManager()));
-        // ~ viewPager
     }
 
     /**
@@ -161,17 +156,16 @@ public class activityBase extends AppCompatActivity{
 
 
     /**
-     * Last Modified: -
-     * Last Modified By: -
+     * Last Modified: 20.02.24
+     * Last Modified By: Lee Jaeeun
      * Created: -
      * Created By: Lee Jaeeun
-     * Function: Move to CalendarView
+     * Function: Move to CalendarView (temporary connect to search)
      * @param view
      */
     public void btnCalendarClick(View view) {
-        FragmentTransaction fragment = getSupportFragmentManager().beginTransaction();
-        fragment.replace(R.id.calanderViewPager,fragmentcalander);
-        fragment.commit();
+        Intent intent = new Intent(activityBase.this , SearchActivity.class);
+        startActivity(intent);
     }
 
     /**
