@@ -16,8 +16,6 @@ import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 
 import java.util.ArrayList;
-
-import com.willy.will.adapter.mainListAdapter;
 import com.willy.will.main.model.mainListItem;
 
 public class fragmentMain extends Fragment {
