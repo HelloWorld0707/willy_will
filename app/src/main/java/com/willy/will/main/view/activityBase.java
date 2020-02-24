@@ -84,7 +84,7 @@ public class activityBase extends AppCompatActivity{
         });
 
         //set fragment
-        fragmentmain = fragmentMain.getInstance(0);
+        fragmentmain = fragmentMain.getInstance(dateString);
 
         //add the fragment to container(frame layout)
         getSupportFragmentManager()

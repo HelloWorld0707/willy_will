@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.willy.will.calander.view.fragmentCalander;
 import com.willy.will.main.view.fragmentMain;
 
+
 public class viewPagerAdapter extends FragmentPagerAdapter {
+    String dString = "오늘의 날짜";
 
     public viewPagerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
@@ -23,7 +25,7 @@ public class viewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: default:
-                fragmentMain tmpfragmentMain = fragmentMain.getInstance(0);
+                fragmentMain tmpfragmentMain = fragmentMain.getInstance(dString);
                 return tmpfragmentMain;
 
             case 1:

@@ -39,10 +39,10 @@ public class fragmentMain extends Fragment {
      * Created By: Lee Jaeeun
      * Function: setting fragment
      */
-    public static fragmentMain getInstance(int no){
+    public static fragmentMain getInstance(String dateString){
         fragmentMain fragment = new fragmentMain();
         Bundle args = new Bundle();
-        args.putInt(ARG_NO,no);
+        args.putString(ARG_NO,dateString);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,10 +70,10 @@ public class fragmentMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int no = getArguments().getInt(ARG_NO,5);
+        String checkString = getArguments().getString(ARG_NO,"Today");
 
-        String text = no + "번째 프래그먼트";
-        Log.d("MyFragment", "onCreate " + text);
+        String text = checkString + "날의 프래그먼트";
+        Log.d("MyFragment", "onCreate " + text+"***************************************");
     }
 
     // Inflate the view for the fragment based on layout XML
