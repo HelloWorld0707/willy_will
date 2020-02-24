@@ -74,6 +74,14 @@ public class activityBase extends AppCompatActivity{
         tv_date.setText(dateString);
         //~setDate
 
+        //set fragment
+        fragmentmain = fragmentMain.getInstance(dateString);
+
+        //add the fragment to container(frame layout)
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+        //~set fragment
+
         //open picker & change txt
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +91,7 @@ public class activityBase extends AppCompatActivity{
             }
         });
 
-        //set fragment
-        fragmentmain = fragmentMain.getInstance(dateString);
 
-        //add the fragment to container(frame layout)
-        getSupportFragmentManager()
-                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
-        //~set fragment
 
         //set sp_group (fix later)
         spgroupList = new ArrayList<>();
@@ -115,7 +117,6 @@ public class activityBase extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-
         //~Set sp_group
 
         // set fab event Listener
@@ -211,6 +212,9 @@ public class activityBase extends AppCompatActivity{
             todayDate.set(Calendar.MONTH, m);
             todayDate.set(Calendar.DAY_OF_MONTH, d);
             updateLabel();
+            getSupportFragmentManager()
+                    .beginTransaction().add(R.id.fragmentcontainer,fragmentMain.getInstance(dateString)).commit();
+
         }
     };
 
