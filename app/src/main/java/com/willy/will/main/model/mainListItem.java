@@ -2,7 +2,6 @@ package com.willy.will.main.model;
 
 
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 
 public class mainListItem {
     private Drawable rank;

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -212,8 +213,16 @@ public class activityBase extends AppCompatActivity{
             todayDate.set(Calendar.MONTH, m);
             todayDate.set(Calendar.DAY_OF_MONTH, d);
             updateLabel();
+
+            //delete fragment(now using)
+            getSupportFragmentManager()
+                    .beginTransaction().remove(fragmentmain).commit();
+            Log.d("Fragment deleted","***********프래그먼트 삭제*************");
+
+            //make new fragment
             getSupportFragmentManager()
                     .beginTransaction().add(R.id.fragmentcontainer,fragmentMain.getInstance(dateString)).commit();
+
 
         }
     };
