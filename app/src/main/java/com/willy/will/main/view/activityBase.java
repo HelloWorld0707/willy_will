@@ -2,11 +2,13 @@ package com.willy.will.main.view;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.activityItemAdd;
+import com.willy.will.dataBase.DBAccess;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.calander.view.fragmentCalander;
 
@@ -55,6 +57,9 @@ public class activityBase extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
+        SQLiteDatabase dd = dbHelper.getWritableDatabase();
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);

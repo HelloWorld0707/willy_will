@@ -19,14 +19,10 @@ public class DBAccess extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
-        db.execSQL("CREATE TABLE _ITEM(" +
-                "item_id INTEGER NOT NULL," +
-                "group_Id INTEGER, " +
-                "item_name TEXT NOT NULL, " +
-                "item_important INTEGER NOT NULL, " +
-                "item_location TEXT, " +
-                "done TEXT," +
-                " PRIMARY KEY(item_id) );"
+        db.execSQL("CREATE TABLE calender ( " +
+                "calender_date TEXT NOT NULL," +
+                "item_id INTEGER," +
+                "PRIMARY KEY(calender_date, item_id) );"
         );
 
         db.execSQL("CREATE TABLE _GROUP(" +
@@ -38,7 +34,7 @@ public class DBAccess extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE _ITEM(" +
                 "item_id INTEGER NOT NULL," +
-                "group_Id INTEGER," +
+                "group_id INTEGER," +
                 "item_name TEXT NOT NULL," +
                 "item_important INTEGER," +
                 "item_location TEXT," +
@@ -56,7 +52,7 @@ public class DBAccess extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE _ROOF_MAPPER (" +
                 "item_id INTEGER NOT NULL," +
                 "roof_id INTEGER NOT NULL," +
-                "PRIMARY KEY(item_id,roof_id) )"
+                "PRIMARY KEY(item_id, roof_id) )"
         );
     }
 
