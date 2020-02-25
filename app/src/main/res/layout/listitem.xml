@@ -32,13 +32,12 @@
                 android:layout_height="@dimen/itembox_half_height"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_rank"
-                    android:layout_width="@dimen/number_text_width"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="1"
-                    android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/img_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/important1" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -46,7 +45,6 @@
                     android:layout_height="match_parent"
                     android:bufferType="spannable"
                     android:gravity="center_vertical"
-                    android:text="name.."
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -69,7 +67,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="contents.."
                     android:visibility="visible" />
             </LinearLayout>
 

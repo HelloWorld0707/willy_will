@@ -9,16 +9,13 @@ import android.widget.Toast;
 
 import androidx.recyclerview.selection.SelectionPredicates;
 import androidx.recyclerview.selection.SelectionTracker;
-import androidx.recyclerview.selection.StableIdKeyProvider;
 import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
-import com.willy.will.common.model.Group;
 import com.willy.will.detail.view.activityDetail;
-import com.willy.will.search.model.Distance;
 
 import java.util.ArrayList;
 
@@ -40,6 +37,7 @@ public class RecyclerViewSetter {
     private int recyclerId = 0;
     private int selectId = 0;
 
+    private RecyclerViewAdapter adapter = null;
     private SelectionTracker tracker = null;
     // ~For Setting RecyclerView
 
@@ -88,8 +86,8 @@ public class RecyclerViewSetter {
     }
 
     /**
-     * Last Modified: - 2020-02-18
-     * Last Modified By: - Lee Jaeeun
+     * Last Modified: 2020-02-23
+     * Last Modified By: Shin Minyong
      * Created: 2020-02-17
      * Created By: Shin Minyong
      * Function: Set RecyclerView
@@ -104,17 +102,17 @@ public class RecyclerViewSetter {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(parentView.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        // Set the type
+        // set the type
         final int TYPE = resources.getInteger(tId);
         // set Adapter
-        final RecyclerViewAdapter adapter = new RecyclerViewAdapter(TYPE, list, this);
+        adapter = new RecyclerViewAdapter(TYPE, list, this);
         recyclerView.setAdapter(adapter);
 
         // set Tracker
         tracker = new SelectionTracker.Builder(
                 resources.getString(selectId),
                 recyclerView,
-                new StableIdKeyProvider(recyclerView),
+                new RecyclerItemKeyProvider(recyclerView),
                 new RecyclerItemDetailsLookup(recyclerView),
                 StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
@@ -127,19 +125,19 @@ public class RecyclerViewSetter {
                 super.onSelectionChanged();
 
                 // To-do
-                if(TYPE == TO_DO_CODE) {
+                if (TYPE == TO_DO_CODE) {
                     changeToDoItem();
                 }
                 // Group
-                else if(TYPE == GROUP_CODE) {
+                else if (TYPE == GROUP_CODE) {
                     changeGroupItem();
                 }
                 // Done
-                else if(TYPE == DONE_CODE) {
+                else if (TYPE == DONE_CODE) {
                     changeDoneItem();
                 }
                 // Distance
-                else if(TYPE == DISTANCE_CODE) {
+                else if (TYPE == DISTANCE_CODE) {
                     changeDistanceItem();
                 }
                 // ERROR: Wrong type
@@ -151,27 +149,31 @@ public class RecyclerViewSetter {
         });
 
         //swipe for delete
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT /*| ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP*/) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                Toast.makeText(parentView.getContext(), "on Move", Toast.LENGTH_SHORT).show();
-                return false;
-            }
+        if(TYPE == TO_DO_CODE) {
+            ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,
+                    ItemTouchHelper.LEFT /*| ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP*/) {
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    Toast.makeText(parentView.getContext(), "on Move", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
 
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                Toast.makeText(parentView.getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
-                //Remove swiped item from list and notify the RecyclerView
-                int position = viewHolder.getAdapterPosition();
-                list.remove(position);
-                adapter.notifyDataSetChanged();
-            }
-        };
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                    Toast.makeText(parentView.getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
+                    //Remove swiped item from list and notify the RecyclerView
+                    int position = viewHolder.getAdapterPosition();
+                    list.remove(position);
+                    //adapter.notifyDataSetChanged();
+                    //adapter.notifyItemRemoved(position);
+                    adapter.notifyItemRangeChanged(position, list.size());
+                }
+            };
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-        //~swipe for delete
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+            //~swipe for delete
+        }
 
         return recyclerView;
     }

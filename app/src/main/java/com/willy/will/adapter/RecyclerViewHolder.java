@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -29,7 +30,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // View of Item
     private TextView textOnlyView;
 
-    private TextView tvRank;
+    private ImageView imgRank;
     private TextView tvName;
     private TextView tvRoutine;
     private TextView tvTime;
@@ -60,7 +61,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         // To-do
         if(type == TO_DO_CODE) {
             tvTime = view.findViewById(R.id.tv_time);
-            tvRank = view.findViewById(R.id.tv_rank);
+            imgRank = view.findViewById(R.id.img_rank);
             tvName = view.findViewById(R.id.tv_name);
             tvRoutine = view.findViewById(R.id.tv_routine);
             cbDone = view.findViewById(R.id.cb_done);
@@ -117,7 +118,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         if(type == TO_DO_CODE) {
             mainListItem mitem = (mainListItem) data;
             tvTime.setText(mitem.getTime());
-            tvRank.setText(mitem.getRank());
+            imgRank.setImageDrawable(mitem.getRank());
             tvName.setText(mitem.getName());
             tvRoutine.setText(mitem.getRoutine());
             cbDone.setActivated(mitem.getDone());

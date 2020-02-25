@@ -79,6 +79,16 @@
     </style>
     <!-- ~Button Style -->
 
+    <!-- CheckBox Style -->
+    <style name="CheckBoxStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/checkbox_margin_start</item>
+        <item name="android:layout_marginEnd">@dimen/checkbox_margin_end</item>
+        <item name="android:buttonTint">@color/colorPrimary</item>
+    </style>
+    <!-- ~CheckBox Style -->
+
     <!-- Text Recycler Item Style -->
     <style name="TextRecyclerItemStyle">
         <item name="android:layout_width">match_parent</item>
@@ -118,4 +128,11 @@
     </style>
     <!-- ~[2020-02-17] Modified by Kim Mikyung -->
 
+    <!-- Base application theme. -->
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

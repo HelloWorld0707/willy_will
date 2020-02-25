@@ -1,31 +1,23 @@
 package com.willy.will.main.view;
 
-import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 
 import java.util.ArrayList;
-
-import com.willy.will.adapter.mainListAdapter;
 import com.willy.will.main.model.mainListItem;
 
 public class fragmentMain extends Fragment {
     // dont fix it
     private final static String EXTRA_ADAPTER = "BaseAdpater";
-
-    //fragment var
-    private static final String ARG_NO = "ARG_NO";
 
     // example extra string
     /*
@@ -36,6 +28,9 @@ public class fragmentMain extends Fragment {
     //Recycler View
     private RecyclerView recyclerView = null;
 
+    //fragment var
+    private static final String ARG_NO = "ARG_NO";
+
 
     /**
      * Last Modified: -
@@ -44,10 +39,10 @@ public class fragmentMain extends Fragment {
      * Created By: Lee Jaeeun
      * Function: setting fragment
      */
-    public static fragmentMain getInstance(int no){
+    public static fragmentMain getInstance(String dateString){
         fragmentMain fragment = new fragmentMain();
         Bundle args = new Bundle();
-        args.putInt(ARG_NO,no);
+        args.putString(ARG_NO,dateString);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,17 +70,19 @@ public class fragmentMain extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int no = getArguments().getInt(ARG_NO,5);
+        String checkString = getArguments().getString(ARG_NO,"Today");
 
-        String text = no + "번째 프래그먼트";
-        Log.d("MyFragment", "onCreate " + text);
+        String text = checkString + "날의 프래그먼트";
+        Log.d("MyFragment", "onCreate " + text+"***************************************");
     }
 
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        ViewGroup rootView =
+                (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
+
         ArrayList<mainListItem> list = new ArrayList<>();
         for(int i=0; i<20;i++){
             list.add(new mainListItem());
@@ -94,7 +91,7 @@ public class fragmentMain extends Fragment {
         // Set RecyclerView
         // ↓↓↓↓↓↓↓↓↓↓ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
         recyclerView = new RecyclerViewSetter(
-                R.id.mainItemList, view,
+                R.id.mainItemList, rootView,
                 R.integer.to_do_recycler_item_type, list,
                 R.string.selection_id_main, false
         ).setRecyclerView();
@@ -120,13 +117,16 @@ public class fragmentMain extends Fragment {
         ).build(); // 하나만 선택
         adapter.setTracker(tracker);
         tracker.addObserver(new SelectionTracker.SelectionObserver() {
-            *//**
+            */
+        /**
              * Last Modified: 2020-02-12
              * Last Modified By: Shin Minyong
              * Created: -
              * Created By: -
              * Function: Initialization (including Item View)
-             * *//*
+             * */
+
+            /*
             @Override //선택에 변화가 있을 떄 사용함
             public void onSelectionChanged() {
                 super.onSelectionChanged();
@@ -136,7 +136,7 @@ public class fragmentMain extends Fragment {
         });*/
         // ↑↑↑↑↑↑↑↑↑↑ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
 
-        return recyclerView;
+        return rootView;
 
     }
 
@@ -144,4 +144,6 @@ public class fragmentMain extends Fragment {
     public void onResume() {
         super.onResume();
     }
+
+
 }

@@ -24,4 +24,10 @@
 
     <!-- Not used -->
     <color name="almost_black">#333</color>
+
+    <!-- [2020-02-22] seongsik -->
+    <color name="colorPrimary2">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <!--seongsik -->
 </resources>

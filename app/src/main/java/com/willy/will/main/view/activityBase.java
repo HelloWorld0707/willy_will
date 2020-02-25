@@ -1,23 +1,24 @@
 package com.willy.will.main.view;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.activityItemAdd;
-import com.willy.will.calander.view.fragmentCalander;
 import com.willy.will.search.view.SearchActivity;
+import com.willy.will.calander.view.fragmentCalander;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +26,6 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import com.willy.will.adapter.viewPagerAdapter;
 
 public class activityBase extends AppCompatActivity{
 
@@ -42,20 +40,21 @@ public class activityBase extends AppCompatActivity{
     private View drawerView;
     //~var for navigation drawer
 
-    viewPagerAdapter viewAdapter;
+    //var for date txt
+    TextView tv_date;
+    Calendar todayDate;
+    SimpleDateFormat sdf;
+    String dateString;
 
-    fragmentCalander fragmentcalander;
+
     fragmentMain fragmentmain;
+    fragmentCalander fragmentcalender;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-
-        fragmentcalander = new fragmentCalander();
-        fragmentmain = new fragmentMain();
-
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -69,14 +68,31 @@ public class activityBase extends AppCompatActivity{
 
         //setDate
 
-        TextView tv_date = (TextView) findViewById(R.id.tv_date);
-        Date todaydate = Calendar.getInstance().getTime();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
-        String dateString = sdf.format(todaydate);
+        tv_date = (TextView) findViewById(R.id.tv_date);
+        todayDate = Calendar.getInstance();
+        sdf = new SimpleDateFormat("MM.dd");
+        dateString = sdf.format(todayDate.getInstance().getTime());
         tv_date.setText(dateString);
-
         //~setDate
+
+        //set fragment
+        fragmentmain = fragmentMain.getInstance(dateString);
+
+        //add the fragment to container(frame layout)
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+        //~set fragment
+
+        //open picker & change txt
+        tv_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DatePickerDialog(activityBase.this, datepicker,
+                        todayDate.get(Calendar.YEAR), todayDate.get(Calendar.MONTH), todayDate.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
 
         //set sp_group (fix later)
         spgroupList = new ArrayList<>();
@@ -102,9 +118,7 @@ public class activityBase extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-
         //~Set sp_group
-
 
         // set fab event Listener
         FloatingActionButton fab = findViewById(R.id.fabItemAdd);
@@ -117,11 +131,6 @@ public class activityBase extends AppCompatActivity{
             }
         });
         // ~set fab event Listener
-
-        // viewPagerbtnSearchClick
-        ViewPager viewPager = findViewById(R.id.calanderViewPager);
-        viewPager.setAdapter(new viewPagerAdapter(getSupportFragmentManager()));
-        // ~ viewPager
     }
 
     /**
@@ -161,17 +170,24 @@ public class activityBase extends AppCompatActivity{
 
 
     /**
-     * Last Modified: -
-     * Last Modified By: -
+     * Last Modified: 20-02-24
+     * Last Modified By: Lee Jaeeun
      * Created: -
      * Created By: Lee Jaeeun
-     * Function: Move to CalendarView
+     * Function: Move to CalendarView (temporary connect to fragment)
      * @param view
      */
     public void btnCalendarClick(View view) {
-        FragmentTransaction fragment = getSupportFragmentManager().beginTransaction();
-        fragment.replace(R.id.calanderViewPager,fragmentcalander);
-        fragment.commit();
+        fragmentcalender = fragmentcalender.newInstance(0,"temp");
+        //delete fragment(now using)
+        getSupportFragmentManager()
+                .beginTransaction().remove(fragmentmain).commit();
+        Log.d("Deleted Fragment","***********메인 프래그먼트 삭제*************");
+
+        //make new fragment
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentcalender).commit();
+        Log.d("Created Fragment","***********캘린더 프래그먼트 오픈*************");
     }
 
     /**
@@ -186,6 +202,51 @@ public class activityBase extends AppCompatActivity{
         naviListener.onDrawerOpened(drawerView);
     }
 
+
+    /**
+     * Last Modified: -
+     * Last Modified By: -
+     * Created: 2020-02-24
+     * Created By: Lee Jaeeun
+     * Function: Open Date picker and deleting original fragment
+     *           and creating new fragment of selected date
+     * @param y (year)
+     * @param m (month)
+     * @param d (day)
+     */
+
+    DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+            todayDate.set(Calendar.YEAR, y);
+            todayDate.set(Calendar.MONTH, m);
+            todayDate.set(Calendar.DAY_OF_MONTH, d);
+            updateLabel();
+
+            //delete fragment(now using)
+            getSupportFragmentManager()
+                    .beginTransaction().remove(fragmentmain).commit();
+            Log.d("Fragment deleted","***********프래그먼트 삭제*************");
+
+            //make new fragment
+            getSupportFragmentManager()
+                    .beginTransaction().add(R.id.fragmentcontainer,fragmentMain.getInstance(dateString)).commit();
+
+
+        }
+    };
+
+    /**
+     * Last Modified: -
+     * Last Modified By: -
+     * Created: 2020-02-24
+     * Created By: Lee Jaeeun
+     * Function: Change Date Using from selected date by Date Picker
+     */
+    private void updateLabel(){
+        dateString = sdf.format(todayDate.getTime());
+        tv_date.setText(dateString);
+    }
 
     /*
     @Override

@@ -3,6 +3,8 @@ package com.willy.will.search.view;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.CheckBox;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,10 +15,17 @@ import com.willy.will.common.controller.App;
 import com.willy.will.search.model.PopupActivity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class DoneRepeatSearchSettingActivity extends PopupActivity {
 
+    private String selectedDoneKey = null;
+    private String includedRepeatKey = null;
+
     private RecyclerView recyclerView = null;
+    private CheckBox checkBox = null;
+
+    private ArrayList<String> doneList = null;
 
     /**
      * Last Modified: -
@@ -30,7 +39,7 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
     }
 
     /**
-     * Last Modified: 2020-02-19
+     * Last Modified: 2020-02-23
      * Last Modified By: Shin Minyong
      * Created: -
      * Created By: -
@@ -41,29 +50,66 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
         super.onCreate(savedInstanceState);
 
         // Set data of item
-        ArrayList<String> list = new ArrayList<>();
+        doneList = new ArrayList<>();
         Resources resources = App.getContext().getResources();
-        list.add(resources.getString(R.string.all));
-        list.add(resources.getString(R.string.undone));
-        list.add(resources.getString(R.string.done));
+        doneList.add(resources.getString(R.string.all));
+        doneList.add(resources.getString(R.string.undone));
+        doneList.add(resources.getString(R.string.done));
         // ~Set data of item
 
-        // Set RecyclerView
+        // Set Views
         recyclerView = new RecyclerViewSetter(
                 R.id.done_search_setting_recycler_view, getWindow().getDecorView(),
-                R.integer.done_search_setting_recycler_item_type, list,
+                R.integer.done_search_setting_recycler_item_type, doneList,
                 R.string.selection_id_done_search_setting, false
         ).setRecyclerView();
-        // ~Set RecyclerView
+        checkBox = findViewById(R.id.repeat_check_box);
+        // ~Set Views
 
-        // Set selecting all TextView
-        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().select(0L);
-        // ~Set selecting all TextView
+        // Set a selected item and checkbox checking
+        selectedDoneKey = resources.getString(R.string.selectedDone);
+        includedRepeatKey = resources.getString(R.string.includedRepeat);
+
+        String selectedDone = getIntent().getStringExtra(selectedDoneKey);
+        for(int i = 0; i < doneList.size(); i++) {
+            if(doneList.get(i).equals(selectedDone)) {
+                long selectedPosition = Long.valueOf(i);
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().select(selectedPosition);
+            }
+        }
+
+        boolean includedRepeat = getIntent().getBooleanExtra(includedRepeatKey, true);
+        checkBox.setChecked(includedRepeat);
+        // ~Set a selected item and checking the checkbox
     }
 
+    /**
+     * Last Modified: 2020-02-23
+     * Last Modified By: Shin Minyong
+     * Created: -
+     * Created By: -
+     * @param intent
+     * @return success
+     */
     @Override
     protected boolean setResults(Intent intent) {
-        return false;
+        boolean success = true;
+        String selectedDone = "";
+        try {
+            Iterator selectIter = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection().iterator();
+            int selectedIndex = Math.toIntExact((Long) selectIter.next());
+            selectedDone = doneList.get(selectedIndex);
+        }
+        catch (Exception e) {
+            success = false;
+            Log.e("GroupSearchSettingActivity", "Results: "+e.getMessage());
+            e.printStackTrace();
+        }
+        finally {
+            intent.putExtra(selectedDoneKey, selectedDone);
+            intent.putExtra(includedRepeatKey, checkBox.isChecked());
+            return success;
+        }
     }
 
 }
