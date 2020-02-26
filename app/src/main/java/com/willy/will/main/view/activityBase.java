@@ -209,8 +209,8 @@ public class activityBase extends AppCompatActivity{
 
 
     /**
-     * Last Modified: -
-     * Last Modified By: -
+     * Last Modified: 2020-02-26
+     * Last Modified By: Lee Jaeeun
      * Created: 2020-02-24
      * Created By: Lee Jaeeun
      * Function: Open Date picker and deleting original fragment
@@ -233,9 +233,11 @@ public class activityBase extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
+            fragmentmain = fragmentMain.getInstance(dateString);
+
             //make new fragment
             getSupportFragmentManager()
-                    .beginTransaction().add(R.id.fragmentcontainer,fragmentMain.getInstance(dateString)).commit();
+                    .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
 
 
         }
