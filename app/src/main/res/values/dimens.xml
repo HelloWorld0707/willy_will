@@ -24,7 +24,7 @@
     <!-- ~Icon Button -->
 
     <!-- Button -->
-    <dimen name="button_width">75dp</dimen>
+    <dimen name="button_width">90dp</dimen>
     <dimen name="button_height">32dp</dimen>
     <!-- radius = height / 2 -->
     <dimen name="button_radius">16dp</dimen>

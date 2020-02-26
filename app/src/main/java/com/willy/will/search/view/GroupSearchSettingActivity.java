@@ -2,7 +2,6 @@ package com.willy.will.search.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -70,7 +69,7 @@ public class GroupSearchSettingActivity extends PopupActivity {
         // ~Set Views
 
         // Set selected items
-        selectedGroupsKey = getResources().getString(R.string.selectedGroups);
+        selectedGroupsKey = getResources().getString(R.string.selected_groups_key);
         ArrayList<Group> selectedGroups = getIntent().getParcelableArrayListExtra(selectedGroupsKey);
 
         SelectionTracker tracker = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker();
@@ -125,28 +124,18 @@ public class GroupSearchSettingActivity extends PopupActivity {
      */
     @Override
     protected boolean setResults(Intent intent) {
-        boolean success = true;
         ArrayList<Group> selectedGroups = new ArrayList<>();
-        try {
-            Selection selection = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection();
-            if (selection.size() > 0) {
-                Iterator selectIter = selection.iterator();
-                int selectedIndex = -1;
-                while (selectIter.hasNext()) {
-                    selectedIndex = Math.toIntExact((Long) selectIter.next());
-                    selectedGroups.add(groupList.get(selectedIndex));
-                }
+        Selection selection = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection();
+        if (selection.size() > 0) {
+            Iterator selectIter = selection.iterator();
+            int selectedIndex = -1;
+            while (selectIter.hasNext()) {
+                selectedIndex = Math.toIntExact((Long) selectIter.next());
+                selectedGroups.add(groupList.get(selectedIndex));
             }
         }
-        catch (Exception e) {
-            success = false;
-            Log.e("GroupSearchSettingActivity", "Results: "+e.getMessage());
-            e.printStackTrace();
-        }
-        finally {
-            intent.putParcelableArrayListExtra(getResources().getString(R.string.selectedGroups), selectedGroups);
-            return success;
-        }
+        intent.putParcelableArrayListExtra(getResources().getString(R.string.selected_groups_key), selectedGroups);
+        return true;
     }
 
 }

@@ -18,6 +18,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="editTextColor">@color/colorString</item>
+    </style>
+
     <!-- Bottom Bar Style -->
     <style name="BottomBarStyle">
         <item name="android:layout_width">match_parent</item>
@@ -32,7 +38,7 @@
     <!-- ~Bottom Bar Style -->
 
     <!-- Pop-up Theme & Style -->
-    <style name="PopupTheme" parent="android:Theme.Dialog">
+    <style name="PopupTheme" parent="DialogTheme">
         <item name="android:windowBackground">@drawable/shape_white_rounded_rectangle</item>
     </style>
     <style name="PopupStyle">
