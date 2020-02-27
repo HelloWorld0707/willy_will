@@ -31,11 +31,11 @@
         <Button
             android:id="@+id/start_of_start_button"
             style="@style/ButtonStyle"
-            android:text="Today"
-            app:layout_constraintStart_toEndOf="@id/start_date_text_view"
+            android:onClick="setStartOfStart"
+            app:layout_constraintBottom_toTopOf="@id/start_of_end_button"
             app:layout_constraintEnd_toStartOf="@id/tilde1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/start_of_end_button" />
+            app:layout_constraintStart_toEndOf="@id/start_date_text_view"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tilde1"
@@ -50,10 +50,11 @@
             android:id="@+id/end_of_start_button"
             style="@style/ButtonStyle"
             android:layout_marginRight="@dimen/basic_margin"
-            app:layout_constraintStart_toEndOf="@id/tilde1"
+            android:onClick="setEndOfStart"
+            app:layout_constraintBottom_toTopOf="@id/end_of_end_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/end_of_end_button" />
+            app:layout_constraintStart_toEndOf="@id/tilde1"
+            app:layout_constraintTop_toTopOf="parent" />
         <!-- ~First Line -->
 
         <!-- ~Second Line -->
@@ -70,10 +71,11 @@
         <Button
             android:id="@+id/start_of_end_button"
             style="@style/ButtonStyle"
-            app:layout_constraintStart_toEndOf="@id/end_date_text_view"
+            android:onClick="setStartOfEnd"
+            app:layout_constraintBottom_toTopOf="@id/start_of_done_button"
             app:layout_constraintEnd_toStartOf="@id/tilde2"
-            app:layout_constraintTop_toBottomOf="@id/start_of_start_button"
-            app:layout_constraintBottom_toTopOf="@id/start_of_done_button" />
+            app:layout_constraintStart_toEndOf="@id/end_date_text_view"
+            app:layout_constraintTop_toBottomOf="@id/start_of_start_button" />
 
         <TextView
             android:id="@+id/tilde2"
@@ -88,11 +90,11 @@
             android:id="@+id/end_of_end_button"
             style="@style/ButtonStyle"
             android:layout_marginRight="@dimen/basic_margin"
-            android:text="Today"
-            app:layout_constraintStart_toEndOf="@id/tilde2"
+            android:onClick="setEndOfEnd"
+            app:layout_constraintBottom_toTopOf="@id/end_of_done_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/end_of_start_button"
-            app:layout_constraintBottom_toTopOf="@id/end_of_done_button" />
+            app:layout_constraintStart_toEndOf="@id/tilde2"
+            app:layout_constraintTop_toBottomOf="@id/end_of_start_button" />
         <!-- ~Second Line -->
 
         <!-- ~Third Line -->
@@ -109,10 +111,11 @@
         <Button
             android:id="@+id/start_of_done_button"
             style="@style/ButtonStyle"
-            app:layout_constraintStart_toEndOf="@id/done_date_text_view"
+            android:onClick="setStartOfDone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tilde3"
-            app:layout_constraintTop_toBottomOf="@id/start_of_end_button"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/done_date_text_view"
+            app:layout_constraintTop_toBottomOf="@id/start_of_end_button" />
 
         <TextView
             android:id="@+id/tilde3"
@@ -127,10 +130,11 @@
             android:id="@+id/end_of_done_button"
             style="@style/ButtonStyle"
             android:layout_marginRight="@dimen/basic_margin"
-            app:layout_constraintStart_toEndOf="@id/tilde3"
+            android:onClick="setEndOfDone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/end_of_end_button"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/tilde3"
+            app:layout_constraintTop_toBottomOf="@id/end_of_end_button" />
         <!-- ~Third Line -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>

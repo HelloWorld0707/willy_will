@@ -36,6 +36,13 @@
 
     <string name="period">기간</string>
     <string name="tilde">~</string>
+    <string name="start_of_start_date_text">시작 날짜의 처음</string>
+    <string name="end_of_start_date_text">시작 날짜의 끝</string>
+    <string name="start_of_end_date_text">종료 날짜의 처음</string>
+    <string name="end_of_end_date_text">종료 날짜의 끝</string>
+    <string name="start_of_done_date_text">완료 날짜의 처음</string>
+    <string name="end_of_done_date_text">완료 날짜의 끝</string>
+    <string name="date_error">날짜의 범위가 적절하지 않습니다.</string>
 
     <string name="distance">거리</string>
     <string name="distance_text">여기서 %1$d%2$s 이내</string>
@@ -59,11 +66,18 @@
     <!-- ~selection id for recycler view -->
 
     <!-- startActivityForResult -->
-    <string name="requestCode">requestCode</string>
-    <string name="selectedGroups">selectedGroups</string>
-    <string name="selectedDone">selectedDone</string>
-    <string name="includedRepeat">includedRepeat</string>
-    <string name="selectedDistance">selectedDistance</string>
+    <string name="request_code">requestCode</string>
+    <string name="selected_groups_key">selectedGroups</string>
+    <string name="selected_done_key">selectedDone</string>
+    <string name="included_repeat_key">includedRepeat</string>
+    <string name="start_of_start_date_key">startOfStartDate</string>
+    <string name="end_of_start_date_key">endOfStartDate</string>
+    <string name="start_of_end_date_key">startOfEndDate</string>
+    <string name="end_of_end_date_key">endOfEndDate</string>
+    <string name="only_done_key">onlyDone</string>
+    <string name="start_of_done_date_key">startOfDoneDate</string>
+    <string name="end_of_done_date_key">endOfDoneDate</string>
+    <string name="selected_distance_key">selectedDistance</string>
     <!-- ~startActivityForResult -->
 
     <!-- distance -->

@@ -18,7 +18,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_text_input_layout"
         android:layout_width="@dimen/match_constraint"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/text_input_layout_height"
+        android:focusableInTouchMode="true"
         android:hint="@string/search_hint"
         app:endIconMode="clear_text"
         app:layout_constraintTop_toTopOf="parent"

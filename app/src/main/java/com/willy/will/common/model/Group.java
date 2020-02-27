@@ -4,6 +4,7 @@
  * Created: 2020-02-19
  * Created By: Shin Minyong
  */
+
 package com.willy.will.common.model;
 
 import android.os.Parcel;
@@ -23,6 +24,13 @@ public class Group implements Parcelable {
     }
     // ~temp
 
+    /**
+     * Last Modified: 2020-02-21
+     * Last Modified By: Shin Minyong
+     * Created: -
+     * Created By: -
+     * @param in
+     */
     protected Group(Parcel in) {
         groupId = in.readInt();
         groupName = in.readString();
