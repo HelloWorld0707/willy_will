@@ -45,7 +45,7 @@ public class DBAccess extends SQLiteOpenHelper {
                 "roof_id INTEGER NOT NULL," +
                 "start_day INTEGER NOT NULL," +
                 "end_day INTEGER NOT NULL," +
-                "week INTEGER," +
+                "week TEXT," +
                 "PRIMARY KEY(roof_id) );"
         );
 
