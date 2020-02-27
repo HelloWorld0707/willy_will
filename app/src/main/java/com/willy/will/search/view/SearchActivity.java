@@ -63,6 +63,9 @@ public class SearchActivity extends AppCompatActivity {
         current = "2020-01-01";
 
         textInputEditText = findViewById(R.id.search_edit_text);
+        if(textInputEditText.hasFocus()) {
+            textInputEditText.clearFocus();
+        }
 
         initSearchSetting(getWindow().getDecorView());
 

@@ -31,6 +31,8 @@
     <dimen name="button_margin">2dp</dimen>
     <!-- ~Button -->
 
+    <dimen name="text_input_layout_height">50dp</dimen>
+
     <!-- Search Setting Recycler View -->
     <dimen name="search_setting_contents_view_height">195dp</dimen>
     <dimen name="group_search_setting_recycler_view_max_height">146dp</dimen>

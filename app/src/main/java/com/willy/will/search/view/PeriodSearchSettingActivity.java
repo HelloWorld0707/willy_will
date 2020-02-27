@@ -205,7 +205,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
-        datePickerDialog.setMessage(resources.getString(R.string.start_of_start_date_text));
+        datePickerDialog.setMessage(resources.getString(R.string.start_of_end_date_text));
         datePickerDialog.show();
     }
 
@@ -233,7 +233,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
-        datePickerDialog.setMessage(resources.getString(R.string.end_of_start_date_text));
+        datePickerDialog.setMessage(resources.getString(R.string.end_of_end_date_text));
         datePickerDialog.show();
     }
 
@@ -261,7 +261,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
-        datePickerDialog.setMessage(resources.getString(R.string.start_of_start_date_text));
+        datePickerDialog.setMessage(resources.getString(R.string.start_of_done_date_text));
         datePickerDialog.show();
     }
 
@@ -289,7 +289,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
-        datePickerDialog.setMessage(resources.getString(R.string.end_of_start_date_text));
+        datePickerDialog.setMessage(resources.getString(R.string.end_of_done_date_text));
         datePickerDialog.show();
     }
 
