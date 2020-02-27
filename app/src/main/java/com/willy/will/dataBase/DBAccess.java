@@ -19,7 +19,7 @@ public class DBAccess extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
-        db.execSQL("CREATE TABLE calender ( " +
+        db.execSQL("CREATE TABLE _CALENDER ( " +
                 "calender_date TEXT NOT NULL," +
                 "item_id INTEGER," +
                 "PRIMARY KEY(calender_date, item_id) );"
