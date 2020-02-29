@@ -38,7 +38,7 @@
     <dimen name="group_search_setting_recycler_view_max_height">146dp</dimen>
     <!-- ~Search Setting Recycler View -->
 
-    <!-- [2020-02-19] Modified by Lee Jaeeun -->
+    <!-- [2020-02-29] Modified by Lee Jaeeun -->
     <!-- Spinner-->
     <dimen name="spinner_width">225dp</dimen>
     <!-- ~Spinner-->
@@ -51,9 +51,10 @@
     <!-- MainListItem-->
     <dimen name="itembox_height">75dp</dimen>
     <dimen name="itembox_half_height">32dp</dimen>
-    <dimen name="number_text_width">50dp</dimen>
+    <dimen name="number_text_width">24dp</dimen>
     <dimen name="checkbox_margin_start">20dp</dimen>
     <dimen name="checkbox_margin_end">10dp</dimen>
+    <dimen name="string_padding">10dp</dimen>
     <!-- ~MainListItem-->
 
     <!-- NavigationDrawer -->

@@ -32,7 +32,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     private ImageView imgRank;
     private TextView tvName;
-    private TextView tvRoutine;
+    private ImageView imgRoutine;
     private TextView tvTime;
     private CheckBox cbDone;
     // ~View of Item
@@ -63,7 +63,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime = view.findViewById(R.id.tv_time);
             imgRank = view.findViewById(R.id.img_rank);
             tvName = view.findViewById(R.id.tv_name);
-            tvRoutine = view.findViewById(R.id.tv_routine);
+            imgRoutine = view.findViewById(R.id.img_routine);
             cbDone = view.findViewById(R.id.cb_done);
 
         }
@@ -120,7 +120,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime.setText(mitem.getTime());
             imgRank.setImageDrawable(mitem.getRank());
             tvName.setText(mitem.getName());
-            tvRoutine.setText(mitem.getRoutine());
+            imgRoutine.setImageDrawable(mitem.getRoutine());
             cbDone.setActivated(mitem.getDone());
         }
         // Group
