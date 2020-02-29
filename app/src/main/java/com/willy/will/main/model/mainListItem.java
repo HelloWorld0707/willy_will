@@ -7,7 +7,7 @@ public class mainListItem {
     private Drawable rank;
     private String name;
     private String time;
-    private Drawable routine;
+    private String routine;
     private boolean done; //checkbox용
 
     public String getName() {
@@ -23,16 +23,20 @@ public class mainListItem {
     }
 
     public void setTime(String date) {
-        this.time = time;
+        this.time = date;
     }
 
-    public Drawable getRoutine() { return routine; }
+    public String getRoutine() {
+        return routine;
+    }
 
-    public void setRoutine(Drawable routine) {
+    public void setRoutine(String date) {
         this.routine = routine;
     }
 
-    public Drawable getRank() { return rank; }
+    public Drawable getRank() {
+        return rank;
+    }
 
     public void setRank(Drawable rank) {
         this.rank = rank;
@@ -40,7 +44,6 @@ public class mainListItem {
 
     public boolean getDone() { return done;}
 
-    public void setDone(boolean d) {this.done = done;}
-
+    public void setDone() {this.done = done;}
 }
 

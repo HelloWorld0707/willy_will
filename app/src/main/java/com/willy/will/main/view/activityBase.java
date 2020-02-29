@@ -4,18 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.willy.will.R;
-import com.willy.will.add.view.activityItemAdd;
-import com.willy.will.dataBase.DBAccess;
-import com.willy.will.search.view.SearchActivity;
-import com.willy.will.calander.view.fragmentCalander;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,7 +58,7 @@ public class activityBase extends AppCompatActivity{
         setContentView(R.layout.activity_base);
 
         DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase dd = dbHelper.getWritableDatabase();
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -87,7 +75,7 @@ public class activityBase extends AppCompatActivity{
         tv_date = (TextView) findViewById(R.id.tv_date);
         todayDate = Calendar.getInstance();
         sdf = new SimpleDateFormat("MM.dd");
-        dateString = sdf.format(todayDate.getTime());
+        dateString = sdf.format(todayDate.getInstance().getTime());
         tv_date.setText(dateString);
         //~setDate
 
@@ -179,18 +167,8 @@ public class activityBase extends AppCompatActivity{
         return true;
     }*/
 
-    /**
-     * Last Modified: 2020-02-29
-     * Last Modified By: Lee Jaeeun
-     * Created: -
-     * Created By: -
-     * Function: Move to Search Activity
-     */
     public void btnSearchClick(View view){
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
         Intent intent = new Intent(activityBase.this , SearchActivity.class);
-        intent.putExtra("SelectedDate",sdf2.format(todayDate.getTime()));
-        Log.d("Selected date check","***********날짜:"+sdf2.format(todayDate.getTime())+"*************");
         startActivity(intent);
     }
 
