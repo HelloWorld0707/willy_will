@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 
@@ -78,6 +79,26 @@ public class activityItemAdd extends Activity {
 
         datePickerDialog.setMessage("종료 날짜");
         datePickerDialog.show();
+    }
+    /**
+     * Last Modified: 2020-02-20
+     * Last Modified By: -
+     * Created: 2020-02-17
+     * Created By: Kim Mikyung
+     * Function: Back to BaseActivity (Main View)
+     * Called when the user taps the back_button
+     * @param view
+     */
+
+    public void Tomain(View view) {
+        // Check focusing
+        View focusedView = getCurrentFocus();
+        if(focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        // ~Check focusing
+        this.finish();
     }
 
 }
