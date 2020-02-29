@@ -59,7 +59,7 @@ public class activityBase extends AppCompatActivity{
         setContentView(R.layout.activity_base);
 
         DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
-        SQLiteDatabase dd = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);

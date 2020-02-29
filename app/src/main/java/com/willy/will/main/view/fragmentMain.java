@@ -19,12 +19,6 @@ public class fragmentMain extends Fragment {
     // dont fix it
     private final static String EXTRA_ADAPTER = "BaseAdpater";
 
-    // example extra string
-    /*
-    private final static String EXTRA_INT = "someInt";
-    private final static String EXTRA_STRING = "someTitle";
-    */
-
     //Recycler View
     private RecyclerView recyclerView = null;
 
@@ -65,6 +59,7 @@ public class fragmentMain extends Fragment {
         ViewGroup rootView =
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
+        //item 설정..하셔요ㅜ
         ArrayList<mainListItem> list = new ArrayList<>();
         for(int i=0; i<20;i++){
             list.add(new mainListItem());

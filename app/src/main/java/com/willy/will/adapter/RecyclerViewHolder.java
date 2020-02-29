@@ -1,6 +1,8 @@
 package com.willy.will.adapter;
 
 import android.content.res.Resources;
+import android.text.Layout;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -20,7 +22,7 @@ import com.willy.will.search.model.Distance;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     // Common (also written in RecyclerViewSetter)
-    private Resources resources = null;
+    Resources resources = null;
     private int TO_DO_CODE = 0;
     private int GROUP_CODE = 0;
     private int DONE_CODE = 0;
@@ -30,11 +32,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // View of Item
     private TextView textOnlyView;
 
-    private ImageView imgRank;
-    private TextView tvName;
-    private ImageView imgRoutine;
-    private TextView tvTime;
-    private CheckBox cbDone;
+    ImageView imgRank;
+    ImageView imgRoutine;
+    TextView tvTime;
+    TextView tvName;
+    CheckBox cbDone;
+    Spannable span;
     // ~View of Item
 
     /**

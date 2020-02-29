@@ -11,7 +11,7 @@ public class mainListItem {
     private boolean done; //checkbox용
 
     public String getName() {
-        return name = "hi!";
+        return name;
     }
 
     public void setName(String name) {
@@ -19,7 +19,7 @@ public class mainListItem {
     }
 
     public String getTime() {
-        return time ="2020-02-29";
+        return time;
     }
 
     public void setTime(String date) {
@@ -41,5 +41,6 @@ public class mainListItem {
     public boolean getDone() { return done;}
 
     public void setDone(boolean d) {this.done = done;}
+
 }
 
