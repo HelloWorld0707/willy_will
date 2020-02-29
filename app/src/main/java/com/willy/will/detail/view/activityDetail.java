@@ -31,7 +31,7 @@ import java.net.URL;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
-public class DetailActivity extends Activity implements MapView.MapViewEventListener {
+public class activityDetail extends Activity implements MapView.MapViewEventListener {
 
     ImageView important, groupColor;
     ImageButton editButton;
@@ -184,19 +184,19 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
      * @param view
      */
     public void openOptionMenu(View view){
-        PopupMenu menu = new PopupMenu(DetailActivity.this,editButton);
+        PopupMenu menu = new PopupMenu(activityDetail.this,editButton);
         menu.getMenuInflater().inflate(R.menu.menu_edit,menu.getMenu());
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.btn_modify:
-                        intent = new Intent(DetailActivity.this, activityItemAdd.class);
+                        intent = new Intent(activityDetail.this, activityItemAdd.class);
                         intent.putExtra("itemId",1);
                         startActivity(intent);
                         return true;
                     case R.id.btn_delete:
-                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class);
+                        intent = new Intent(activityDetail.this, DeletePopupActivity.class);
                         //intent.putExtra("itemId",1);
                         startActivity(intent);
                         return true;
