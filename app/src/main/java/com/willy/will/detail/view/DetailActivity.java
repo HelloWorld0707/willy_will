@@ -1,37 +1,40 @@
 package com.willy.will.detail.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.appcompat.widget.PopupMenu;
 import com.willy.will.R;
+import com.willy.will.add.view.activityItemAdd;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
-public class activityDetail extends Activity implements MapView.MapViewEventListener {
+public class DetailActivity extends Activity implements MapView.MapViewEventListener {
 
     ImageView important, groupColor;
+    ImageButton editButton;
     TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address;
     RelativeLayout achievementRateArea, startDateArea, endDateArea, doneDateArea;
     String roofDay = "";
@@ -41,6 +44,7 @@ public class activityDetail extends Activity implements MapView.MapViewEventList
     ScrollView scrollView;
     double latitude, longitude;
 
+    Intent intent;
     MapView mapView;
     ViewGroup mapViewContainer;
     MapPOIItem marker;
@@ -79,6 +83,7 @@ public class activityDetail extends Activity implements MapView.MapViewEventList
         mapViewContainer = findViewById(R.id.map_view);
         scrollView = findViewById(R.id.scroll_view);
         groupColor = findViewById(R.id.group_color);
+        editButton = findViewById(R.id.edit_button);
 
 
         // db data
@@ -154,7 +159,6 @@ public class activityDetail extends Activity implements MapView.MapViewEventList
 */
 
 
-
         //6. get Address
         getAddress(longitude, latitude);
 
@@ -168,6 +172,42 @@ public class activityDetail extends Activity implements MapView.MapViewEventList
 
     }
 
+
+
+    /**
+     * Last Modified: -
+     * Last Modified By: -
+     * Created: 2020-02-29
+     * Created By: Kim Mikyung
+     * Function: open option menu (item modify, item delete)
+     * Called when the user taps the edit_button
+     * @param view
+     */
+    public void openOptionMenu(View view){
+        PopupMenu menu = new PopupMenu(DetailActivity.this,editButton);
+        menu.getMenuInflater().inflate(R.menu.menu_edit,menu.getMenu());
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.btn_modify:
+                        intent = new Intent(DetailActivity.this, activityItemAdd.class);
+                        intent.putExtra("itemId",1);
+                        startActivity(intent);
+                        return true;
+                    case R.id.btn_delete:
+                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class);
+                        //intent.putExtra("itemId",1);
+                        startActivity(intent);
+                        return true;
+
+                }
+                return false;
+            }
+        });
+        menu.show();
+
+    }
 
 
 
@@ -190,7 +230,6 @@ public class activityDetail extends Activity implements MapView.MapViewEventList
         // ~Check focusing
         this.finish();
     }
-
 
 
 
