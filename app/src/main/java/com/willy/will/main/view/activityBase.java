@@ -57,8 +57,8 @@ public class activityBase extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-//        DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
-   //     SQLiteDatabase dd = dbHelper.getWritableDatabase();
+        DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);
