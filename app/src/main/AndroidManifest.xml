@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.willy.will">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
 
     <application
         android:name=".common.controller.App"
@@ -14,8 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".add.view.activityItemAdd_repeat"></activity>
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="02bcc5ccac3144389ff97078106a8721" />
@@ -59,7 +57,7 @@
         <activity
             android:name=".add.view.activityItemAdd_group"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".add.view.activityItemAdd" />
+            android:parentActivityName=".add.view.activityItemAdd"/>
     </application>
 
 </manifest>
