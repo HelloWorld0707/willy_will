@@ -97,20 +97,18 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
             holder.bind(t, data, trckr.isSelected(Long.valueOf(position)));
         }
 
-        if (t == 1) {
-            if (holder.cbDone.isChecked()) {
-                holder.span = (Spannable) holder.tvName.getText();
-                holder.span.setSpan(new BackgroundColorSpan(holder.resources.getColor(R.color.colorInactive))
-                        , 0, (int) holder.tvName.length(),
-                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                holder.tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                holder.imgRoutine.setColorFilter(holder.resources.getColor(R.color.colorInactive));
-                holder.imgRank.setColorFilter(holder.resources.getColor(R.color.colorInactive));
-            } else {
-                holder.tvName.setPaintFlags(0);
-                holder.tvTime.setPaintFlags(0);
-            }
+        if (holder.cbDone.isChecked()) {
+            holder.span = (Spannable) holder.tvName.getText();
+            holder.span.setSpan(new BackgroundColorSpan(holder.resources.getColor(R.color.colorInactive))
+                    , 0, (int) holder.tvName.length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            holder.tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.imgRoutine.setColorFilter(holder.resources.getColor(R.color.colorInactive));
+            holder.imgRank.setColorFilter(holder.resources.getColor(R.color.colorInactive));
+        } else {
+            holder.tvName.setPaintFlags(0);
+            holder.tvTime.setPaintFlags(0);
         }
     }
 
