@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.detail.view.activityDetail;
-
 import java.util.ArrayList;
 
 public class RecyclerViewSetter {

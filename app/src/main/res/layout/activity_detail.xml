@@ -13,28 +13,28 @@
         android:foreground="?attr/homeAsUpIndicator"
         android:onClick="backToMain"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
-        android:id="@+id/search_button"
+        android:id="@+id/edit_button"
         android:foreground="@drawable/bt_edit"
+        android:onClick="openOptionMenu"
         style="@style/DetailButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    app:layout_constraintTop_toBottomOf="@+id/back_button"
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_button">
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_button">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:descendantFocusability="blocksDescendants"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
                     android:gravity="center_vertical"
                     android:text="프로그래머스_정렬 문제 풀기" />
 
-            </LinearLayout>
+            </LinearLayout> <!--end item_area-->
 
             <RelativeLayout
                 android:id="@+id/group_area"
@@ -106,7 +106,7 @@
                     android:paddingLeft="25dp"
                     android:text="취업준비" />
 
-            </RelativeLayout>
+            </RelativeLayout> <!--end group_area-->
 
             <LinearLayout
                 android:id="@+id/date_area"
@@ -221,7 +221,7 @@
 
                 </RelativeLayout>
 
-            </LinearLayout>
+            </LinearLayout> <!--end date_area-->
 
             <RelativeLayout
                 android:id="@+id/achievement_rate_area"
@@ -248,7 +248,7 @@
                     style="@style/DetailTitleStyle"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:orientation="horizontal"
@@ -292,13 +292,12 @@
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </RelativeLayout> <!--end achievement_rate_area-->
 
             <LinearLayout
                 android:id="@+id/location_area"
-                style="@style/DetailListStyle"
-                android:layout_width="398dp"
-                android:layout_height="590dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/detail_list_padding"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -334,7 +333,7 @@
 
             </LinearLayout> <!-- end locationArea-->
 
-        </LinearLayout>
+        </LinearLayout> <!--scrollview direct child -->
 
     </ScrollView>
 
