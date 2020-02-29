@@ -3,7 +3,7 @@
 
     <!-- [2020-02-15] Created by Lee Jaeeun -->
     <color name="colorPrimary">#007fbf</color>
-    <color name="colorInactive">#00FFFFFF</color>
+    <color name="colorInactive">#9A646464</color>
     <color name="colorGroup1">#80FF3C3C</color>
     <color name="colorGroup2">#80FF9800</color>
     <color name="colorGroup3">#80FFEB3B</color>

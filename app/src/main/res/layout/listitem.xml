@@ -45,6 +45,7 @@
                     android:layout_height="match_parent"
                     android:bufferType="spannable"
                     android:gravity="center_vertical"
+                    android:paddingStart="@dimen/string_padding"
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -54,19 +55,19 @@
                 android:layout_height="@dimen/itembox_half_height"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_routine"
+                <ImageView
+                    android:id="@+id/img_routine"
                     android:layout_width="@dimen/number_text_width"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    android:visibility="visible" />
+                    android:layout_height="@dimen/number_text_width"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_loop_24px" />
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:paddingStart="@dimen/string_padding"
                     android:visibility="visible" />
             </LinearLayout>
 

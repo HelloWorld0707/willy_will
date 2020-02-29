@@ -1,6 +1,11 @@
 package com.willy.will.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +13,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.willy.will.R;
 
 import java.util.ArrayList;
 
@@ -90,6 +97,25 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         if(trckr != null) {
             holder.bind(t, data, trckr.isSelected(Long.valueOf(position)));
         }
+
+        if(t == 1){
+            if(holder.cbDone.isChecked()){
+                holder.span = (Spannable) holder.tvName.getText();
+                holder.span.setSpan(new BackgroundColorSpan(holder.resources.getColor(R.color.colorInactive))
+                        ,0,(int)holder.tvName.length(),
+                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                holder.tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.imgRoutine.setColorFilter(holder.resources.getColor(R.color.colorInactive));
+                holder.imgRank.setColorFilter(holder.resources.getColor(R.color.colorInactive));
+            }
+            else{
+                holder.tvName.setPaintFlags(0);
+                holder.tvTime.setPaintFlags(0);
+            }
+
+        }
+
     }
 
     /**

@@ -19,17 +19,11 @@ public class fragmentMain extends Fragment {
     // dont fix it
     private final static String EXTRA_ADAPTER = "BaseAdpater";
 
-    // example extra string
-    /*
-    private final static String EXTRA_INT = "someInt";
-    private final static String EXTRA_STRING = "someTitle";
-    */
-
     //Recycler View
     private RecyclerView recyclerView = null;
 
     //fragment var
-    private static final String ARG_NO = "ARG_NO";
+    private static final String ARG_Date = "ARG_Date";
 
 
     /**
@@ -39,38 +33,20 @@ public class fragmentMain extends Fragment {
      * Created By: Lee Jaeeun
      * Function: setting fragment
      */
-    public static fragmentMain getInstance(String dateString){
+    public static fragmentMain getInstance(String date){
         fragmentMain fragment = new fragmentMain();
         Bundle args = new Bundle();
-        args.putString(ARG_NO,dateString);
+        args.putString(ARG_Date,date);
         fragment.setArguments(args);
         return fragment;
     }
 
-    /*
-    // omission database object
-    public static final fragmentMain newInstance(int page, String title, BaseAdapter adapter) {
-        // example of communication
-        fragmentMain fragment = new fragmentMain();
-        Bundle args = new Bundle();
-        args.putInt(EXTRA_INT, page);
-        args.putString(EXTRA_STRING, title);
-
-        //
-        args.putSerializable(EXTRA_ADAPTER, (mainListAdapter)adapter);
-        //
-
-        fragment.setArguments(args);
-        return fragment;
-        // ~example
-    }
-     */
 
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String checkString = getArguments().getString(ARG_NO,"Today");
+        String checkString = getArguments().getString(ARG_Date,"Today");
 
         String text = checkString + "날의 프래그먼트";
         Log.d("MyFragment", "onCreate " + text+"***************************************");
@@ -83,6 +59,7 @@ public class fragmentMain extends Fragment {
         ViewGroup rootView =
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
+        //item 설정..하셔요ㅜ
         ArrayList<mainListItem> list = new ArrayList<>();
         for(int i=0; i<20;i++){
             list.add(new mainListItem());
