@@ -52,8 +52,12 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" /> <!-- set detail Activity -->
         <activity
-            android:name=".detail.view.activityDetail"
+            android:name=".detail.view.DetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".detail.view.DeletePopupActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme"/>
         <activity
             android:name=".add.view.activityItemAdd_group"
             android:configChanges="keyboardHidden|orientation|screenSize"
