@@ -88,9 +88,9 @@
     <!-- #################### ~value #################### -->
 
     <!-- add text -->
-    <string name="edit_Title">Title</string>
+    <string name="edit_Title">제목</string>
     <string name="btn_color">color</string>
-    <string name="edit_Group">Group_Title</string>
+    <string name="edit_Group">그룹명</string>
     <string name="Date">0000-00-00</string>
     <!-- add text -->
 </resources>

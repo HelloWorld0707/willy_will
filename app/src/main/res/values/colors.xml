@@ -20,7 +20,7 @@
     <color name="colorPrimaryTranslucent">#80007FBF</color>
     <color name="colorPrimaryBackground">#F2F4FE</color>
     <color name="light_gray">#ccc</color>
-    <color name="dark_gray">#666</color>
+    <color name="dark_gray">#666666</color>
 
     <!-- Not used -->
     <color name="almost_black">#333</color>
