@@ -84,8 +84,11 @@ public class fragmentMain extends Fragment {
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
         ArrayList<mainListItem> list = new ArrayList<>();
+        mainListItem sample = new mainListItem();
         for(int i=0; i<20;i++){
-            list.add(new mainListItem());
+            sample.setName("sample"+i);
+            sample.setTime(getArguments().getString(ARG_NO,"Today"));
+            list.add(sample);
         }
 
         // Set RecyclerView

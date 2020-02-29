@@ -45,7 +45,9 @@ public class activityBase extends AppCompatActivity{
     TextView tv_date;
     Calendar todayDate;
     SimpleDateFormat sdf;
-    String dateString;
+    SimpleDateFormat sdf2;
+    String baseDate;
+    String sendDate;
 
 
     fragmentMain fragmentmain;
@@ -57,8 +59,8 @@ public class activityBase extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-//        DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
-   //     SQLiteDatabase dd = dbHelper.getWritableDatabase();
+        DBAccess dbHelper = new DBAccess(this, "test.db", null, 1);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         /*
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -75,17 +77,11 @@ public class activityBase extends AppCompatActivity{
         tv_date = (TextView) findViewById(R.id.tv_date);
         todayDate = Calendar.getInstance();
         sdf = new SimpleDateFormat("MM.dd");
-        dateString = sdf.format(todayDate.getInstance().getTime());
-        tv_date.setText(dateString);
+        sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+        baseDate = sdf.format(todayDate.getTime());
+        sendDate = sdf2.format(todayDate.getTime());
+        tv_date.setText(baseDate);
         //~setDate
-
-        //set fragment
-        fragmentmain = fragmentMain.getInstance(dateString);
-
-        //add the fragment to container(frame layout)
-        getSupportFragmentManager()
-                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
-        //~set fragment
 
         //open picker & change txt
         tv_date.setOnClickListener(new View.OnClickListener() {
@@ -95,8 +91,6 @@ public class activityBase extends AppCompatActivity{
                         todayDate.get(Calendar.YEAR), todayDate.get(Calendar.MONTH), todayDate.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
-
 
         //set sp_group (fix later)
         spgroupList = new ArrayList<>();
@@ -123,6 +117,14 @@ public class activityBase extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> parent) {}
         });
         //~Set sp_group
+
+        //set fragment (don't change position)
+        fragmentmain = fragmentMain.getInstance(sendDate);
+
+        //add the fragment to container(frame layout)
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+        //~set fragment
 
         // set fab event Listener
         FloatingActionButton fab = findViewById(R.id.fabItemAdd);
@@ -169,6 +171,8 @@ public class activityBase extends AppCompatActivity{
 
     public void btnSearchClick(View view){
         Intent intent = new Intent(activityBase.this , SearchActivity.class);
+        intent.putExtra("Date",sendDate);
+        Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
     }
 
@@ -232,7 +236,7 @@ public class activityBase extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = fragmentMain.getInstance(dateString);
+            fragmentmain = fragmentMain.getInstance(sendDate);
 
             //make new fragment
             getSupportFragmentManager()
@@ -250,8 +254,9 @@ public class activityBase extends AppCompatActivity{
      * Function: Change Date Using from selected date by Date Picker
      */
     private void updateLabel(){
-        dateString = sdf.format(todayDate.getTime());
-        tv_date.setText(dateString);
+        baseDate = sdf.format(todayDate.getTime());
+        sendDate = sdf2.format(todayDate.getTime());
+        tv_date.setText(baseDate);
     }
 
     /*
