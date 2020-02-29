@@ -14,14 +14,11 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
 
 import com.willy.will.R;
-
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -29,16 +26,8 @@ import java.net.URL;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class activityItemAdd extends Activity implements MapView.MapViewEventListener {
+public class activityItemAdd extends Activity{
     int y=0, m=0, d=0, h=0, mi=0;
-    MapPoint markerPoint;
-    MapView mapView;
-    MapPOIItem marker;
-    double latitude, longitude;
-    String addressName, buildingName;
-    TextView address;
-    ScrollView scrollView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +64,7 @@ public class activityItemAdd extends Activity implements MapView.MapViewEventLis
         });
 
     }
-    
+
 
     void Start_Date_Show() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -118,48 +107,4 @@ public class activityItemAdd extends Activity implements MapView.MapViewEventLis
         this.finish();
     }
 
-    @Override
-    public void onMapViewInitialized(MapView mapView) {
-        mapView.setMapCenterPoint(markerPoint, true);
-    }
-
-    @Override
-    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
-
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-    }
 }
