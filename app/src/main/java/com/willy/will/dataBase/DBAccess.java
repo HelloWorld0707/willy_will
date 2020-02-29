@@ -1,4 +1,4 @@
-package com.willy.will.database;
+package com.willy.will.dataBase;
 
 import android.content.Context;
 import android.database.Cursor;

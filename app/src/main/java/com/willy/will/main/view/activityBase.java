@@ -8,7 +8,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.activityItemAdd;
-import com.willy.will.database.DBAccess;
+import com.willy.will.dataBase.DBAccess;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.calander.view.fragmentCalander;
 
