@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Switch;
 
 import com.willy.will.R;
 
 public class activityItemAdd_repeat extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,5 +25,6 @@ public class activityItemAdd_repeat extends AppCompatActivity {
         }
         // ~Check focusing
         this.finish();
+
     }
 }

@@ -76,6 +76,7 @@ public class activityItemAdd extends Activity{
                     Intent intent = new Intent(activityItemAdd.this, activityItemAdd_repeat.class);
                     startActivity(intent);
 
+                    repeat_switch.setChecked(false);
                 }
             }
         });
