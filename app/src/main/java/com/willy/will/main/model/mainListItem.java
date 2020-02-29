@@ -44,6 +44,6 @@ public class mainListItem {
 
     public boolean getDone() { return done;}
 
-    public void setDone() {this.done = done;}
+    public void setDone(boolean d) {this.done = done;}
 }
 

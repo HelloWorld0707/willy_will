@@ -179,8 +179,8 @@ public class RecyclerViewSetter {
     }
 
     /**
-     * Last Modified: -
-     * Last Modified By: -
+     * Last Modified: 2020-02-29
+     * Last Modified By: Lee Jaeeun (temp fix)
      * Created: 2020-02-17
      * Created By: Shin Minyong
      * Function: Change To-do Item
@@ -188,6 +188,7 @@ public class RecyclerViewSetter {
      */
     private void changeToDoItem() {
         Intent intent = new Intent(parentView.getContext(), activityDetail.class);
+        intent.putExtra("item_id",00);
         parentView.getContext().startActivity(intent);
     }
 
