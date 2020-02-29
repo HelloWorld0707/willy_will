@@ -169,9 +169,17 @@ public class activityBase extends AppCompatActivity{
         return true;
     }*/
 
+    /**
+     * Last Modified: 20-02-29
+     * Last Modified By: Lee Jaeeun
+     * Created: -
+     * Created By: -
+     * Function: Move to SearchView
+     * @param view
+     */
     public void btnSearchClick(View view){
         Intent intent = new Intent(activityBase.this , SearchActivity.class);
-        intent.putExtra("Date",sendDate);
+        intent.putExtra("date",sendDate);
         Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
     }

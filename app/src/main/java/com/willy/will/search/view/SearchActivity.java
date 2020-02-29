@@ -67,8 +67,7 @@ public class SearchActivity extends AppCompatActivity {
         extraNameCode = resources.getString(R.string.request_code);
 
         // Set data
-        //current = getIntent().getStringExtra();
-        current = "2020-01-01";
+        current = getIntent().getStringExtra("date");
 
         toDoList = new ArrayList<>();
         initSearchSetting(getWindow().getDecorView());
@@ -77,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
         sample.setName("임시아이템");
         sample.setRank(ResourcesCompat.getDrawable(resources, R.drawable.important2, null));
         sample.setRoutine("Routine?");
-        sample.setTime("Time?");
+        sample.setTime(current);
         toDoList.add(sample);
         // ~Set data
 
