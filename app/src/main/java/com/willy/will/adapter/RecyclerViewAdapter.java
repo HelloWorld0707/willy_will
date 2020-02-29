@@ -8,6 +8,7 @@ import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.selection.SelectionTracker;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
@@ -24,6 +27,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     private RecyclerViewSetter setter = null;
     private ArrayList<T> dset = null;
     private int t = 0;
+
+    private Map<T, Boolean> checkedMap = new HashMap<>();
 
     /**
      * Last Modified: -
@@ -58,8 +63,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     }
 
     /**
-     * Last Modified: 2020-02-18
-     * Last Modified By: Shin Minyong
+     * Last Modified: 2020-02-29
+     * Last Modified By: Lee Jaeeun
      * Created: -
      * Created By: -
      * Function: Create new views (invoked by the layout manager)
@@ -77,13 +82,39 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         int layoutId = setter.getLayoutId(t);
         View view = layoutInflater.inflate(layoutId, parent, false);
 
-        RecyclerViewHolder holder = new RecyclerViewHolder(t, view);
+        final RecyclerViewHolder holder = new RecyclerViewHolder(t, view);
+
+        //put ischecked into hash and change state
+        holder.cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                T data = dset.get(holder.getAdapterPosition());
+                checkedMap.put(data, b);
+                if (b) {
+                    holder.span = (Spannable) holder.tvName.getText();
+                    holder.span.setSpan(new BackgroundColorSpan(holder.resources.getColor(R.color.colorInactive))
+                            , 0, (int) holder.tvName.length(),
+                            Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    holder.tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    holder.imgRoutine.setColorFilter(holder.resources.getColor(R.color.colorInactive));
+                    holder.imgRank.setColorFilter(holder.resources.getColor(R.color.colorInactive));
+                }
+                else{
+                    holder.tvName.setPaintFlags(0);
+                    holder.tvTime.setPaintFlags(0);
+                    holder.span.setSpan(new BackgroundColorSpan(holder.resources.getColor(R.color.colorGroup7))
+                            , 0, (int) holder.tvName.length(),
+                            Spanned.SPAN_INCLUSIVE_EXCLUSIVE); // need to fix (color)
+                }
+            }
+        });
         return holder;
     }
 
     /**
-     * Last Modified: 2020-02-18
-     * Last Modified By: Shin Minyong
+     * Last Modified: 2020-02-29
+     * Last Modified By: Lee Jaeeun
      * Created: -
      * Created By: -
      * Function: Replace the contents of a view (invoked by the layout manager)
@@ -97,19 +128,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
             holder.bind(t, data, trckr.isSelected(Long.valueOf(position)));
         }
 
-        if (holder.cbDone.isChecked()) {
-            holder.span = (Spannable) holder.tvName.getText();
-            holder.span.setSpan(new BackgroundColorSpan(holder.resources.getColor(R.color.colorInactive))
-                    , 0, (int) holder.tvName.length(),
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            holder.tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.imgRoutine.setColorFilter(holder.resources.getColor(R.color.colorInactive));
-            holder.imgRank.setColorFilter(holder.resources.getColor(R.color.colorInactive));
-        } else {
-            holder.tvName.setPaintFlags(0);
-            holder.tvTime.setPaintFlags(0);
-        }
+        Boolean isChecked = checkedMap.get(data) == null
+                ? false
+                : checkedMap.get(data);
+        holder.cbDone.setChecked(isChecked);
     }
 
     /**

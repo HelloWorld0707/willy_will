@@ -45,7 +45,8 @@ public class activityBase extends AppCompatActivity{
     TextView tv_date;
     Calendar todayDate;
     SimpleDateFormat sdf;
-    String dateString;
+    SimpleDateFormat sdf2;
+    String baseDate;
 
 
     fragmentMain fragmentmain;
@@ -75,12 +76,13 @@ public class activityBase extends AppCompatActivity{
         tv_date = (TextView) findViewById(R.id.tv_date);
         todayDate = Calendar.getInstance();
         sdf = new SimpleDateFormat("MM.dd");
-        dateString = sdf.format(todayDate.getInstance().getTime());
-        tv_date.setText(dateString);
+        sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+        baseDate = sdf.format(todayDate.getInstance().getTime());
+        tv_date.setText(baseDate);
         //~setDate
 
         //set fragment
-        fragmentmain = fragmentMain.getInstance(dateString);
+        fragmentmain = fragmentMain.getInstance(baseDate);
 
         //add the fragment to container(frame layout)
         getSupportFragmentManager()
@@ -169,6 +171,8 @@ public class activityBase extends AppCompatActivity{
 
     public void btnSearchClick(View view){
         Intent intent = new Intent(activityBase.this , SearchActivity.class);
+        intent.putExtra("Date",sdf2.format(todayDate.getInstance().getTime()));
+        Log.d("DateChecked","**********날짜"+sdf2.format(todayDate.getInstance().getTime())+"*************");
         startActivity(intent);
     }
 
@@ -232,7 +236,7 @@ public class activityBase extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = fragmentMain.getInstance(dateString);
+            fragmentmain = fragmentMain.getInstance(baseDate);
 
             //make new fragment
             getSupportFragmentManager()
@@ -250,8 +254,8 @@ public class activityBase extends AppCompatActivity{
      * Function: Change Date Using from selected date by Date Picker
      */
     private void updateLabel(){
-        dateString = sdf.format(todayDate.getTime());
-        tv_date.setText(dateString);
+        baseDate = sdf.format(todayDate.getTime());
+        tv_date.setText(baseDate);
     }
 
     /*
