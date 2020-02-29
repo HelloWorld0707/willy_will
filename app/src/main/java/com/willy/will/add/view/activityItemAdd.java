@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
+import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
 
 import com.willy.will.R;
@@ -34,7 +33,6 @@ public class activityItemAdd extends Activity implements MapView.MapViewEventLis
     int y=0, m=0, d=0, h=0, mi=0;
     MapPoint markerPoint;
     MapView mapView;
-    ViewGroup mapViewContainer;
     MapPOIItem marker;
     double latitude, longitude;
     String addressName, buildingName;
@@ -46,12 +44,7 @@ public class activityItemAdd extends Activity implements MapView.MapViewEventLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemadd);
-
-        latitude = 37.53737528;
-        longitude = 127.00557633;
-        mapViewContainer = findViewById(R.id.map_view);
-        markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-        address = findViewById(R.id.address);
+;
 
         /******* Group buuton -> moving ********************/
         Button bnt_group = findViewById(R.id.bnt_group);
@@ -81,71 +74,8 @@ public class activityItemAdd extends Activity implements MapView.MapViewEventLis
             }
         });
 
-        //6. get Address
-        getAddress(longitude, latitude);
-
-        //7. kakao map
-        mapView = new MapView(this);
-        mapView.setMapViewEventListener(this);
-        mapViewContainer.addView(mapView);
-
     }
-
-    private void getAddress(final double longitude, final double latitude) {
-
-        new Thread(new Runnable() {
-            String json = null;
-
-            @Override
-            public void run() {
-                try {
-                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84"; // json
-                    URL url = new URL(apiURL);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18"); //header
-                    int responseCode = con.getResponseCode();
-                    BufferedReader br = null;
-
-                    if (responseCode == 200) { // 정상 호출
-                        Log.d(TAG, "getPointFromNaver: 정상호출");
-                        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    }
-
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-                    while ((inputLine = br.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    br.close();
-
-                    json = response.toString();
-                    if (json == null) {
-                        return;
-                    }
-
-                    JSONObject jsonObject = new JSONObject(json);
-                    JSONArray resultsArray = jsonObject.getJSONArray("documents");
-                    JSONObject jsonObject1 = resultsArray.getJSONObject(0);
-                    JSONObject dataObject = (JSONObject) jsonObject1.get("road_address");
-
-                    addressName = dataObject.getString("address_name");
-                    buildingName = dataObject.getString("building_name");
-
-                    address.setText(addressName);
-                    marker = new MapPOIItem();
-                    marker.setItemName(buildingName);
-                    marker.setMapPoint(markerPoint);
-                    marker.setShowDisclosureButtonOnCalloutBalloon(false);
-                    mapView.addPOIItem(marker);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
+    
 
     void Start_Date_Show() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -175,6 +105,17 @@ public class activityItemAdd extends Activity implements MapView.MapViewEventLis
 
         datePickerDialog.setMessage("종료 날짜");
         datePickerDialog.show();
+    }
+
+    public void Tomain(View view) {
+        // Check focusing
+        View focusedView = getCurrentFocus();
+        if(focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        // ~Check focusing
+        this.finish();
     }
 
     @Override

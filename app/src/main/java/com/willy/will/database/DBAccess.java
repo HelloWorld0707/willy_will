@@ -1,13 +1,12 @@
-package com.willy.will.dataBase;
+package com.willy.will.database;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import android.widget.Toast;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBAccess extends SQLiteOpenHelper {
 
@@ -20,11 +19,45 @@ public class DBAccess extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
-        /* 이름은 MONEYBOOK이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
-        item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
-        db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price INTEGER, create_at TEXT);");
+        db.execSQL("CREATE TABLE _CALENDER ( " +
+                "calender_date TEXT NOT NULL," +
+                "item_id INTEGER," +
+                "PRIMARY KEY(calender_date, item_id) );"
+        );
 
-        // Log.d(TAG, "data base Create" + getDatabaseName());
+        db.execSQL("CREATE TABLE _GROUP(" +
+                "group_id INTEGER NOT NULL," +
+                "group_name TEXT NOT NULL," +
+                "group_color TEXT NOT NULL," +
+                "PRIMARY KEY(group_id) );"
+        );
+
+        db.execSQL("CREATE TABLE _ITEM(" +
+                "item_id INTEGER NOT NULL," +
+                "group_id INTEGER," +
+                "item_name TEXT NOT NULL," +
+                "item_important INTEGER," +
+                "item_location TEXT," +
+                "done TEXT NOT NULL," +
+                "PRIMARY KEY(item_id) );"
+        );
+        db.execSQL("CREATE TABLE _ROOF_INFO (" +
+                "roof_id INTEGER NOT NULL," +
+                "start_day INTEGER NOT NULL," +
+                "end_day INTEGER NOT NULL," +
+                "week TEXT," +
+                "PRIMARY KEY(roof_id) );"
+        );
+
+        db.execSQL("CREATE TABLE _ROOF_MAPPER (" +
+                "item_id INTEGER NOT NULL," +
+                "roof_id INTEGER NOT NULL," +
+                "PRIMARY KEY(item_id, roof_id) )"
+        );
+    }
+
+    public SQLiteDatabase getDB(){
+        return getWritableDatabase();
     }
 
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
@@ -37,14 +70,14 @@ public class DBAccess extends SQLiteOpenHelper {
         // 읽고 쓰기가 가능하게 DB 열기
         SQLiteDatabase db = getWritableDatabase();
         // DB에 입력한 값으로 행 추가
-        db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + item + "', " + price + ", '" + create_at + "');");
+        // db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + item + "', " + price + ", '" + create_at + "');");
         db.close();
     }
 
     public void update(String item, int price) {
         SQLiteDatabase db = getWritableDatabase();
         // 입력한 항목과 일치하는 행의 가격 정보 수정
-        db.execSQL("UPDATE MONEYBOOK SET price=" + price + " WHERE item='" + item + "';");
+        // db.execSQL("UPDATE MONEYBOOK SET price=" + price + " WHERE item='" + item + "';");
         db.close();
     }
 
@@ -55,14 +88,16 @@ public class DBAccess extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String getResult() {
+    public List<String[]> getAll(String tableName) {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
-        String result = "";
+        ArrayList<String[]> result = new ArrayList<>();
 
-        // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
-        Cursor cursor = db.rawQuery("SELECT * FROM MONEYBOOK", null);
+        // Cursor를 사용하여 테이블에 있는 모든 데이터 출력
+        Cursor cursor = db.rawQuery("SELECT * FROM " + tableName, null);
+        /*
         while (cursor.moveToNext()) {
+
             result += cursor.getString(0)
                     + " : "
                     + cursor.getString(1)
@@ -72,7 +107,7 @@ public class DBAccess extends SQLiteOpenHelper {
                     + cursor.getString(3)
                     + "\n";
         }
-
+        */
         return result;
     }
 }

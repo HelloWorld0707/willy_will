@@ -53,8 +53,8 @@ public abstract class PopupActivity extends Activity {
     }
 
     /**
-     * Last Modified: -
-     * Last Modified By: -
+     * Last Modified: 2020-02-26
+     * Last Modified By: Shin Minyong
      * Created: 2020-02-19
      * Created By: Shin Minyong
      * Function: Submit search setting
@@ -64,11 +64,8 @@ public abstract class PopupActivity extends Activity {
         Intent intent = new Intent();
         if(setResults(intent)) {
             setResult(RESULT_FIRST_USER, intent);
+            this.finish();
         }
-        else {
-            setResult(RESULT_CANCELED, intent);
-        }
-        this.finish();
     }
 
     /**

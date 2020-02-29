@@ -2,7 +2,6 @@ package com.willy.will.search.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +46,7 @@ public class DistanceSearchSettingActivity extends PopupActivity {
         super.onCreate(savedInstanceState);
 
         // Set a selected item
-        selectedDistanceKey = getResources().getString(R.string.selectedDistance);
+        selectedDistanceKey = getResources().getString(R.string.selected_distance_key);
         Distance selectedDistance = getIntent().getParcelableExtra(selectedDistanceKey);
         long selectedPosition = 0L;
         // ~Set a selected item
@@ -92,23 +91,10 @@ public class DistanceSearchSettingActivity extends PopupActivity {
      */
     @Override
     protected boolean setResults(Intent intent) {
-        boolean success = true;
-        Distance selectedDistance = null;
-        try {
-            Iterator selectIter = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection().iterator();
-            int selectedIndex = Math.toIntExact((Long) selectIter.next());
-            selectedDistance = distancelist.get(selectedIndex);
-        }
-        catch (Exception e) {
-            selectedDistance = distancelist.get(0);
-            success = false;
-            Log.e("GroupSearchSettingActivity", "Results: "+e.getMessage());
-            e.printStackTrace();
-        }
-        finally {
-            intent.putExtra(selectedDistanceKey, selectedDistance);
-            return success;
-        }
+        Iterator selectIter = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection().iterator();
+        int selectedIndex = Math.toIntExact((Long) selectIter.next());
+        intent.putExtra(selectedDistanceKey, distancelist.get(selectedIndex));
+        return true;
     }
 
 }
