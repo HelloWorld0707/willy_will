@@ -4,18 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.willy.will.R;
-import com.willy.will.add.view.activityItemAdd;
-import com.willy.will.database.DBAccess;
-import com.willy.will.search.view.SearchActivity;
-import com.willy.will.calander.view.fragmentCalander;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,6 +12,17 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.willy.will.R;
+import com.willy.will.add.view.activityItemAdd;
+import com.willy.will.calander.view.fragmentCalander;
+import com.willy.will.database.DBAccess;
+import com.willy.will.search.view.SearchActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

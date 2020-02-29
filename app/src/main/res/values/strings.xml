@@ -60,6 +60,7 @@
     <!-- #################### value #################### -->
     <!-- selection id for recycler view -->
     <string name="selection_id_main">selectionIdMain</string>
+    <string name="selection_id_search">SearchSelection</string>
     <string name="selection_id_group_search_setting">groupSearchSettingSelection</string>
     <string name="selection_id_done_search_setting">doneSearchSettingSelection</string>
     <string name="selection_id_distance_search_setting">distanceSearchSettingSelection</string>
