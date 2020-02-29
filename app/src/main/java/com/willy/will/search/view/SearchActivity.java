@@ -153,7 +153,12 @@ public class SearchActivity extends AppCompatActivity {
         int maxDistance = selectedDistance.getLength();
         // ~Preprocess
 
-        //int itemId = findItemId(searchText, groupIds, selectedDone, includedRepeat, length);
+        /*ArrayList<Integer> findedIds = findToDoItemIds(searchText, groupIds,
+                selectedDone, includedRepeat,
+                startOfStartDate, endOfStartDate, startOfEndDate, endOfEndDate, startOfDoneDate, endOfDoneDate
+                length);
+
+        setToDoItems(toDoList, findedIds);*/
     }
 
     /**
