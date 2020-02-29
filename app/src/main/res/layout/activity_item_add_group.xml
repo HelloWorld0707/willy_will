@@ -9,6 +9,8 @@
 
 
     <EditText
+        android:background="@null"
+        style="@style/DetailTitleStyle"
         android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="44dp"
@@ -26,23 +28,29 @@
 
     <Button
         android:id="@+id/btnAdd"
+        style="@style/DetailTitleStyle"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="그룹추가"
+        android:background="@null"
+        android:text="추가"
+        android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toStartOf="@+id/btnDel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnDel"
+        style="@style/DetailTitleStyle"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="그룹삭제"
+        android:background="@null"
+        android:text="삭제"
+        android:textColor="@color/dark_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

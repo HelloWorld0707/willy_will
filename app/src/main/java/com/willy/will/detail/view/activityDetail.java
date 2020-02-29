@@ -220,6 +220,7 @@ public class activityDetail extends Activity implements MapView.MapViewEventList
      * Called when the user taps the back_button
      * @param view
      */
+
     public void backToMain(View view) {
         // Check focusing
         View focusedView = getCurrentFocus();

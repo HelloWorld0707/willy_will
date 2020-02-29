@@ -9,10 +9,14 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
+import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
+import com.willy.will.main.model.mainListItem;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
 
@@ -41,7 +45,9 @@ public class SearchActivity extends AppCompatActivity {
     private String current = null;
 
     private TextInputEditText textInputEditText = null;
+    private RecyclerView recyclerView = null;
 
+    private ArrayList<mainListItem> toDoList = null;
     private ArrayList<Group> selectedGroups = null;
     private String selectedDone = null;
     private boolean includedRepeat;
@@ -59,16 +65,36 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
+
+        // Set data
         //current = getIntent().getStringExtra();
         current = "2020-01-01";
 
+        toDoList = new ArrayList<>();
+        initSearchSetting(getWindow().getDecorView());
+        //search(getWindow().getDecorView());
+        mainListItem sample = new mainListItem();
+        sample.setName("임시아이템");
+        sample.setRank(ResourcesCompat.getDrawable(resources, R.drawable.important2, null));
+        sample.setRoutine("Routine?");
+        sample.setTime("Time?");
+        toDoList.add(sample);
+        // ~Set data
+
+        // Set Views
         textInputEditText = findViewById(R.id.search_edit_text);
         if(textInputEditText.hasFocus()) {
             textInputEditText.clearFocus();
         }
 
-        initSearchSetting(getWindow().getDecorView());
+        recyclerView = new RecyclerViewSetter(
+                R.id.search_results_recycler_view, getWindow().getDecorView(),
+                R.integer.to_do_recycler_item_type, toDoList,
+                R.string.selection_id_search, false
+        ).setRecyclerView();
+        // ~Set Views
 
+        // Set extra names of Intent
         selectedGroupsKey = resources.getString(R.string.selected_groups_key);
         selectedDoneKey = resources.getString(R.string.selected_done_key);
         includedRepeatKey = resources.getString(R.string.included_repeat_key);
@@ -79,6 +105,7 @@ public class SearchActivity extends AppCompatActivity {
         startOfDoneDateKey = resources.getString(R.string.start_of_done_date_key);
         endOfDoneDateKey = resources.getString(R.string.end_of_done_date_key);
         selectedDistanceKey = resources.getString(R.string.selected_distance_key);
+        // ~Set extra names of Intent
     }
 
     /**
@@ -123,10 +150,15 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        int length = selectedDistance.getLength();
+        int maxDistance = selectedDistance.getLength();
         // ~Preprocess
 
-        //int itemId = findItemId(searchText, groupIds, selectedDone, includedRepeat, length);
+        /*ArrayList<Integer> findedIds = findToDoItemIds(searchText, groupIds,
+                selectedDone, includedRepeat,
+                startOfStartDate, endOfStartDate, startOfEndDate, endOfEndDate, startOfDoneDate, endOfDoneDate
+                length);
+
+        setToDoItems(toDoList, findedIds);*/
     }
 
     /**

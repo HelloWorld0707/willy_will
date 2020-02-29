@@ -63,6 +63,7 @@
     <!-- #################### value #################### -->
     <!-- selection id for recycler view -->
     <string name="selection_id_main">selectionIdMain</string>
+    <string name="selection_id_search">SearchSelection</string>
     <string name="selection_id_group_search_setting">groupSearchSettingSelection</string>
     <string name="selection_id_done_search_setting">doneSearchSettingSelection</string>
     <string name="selection_id_distance_search_setting">distanceSearchSettingSelection</string>
@@ -90,9 +91,9 @@
     <!-- #################### ~value #################### -->
 
     <!-- add text -->
-    <string name="edit_Title">Title</string>
+    <string name="edit_Title">제목</string>
     <string name="btn_color">color</string>
-    <string name="edit_Group">Group_Title</string>
+    <string name="edit_Group">그룹명</string>
     <string name="Date">0000-00-00</string>
     <!-- add text -->
 </resources>

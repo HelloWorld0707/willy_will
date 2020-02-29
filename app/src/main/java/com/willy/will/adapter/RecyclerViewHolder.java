@@ -1,6 +1,7 @@
 package com.willy.will.adapter;
 
 import android.content.res.Resources;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -20,7 +21,7 @@ import com.willy.will.search.model.Distance;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     // Common (also written in RecyclerViewSetter)
-    private Resources resources = null;
+    Resources resources = null;
     private int TO_DO_CODE = 0;
     private int GROUP_CODE = 0;
     private int DONE_CODE = 0;
@@ -30,11 +31,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // View of Item
     private TextView textOnlyView;
 
-    private ImageView imgRank;
-    private TextView tvName;
-    private TextView tvRoutine;
-    private TextView tvTime;
-    private CheckBox cbDone;
+    ImageView imgRank;
+    TextView tvName;
+    ImageView imgRoutine;
+    TextView tvTime;
+    CheckBox cbDone;
+    Spannable span;
     // ~View of Item
 
     /**
@@ -63,7 +65,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime = view.findViewById(R.id.tv_time);
             imgRank = view.findViewById(R.id.img_rank);
             tvName = view.findViewById(R.id.tv_name);
-            tvRoutine = view.findViewById(R.id.tv_routine);
+            imgRoutine = view.findViewById(R.id.img_routine);
             cbDone = view.findViewById(R.id.cb_done);
 
         }
@@ -120,7 +122,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime.setText(mitem.getTime());
             imgRank.setImageDrawable(mitem.getRank());
             tvName.setText(mitem.getName());
-            tvRoutine.setText(mitem.getRoutine());
+            imgRoutine.setImageDrawable(mitem.getRoutine());
             cbDone.setActivated(mitem.getDone());
         }
         // Group

@@ -23,7 +23,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -131,7 +130,8 @@
                         style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/start_date" />
+                        android:text="@string/start_date"
+                        android:textColor="#313435" />
 
                     <TextView
                         android:id="@+id/start_date"
@@ -300,17 +300,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/detail_list_padding"
-                style="@style/DetailListStyle"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/achievement_rate_area"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/achievement_rate_area">
 
                 <TextView
+                    style="@style/DetailTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
-                    android:text="@string/location"
-                    style="@style/DetailTitleStyle" />
+                    android:text="@string/location" />
 
                 <TextView
                     android:id="@+id/address"
@@ -318,16 +317,17 @@
                     android:layout_height="wrap_content"
                     android:text="서울 강남구 강남대로 지하 396" />
 
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:orientation="vertical"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:id="@+id/map_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp"/>
+                        android:layout_marginBottom="20dp" />
 
                 </RelativeLayout>
 
