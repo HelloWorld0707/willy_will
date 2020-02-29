@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
@@ -28,12 +30,14 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class activityItemAdd extends Activity{
     int y=0, m=0, d=0, h=0, mi=0;
+    Switch repeat_switch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemadd);
-;
+
+;       repeat_switch = (Switch) findViewById(R.id.repeat_switch);
 
         /******* Group buuton -> moving ********************/
         Button bnt_group = findViewById(R.id.bnt_group);
@@ -63,6 +67,18 @@ public class activityItemAdd extends Activity{
             }
         });
 
+
+        /** update : 2020.03.01 **/
+        repeat_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                // 체크되면 모두 보이도록 설정
+                if (repeat_switch.isChecked() == true) {
+                    Intent intent = new Intent(activityItemAdd.this, activityItemAdd_repeat.class);
+                    startActivity(intent);
+
+                }
+            }
+        });
     }
 
 
