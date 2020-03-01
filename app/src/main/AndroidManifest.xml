@@ -62,6 +62,9 @@
             android:name=".common.view.GroupManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".add.view.AddItemActivity"/>
+        <activity android:name=".calander.view.CalendarActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            />
     </application>
 
 </manifest>
