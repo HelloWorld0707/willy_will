@@ -67,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
         extraNameCode = resources.getString(R.string.request_code);
 
         // Set data
-        current = getIntent().getStringExtra("date");
+        current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
 
         toDoList = new ArrayList<>();
         initSearchSetting(getWindow().getDecorView());

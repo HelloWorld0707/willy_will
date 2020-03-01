@@ -179,7 +179,7 @@ public class activityBase extends AppCompatActivity{
      */
     public void btnSearchClick(View view){
         Intent intent = new Intent(activityBase.this , SearchActivity.class);
-        intent.putExtra("date",sendDate);
+        intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
         Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
     }
