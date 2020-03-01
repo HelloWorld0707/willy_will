@@ -148,33 +148,6 @@ public class RecyclerViewSetter {
 
         });
 
-        //swipe for delete
-        if(TYPE == TO_DO_CODE) {
-            ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,
-                    ItemTouchHelper.LEFT /*| ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP*/) {
-                @Override
-                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                    Toast.makeText(parentView.getContext(), "on Move", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-
-                @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                    Toast.makeText(parentView.getContext(), "on Swiped ", Toast.LENGTH_SHORT).show();
-                    //Remove swiped item from list and notify the RecyclerView
-                    int position = viewHolder.getAdapterPosition();
-                    list.remove(position);
-                    //adapter.notifyDataSetChanged();
-                    //adapter.notifyItemRemoved(position);
-                    adapter.notifyItemRangeChanged(position, list.size());
-                }
-            };
-
-            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-            itemTouchHelper.attachToRecyclerView(recyclerView);
-            //~swipe for delete
-        }
-
         return recyclerView;
     }
 
