@@ -194,16 +194,10 @@ public class MainActivity extends AppCompatActivity{
      * @param view
      */
     public void btnCalendarClick(View view) {
-        fragmentcalender = fragmentcalender.newInstance(0,"temp");
-        //delete fragment(now using)
-        getSupportFragmentManager()
-                .beginTransaction().remove(fragmentmain).commit();
-        Log.d("Deleted Fragment","***********메인 프래그먼트 삭제*************");
-
-        //make new fragment
-        getSupportFragmentManager()
-                .beginTransaction().add(R.id.fragmentcontainer,fragmentcalender).commit();
-        Log.d("Created Fragment","***********캘린더 프래그먼트 오픈*************");
+        Intent intent = new Intent(MainActivity.this , CalendarActivity.class);
+        intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
+        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+        startActivity(intent);
     }
 
     /**
