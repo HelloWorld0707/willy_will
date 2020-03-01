@@ -10,7 +10,7 @@
 
     <ImageButton
         android:id="@+id/back_button"
-        style="@style/DetailButtonStyle"
+        style="@style/ActionBtnStyle"
         android:foreground="?attr/homeAsUpIndicator"
         android:onClick="Tomain"
         app:layout_constraintStart_toStartOf="parent"
