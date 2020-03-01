@@ -15,7 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
-import com.willy.will.detail.view.activityDetail;
+import com.willy.will.detail.view.DetailActivity;
+
 import java.util.ArrayList;
 
 public class RecyclerViewSetter {
@@ -186,7 +187,7 @@ public class RecyclerViewSetter {
      * Change To-do Item of Main View or Search View on selection changed
      */
     private void changeToDoItem() {
-        Intent intent = new Intent(parentView.getContext(), activityDetail.class);
+        Intent intent = new Intent(parentView.getContext(), DetailActivity.class);
         parentView.getContext().startActivity(intent);
     }
 

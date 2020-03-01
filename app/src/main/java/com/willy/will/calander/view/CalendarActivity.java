@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment;
 
 import com.willy.will.R;
 
-public class fragmentCalander extends Fragment {
+public class CalendarActivity extends Fragment {
     // example extra string
     private final static String EXTRA_INT = "someInt";
     private final static String EXTRA_STRING = "someTitle";
 
-    public static final fragmentCalander newInstance(int page, String title) {
+    public static final CalendarActivity newInstance(int page, String title) {
         // example of communication
-        fragmentCalander fragment = new fragmentCalander();
+        CalendarActivity fragment = new CalendarActivity();
         Bundle args = new Bundle();
         args.putInt(EXTRA_INT, page);
         args.putString(EXTRA_STRING, title);

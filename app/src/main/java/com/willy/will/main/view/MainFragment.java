@@ -13,9 +13,9 @@ import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 
 import java.util.ArrayList;
-import com.willy.will.main.model.mainListItem;
+import com.willy.will.main.model.ToDoItem;
 
-public class fragmentMain extends Fragment {
+public class MainFragment extends Fragment {
     // dont fix it
     private final static String EXTRA_ADAPTER = "BaseAdpater";
 
@@ -39,8 +39,8 @@ public class fragmentMain extends Fragment {
      * Created By: Lee Jaeeun
      * Function: setting fragment
      */
-    public static fragmentMain getInstance(String dateString){
-        fragmentMain fragment = new fragmentMain();
+    public static MainFragment getInstance(String dateString){
+        MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NO,dateString);
         fragment.setArguments(args);
@@ -49,9 +49,9 @@ public class fragmentMain extends Fragment {
 
     /*
     // omission database object
-    public static final fragmentMain newInstance(int page, String title, BaseAdapter adapter) {
+    public static final MainFragment newInstance(int page, String title, BaseAdapter adapter) {
         // example of communication
-        fragmentMain fragment = new fragmentMain();
+        MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putInt(EXTRA_INT, page);
         args.putString(EXTRA_STRING, title);
@@ -83,8 +83,8 @@ public class fragmentMain extends Fragment {
         ViewGroup rootView =
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
-        ArrayList<mainListItem> list = new ArrayList<>();
-        mainListItem sample = new mainListItem();
+        ArrayList<ToDoItem> list = new ArrayList<>();
+        ToDoItem sample = new ToDoItem();
         for(int i=0; i<20;i++){
             sample.setName("sample"+i);
             sample.setTime(getArguments().getString(ARG_NO,"Today"));
@@ -133,7 +133,7 @@ public class fragmentMain extends Fragment {
             @Override //선택에 변화가 있을 떄 사용함
             public void onSelectionChanged() {
                 super.onSelectionChanged();
-                Intent intent = new Intent(getContext(), activityDetail.class);
+                Intent intent = new Intent(getContext(), DetailActivity.class);
                 startActivity(intent);
             }
         });*/

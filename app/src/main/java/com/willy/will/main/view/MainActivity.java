@@ -19,8 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
-import com.willy.will.add.view.activityItemAdd;
-import com.willy.will.calander.view.fragmentCalander;
+import com.willy.will.add.view.AddItemActivity;
+import com.willy.will.calander.view.CalendarActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.search.view.SearchActivity;
 
@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class activityBase extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity{
 
     //var for spinner
     private Spinner sp_group;
@@ -50,8 +50,8 @@ public class activityBase extends AppCompatActivity{
     String sendDate;
 
 
-    fragmentMain fragmentmain;
-    fragmentCalander fragmentcalender;
+    MainFragment fragmentmain;
+    CalendarActivity fragmentcalender;
 
 
     @Override
@@ -87,7 +87,7 @@ public class activityBase extends AppCompatActivity{
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(activityBase.this, datepicker,
+                new DatePickerDialog(MainActivity.this, datepicker,
                         todayDate.get(Calendar.YEAR), todayDate.get(Calendar.MONTH), todayDate.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
@@ -119,7 +119,7 @@ public class activityBase extends AppCompatActivity{
         //~Set sp_group
 
         //set fragment (don't change position)
-        fragmentmain = fragmentMain.getInstance(sendDate);
+        fragmentmain = MainFragment.getInstance(sendDate);
 
         //add the fragment to container(frame layout)
         getSupportFragmentManager()
@@ -132,7 +132,7 @@ public class activityBase extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 // show Item add Activity
-                Intent intent = new Intent(activityBase.this , activityItemAdd.class);
+                Intent intent = new Intent(MainActivity.this , AddItemActivity.class);
                 startActivity(intent);
             }
         });
@@ -178,7 +178,7 @@ public class activityBase extends AppCompatActivity{
      * @param view
      */
     public void btnSearchClick(View view){
-        Intent intent = new Intent(activityBase.this , SearchActivity.class);
+        Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
         Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
@@ -244,7 +244,7 @@ public class activityBase extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = fragmentMain.getInstance(sendDate);
+            fragmentmain = MainFragment.getInstance(sendDate);
 
             //make new fragment
             getSupportFragmentManager()
@@ -281,7 +281,7 @@ public class activityBase extends AppCompatActivity{
         //
         if (id == R.id.itemSearch){
             // show search activity
-            Intent intent = new Intent(activityBase.this , SearchActivity.class);
+            Intent intent = new Intent(MainActivity.this , SearchActivity.class);
             startActivity(intent);
         }
 

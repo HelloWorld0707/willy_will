@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
-import com.willy.will.main.model.mainListItem;
+import com.willy.will.main.model.ToDoItem;
 import com.willy.will.search.model.Distance;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
@@ -118,7 +117,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     public <T> void bind(int type, T data, boolean isSelected) {
         // To-do
         if(type == TO_DO_CODE) {
-            mainListItem mitem = (mainListItem) data;
+            ToDoItem mitem = (ToDoItem) data;
             tvTime.setText(mitem.getTime());
             imgRank.setImageDrawable(mitem.getRank());
             tvName.setText(mitem.getName());

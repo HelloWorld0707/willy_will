@@ -19,7 +19,7 @@
             android:value="02bcc5ccac3144389ff97078106a8721" />
 
         <activity
-            android:name=".main.view.activityBase"
+            android:name=".main.view.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity> <!-- set addItem Activity -->
         <activity
-            android:name=".add.view.activityItemAdd"
+            android:name=".add.view.AddItemActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" /> <!-- set searchItem Activity -->
         <activity
             android:name=".search.view.SearchActivity"
@@ -52,16 +52,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" /> <!-- set detail Activity -->
         <activity
-            android:name=".detail.view.activityDetail"
+            android:name=".detail.view.DetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".detail.view.DeletePopupActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme"/>
         <activity
-            android:name=".add.view.activityItemAdd_group"
+            android:name=".common.view.GroupManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".add.view.activityItemAdd"/>
+            android:parentActivityName=".add.view.AddItemActivity"/>
     </application>
 
 </manifest>

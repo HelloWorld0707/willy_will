@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
-import com.willy.will.main.model.mainListItem;
+import com.willy.will.main.model.ToDoItem;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
 
@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     private TextInputEditText textInputEditText = null;
     private RecyclerView recyclerView = null;
 
-    private ArrayList<mainListItem> toDoList = null;
+    private ArrayList<ToDoItem> toDoList = null;
     private ArrayList<Group> selectedGroups = null;
     private String selectedDone = null;
     private boolean includedRepeat;
@@ -72,7 +72,7 @@ public class SearchActivity extends AppCompatActivity {
         toDoList = new ArrayList<>();
         initSearchSetting(getWindow().getDecorView());
         //search(getWindow().getDecorView());
-        mainListItem sample = new mainListItem();
+        ToDoItem sample = new ToDoItem();
         sample.setName("임시아이템");
         sample.setRank(ResourcesCompat.getDrawable(resources, R.drawable.important2, null));
         sample.setRoutine("Routine?");

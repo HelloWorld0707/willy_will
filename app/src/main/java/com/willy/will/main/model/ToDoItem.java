@@ -3,7 +3,7 @@ package com.willy.will.main.model;
 
 import android.graphics.drawable.Drawable;
 
-public class mainListItem {
+public class ToDoItem {
     private Drawable rank;
     private String name;
     private String time;
