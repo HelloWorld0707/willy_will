@@ -5,20 +5,24 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.Switch;
 
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
 
 public class AddItemActivity extends Activity{
     int y=0, m=0, d=0, h=0, mi=0;
+    Switch repeat_switch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemadd);
+        repeat_switch = (Switch) findViewById(R.id.repeat_switch);
 ;
 
         /******* Group buuton -> moving ********************/
@@ -46,6 +50,20 @@ public class AddItemActivity extends Activity{
             @Override
             public void onClick(View v) {
                 End_Date_Show();
+            }
+        });
+
+
+        repeat_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                // checked -> add_item_repeat
+                if (repeat_switch.isChecked() == true) {
+                    Intent intent = new Intent(AddItemActivity.this, AddItemRepeatActivity.class);
+                    startActivity(intent);
+
+                    // switch off
+                    repeat_switch.setChecked(false);
+                }
             }
         });
 
@@ -92,5 +110,6 @@ public class AddItemActivity extends Activity{
         // ~Check focusing
         this.finish();
     }
+
 
 }
