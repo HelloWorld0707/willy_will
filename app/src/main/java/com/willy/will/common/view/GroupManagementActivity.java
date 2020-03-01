@@ -1,6 +1,4 @@
-package com.willy.will.add.view;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.willy.will.common.view;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.willy.will.R;
 
 import java.util.ArrayList;
 
-public class activityItemAdd_group extends AppCompatActivity {
+public class GroupManagementActivity extends AppCompatActivity {
     ArrayList<String> Items;
     ArrayAdapter<String> Adapter;
     ListView listView;

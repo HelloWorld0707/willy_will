@@ -4,29 +4,15 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
-import androidx.annotation.Nullable;
 
 import com.willy.will.R;
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.willy.will.common.view.GroupManagementActivity;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
-public class activityItemAdd extends Activity{
+public class AddItemActivity extends Activity{
     int y=0, m=0, d=0, h=0, mi=0;
 
     @Override
@@ -40,7 +26,7 @@ public class activityItemAdd extends Activity{
         bnt_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activityItemAdd.this, activityItemAdd_group.class);
+                Intent intent = new Intent(AddItemActivity.this, GroupManagementActivity.class);
                 startActivity(intent);
             }
         });
