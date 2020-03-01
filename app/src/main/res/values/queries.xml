@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- sample -->
+    <string name="sample_query">SELECT %1$s FROM _GROUP WHERE group_id = %2$d</string>
+    <!-- ~sample -->
+</resources>
