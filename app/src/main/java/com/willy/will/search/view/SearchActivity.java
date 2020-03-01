@@ -66,7 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
 
-        // Set data
+        /** Set data **/
         current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
 
         toDoList = new ArrayList<>();
@@ -78,9 +78,9 @@ public class SearchActivity extends AppCompatActivity {
         sample.setRoutine("Routine?");
         sample.setTime(current);
         toDoList.add(sample);
-        // ~Set data
+        /* ~Set data */
 
-        // Set Views
+        /** Set Views **/
         textInputEditText = findViewById(R.id.search_edit_text);
         if(textInputEditText.hasFocus()) {
             textInputEditText.clearFocus();
@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
                 R.integer.to_do_recycler_item_type, toDoList,
                 R.string.selection_id_search, false
         ).setRecyclerView();
-        // ~Set Views
+        /** ~Set Views **/
 
         // Set extra names of Intent
         selectedGroupsKey = resources.getString(R.string.selected_groups_key);
