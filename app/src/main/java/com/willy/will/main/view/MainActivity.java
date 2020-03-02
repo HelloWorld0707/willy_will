@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~ Change Date*/
 
+    /** terminate application */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -239,4 +240,5 @@ public class MainActivity extends AppCompatActivity{
         AlertDialog alert = builder.create();
         alert.show();
     }
+    /* ~terminate application */
 }
