@@ -19,12 +19,6 @@ public class MainFragment extends Fragment {
     // dont fix it
     private final static String EXTRA_ADAPTER = "BaseAdpater";
 
-    // example extra string
-    /*
-    private final static String EXTRA_INT = "someInt";
-    private final static String EXTRA_STRING = "someTitle";
-    */
-
     //Recycler View
     private RecyclerView recyclerView = null;
 
@@ -32,13 +26,7 @@ public class MainFragment extends Fragment {
     private static final String ARG_NO = "ARG_NO";
 
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-19
-     * Created By: Lee Jaeeun
-     * Function: setting fragment
-     */
+    /**setting fragment*/
     public static MainFragment getInstance(String dateString){
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
@@ -46,27 +34,10 @@ public class MainFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    /*~setting fragment*/
 
-    /*
-    // omission database object
-    public static final MainFragment newInstance(int page, String title, BaseAdapter adapter) {
-        // example of communication
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        args.putInt(EXTRA_INT, page);
-        args.putString(EXTRA_STRING, title);
 
-        //
-        args.putSerializable(EXTRA_ADAPTER, (mainListAdapter)adapter);
-        //
-
-        fragment.setArguments(args);
-        return fragment;
-        // ~example
-    }
-     */
-
-    // Store instance variables based on arguments passed
+    /** Store instance variables based on arguments passed */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,14 +46,16 @@ public class MainFragment extends Fragment {
         String text = checkString + "날의 프래그먼트";
         Log.d("MyFragment", "onCreate " + text+"***************************************");
     }
+    /* ~Store instance variables based on arguments passed */
 
-    // Inflate the view for the fragment based on layout XML
+    /** Inflate the view for the fragment based on layout XML*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         ViewGroup rootView =
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
+        /** Set TodoItem */
         ArrayList<ToDoItem> list = new ArrayList<>();
         ToDoItem sample = new ToDoItem();
         for(int i=0; i<20;i++){
@@ -90,58 +63,21 @@ public class MainFragment extends Fragment {
             sample.setTime(getArguments().getString(ARG_NO,"Today"));
             list.add(sample);
         }
+        /* ~Set TodoItem */
 
-        // Set RecyclerView
+        /** Initialization (including Item View)*/
         // ↓↓↓↓↓↓↓↓↓↓ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
         recyclerView = new RecyclerViewSetter(
                 R.id.mainItemList, rootView,
                 R.integer.to_do_recycler_item_type, list,
                 R.string.selection_id_main, false
         ).setRecyclerView();
-        /*recyclerView = view.findViewById(R.id.mainItemList);
-        recyclerView.setHasFixedSize(true); //안정적...고정사이즈
-        // set LayoutManager
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        // set Adapter
-        final int TYPE = getResources().getInteger(R.integer.to_do_recycler_item_type);
-        adapter = new RecyclerViewAdapter(TYPE, list);//itemlist
-        recyclerView.setAdapter(adapter);
-        // set Tracker
-        tracker = new SelectionTracker.Builder<>(
-                "example",
-                recyclerView,
-                new StableIdKeyProvider(recyclerView),
-                new RecyclerItemDetailsLookup(recyclerView),
-                StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(
-                // Select multiple items
-                SelectionPredicates.<Long>createSelectSingleAnything()
-        ).build(); // 하나만 선택
-        adapter.setTracker(tracker);
-        tracker.addObserver(new SelectionTracker.SelectionObserver() {
-            */
-        /**
-             * Last Modified: 2020-02-12
-             * Last Modified By: Shin Minyong
-             * Created: -
-             * Created By: -
-             * Function: Initialization (including Item View)
-             * */
-
-            /*
-            @Override //선택에 변화가 있을 떄 사용함
-            public void onSelectionChanged() {
-                super.onSelectionChanged();
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                startActivity(intent);
-            }
-        });*/
-        // ↑↑↑↑↑↑↑↑↑↑ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
+        /* ~Initialization (including Item View) */
 
         return rootView;
 
     }
+    /* ~Inflate the view for the fragment based on layout XML*/
 
     @Override
     public void onResume() {
