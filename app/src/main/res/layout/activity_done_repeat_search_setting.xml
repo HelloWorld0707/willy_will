@@ -8,15 +8,11 @@
         style="@style/PopupTitleStyle"
         android:text="@string/done_repeat" />
 
-    <ImageView style="@style/ThickBottomBarStyle" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/done_search_setting_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never" />
-
-    <ImageView style="@style/BottomBarStyle" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -36,6 +32,7 @@
             android:id="@+id/repeat_check_box"
             style="@style/CheckBoxStyle"
             android:checked="true"
+            android:layout_marginTop="@dimen/popup_title_margin_vertical"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/including_repeat_text_view"
@@ -43,6 +40,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/layout_popup_bottom" />
+    <include layout="@layout/layout_popup_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/basic_margin" />
 
 </LinearLayout>

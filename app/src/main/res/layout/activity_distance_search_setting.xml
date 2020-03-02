@@ -7,14 +7,15 @@
         style="@style/PopupTitleStyle"
         android:text="@string/distance" />
 
-    <ImageView style="@style/ThickBottomBarStyle" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/distance_search_setting_recycler_view"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_setting_contents_view_height" />
 
-    <include layout="@layout/layout_popup_bottom" />
+    <include layout="@layout/layout_popup_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/basic_margin" />
 
 </LinearLayout>

@@ -10,8 +10,6 @@
         style="@style/PopupTitleStyle"
         android:text="@string/period" />
 
-    <ImageView style="@style/ThickBottomBarStyle" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/search_setting_contents_view_height"
@@ -139,6 +137,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/layout_popup_bottom" />
+    <include layout="@layout/layout_popup_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/basic_margin" />
 
 </LinearLayout>

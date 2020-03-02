@@ -24,19 +24,6 @@
         <item name="editTextColor">@color/colorString</item>
     </style>
 
-    <!-- Bottom Bar Style -->
-    <style name="BottomBarStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/bottom_bar_height</item>
-        <item name="android:background">@android:drawable/bottom_bar</item>
-    </style>
-    <style name="ThickBottomBarStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/thick_bottom_bar_height</item>
-        <item name="android:background">@android:drawable/bottom_bar</item>
-    </style>
-    <!-- ~Bottom Bar Style -->
-
     <!-- Pop-up Theme & Style -->
     <style name="PopupTheme" parent="DialogTheme">
         <item name="android:windowBackground">@drawable/shape_white_rounded_rectangle</item>
@@ -48,7 +35,7 @@
     <style name="PopupTitleStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/icon_button_size</item>
-        <item name="android:layout_marginVertical">1dp</item>
+        <item name="android:layout_marginVertical">@dimen/popup_title_margin_vertical</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorString</item>
         <item name="android:textSize">@dimen/popup_title_text_size</item>
@@ -61,19 +48,11 @@
     </style>
     <!-- ~Pop-up Theme & Style -->
 
-    <!-- Icon Button Style -->
-    <style name="IconButtonStyle">
-        <item name="android:layout_width">@dimen/icon_button_size</item>
-        <item name="android:layout_height">@dimen/icon_button_size</item>
-        <item name="android:background">?selectableItemBackgroundBorderless</item>
-    </style>
-    <!-- ~Icon Button Style -->
-
     <!-- Back Button Style -->
-    <style name="BackButtonStyle" parent="IconButtonStyle">
-        <item name="android:layout_marginRight">@dimen/basic_margin</item>
+    <style name="BackButtonStyle" parent="ActionBtnStyle">
         <item name="android:foreground">?attr/homeAsUpIndicator</item>
     </style>
+    <!-- ~Back Button Style -->
 
     <!-- Button Style -->
     <style name="ButtonStyle">

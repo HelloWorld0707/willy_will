@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/basic_margin"
     tools:context=".search.view.SearchActivity">
 
     <ImageButton
@@ -19,8 +18,9 @@
         android:id="@+id/search_text_input_layout"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/text_input_layout_height"
+        android:layout_marginTop="@dimen/detail_icon_margin"
         android:focusableInTouchMode="true"
-        android:hint="@string/search_hint"
+        app:hintEnabled="false"
         app:endIconMode="clear_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/search_button"
@@ -30,13 +30,14 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="@string/search_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/search_button"
-        style="@style/IconButtonStyle"
+        style="@style/ActionBtnStyle"
         android:foreground="@drawable/ic_search_24px"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,7 @@
         android:id="@+id/search_setting_layout"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/basic_margin"
+        android:layout_margin="@dimen/basic_margin"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,6 +119,7 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
+        android:layout_marginHorizontal="@dimen/basic_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_setting_layout"

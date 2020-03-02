@@ -5,8 +5,6 @@
     <dimen name="match_constraint">0dp</dimen>
     <dimen name="basic_padding">16dp</dimen>
     <dimen name="basic_margin">16dp</dimen>
-    <dimen name="bottom_bar_height">1dp</dimen>
-    <dimen name="thick_bottom_bar_height">2dp</dimen>
     <dimen name="text_recycler_item_height">48dp</dimen>
     <dimen name="text_recycler_item_text_size">20sp</dimen>
     <dimen name="main_date_text_size">50sp</dimen>
@@ -16,6 +14,7 @@
     <dimen name="popup_width">300dp</dimen>
     <!-- radius = width / 10 -->
     <dimen name="popup_radius">30dp</dimen>
+    <dimen name="popup_title_margin_vertical">10sp</dimen>
     <dimen name="popup_title_text_size">30sp</dimen>
     <!-- ~Pop-up -->
 
@@ -32,7 +31,7 @@
     <dimen name="button_margin">2dp</dimen>
     <!-- ~Button -->
 
-    <dimen name="text_input_layout_height">50dp</dimen>
+    <dimen name="text_input_layout_height">40dp</dimen>
 
     <!-- Search Setting Recycler View -->
     <dimen name="search_setting_contents_view_height">195dp</dimen>
@@ -43,11 +42,6 @@
     <!-- Spinner-->
     <dimen name="spinner_width">225dp</dimen>
     <!-- ~Spinner-->
-
-    <!-- MainIconButton -->
-    <dimen name="main_icon_width">30dp</dimen>
-    <dimen name="main_icon_height">30dp</dimen>
-    <!-- ~MainIconButton -->
 
     <!-- MainListItem-->
     <dimen name="itembox_height">75dp</dimen>
