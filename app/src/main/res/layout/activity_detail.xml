@@ -20,8 +20,7 @@
 
         <ImageButton
             android:id="@+id/back_button"
-            style="@style/ActionBtnStyle"
-            android:foreground="?attr/homeAsUpIndicator"
+            style="@style/BackButtonStyle"
             android:onClick="backToMain" />
 
         <ImageButton

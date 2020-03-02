@@ -9,15 +9,11 @@
         style="@style/PopupTitleStyle"
         android:text="@string/group" />
 
-    <ImageView style="@style/ThickBottomBarStyle" />
-
     <TextView
         android:id="@+id/selecting_all"
         style="@style/TextRecyclerItemStyle"
         android:onClick="onSelectAll"
         android:text="@string/all" />
-
-    <ImageView style="@style/BottomBarStyle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/group_search_setting_recycler_view"
@@ -25,6 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/group_search_setting_recycler_view_max_height" />
 
-    <include layout="@layout/layout_popup_bottom" />
+    <include layout="@layout/layout_popup_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/basic_margin" />
 
 </LinearLayout>

@@ -9,6 +9,4 @@
         style="@style/TextRecyclerItemStyle"
         android:text="TextView" />
 
-    <ImageView style="@style/BottomBarStyle" />
-
 </LinearLayout>

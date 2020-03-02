@@ -1,38 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context=".search.model.PopupActivity">
 
-    <ImageView style="@style/ThickBottomBarStyle" />
+    <ImageButton
+        android:id="@+id/group_search_setting_cancel"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="@dimen/icon_button_size"
+        android:layout_weight="1"
+        android:background="@drawable/ripple_cancel_button"
+        android:src="@drawable/ic_rounded_close_24px"
+        android:onClick="cancelSetting" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:context=".search.model.PopupActivity">
+    <ImageButton
+        android:id="@+id/group_search_setting_okay"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="@dimen/icon_button_size"
+        android:layout_weight="1"
+        android:background="@drawable/ripple_okay_button"
+        android:src="@drawable/ic_rounded_check_24px"
+        android:onClick="submitSetting" />
 
-        <ImageButton
-            android:id="@+id/group_search_setting_cancel"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_weight="1"
-            android:background="@drawable/ripple_cancel_button"
-            android:src="@drawable/ic_rounded_close_24px"
-            android:onClick="cancelSetting" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/icon_button_size"
-            android:src="@android:drawable/status_bar_item_app_background" />
-
-        <ImageButton
-            android:id="@+id/group_search_setting_okay"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_weight="1"
-            android:background="@drawable/ripple_okay_button"
-            android:src="@drawable/ic_rounded_check_24px"
-            android:onClick="submitSetting" />
-
-    </LinearLayout>
-
-</merge>
+</LinearLayout>

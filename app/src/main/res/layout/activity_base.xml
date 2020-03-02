@@ -48,8 +48,8 @@
 
                 <ImageButton
                     android:id="@+id/btnSearch"
-                    android:layout_width="@dimen/main_icon_width"
-                    android:layout_height="@dimen/main_icon_height"
+                    android:layout_width="@dimen/actionbar_button_size"
+                    android:layout_height="@dimen/actionbar_button_size"
                     android:layout_alignBottom="@id/tv_date"
                     android:layout_alignParentBottom="false"
                     android:layout_gravity="bottom"
@@ -63,8 +63,8 @@
 
                 <ImageButton
                     android:id="@+id/btnCalendar"
-                    android:layout_width="@dimen/main_icon_width"
-                    android:layout_height="@dimen/main_icon_height"
+                    android:layout_width="@dimen/actionbar_button_size"
+                    android:layout_height="@dimen/actionbar_button_size"
                     android:layout_alignBottom="@id/tv_date"
                     android:layout_alignParentRight="false"
                     android:layout_gravity="bottom"
@@ -78,8 +78,8 @@
 
                 <ImageButton
                     android:id="@+id/btnSetting"
-                    android:layout_width="@dimen/main_icon_width"
-                    android:layout_height="@dimen/main_icon_height"
+                    android:layout_width="@dimen/actionbar_button_size"
+                    android:layout_height="@dimen/actionbar_button_size"
                     android:layout_alignBottom="@id/tv_date"
                     android:layout_marginStart="@dimen/button_margin"
                     android:layout_marginTop="@dimen/button_margin"
