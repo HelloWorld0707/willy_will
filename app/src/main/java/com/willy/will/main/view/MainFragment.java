@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.main.model.ToDoItem;
 
 import java.util.ArrayList;
-import com.willy.will.main.model.ToDoItem;
 
 public class MainFragment extends Fragment {
     // dont fix it
@@ -57,10 +57,12 @@ public class MainFragment extends Fragment {
 
         /** Set TodoItem */
         ArrayList<ToDoItem> list = new ArrayList<>();
-        ToDoItem sample = new ToDoItem();
+        ToDoItem sample = null;
         for(int i=0; i<20;i++){
+            sample = new ToDoItem();
             sample.setName("sample"+i);
             sample.setTime(getArguments().getString(ARG_NO,"Today"));
+            sample.setDone(false);
             list.add(sample);
         }
         /* ~Set TodoItem */

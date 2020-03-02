@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity {
         ToDoItem sample = new ToDoItem();
         sample.setName("임시아이템");
         sample.setRank(ResourcesCompat.getDrawable(resources, R.drawable.important2, null));
-        sample.setRoutine("Routine?");
+        sample.setRoutine(ResourcesCompat.getDrawable(resources, R.drawable.ic_loop_24px, null));
         sample.setTime(current);
         toDoList.add(sample);
         /* ~Set data */

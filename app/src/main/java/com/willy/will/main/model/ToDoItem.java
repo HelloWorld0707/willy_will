@@ -26,7 +26,7 @@ public class ToDoItem {
         return routine;
     }
 
-    public void setRoutine(String date) {
+    public void setRoutine(Drawable routine) {
         this.routine = routine;
     }
 
@@ -38,8 +38,12 @@ public class ToDoItem {
         this.rank = rank;
     }
 
-    public boolean getDone() { return done;}
+    public boolean getDone() {
+        return done;
+    }
 
-    public void setDone(boolean d) {this.done = done;}
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }
 

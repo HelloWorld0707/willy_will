@@ -1,10 +1,14 @@
 package com.willy.will.adapter;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,14 +17,19 @@ import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
+import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.main.model.ToDoItem;
 import com.willy.will.search.model.Distance;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
+    private static BackgroundColorSpan inactiveColorSpan = new BackgroundColorSpan(App.getContext().getColor(R.color.colorInactive));
+    private BackgroundColorSpan activeColorSpan = null;
+
+    private RecyclerViewAdapter rcyclrVAdapter = null;
     // Common (also written in RecyclerViewSetter)
-    Resources resources = null;
+    private Resources resources = null;
     private int TO_DO_CODE = 0;
     private int GROUP_CODE = 0;
     private int DONE_CODE = 0;
@@ -30,34 +39,25 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // View of Item
     private TextView textOnlyView;
 
-    ImageView imgRank;
-    TextView tvName;
-    ImageView imgRoutine;
-    TextView tvTime;
-    CheckBox cbDone;
-    Spannable span;
+    private ImageView imgRank;
+    private TextView tvName;
+    private ImageView imgRoutine;
+    private TextView tvTime;
+    private CheckBox cbDone;
     // ~View of Item
 
-    /**
-     * Last Modified: 2020-02-17
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-11
-     * Created By: Shin Minyong
-     * Function: Initialization (including Item View)
-     * @param type
-     * @param view
-     * @param <T>
-     */
-    public <T> RecyclerViewHolder(int type, View view) {
+    // Initialization of THE item (Called for each item)
+    public <T> RecyclerViewHolder(RecyclerViewAdapter adapter, int type, View view) {
         super(view);
+        rcyclrVAdapter = adapter;
         resources = view.getContext().getResources();
 
-        // Set codes by type (also written in RecyclerViewSetter:RecyclerViewSetter)
+        /** Set codes by type (also written in RecyclerViewSetter:RecyclerViewSetter) **/
         TO_DO_CODE = resources.getInteger(R.integer.to_do_recycler_item_type);
         GROUP_CODE = resources.getInteger(R.integer.group_search_setting_recycler_item_type);
         DONE_CODE = resources.getInteger(R.integer.done_search_setting_recycler_item_type);
         DISTANCE_CODE = resources.getInteger(R.integer.distance_search_setting_recycler_item_type);
-        // ~Set codes by type (also written in RecyclerViewSetter:RecyclerViewSetter)
+        /* ~Set codes by type (also written in RecyclerViewSetter:RecyclerViewSetter) */
 
         // To-do
         if(type == TO_DO_CODE) {
@@ -67,6 +67,17 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             imgRoutine = view.findViewById(R.id.img_routine);
             cbDone = view.findViewById(R.id.cb_done);
 
+            activeColorSpan = new BackgroundColorSpan(resources.getColor(R.color.colorGroup7));
+            cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(cbDone.isPressed()) {
+                        setActivation(b);
+                        ToDoItem toDoItem = (ToDoItem) rcyclrVAdapter.getData(getItemId());
+                        toDoItem.setDone(b);
+                    }
+                }
+            });
         }
         // Text-only (Group, Done, Distance)
         else if(type == GROUP_CODE || type == DONE_CODE || type == DISTANCE_CODE) {
@@ -78,14 +89,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         }
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-12
-     * Created By: Shin Minyong
-     * Function: Get Item Details (To build Tracker)
-     * @return details
-     */
+    // Get Item Details to build Tracker (Called for each item)
     public ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
         ItemDetailsLookup.ItemDetails<Long> details = new ItemDetailsLookup.ItemDetails<Long>() {
             @Override
@@ -103,17 +107,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         return details;
     }
 
-    /**
-     * Last Modified: 2020-02-17
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-12
-     * Created By: Shin Minyong
-     * Function: Bind data to the item (com.willy.will.adapter)
-     * @param type
-     * @param data
-     * @param isSelected
-     * @param <T>
-     */
+    // Bind data to THE item (Called for each item)
     public <T> void bind(int type, T data, boolean isSelected) {
         // To-do
         if(type == TO_DO_CODE) {
@@ -122,7 +116,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             imgRank.setImageDrawable(mitem.getRank());
             tvName.setText(mitem.getName());
             imgRoutine.setImageDrawable(mitem.getRoutine());
-            cbDone.setActivated(mitem.getDone());
+            cbDone.setChecked(mitem.getDone());
+            setActivation(cbDone.isChecked());
         }
         // Group
         else if(type == GROUP_CODE) {
@@ -147,5 +142,26 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         itemView.setSelected(isSelected);
     }
 
+    // Activation of to-do item
+    private void setActivation(boolean activated) {
+        Spannable span = (Spannable) tvName.getText();
+
+        if(activated) {
+            span.setSpan(inactiveColorSpan
+                    , 0, tvName.length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            imgRoutine.setColorFilter(resources.getColor(R.color.colorInactive));
+            imgRank.setColorFilter(resources.getColor(R.color.colorInactive));
+        }
+        else {
+            span.setSpan(activeColorSpan
+                    , 0, tvName.length(),
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE); // need to fix (color)
+            tvName.setPaintFlags(0);
+            tvTime.setPaintFlags(0);
+        }
+    }
 
 }

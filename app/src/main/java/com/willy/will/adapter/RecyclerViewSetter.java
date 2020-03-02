@@ -5,12 +5,10 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.selection.SelectionPredicates;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +19,14 @@ import java.util.ArrayList;
 
 public class RecyclerViewSetter {
 
-    // Common (also written in RecyclerViewHolder)
+    /** Common (also written in RecyclerViewHolder) **/
     private int TO_DO_CODE = 0;
     private int GROUP_CODE = 0;
     private int DONE_CODE = 0;
     private int DISTANCE_CODE = 0;
-    // ~Common (also written in RecyclerViewHolder)
+    /* ~Common (also written in RecyclerViewHolder) */
 
-    // For Setting RecyclerView
+    /** For Setting RecyclerView **/
     private View parentView = null;
     private Resources resources = null;
     private ArrayList list = null;
@@ -39,21 +37,8 @@ public class RecyclerViewSetter {
 
     private RecyclerViewAdapter adapter = null;
     private SelectionTracker tracker = null;
-    // ~For Setting RecyclerView
+    /* ~For Setting RecyclerView */
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-17
-     * Created By: Shin Minyong
-     * Function: Initialization
-     * @param recyclerViewId
-     * @param view
-     * @param typeId
-     * @param dataSet
-     * @param selectionId
-     * @param multipleSelection
-     */
     public RecyclerViewSetter(int recyclerViewId,
                               View view,
                               int typeId,
@@ -66,49 +51,43 @@ public class RecyclerViewSetter {
         list = dataSet;
         selectId = selectionId;
 
-        // Set selection predicate for tracker
+        resources = parentView.getResources();
+
+        /** Set selection predicate for tracker **/
         if(multipleSelection) {
             predicate = SelectionPredicates.<Long>createSelectAnything();
         }
         else {
             predicate = SelectionPredicates.createSelectSingleAnything();
         }
-        // ~Set selection predicate for tracker
+        /* ~Set selection predicate for tracker */
 
-        // Set resources
-        resources = parentView.getResources();
-        // Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder)
+        /** Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) **/
         TO_DO_CODE = resources.getInteger(R.integer.to_do_recycler_item_type);
         GROUP_CODE = resources.getInteger(R.integer.group_search_setting_recycler_item_type);
         DONE_CODE = resources.getInteger(R.integer.done_search_setting_recycler_item_type);
         DISTANCE_CODE = resources.getInteger(R.integer.distance_search_setting_recycler_item_type);
-        // ~Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder)
+        /* ~Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) */
     }
 
-    /**
-     * Last Modified: 2020-02-23
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-17
-     * Created By: Shin Minyong
-     * Function: Set RecyclerView
-     * Set RecyclerView, LayoutManager, Adapter, and Tracker
-     * @return recyclerView
-     */
+    // Set RecyclerView, LayoutManager, Adapter, and Tracker
     public RecyclerView setRecyclerView() {
         RecyclerView recyclerView = parentView.findViewById(recyclerId);
         recyclerView.setHasFixedSize(true);
 
-        // set LayoutManager
+        /** Set LayoutManager **/
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(parentView.getContext());
         recyclerView.setLayoutManager(layoutManager);
+        /* ~Set LayoutManager */
 
-        // set the type
+        /** Set Adapter **/
+        // Set the type
         final int TYPE = resources.getInteger(tId);
-        // set Adapter
         adapter = new RecyclerViewAdapter(TYPE, list, this);
         recyclerView.setAdapter(adapter);
+        /* ~Set Adapter */
 
-        // set Tracker
+        /** Set Tracker **/
         tracker = new SelectionTracker.Builder(
                 resources.getString(selectId),
                 recyclerView,
@@ -132,14 +111,6 @@ public class RecyclerViewSetter {
                 else if (TYPE == GROUP_CODE) {
                     changeGroupItem();
                 }
-                // Done
-                else if (TYPE == DONE_CODE) {
-                    changeDoneItem();
-                }
-                // Distance
-                else if (TYPE == DISTANCE_CODE) {
-                    changeDistanceItem();
-                }
                 // ERROR: Wrong type
                 else {
                     Log.e("RecyclerViewSetter", "Setting: Wrong type");
@@ -147,31 +118,16 @@ public class RecyclerViewSetter {
             }
 
         });
+        /* ~Set Tracker */
 
         return recyclerView;
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-17
-     * Created By: Shin Minyong
-     * Function: Change To-do Item
-     * Change To-do Item of Main View or Search View on selection changed
-     */
     private void changeToDoItem() {
         Intent intent = new Intent(parentView.getContext(), DetailActivity.class);
         parentView.getContext().startActivity(intent);
     }
 
-    /**
-     * Last Modified: 2020-02-19
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-17
-     * Created By: Shin Minyong
-     * Function: Change Group Item
-     * Change Group Item of Group Search Setting View on selection changed
-     */
     private void changeGroupItem() {
         if(tracker.hasSelection()) {
             TextView selectingAllView = parentView.findViewById(R.id.selecting_all);
@@ -181,40 +137,7 @@ public class RecyclerViewSetter {
         }
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-19
-     * Created By: Shin Minyong
-     * Function: Change Done Item
-     * Change Done Item of done and Repeat Search Setting View on selection changed
-     */
-    private void changeDoneItem() {
-        //
-    }
-
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-19
-     * Created By: Shin Minyong
-     * Function: Change Distance Item
-     * Change Distance Item of Distance Search Setting View on selection changed
-     */
-    private void changeDistanceItem() {
-        //
-    }
-
-    /**
-     * Last Modified: 2020-02-19
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-17
-     * Created By: Shin Minyong
-     * Function: Get Layout ID for onCreateViewHolder of RecyclerViewAdapter
-     * Layout ID is layout filename without extension(.xml)
-     * @param type
-     * @return
-     */
+    // Get Layout ID for onCreateViewHolder of RecyclerViewAdapter. Layout ID is layout filename without extension(.xml)
     public int getLayoutId(int type) {
         int id = 0;
 
