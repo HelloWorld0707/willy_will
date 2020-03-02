@@ -113,11 +113,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         if(type == TO_DO_CODE) {
             ToDoItem mitem = (ToDoItem) data;
             tvTime.setText(mitem.getTime());
-            imgRank.setImageDrawable(mitem.getRank());
             tvName.setText(mitem.getName());
-            imgRoutine.setImageDrawable(mitem.getRoutine());
             cbDone.setChecked(mitem.getDone());
             setActivation(cbDone.isChecked());
+            //imgRank.setImageDrawable(mitem.getRank());
+            //imgRoutine.setImageDrawable(mitem.getRoutine());
+
         }
         // Group
         else if(type == GROUP_CODE) {
