@@ -12,6 +12,7 @@ import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.model.PopupActivity;
+import com.willy.will.common.model.RecyclerViewItemType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,7 +60,7 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
         // Set Views
         recyclerView = new RecyclerViewSetter(
                 R.id.done_search_setting_recycler_view, getWindow().getDecorView(),
-                R.integer.done_search_setting_recycler_item_type, doneList,
+                RecyclerViewItemType.DONE_SEARCH, doneList,
                 R.string.selection_id_done_search_setting, false
         ).setRecyclerView();
         checkBox = findViewById(R.id.repeat_check_box);

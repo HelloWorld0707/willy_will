@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.main.model.ToDoItem;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class MainFragment extends Fragment {
         // ↓↓↓↓↓↓↓↓↓↓ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
         recyclerView = new RecyclerViewSetter(
                 R.id.mainItemList, rootView,
-                R.integer.to_do_recycler_item_type, list,
+                RecyclerViewItemType.TO_DO, list,
                 R.string.selection_id_main, false
         ).setRecyclerView();
         /* ~Initialization (including Item View) */
