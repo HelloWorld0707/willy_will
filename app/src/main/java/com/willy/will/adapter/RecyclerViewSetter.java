@@ -1,7 +1,6 @@
 package com.willy.will.adapter;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -13,25 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
+import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.detail.view.DetailActivity;
 
 import java.util.ArrayList;
 
 public class RecyclerViewSetter {
 
-    /** Common (also written in RecyclerViewHolder) **/
-    private int TO_DO_CODE = 0;
-    private int GROUP_CODE = 0;
-    private int DONE_CODE = 0;
-    private int DISTANCE_CODE = 0;
-    /* ~Common (also written in RecyclerViewHolder) */
-
     /** For Setting RecyclerView **/
     private View parentView = null;
-    private Resources resources = null;
     private ArrayList list = null;
     private SelectionTracker.SelectionPredicate predicate = null;
-    private int tId = 0;
+    private RecyclerViewItemType type;
     private int recyclerId = 0;
     private int selectId = 0;
 
@@ -45,36 +37,29 @@ public class RecyclerViewSetter {
 
     public RecyclerViewSetter(int recyclerViewId,
                               View view,
-                              int typeId,
+                              RecyclerViewItemType itemType,
                               ArrayList dataSet,
                               int selectionId,
                               boolean multipleSelection) {
-        // Set Resources
-        resources = view.getResources();
-        /** Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) **/
-        TO_DO_CODE = resources.getInteger(R.integer.to_do_recycler_item_type);
-        GROUP_CODE = resources.getInteger(R.integer.group_search_setting_recycler_item_type);
-        DONE_CODE = resources.getInteger(R.integer.done_search_setting_recycler_item_type);
-        DISTANCE_CODE = resources.getInteger(R.integer.distance_search_setting_recycler_item_type);
-        /* ~Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) */
-
-        if(resources.getInteger(typeId) == GROUP_CODE) {
-            selectingAllView = view.findViewById(R.id.selecting_all);
-        }
-
         recyclerId = recyclerViewId;
         parentView = view;
-        tId = typeId;
+        type = itemType;
         list = dataSet;
         selectId = selectionId;
         /** Set selection predicate for tracker **/
         if(multipleSelection) {
-            predicate = SelectionPredicates.<Long>createSelectAnything();
+            predicate = SelectionPredicates.createSelectAnything();
         }
         else {
             predicate = SelectionPredicates.createSelectSingleAnything();
         }
         /* ~Set selection predicate for tracker */
+
+        /** Set Selecting All Text View of Group Search Setting **/
+        if(itemType == RecyclerViewItemType.GROUP_SEARCH) {
+            selectingAllView = view.findViewById(R.id.selecting_all);
+        }
+        /* ~Set Selecting All Text View of Group Search Setting */
     }
 
     // Set RecyclerView, LayoutManager, Adapter, and Tracker
@@ -88,15 +73,13 @@ public class RecyclerViewSetter {
         /* ~Set LayoutManager */
 
         /** Set Adapter **/
-        // Set the type
-        final int TYPE = resources.getInteger(tId);
-        adapter = new RecyclerViewAdapter(TYPE, list, this);
+        adapter = new RecyclerViewAdapter(type, list);
         recyclerView.setAdapter(adapter);
         /* ~Set Adapter */
 
         /** Set Tracker **/
         tracker = new SelectionTracker.Builder(
-                resources.getString(selectId),
+                parentView.getResources().getString(selectId),
                 recyclerView,
                 new RecyclerItemKeyProvider(recyclerView),
                 new RecyclerItemDetailsLookup(recyclerView),
@@ -111,11 +94,11 @@ public class RecyclerViewSetter {
                 super.onSelectionChanged();
 
                 // To-do
-                if (TYPE == TO_DO_CODE) {
+                if (type == RecyclerViewItemType.TO_DO) {
                     changeToDoItem();
                 }
                 // Group
-                else if (TYPE == GROUP_CODE) {
+                else if (type == RecyclerViewItemType.GROUP_SEARCH) {
                     changeGroupItem();
                 }
                 // ERROR: Wrong type
@@ -136,7 +119,7 @@ public class RecyclerViewSetter {
     }
 
     private void changeGroupItem() {
-        if(tracker.hasSelection()) {
+        if(tracker.getSelection().size() > 1) {
             if(selectingAllView.isSelected()) {
                 selectingAllView.setSelected(false);
             }
@@ -146,26 +129,6 @@ public class RecyclerViewSetter {
                 selectingAllView.setSelected(true);
             }
         }
-    }
-
-    // Get Layout ID for onCreateViewHolder of RecyclerViewAdapter. Layout ID is layout filename without extension(.xml)
-    public int getLayoutId(int type) {
-        int id = 0;
-
-        // To-do
-        if(type == TO_DO_CODE) {
-            id = R.layout.listitem;
-        }
-        // Text-only (Group, Done, Distance)
-        else if(type == GROUP_CODE || type == DONE_CODE || type == DISTANCE_CODE) {
-            id = R.layout.recycleritem_text_only;
-        }
-        // ERROR: Wrong type
-        else {
-            Log.e("RecyclerViewHolder", "Getting Layout ID: Wrong type");
-        }
-
-        return id;
     }
 
 }

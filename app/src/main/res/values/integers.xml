@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- RecyclerView Item Type -->
-    <integer name="to_do_recycler_item_type">1</integer>
-    <integer name="group_search_setting_recycler_item_type">2</integer>
-    <integer name="done_search_setting_recycler_item_type">3</integer>
-    <integer name="distance_search_setting_recycler_item_type">4</integer>
-    <!-- ~RecyclerView Item Type -->
-
     <!-- Search Setting Code -->
     <integer name="group_search_setting_code">1</integer>
     <integer name="done_repeat_search_setting_code">2</integer>

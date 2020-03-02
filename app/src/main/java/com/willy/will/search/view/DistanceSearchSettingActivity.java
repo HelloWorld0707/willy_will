@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
 import com.willy.will.common.model.PopupActivity;
@@ -71,7 +72,7 @@ public class DistanceSearchSettingActivity extends PopupActivity {
         // Set RecyclerView
         recyclerView = new RecyclerViewSetter(
                 R.id.distance_search_setting_recycler_view, getWindow().getDecorView(),
-                R.integer.distance_search_setting_recycler_item_type, distancelist,
+                RecyclerViewItemType.DISTANCE_SEARCH, distancelist,
                 R.string.selection_id_distance_search_setting, false
         ).setRecyclerView();
         // ~Set RecyclerView

@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
+import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.main.model.ToDoItem;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
@@ -88,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
 
         recyclerView = new RecyclerViewSetter(
                 R.id.search_results_recycler_view, getWindow().getDecorView(),
-                R.integer.to_do_recycler_item_type, toDoList,
+                RecyclerViewItemType.TO_DO, toDoList,
                 R.string.selection_id_search, false
         ).setRecyclerView();
         /** ~Set Views **/

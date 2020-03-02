@@ -1,6 +1,7 @@
 package com.willy.will.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,30 +10,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.willy.will.R;
+import com.willy.will.common.model.RecyclerViewItemType;
+
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    private SelectionTracker<Long> trckr = null;
+    private SelectionTracker<Long> tracker = null;
 
-    private RecyclerViewSetter setter = null;
     private ArrayList<T> dset = null;
-    private int t = 0;
+    private RecyclerViewItemType type;
 
-    public RecyclerViewAdapter(int type, ArrayList<T> dataset, RecyclerViewSetter recyclerViewSetter) {
-        t = type;
+    public RecyclerViewAdapter(RecyclerViewItemType itemType, ArrayList<T> dataset) {
+        type = itemType;
         dset = dataset;
-        setter = recyclerViewSetter;
 
         setHasStableIds(true);
     }
 
     // If Tracker is set inside the constructor, an error occurs
     public void setTracker(SelectionTracker tracker) {
-        trckr = tracker;
+        this.tracker = tracker;
     }
     public SelectionTracker getTracker() {
-        return this.trckr;
+        return this.tracker;
     }
 
     // Get data when changed check box of to-do item (at holder)
@@ -45,13 +47,26 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        int layoutId = setter.getLayoutId(t);
+        int layoutId = 0;
+        // To-do
+        if(type == RecyclerViewItemType.TO_DO) {
+            layoutId = R.layout.listitem;
+        }
+        // Text-only (Group, Done, Distance)
+        else if(type == RecyclerViewItemType.GROUP_SEARCH ||
+                type == RecyclerViewItemType.DONE_SEARCH ||
+                type == RecyclerViewItemType.DISTANCE_SEARCH) {
+            layoutId = R.layout.recycleritem_text_only;
+        }
+        // ERROR: Wrong type
+        else {
+            Log.e("RecyclerViewAdapter", "Setting Layout ID: Wrong type");
+        }
         View view = layoutInflater.inflate(layoutId, parent, false);
 
-        RecyclerViewHolder holder = new RecyclerViewHolder(this, t, view);
+        RecyclerViewHolder holder = new RecyclerViewHolder(this, type, view);
         return holder;
     }
 
@@ -59,8 +74,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         T data = dset.get(position);
-        if (trckr != null) {
-            holder.bind(t, data, trckr.isSelected(Long.valueOf(position)));
+        if (tracker != null) {
+            holder.bind(type, data, tracker.isSelected(Long.valueOf(position)));
         }
     }
 
