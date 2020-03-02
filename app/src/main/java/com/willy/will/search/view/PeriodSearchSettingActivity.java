@@ -50,13 +50,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     private String startOfDoneDate = null;
     private String endOfDoneDate = null;
 
-    /**
-     * Last Modified: 2020-02-26
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-17
-     * Created By: Shin Minyong
-     * Function: Initialization (including layout ID)
-     */
+    // Initialization (including layout ID)
     public PeriodSearchSettingActivity() {
         super(R.layout.activity_period_search_setting);
 
@@ -65,33 +59,26 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         calendar = Calendar.getInstance();
     }
 
-    /**
-     * Last Modified: 2020-02-26
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set theme of Dialogs
+        /** Set theme of Dialogs **/
         datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme);
         dateListener = new DateListener();
         datePickerDialog.setOnDateSetListener(dateListener);
-        // ~Set theme of Dialogs
+        /* ~Set theme of Dialogs */
 
-        // Set Views
+        /** Set Views **/
         startOfStartButton = findViewById(R.id.start_of_start_button);
         endOfStartButton = findViewById(R.id.end_of_start_button);
         startOfEndButton = findViewById(R.id.start_of_end_button);
         endOfEndButton = findViewById(R.id.end_of_end_button);
         startOfDoneButton = findViewById(R.id.start_of_done_button);
         endOfDoneButton = findViewById(R.id.end_of_done_button);
-        // ~Set Views
+        /* ~Set Views */
 
-        // Set values
+        /** Set values **/
         resources = getResources();
         startOfStartDateKey = resources.getString(R.string.start_of_start_date_key);
         endOfStartDateKey = resources.getString(R.string.end_of_start_date_key);
@@ -121,17 +108,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             startOfDoneButton.setEnabled(false);
             endOfDoneButton.setEnabled(false);
         }
-        // ~Set values
+        /* ~Set values */
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-26
-     * Created By: Shin Minyong
-     * Function: Start Date Picker Dialog for start of start date
-     * @param view
-     */
+    // Start Date Picker Dialog for start of start date
     public void setStartOfStart(View view) {
         dateListener.setKey(startOfStartDateKey);
 
@@ -153,14 +133,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-26
-     * Created By: Shin Minyong
-     * Function: Start Date Picker Dialog for end of start date
-     * @param view
-     */
+    // Start Date Picker Dialog for end of start date
     public void setEndOfStart(View view) {
         dateListener.setKey(endOfStartDateKey);
 
@@ -181,14 +154,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-26
-     * Created By: Shin Minyong
-     * Function: Start Date Picker Dialog for start of end date
-     * @param view
-     */
+    // Start Date Picker Dialog for start of end date
     public void setStartOfEnd(View view) {
         dateListener.setKey(startOfEndDateKey);
 
@@ -209,14 +175,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-26
-     * Created By: Shin Minyong
-     * Function: Start Date Picker Dialog for end of end date
-     * @param view
-     */
+    // Start Date Picker Dialog for end of end date
     public void setEndOfEnd(View view) {
         dateListener.setKey(endOfEndDateKey);
 
@@ -237,14 +196,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-26
-     * Created By: Shin Minyong
-     * Function: Start Date Picker Dialog for start of done date
-     * @param view
-     */
+    // Start Date Picker Dialog for start of done date
     public void setStartOfDone(View view) {
         dateListener.setKey(startOfDoneDateKey);
 
@@ -265,14 +217,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         datePickerDialog.show();
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-26
-     * Created By: Shin Minyong
-     * Function: Start Date Picker Dialog for end of done date
-     * @param view
-     */
+    // Start Date Picker Dialog for end of done date
     public void setEndOfDone(View view) {
         dateListener.setKey(endOfDoneDateKey);
 
@@ -291,51 +236,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
 
         datePickerDialog.setMessage(resources.getString(R.string.end_of_done_date_text));
         datePickerDialog.show();
-    }
-
-    /**
-     * Last Modified: 2020-02-26
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * @param intent
-     * @return
-     */
-    @Override
-    protected boolean setResults(Intent intent) {
-        try {
-            if (!startOfStartDate.equals("") && !endOfStartDate.equals("")) {
-                if (simpleDateFormat.parse(startOfStartDate).getTime() > simpleDateFormat.parse(endOfStartDate).getTime()) {
-                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-            if (!startOfEndDate.equals("") && !endOfEndDate.equals("")) {
-                if (simpleDateFormat.parse(startOfEndDate).getTime() > simpleDateFormat.parse(endOfEndDate).getTime()) {
-                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-            if (onlyDone && !startOfDoneDate.equals("") && !endOfDoneDate.equals("")) {
-                if (simpleDateFormat.parse(startOfDoneDate).getTime() > simpleDateFormat.parse(endOfDoneDate).getTime()) {
-                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-        }
-        catch (ParseException e) {
-            Log.e("PeriodSearchSettingActivity", "Results: "+e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-
-        intent.putExtra(startOfStartDateKey, startOfStartDate);
-        intent.putExtra(endOfStartDateKey, endOfStartDate);
-        intent.putExtra(startOfEndDateKey, startOfEndDate);
-        intent.putExtra(endOfEndDateKey, endOfEndDate);
-        intent.putExtra(startOfDoneDateKey, startOfDoneDate);
-        intent.putExtra(endOfDoneDateKey, endOfDoneDate);
-        return true;
     }
 
     class DateListener implements DatePickerDialog.OnDateSetListener {
@@ -377,6 +277,43 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("DateListener", "Invalid Key");
             }
         }
+    }
+
+    @Override
+    protected boolean setResults(Intent intent) {
+        try {
+            if (!startOfStartDate.equals("") && !endOfStartDate.equals("")) {
+                if (simpleDateFormat.parse(startOfStartDate).getTime() > simpleDateFormat.parse(endOfStartDate).getTime()) {
+                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            if (!startOfEndDate.equals("") && !endOfEndDate.equals("")) {
+                if (simpleDateFormat.parse(startOfEndDate).getTime() > simpleDateFormat.parse(endOfEndDate).getTime()) {
+                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            if (onlyDone && !startOfDoneDate.equals("") && !endOfDoneDate.equals("")) {
+                if (simpleDateFormat.parse(startOfDoneDate).getTime() > simpleDateFormat.parse(endOfDoneDate).getTime()) {
+                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+        catch (ParseException e) {
+            Log.e("PeriodSearchSettingActivity", "Results: "+e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+        intent.putExtra(startOfStartDateKey, startOfStartDate);
+        intent.putExtra(endOfStartDateKey, endOfStartDate);
+        intent.putExtra(startOfEndDateKey, startOfEndDate);
+        intent.putExtra(endOfEndDateKey, endOfEndDate);
+        intent.putExtra(startOfDoneDateKey, startOfDoneDate);
+        intent.putExtra(endOfDoneDateKey, endOfDoneDate);
+        return true;
     }
 
 }

@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -92,9 +91,9 @@ public class SearchActivity extends AppCompatActivity {
                 RecyclerViewItemType.TO_DO, toDoList,
                 R.string.selection_id_search, false
         ).setRecyclerView();
-        /** ~Set Views **/
+        /* ~Set Views */
 
-        // Set extra names of Intent
+        /** Set extra names of Intent **/
         selectedGroupsKey = resources.getString(R.string.selected_groups_key);
         selectedDoneKey = resources.getString(R.string.selected_done_key);
         includedRepeatKey = resources.getString(R.string.included_repeat_key);
@@ -105,41 +104,22 @@ public class SearchActivity extends AppCompatActivity {
         startOfDoneDateKey = resources.getString(R.string.start_of_done_date_key);
         endOfDoneDateKey = resources.getString(R.string.end_of_done_date_key);
         selectedDistanceKey = resources.getString(R.string.selected_distance_key);
-        // ~Set extra names of Intent
+        /* ~Set extra names of Intent */
     }
 
-    /**
-     * Last Modified: 2020-02-20
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-08
-     * Created By: Shin Minyong
-     * Function: Back to BaseActivity (Main View)
-     * Called when the user taps the back_button
-     * Check focusing
-     * @param view
-     */
     public void backToMain(View view) {
-        // Check focusing
+        /** Check focusing **/
         View focusedView = getCurrentFocus();
         if(focusedView != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
-        // ~Check focusing
+        /* ~Check focusing */
         this.finish();
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-21
-     * Created By: Shin Minyong
-     * Function: Prepare to search
-     * Called when the user taps the search_button
-     * @param view
-     */
     public void search(View view) {
-        // Preprocess
+        /** Preprocess **/
         String searchText = textInputEditText.getText().toString();
 
         ArrayList<Integer> groupIds = new ArrayList<>();
@@ -151,7 +131,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         int maxDistance = selectedDistance.getLength();
-        // ~Preprocess
+        /* ~Preprocess */
 
         /*ArrayList<Integer> findedIds = findToDoItemIds(searchText, groupIds,
                 selectedDone, includedRepeat,
@@ -161,15 +141,6 @@ public class SearchActivity extends AppCompatActivity {
         setToDoItems(toDoList, findedIds);*/
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-08
-     * Created By: Shin Minyong
-     * Function: Bring up SearchSettingActivity (Group Setting for Search)
-     * Called when the user taps the group_search_setting_button
-     * @param view
-     */
     public void bringUpGroupSearchSetting(View view) {
         Intent intent = new Intent(this, GroupSearchSettingActivity.class);
         intent.putParcelableArrayListExtra(selectedGroupsKey, selectedGroups);
@@ -179,15 +150,6 @@ public class SearchActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-15
-     * Created By: Shin Minyong
-     * Function: Bring up SearchSettingActivity (Done and Repeat Setting for Search)
-     * Called when the user taps the done_repeat_search_setting_button
-     * @param view
-     */
     public void bringUpDoneRepeatSearchSetting(View view) {
         Intent intent = new Intent(this, DoneRepeatSearchSettingActivity.class);
         intent.putExtra(selectedDoneKey, selectedDone);
@@ -198,15 +160,6 @@ public class SearchActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-15
-     * Created By: Shin Minyong
-     * Function: Bring up SearchSettingActivity (Period Setting for Search)
-     * Called when the user taps the period_search_setting_button
-     * @param view
-     */
     public void bringUpPeriodSearchSetting(View view) {
         Intent intent = new Intent(this, PeriodSearchSettingActivity.class);
         intent.putExtra(startOfStartDateKey, startOfStartDate);
@@ -229,15 +182,6 @@ public class SearchActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-15
-     * Created By: Shin Minyong
-     * Function: Bring up SearchSettingActivity (Distance Setting for Search)
-     * Called when the user taps the distance_search_setting_button
-     * @param view
-     */
     public void bringUpDistanceSearchSetting(View view) {
         Intent intent = new Intent(this, DistanceSearchSettingActivity.class);
         intent.putExtra(selectedDistanceKey, selectedDistance);
@@ -247,16 +191,6 @@ public class SearchActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-21
-     * Created By: Shin Minyong
-     * Function: Initialize Search Setting
-     * Called on Create and
-     * called when the user taps the revert_search_setting_button
-     * @param view
-     */
     public void initSearchSetting(View view) {
         selectedGroups = new ArrayList<>();
         selectedDone = resources.getString(R.string.all);
@@ -270,23 +204,14 @@ public class SearchActivity extends AppCompatActivity {
         selectedDistance = DistanceSet.distances.get(0);
     }
 
-    /**
-     * Last Modified: 2020-02-21
-     * Last Modified By: Shin Minyong
-     * Created: 2020-02-08
-     * Created By: Shin Minyong
-     * Function: Receive result data from SearchSettingActivity (Setting for Search)
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
+    // Receive result data from SearchSettingActivity (Setting for Search)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Resources resources = getResources();
 
-        // Success to receive data
+        /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
             // Group Search Setting
             if (requestCode == resources.getInteger(R.integer.group_search_setting_code)) {
@@ -311,6 +236,7 @@ public class SearchActivity extends AppCompatActivity {
                 selectedDistance = data.getParcelableExtra(selectedDistanceKey);
             }
         }
+        /* ~Success to receive data */
     }
 
 }

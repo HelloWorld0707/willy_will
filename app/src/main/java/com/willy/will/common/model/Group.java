@@ -1,10 +1,3 @@
-/**
- * Last Modified: 2020-02-21
- * Last Modified By: Shin Minyong
- * Created: 2020-02-19
- * Created By: Shin Minyong
- */
-
 package com.willy.will.common.model;
 
 import android.os.Parcel;
@@ -24,13 +17,6 @@ public class Group implements Parcelable {
     }
     // ~temp
 
-    /**
-     * Last Modified: 2020-02-21
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * @param in
-     */
     protected Group(Parcel in) {
         groupId = in.readInt();
         groupName = in.readString();
@@ -66,15 +52,7 @@ public class Group implements Parcelable {
         return 0;
     }
 
-    /**
-     * Last Modified: 2020-02-21
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * The writing order is important
-     * @param dest
-     * @param flags
-     */
+    // The writing order is important
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.groupId);

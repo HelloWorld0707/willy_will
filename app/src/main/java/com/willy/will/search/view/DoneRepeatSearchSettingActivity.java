@@ -27,46 +27,33 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
 
     private ArrayList<String> doneList = null;
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-18
-     * Created By: Shin Minyong
-     * Function: Initialization (including layout ID)
-     */
+    // Initialization (including layout ID)
     public DoneRepeatSearchSettingActivity() {
         super(R.layout.activity_done_repeat_search_setting);
     }
 
-    /**
-     * Last Modified: 2020-02-23
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set data of item
+        /** Set data of item **/
         doneList = new ArrayList<>();
         Resources resources = App.getContext().getResources();
         doneList.add(resources.getString(R.string.all));
         doneList.add(resources.getString(R.string.undone));
         doneList.add(resources.getString(R.string.done));
-        // ~Set data of item
+        /* ~Set data of item */
 
-        // Set Views
+        /** Set Views **/
         recyclerView = new RecyclerViewSetter(
                 R.id.done_search_setting_recycler_view, getWindow().getDecorView(),
                 RecyclerViewItemType.DONE_SEARCH, doneList,
                 R.string.selection_id_done_search_setting, false
         ).setRecyclerView();
         checkBox = findViewById(R.id.repeat_check_box);
-        // ~Set Views
+        /* ~Set Views */
 
-        // Set a selected item and checkbox checking
+        /** Set a selected item and checkbox checking **/
         selectedDoneKey = resources.getString(R.string.selected_done_key);
         includedRepeatKey = resources.getString(R.string.included_repeat_key);
 
@@ -80,17 +67,9 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
 
         boolean includedRepeat = getIntent().getBooleanExtra(includedRepeatKey, true);
         checkBox.setChecked(includedRepeat);
-        // ~Set a selected item and checking the checkbox
+        /* ~Set a selected item and checkbox checking */
     }
 
-    /**
-     * Last Modified: 2020-02-23
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * @param intent
-     * @return true
-     */
     @Override
     protected boolean setResults(Intent intent) {
         Iterator selectIter = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection().iterator();

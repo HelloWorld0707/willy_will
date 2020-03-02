@@ -50,15 +50,7 @@ public class Distance implements Parcelable {
         return 0;
     }
 
-    /**
-     * Last Modified: 2020-02-21
-     * Last Modified By: Shin Minyong
-     * Created: -
-     * Created By: -
-     * The writing order is important
-     * @param dest
-     * @param flags
-     */
+    // The writing order is important
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         int useInt = this.use ? 1 : 0;
