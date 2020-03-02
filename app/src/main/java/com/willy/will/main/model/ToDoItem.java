@@ -1,13 +1,10 @@
 package com.willy.will.main.model;
 
-
-import android.graphics.drawable.Drawable;
-
 public class ToDoItem {
-    private Drawable rank;
+    private int rank;
     private String name;
     private String time;
-    private Drawable routine;
+    private int routine;
     private boolean done; //checkbox용
 
     public String getName() { return name;}
@@ -22,19 +19,19 @@ public class ToDoItem {
         this.time = date;
     }
 
-    public Drawable getRoutine() {
+    public int getRoutine() {
         return routine;
     }
 
-    public void setRoutine(Drawable routine) {
+    public void setRoutine(int routine) {
         this.routine = routine;
     }
 
-    public Drawable getRank() {
+    public int getRank() {
         return rank;
     }
 
-    public void setRank(Drawable rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 
