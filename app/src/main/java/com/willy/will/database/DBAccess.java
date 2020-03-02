@@ -1,12 +1,8 @@
 package com.willy.will.database;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DBAccess extends SQLiteOpenHelper {
 
@@ -20,9 +16,10 @@ public class DBAccess extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // 새로운 테이블 생성
         db.execSQL("CREATE TABLE _CALENDER ( " +
+                "calender_id INTEGER NOT NULL," +
                 "calender_date TEXT NOT NULL," +
                 "item_id INTEGER," +
-                "PRIMARY KEY(calender_date, item_id) );"
+                "PRIMARY KEY(calender_id) );"
         );
 
         db.execSQL("CREATE TABLE _GROUP(" +
@@ -37,78 +34,27 @@ public class DBAccess extends SQLiteOpenHelper {
                 "group_id INTEGER," +
                 "item_name TEXT NOT NULL," +
                 "item_important INTEGER," +
-                "item_location TEXT," +
-                "done TEXT NOT NULL," +
+                "item_location_X TEXT," +
+                "item_location_Y TEXT," +
+                "done_date TEXT," +
+                "start_day TEXT NOT NULL," +
+                "end_day TEXT NOT NULL," +
+                "to_do_id INTEGER," +
                 "PRIMARY KEY(item_id) );"
         );
-        db.execSQL("CREATE TABLE _ROOF_INFO (" +
-                "roof_id INTEGER NOT NULL," +
-                "start_day INTEGER NOT NULL," +
-                "end_day INTEGER NOT NULL," +
-                "week TEXT," +
-                "PRIMARY KEY(roof_id) );"
-        );
 
-        db.execSQL("CREATE TABLE _ROOF_MAPPER (" +
-                "item_id INTEGER NOT NULL," +
-                "roof_id INTEGER NOT NULL," +
-                "PRIMARY KEY(item_id, roof_id) )"
+        db.execSQL("CREATE TABLE _LOOP_INFO (" +
+                "loop_id INTEGER NOT NULL," +
+                "to_do_id INTEGER NOT NULL," +
+                "loop_week TEXT," +
+                "PRIMARY KEY(loop_id, to_do_id) );"
         );
     }
 
-    public SQLiteDatabase getDB(){
-        return getWritableDatabase();
-    }
+    public SQLiteDatabase getDb(){ return this.getWritableDatabase(); }
 
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
-
-    public void insert(String create_at, String item, int price) {
-        // 읽고 쓰기가 가능하게 DB 열기
-        SQLiteDatabase db = getWritableDatabase();
-        // DB에 입력한 값으로 행 추가
-        // db.execSQL("INSERT INTO MONEYBOOK VALUES(null, '" + item + "', " + price + ", '" + create_at + "');");
-        db.close();
-    }
-
-    public void update(String item, int price) {
-        SQLiteDatabase db = getWritableDatabase();
-        // 입력한 항목과 일치하는 행의 가격 정보 수정
-        // db.execSQL("UPDATE MONEYBOOK SET price=" + price + " WHERE item='" + item + "';");
-        db.close();
-    }
-
-    public void delete(String item) {
-        SQLiteDatabase db = getWritableDatabase();
-        // 입력한 항목과 일치하는 행 삭제
-        db.execSQL("DELETE FROM MONEYBOOK WHERE item='" + item + "';");
-        db.close();
-    }
-
-    public List<String[]> getAll(String tableName) {
-        // 읽기가 가능하게 DB 열기
-        SQLiteDatabase db = getReadableDatabase();
-        ArrayList<String[]> result = new ArrayList<>();
-
-        // Cursor를 사용하여 테이블에 있는 모든 데이터 출력
-        Cursor cursor = db.rawQuery("SELECT * FROM " + tableName, null);
-        /*
-        while (cursor.moveToNext()) {
-
-            result += cursor.getString(0)
-                    + " : "
-                    + cursor.getString(1)
-                    + " | "
-                    + cursor.getInt(2)
-                    + "원 "
-                    + cursor.getString(3)
-                    + "\n";
-        }
-        */
-        return result;
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
 }
 
