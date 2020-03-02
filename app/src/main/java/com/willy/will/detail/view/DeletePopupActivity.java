@@ -3,7 +3,7 @@ package com.willy.will.detail.view;
 import android.content.Intent;
 import android.os.Bundle;
 import com.willy.will.R;
-import com.willy.will.search.model.PopupActivity;
+import com.willy.will.common.model.PopupActivity;
 
 public class DeletePopupActivity extends PopupActivity {
 

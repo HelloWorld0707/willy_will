@@ -10,7 +10,7 @@ import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
-import com.willy.will.search.model.PopupActivity;
+import com.willy.will.common.model.PopupActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;

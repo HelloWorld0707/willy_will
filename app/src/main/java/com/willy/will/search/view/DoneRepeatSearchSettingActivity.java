@@ -11,7 +11,7 @@ import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.controller.App;
-import com.willy.will.search.model.PopupActivity;
+import com.willy.will.common.model.PopupActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;

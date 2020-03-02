@@ -13,7 +13,7 @@ import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
-import com.willy.will.search.model.PopupActivity;
+import com.willy.will.common.model.PopupActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -104,10 +104,7 @@ public class GroupSearchSettingActivity extends PopupActivity {
      * @param view
      */
     public void onSelectAll(View view) {
-        if(selectingAllView.isSelected()) {
-            selectingAllView.setSelected(false);
-        }
-        else {
+        if(!selectingAllView.isSelected()) {
             selectingAllView.setSelected(true);
             ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
             recyclerView.getAdapter().notifyDataSetChanged();

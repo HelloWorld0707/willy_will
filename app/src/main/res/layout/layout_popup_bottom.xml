@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:context=".search.model.PopupActivity">
+    tools:context=".common.model.PopupActivity">
 
     <ImageButton
         android:id="@+id/group_search_setting_cancel"

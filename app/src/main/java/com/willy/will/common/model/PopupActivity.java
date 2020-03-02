@@ -1,4 +1,4 @@
-package com.willy.will.search.model;
+package com.willy.will.common.model;
 
 import android.app.Activity;
 import android.content.Intent;

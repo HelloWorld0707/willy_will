@@ -39,20 +39,34 @@ public class RecyclerViewSetter {
     private SelectionTracker tracker = null;
     /* ~For Setting RecyclerView */
 
+    /** For Group Search Setting **/
+    private TextView selectingAllView = null;
+    /* ~For Group Search Setting */
+
     public RecyclerViewSetter(int recyclerViewId,
                               View view,
                               int typeId,
                               ArrayList dataSet,
                               int selectionId,
                               boolean multipleSelection) {
+        // Set Resources
+        resources = view.getResources();
+        /** Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) **/
+        TO_DO_CODE = resources.getInteger(R.integer.to_do_recycler_item_type);
+        GROUP_CODE = resources.getInteger(R.integer.group_search_setting_recycler_item_type);
+        DONE_CODE = resources.getInteger(R.integer.done_search_setting_recycler_item_type);
+        DISTANCE_CODE = resources.getInteger(R.integer.distance_search_setting_recycler_item_type);
+        /* ~Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) */
+
+        if(resources.getInteger(typeId) == GROUP_CODE) {
+            selectingAllView = view.findViewById(R.id.selecting_all);
+        }
+
         recyclerId = recyclerViewId;
         parentView = view;
         tId = typeId;
         list = dataSet;
         selectId = selectionId;
-
-        resources = parentView.getResources();
-
         /** Set selection predicate for tracker **/
         if(multipleSelection) {
             predicate = SelectionPredicates.<Long>createSelectAnything();
@@ -61,13 +75,6 @@ public class RecyclerViewSetter {
             predicate = SelectionPredicates.createSelectSingleAnything();
         }
         /* ~Set selection predicate for tracker */
-
-        /** Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) **/
-        TO_DO_CODE = resources.getInteger(R.integer.to_do_recycler_item_type);
-        GROUP_CODE = resources.getInteger(R.integer.group_search_setting_recycler_item_type);
-        DONE_CODE = resources.getInteger(R.integer.done_search_setting_recycler_item_type);
-        DISTANCE_CODE = resources.getInteger(R.integer.distance_search_setting_recycler_item_type);
-        /* ~Set codes by type (also written in RecyclerViewHolder:RecyclerViewHolder) */
     }
 
     // Set RecyclerView, LayoutManager, Adapter, and Tracker
@@ -130,9 +137,13 @@ public class RecyclerViewSetter {
 
     private void changeGroupItem() {
         if(tracker.hasSelection()) {
-            TextView selectingAllView = parentView.findViewById(R.id.selecting_all);
             if(selectingAllView.isSelected()) {
                 selectingAllView.setSelected(false);
+            }
+        }
+        else {
+            if(!selectingAllView.isSelected()) {
+                selectingAllView.setSelected(true);
             }
         }
     }
