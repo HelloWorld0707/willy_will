@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".add.view.AddItemRepeatActivity"></activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

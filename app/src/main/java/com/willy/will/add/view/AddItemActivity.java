@@ -16,6 +16,7 @@ import com.willy.will.common.view.GroupManagementActivity;
 public class AddItemActivity extends Activity{
     int y=0, m=0, d=0;
     Switch repeat_switch;
+    private View checkBox_group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,9 @@ public class AddItemActivity extends Activity{
         setContentView(R.layout.activity_itemadd);
         repeat_switch = (Switch) findViewById(R.id.repeat_switch);
 ;
+        checkBox_group = findViewById(R.id.checkBox_group);
 
+        
         /******* Group buuton -> moving ********************/
         Button bnt_group = findViewById(R.id.bnt_group);
         bnt_group.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +60,11 @@ public class AddItemActivity extends Activity{
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                 // checked -> add_item_repeat
                 if (repeat_switch.isChecked() == true) {
-                    Intent intent = new Intent(AddItemActivity.this, AddItemRepeatActivity.class);
-                    startActivity(intent);
-
+                    checkBox_group.setVisibility(View.VISIBLE);
                     // switch off
-                    repeat_switch.setChecked(false);
+                }
+                else {
+                    checkBox_group.setVisibility(View.GONE);
                 }
             }
         });
