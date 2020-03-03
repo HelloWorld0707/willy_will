@@ -7,6 +7,11 @@
     <integer name="distance_search_setting_code">4</integer>
     <!-- ~Search Setting Code -->
 
+    <!-- Group Search Setting -->
+    <integer name="ghost_item_group_id">-8</integer>
+    <integer name="no_group_id">-1</integer>
+    <!-- ~Group Search Setting -->
+
     <!-- Length for Distance Set -->
     <integer name="equivalence_to_long">1000</integer>
     <integer-array name="length_list">
