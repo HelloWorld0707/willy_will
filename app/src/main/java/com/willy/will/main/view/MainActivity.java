@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,12 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
@@ -32,7 +27,6 @@ import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.search.view.SearchActivity;
 
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -49,9 +43,6 @@ public class MainActivity extends AppCompatActivity{
 
     private DrawerLayout drawer;
     private View drawerView;
-    private TextView tvGroup;
-    private TextView tvTask;
-    private TextView tvAlarm;
 
     private TextView tv_date;
     private Calendar todayDate;
@@ -68,7 +59,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        Log.d("check open app","**********오픈~_~*************");
 
         dbHelper = new DBAccess(this, "willy.db", null, 2);
         dummyCreate();
@@ -255,8 +245,6 @@ public class MainActivity extends AppCompatActivity{
         AlertDialog alert = builder.create();
         alert.show();
     }
-
-
     /* ~terminate application */
 
     /** Create Sample Data*/
