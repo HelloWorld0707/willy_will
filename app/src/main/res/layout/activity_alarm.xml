@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    tools:context=".detail.view.DetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view"
+        android:background="@drawable/layout_border">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            style="@style/BackButtonStyle"
+            android:onClick="backToMain" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf = "parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar">
+
+
+        <Switch
+            android:id="@+id/repeat_switch"
+            style="@style/DetailTitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="30dp"
+            android:text="할일 알람"
+            android:textColor="#4CAF50"
+            android:textOff="OFF"
+            android:textOn="ON"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
