@@ -10,111 +10,111 @@
     android:id="@+id/drawer_layout"
     tools:context=".main.view.MainActivity">
 
-    <include layout="@layout/nav_view"/>
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".main.view.MainActivity">
-
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:context=".main.view.MainActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/basic_padding"
-            android:paddingTop="@dimen/basic_padding"
-            android:paddingBottom="@dimen/basic_padding">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/basic_padding"
+                android:paddingTop="@dimen/basic_padding"
+                android:paddingBottom="@dimen/basic_padding">
 
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="TextView"
-                    android:textColor="@color/colorString"
-                    android:textSize="@dimen/main_date_text_size"
-                    android:textStyle="bold" />
-
-                <ImageButton
-                    android:id="@+id/btnSearch"
-                    android:layout_width="@dimen/actionbar_button_size"
-                    android:layout_height="@dimen/actionbar_button_size"
-                    android:layout_alignBottom="@id/tv_date"
-                    android:layout_alignParentBottom="false"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
-                    android:layout_marginStart="@dimen/button_margin"
-                    android:layout_marginTop="@dimen/button_margin"
-                    android:layout_marginEnd="@dimen/button_margin"
-                    android:layout_marginBottom="@dimen/button_margin"
-                    android:layout_toLeftOf="@id/btnCalendar"
-                    android:background="@drawable/ic_search_24px"
-                    android:onClick="btnSearchClick" />
+                    android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/btnCalendar"
-                    android:layout_width="@dimen/actionbar_button_size"
-                    android:layout_height="@dimen/actionbar_button_size"
-                    android:layout_alignBottom="@id/tv_date"
-                    android:layout_alignParentRight="false"
-                    android:layout_gravity="bottom"
-                    android:layout_marginStart="@dimen/button_margin"
-                    android:layout_marginTop="@dimen/button_margin"
-                    android:layout_marginEnd="@dimen/button_margin"
-                    android:layout_marginBottom="@dimen/button_margin"
-                    android:layout_toLeftOf="@id/btnSetting"
-                    android:background="@drawable/ic_date_range_24px"
-                    android:onClick="btnCalendarClick" />
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="TextView"
+                        android:textColor="@color/colorString"
+                        android:textSize="@dimen/main_date_text_size"
+                        android:textStyle="bold" />
 
-                <ImageButton
-                    android:id="@+id/btnSetting"
-                    android:layout_width="@dimen/actionbar_button_size"
-                    android:layout_height="@dimen/actionbar_button_size"
-                    android:layout_alignBottom="@id/tv_date"
-                    android:layout_marginStart="@dimen/button_margin"
-                    android:layout_marginTop="@dimen/button_margin"
-                    android:layout_marginEnd="@dimen/button_margin"
-                    android:layout_marginBottom="@dimen/button_margin"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="bottom|left"
-                    android:background="@drawable/ic_settings_24px"
-                    android:onClick="btnSettingClick" />
-            </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/btnSearch"
+                        android:layout_width="@dimen/actionbar_button_size"
+                        android:layout_height="@dimen/actionbar_button_size"
+                        android:layout_alignBottom="@id/tv_date"
+                        android:layout_alignParentBottom="false"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/button_margin"
+                        android:layout_marginTop="@dimen/button_margin"
+                        android:layout_marginEnd="@dimen/button_margin"
+                        android:layout_marginBottom="@dimen/button_margin"
+                        android:layout_toLeftOf="@id/btnCalendar"
+                        android:background="@drawable/ic_search_24px"
+                        android:onClick="btnSearchClick" />
 
-            <Spinner
-                android:id="@+id/sp_group"
-                android:layout_width="@dimen/spinner_width"
-                android:layout_height="wrap_content" />
+                    <ImageButton
+                        android:id="@+id/btnCalendar"
+                        android:layout_width="@dimen/actionbar_button_size"
+                        android:layout_height="@dimen/actionbar_button_size"
+                        android:layout_alignBottom="@id/tv_date"
+                        android:layout_alignParentRight="false"
+                        android:layout_gravity="bottom"
+                        android:layout_marginStart="@dimen/button_margin"
+                        android:layout_marginTop="@dimen/button_margin"
+                        android:layout_marginEnd="@dimen/button_margin"
+                        android:layout_marginBottom="@dimen/button_margin"
+                        android:layout_toLeftOf="@id/btnSetting"
+                        android:background="@drawable/ic_date_range_24px"
+                        android:onClick="btnCalendarClick" />
 
+                    <ImageButton
+                        android:id="@+id/btnSetting"
+                        android:layout_width="@dimen/actionbar_button_size"
+                        android:layout_height="@dimen/actionbar_button_size"
+                        android:layout_alignBottom="@id/tv_date"
+                        android:layout_marginStart="@dimen/button_margin"
+                        android:layout_marginTop="@dimen/button_margin"
+                        android:layout_marginEnd="@dimen/button_margin"
+                        android:layout_marginBottom="@dimen/button_margin"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="bottom|left"
+                        android:background="@drawable/ic_settings_24px"
+                        android:onClick="btnSettingClick" />
+                </RelativeLayout>
+
+                <Spinner
+                    android:id="@+id/sp_group"
+                    android:layout_width="@dimen/spinner_width"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fragmentcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/fragmentcontainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
-    </LinearLayout>
+        <!-- Fab -->
+        <include layout="@layout/content_base" />
 
-    <!-- Fab -->
-    <include layout="@layout/content_base" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabItemAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add_24px"
+            app:backgroundTint="@color/colorPrimary"/>
+        <!-- ~Fab -->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabItemAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_24px"
-        app:backgroundTint="@color/colorPrimary"/>
-    <!-- ~Fab -->
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include layout="@layout/nav_view"/>
 </androidx.drawerlayout.widget.DrawerLayout>

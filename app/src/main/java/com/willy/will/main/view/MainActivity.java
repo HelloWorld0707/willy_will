@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,11 +24,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
+import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.search.view.SearchActivity;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -35,18 +42,17 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity{
 
     public static DBAccess dbHelper;
-    //var for spinner
+
     private Spinner sp_group;
     private ArrayList<String> spgroupList;
     private ArrayAdapter<String> spgroupAdapter;
-    //~var for spinner
 
-    //var for navigation drawer
     private DrawerLayout drawer;
     private View drawerView;
-    //~var for navigation drawer
+    private TextView tvGroup;
+    private TextView tvTask;
+    private TextView tvAlarm;
 
-    //var for date txt
     private TextView tv_date;
     private Calendar todayDate;
     private SimpleDateFormat sdf;
@@ -141,25 +147,6 @@ public class MainActivity extends AppCompatActivity{
         /* ~set fab event Listener */
     }
 
-    /**Setting action for drawer menu**/
-    DrawerLayout.DrawerListener naviListener = new DrawerLayout.DrawerListener() {
-        @Override
-        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) { }
-
-        @Override
-        public void onDrawerOpened(@NonNull View drawerView) {
-            drawer.openDrawer(drawerView);
-        }
-
-        @Override
-        public void onDrawerClosed(@NonNull View drawerView) { }
-
-        @Override
-        public void onDrawerStateChanged(int newState) { }
-    };
-    /*~Setting action for drawer menu*/
-
-
     /** Function: Move to SearchView */
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
@@ -181,10 +168,35 @@ public class MainActivity extends AppCompatActivity{
 
     /** Open navigation drawer */
     public void btnSettingClick(View view){
-        naviListener.onDrawerOpened(drawerView);
+        if(!drawer.isDrawerOpen(drawerView)) {
+            drawer.openDrawer(drawerView);
+        }
     }
     /*~ Open navigation drawer */
 
+    /** Move to GroupManagementActivity */
+    public void btnGrSettingClick(View view){
+        Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        drawer.closeDrawer(drawerView);
+        startActivity(intent);
+    }
+    /* ~Move to GroupManagementActivity */
+
+    /** Move to TaskManagementActivity */
+    public void btnTaskSettingClick(View view){
+        Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        drawer.closeDrawer(drawerView);
+        startActivity(intent);
+    }
+    /* ~Move to GroupManagementActivity */
+
+    /** Move to AlarmManagementActivity */
+    public void btnArsettingClick(View view){
+        Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        drawer.closeDrawer(drawerView);
+        startActivity(intent);
+    }
+    /* ~Move to GroupManagementActivity */
 
     /** Open Date picker and deleting original fragment
         and creating new fragment of selected date **/

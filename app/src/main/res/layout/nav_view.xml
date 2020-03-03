@@ -38,7 +38,8 @@
             android:layout_below="@+id/nav_line"
             android:layout_marginStart="@dimen/nav_margin"
             android:layout_marginTop="@dimen/nav_menu_top_margin"
-            android:src="@drawable/ic_folder"></ImageView>
+            android:src="@drawable/ic_folder"
+            android:onClick="btnGrSettingClick"></ImageView>
 
         <TextView
             android:id="@+id/tv_group_name"
@@ -52,7 +53,7 @@
             android:text="@string/group_setting"
             android:textSize="@dimen/nav_menu_text"
             android:textColor="@color/colorString"
-            android:onClick="OnClick"></TextView>
+            android:onClick="btnGrSettingClick"></TextView>
 
         <ImageView
             android:id="@+id/nav_ic_task"
@@ -61,7 +62,8 @@
             android:layout_below="@+id/nav_ic_group"
             android:layout_marginStart="@dimen/nav_margin"
             android:layout_marginTop="@dimen/nav_menu_top_margin"
-            android:src="@drawable/ic_task_24px"></ImageView>
+            android:src="@drawable/ic_task_24px"
+            android:onClick="btnTaskSettingClick"></ImageView>
 
         <TextView
             android:id="@+id/tv_task_name"
@@ -76,7 +78,7 @@
             android:text="@string/task_setting"
             android:textSize="@dimen/nav_menu_text"
             android:textColor="@color/colorString"
-            android:onClick="OnClick"></TextView>
+            android:onClick="btnTaskSettingClick"></TextView>
 
         <ImageView
             android:id="@+id/nav_ic_alarm"
@@ -85,7 +87,8 @@
             android:layout_below="@+id/nav_ic_task"
             android:layout_marginStart="@dimen/nav_margin"
             android:layout_marginTop="@dimen/nav_menu_top_margin"
-            android:src="@drawable/ic_alarm_24px"></ImageView>
+            android:src="@drawable/ic_alarm_24px"
+            android:onClick="btnArsettingClick"></ImageView>
 
         <TextView
             android:id="@+id/tv_alarm_name"
@@ -99,7 +102,7 @@
             android:text="@string/alarm_setting"
             android:textColor="@color/colorString"
             android:textSize="@dimen/nav_menu_text"
-            android:onClick="OnClick"></TextView>
+            android:onClick="btnArsettingClick"></TextView>
 
         <TextView
             android:id="@+id/app_detail"
