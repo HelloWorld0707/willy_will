@@ -28,20 +28,17 @@ import com.willy.will.database.DBAccess;
 import com.willy.will.search.view.SearchActivity;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Properties;
 
 public class MainActivity extends AppCompatActivity{
 
     public static DBAccess dbHelper;
     //var for spinner
     private Spinner sp_group;
-    ArrayList<String> spgroupList;
-    ArrayAdapter<String> spgroupAdapter;
+    private ArrayList<String> spgroupList;
+    private ArrayAdapter<String> spgroupAdapter;
     //~var for spinner
 
     //var for navigation drawer
@@ -50,12 +47,12 @@ public class MainActivity extends AppCompatActivity{
     //~var for navigation drawer
 
     //var for date txt
-    TextView tv_date;
-    Calendar todayDate;
-    SimpleDateFormat sdf;
-    SimpleDateFormat sdf2;
-    String baseDate;
-    String sendDate;
+    private TextView tv_date;
+    private Calendar todayDate;
+    private SimpleDateFormat sdf;
+    private SimpleDateFormat sdf2;
+    private String baseDate;
+    private String sendDate;
 
 
     MainFragment fragmentmain;
