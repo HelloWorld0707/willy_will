@@ -8,6 +8,25 @@
     tools:context=".add.view.AddItemActivity">
 
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            style="@style/ActionBtnStyle"
+            android:layout_width="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="50dp"
+            android:foreground="?attr/homeAsUpIndicator"
+            android:onClick="Tomain" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -16,29 +35,15 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
-            android:layout_height="393dp"
+            android:layout_height="360dp"
             android:background="@drawable/round_corner"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp">
-
-                <ImageButton
-                    android:id="@+id/back_button"
-                    style="@style/ActionBtnStyle"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="0dp"
-                    android:foreground="?attr/homeAsUpIndicator"
-                    android:onClick="Tomain" />
-            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -49,7 +54,7 @@
                 <EditText
                     android:id="@+id/editText3"
                     android:layout_width="match_parent"
-                    android:layout_height="95dp"
+                    android:layout_height="match_parent"
                     android:background="@null"
                     android:ems="10"
                     android:hint="@string/edit_Title"
@@ -67,7 +72,7 @@
                     android:id="@+id/bnt_group"
                     style="@style/DetailTitleStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/detail_list_thick_height"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="0dp"
                     android:background="#00ff0000"
@@ -102,7 +107,7 @@
                     android:textColor="@color/dark_gray"
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editText11"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -111,7 +116,8 @@
                     android:ems="10"
                     android:gravity="right|center_horizontal|center_vertical"
                     android:hint="@string/Date"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:textSize="18dp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -130,7 +136,7 @@
                     android:textColor="@color/dark_gray"
                     android:textSize="18sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editText12"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -139,28 +145,47 @@
                     android:ems="10"
                     android:gravity="right|center_horizontal|center_vertical"
                     android:hint="@string/Date"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp">
+
+                <Button
+                    android:id="@+id/textView3"
+                    style="@style/DetailTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:background="#00ff0000"
+                    android:text="위치"
+                    android:textColor="#4CAF50"
+                    android:textSize="18sp" />
+
             </RelativeLayout>
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/round_corner2"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
+                android:layout_height="wrap_content">
 
                 <Switch
                     android:id="@+id/repeat_switch"
                     style="@style/DetailTitleStyle"
-                    android:layout_width="103dp"
+                    android:layout_width="100dp"
                     android:layout_height="64dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="30dp"
@@ -169,26 +194,11 @@
                     android:textOff="반복안함"
                     android:textOn="반복"
                     android:textSize="18sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    style="@style/DetailTitleStyle"
-                    android:layout_width="63dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="30dp"
-                    android:text="위치"
-                    android:textColor="@color/light_gray"
-                    android:textSize="18sp" />
 
             </RelativeLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
 
