@@ -1,6 +1,7 @@
 package com.willy.will.search.view;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -38,13 +39,15 @@ public class GroupSearchSettingActivity extends PopupActivity {
         super.onCreate(savedInstanceState);
 
         /** Set data of items **/
+        Resources resources = getResources();
         groupList = new ArrayList<>();
-        groupList.add(new Group(-1, "", ""));
+        groupList.add(new Group(resources.getInteger(R.integer.ghost_item_group_id), "", ""));
         groupList.add(new Group(1, "첫 번째 그룹", "80FF3C3C"));
         groupList.add(new Group(2, "두 번째 그룹", "80FF3C3C"));
         groupList.add(new Group(3, "세 번째 그룹", "80FF3C3C"));
         groupList.add(new Group(4, "네 번째 그룹", "80FF3C3C"));
         groupList.add(new Group(5, "다섯 번째 그룹", "80FF3C3C"));
+        groupList.add(new Group(resources.getInteger(R.integer.no_group_id), resources.getString(R.string.no_group), ""));
         /* ~Set data of items */
 
         /** Set Views **/
