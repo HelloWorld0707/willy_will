@@ -10,12 +10,11 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Switch;
-
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
 
 public class AddItemActivity extends Activity{
-    int y=0, m=0, d=0, h=0, mi=0;
+    int y=0, m=0, d=0;
     Switch repeat_switch;
 
     @Override
@@ -77,7 +76,6 @@ public class AddItemActivity extends Activity{
                 y = year;
                 m = month+1;
                 d = dayOfMonth;
-
             }
         },2019, 1, 11);
 

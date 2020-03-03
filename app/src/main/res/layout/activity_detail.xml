@@ -33,21 +33,20 @@
     </RelativeLayout>
 
 
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf = "parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent">
@@ -59,17 +58,17 @@
                 android:layout_height="@dimen/detail_list_thick_height"
                 android:background="@drawable/layout_bar"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/group_area"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/group_area">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent">
 
                 <ImageView
                     android:id="@+id/important"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:gravity="center_vertical" />
 
                 <TextView
                     android:id="@+id/item_name"
@@ -127,17 +126,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_bar"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/end_date_area"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/group_area"
-                app:layout_constraintBottom_toTopOf="@+id/end_date_area">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/group_area">
 
                 <RelativeLayout
                     android:id="@+id/start_date_area"
+                    style="@style/DetailListStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
-                    android:background="@drawable/layout_border"
-                    style="@style/DetailListStyle">
+                    android:background="@drawable/layout_border">
 
                     <TextView
                         style="@style/DetailTitleStyle"
@@ -158,14 +157,14 @@
 
                 <RelativeLayout
                     android:id="@+id/end_date_area"
+                    style="@style/DetailListStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:background="@drawable/layout_border"
-                    style="@style/DetailListStyle"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/done_date_area"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/start_date_area"
-                    app:layout_constraintBottom_toTopOf="@+id/done_date_area">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/start_date_area">
 
                     <TextView
                         style="@style/DetailTitleStyle"
@@ -184,14 +183,14 @@
 
                 <RelativeLayout
                     android:id="@+id/done_date_area"
+                    style="@style/DetailListStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:background="@drawable/layout_border"
-                    style="@style/DetailListStyle"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/loof_area"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/end_date_area"
-                    app:layout_constraintBottom_toTopOf="@+id/loof_area">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/end_date_area">
 
                     <TextView
                         style="@style/DetailTitleStyle"
@@ -211,11 +210,11 @@
 
                 <RelativeLayout
                     android:id="@+id/loof_area"
+                    style="@style/DetailListStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
-                    style="@style/DetailListStyle"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/done_date_area">
 
                     <TextView
@@ -238,27 +237,27 @@
 
             <RelativeLayout
                 android:id="@+id/achievement_rate_area"
+                style="@style/DetailListStyle"
                 android:layout_width="match_parent"
                 android:layout_height="135dp"
                 android:background="@drawable/layout_bar"
-                style="@style/DetailListStyle"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/location_area"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date_area"
-                app:layout_constraintBottom_toTopOf="@+id/location_area">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_area">
 
                 <TextView
+                    style="@style/DetailTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/detail_list_thick_height"
-                    android:text="@string/week_achievement_rate"
-                    style="@style/DetailTitleStyle"/>
+                    android:text="@string/week_achievement_rate" />
 
                 <TextView
                     android:id="@+id/achievement_rate"
+                    style="@style/DetailTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/detail_list_thick_height"
-                    android:layout_alignParentRight="true"
-                    style="@style/DetailTitleStyle"/>
+                    android:layout_alignParentRight="true" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -269,39 +268,39 @@
 
                     <TextView
                         android:id="@+id/sunday"
-                        android:text="@string/sunday"
-                        style="@style/DetailDayStyle"/>
+                        style="@style/DetailDayStyle"
+                        android:text="@string/sunday" />
 
                     <TextView
                         android:id="@+id/monday"
-                        android:text="@string/monday"
-                        style="@style/DetailDayStyle"/>
+                        style="@style/DetailDayStyle"
+                        android:text="@string/monday" />
 
                     <TextView
                         android:id="@+id/tuesday"
-                        android:text="@string/tuesday"
-                        style="@style/DetailDayStyle"/>
+                        style="@style/DetailDayStyle"
+                        android:text="@string/tuesday" />
 
                     <TextView
                         android:id="@+id/wednesday"
-                        android:text="@string/wednesday"
-                        style="@style/DetailDayStyle"/>
+                        style="@style/DetailDayStyle"
+                        android:text="@string/wednesday" />
 
                     <TextView
                         android:id="@+id/thursday"
-                        android:text="@string/thursday"
-                        style="@style/DetailDayStyle"/>
+                        style="@style/DetailDayStyle"
+                        android:text="@string/thursday" />
 
                     <TextView
                         android:id="@+id/friday"
-                        android:text="@string/friday"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/achievement_false"
-                        style="@style/DetailDayStyle"/>
+                        android:text="@string/friday" />
 
                     <TextView
                         android:id="@+id/saturday"
-                        android:text="@string/saturday"
-                        style="@style/DetailDayStyle"/>
+                        style="@style/DetailDayStyle"
+                        android:text="@string/saturday" />
 
                 </LinearLayout>
 
@@ -313,6 +312,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/detail_list_padding"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
