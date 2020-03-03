@@ -28,7 +28,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private static BackgroundColorSpan inactiveColorSpan = new BackgroundColorSpan(App.getContext().getColor(R.color.colorInactive));
     private BackgroundColorSpan activeColorSpan = null;
 
-    private RecyclerViewAdapter rcyclrVAdapter = null;
+    private RecyclerViewAdapter rcyclerVAdapter = null;
 
     private Resources resources = null;
 
@@ -45,7 +45,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // Initialization of THE item (Called for each item)
     public <T> RecyclerViewHolder(RecyclerViewAdapter adapter, RecyclerViewItemType type, View view) {
         super(view);
-        rcyclrVAdapter = adapter;
+        rcyclerVAdapter = adapter;
         resources = view.getContext().getResources();
 
         // To-do
@@ -62,8 +62,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(cbDone.isPressed()) {
                         setActivation(b);
-                        ToDoItem toDoItem = (ToDoItem) rcyclrVAdapter.getData(getItemId());
+                        ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(getItemId());
                         toDoItem.setDone(b);
+
                     }
                 }
             });
@@ -150,15 +151,17 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            imgRoutine.setColorFilter(resources.getColor(R.color.colorInactive));
-            imgRank.setColorFilter(resources.getColor(R.color.colorInactive));
+            imgRoutine.getBackground().setTint(resources.getColor(R.color.colorInactive));
+            imgRank.getBackground().setTint(resources.getColor(R.color.colorInactive));
         }
         else {
             span.setSpan(activeColorSpan
                     , 0, tvName.length(),
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE); // need to fix (color)
+                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
+            imgRoutine.getBackground().setTint(resources.getColor(R.color.colorPrimary));
+            imgRank.getBackground().setTint(resources.getColor(R.color.colorPrimary));
         }
     }
 
