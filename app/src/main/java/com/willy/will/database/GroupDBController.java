@@ -8,6 +8,6 @@ public class GroupDBController {
     private SQLiteDatabase readDatabase = null;
 
     public GroupDBController(Context context) {
-        databaseAccess = new DBAccess(context);
+        //databaseAccess = dbHelper
     }
 }

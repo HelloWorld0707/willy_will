@@ -4,7 +4,19 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.willy.will.common.controller.App;
+
 public class DBAccess extends SQLiteOpenHelper {
+
+    private static DBAccess dbHelper = null;
+
+    static {
+        dbHelper = new DBAccess(App.getContext(), "willy.db", null, 2);
+    }
+
+    public static DBAccess getDbHelper() {
+        return dbHelper;
+    }
 
     // DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음
     public DBAccess(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

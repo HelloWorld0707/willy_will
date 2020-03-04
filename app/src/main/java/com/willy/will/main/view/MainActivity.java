@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        dbHelper = new DBAccess(this, "willy.db", null, 2);
+        dbHelper = DBAccess.getDbHelper();
         dummyCreate();
 
         /**set navigation Drawer**/
