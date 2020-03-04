@@ -43,7 +43,7 @@ public class GroupSearchSettingActivity extends PopupActivity {
         Resources resources = getResources();
         groupList = new ArrayList<>();
         groupList.add(new Group(resources.getInteger(R.integer.ghost_item_group_id), "", ""));
-        new GroupDBController().getAllGroups(groupList);
+        new GroupDBController().getAllGroups(groupList, getResources());
         groupList.add(new Group(resources.getInteger(R.integer.no_group_id), resources.getString(R.string.no_group), ""));
         /* ~Set data of items */
 
