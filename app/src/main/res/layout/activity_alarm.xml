@@ -35,22 +35,14 @@
         app:layout_constraintTop_toBottomOf="@+id/action_bar">
 
 
-        <Switch
-            android:id="@+id/repeat_switch"
-            style="@style/DetailTitleStyle"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="30dp"
-            android:text="할일 알람"
-            android:textColor="#4CAF50"
-            android:textOff="OFF"
-            android:textOn="ON"
-            android:textSize="18sp" />
-
+      <Switch
+          android:id="@+id/alarm_switch"
+          android:layout_width="100dp"
+          android:layout_height="wrap_content"
+          android:text="반복"
+          android:textOn="alarmOn"
+          android:textOff="alarmOff"/>
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
