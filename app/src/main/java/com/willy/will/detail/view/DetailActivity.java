@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,22 +14,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.appcompat.widget.PopupMenu;
 import com.willy.will.R;
-import com.willy.will.add.view.AddItemActivity;
-
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import com.willy.will.setting.AlarmActivity;
 
 
-public class DetailActivity extends Activity implements MapView.MapViewEventListener {
+public class DetailActivity extends Activity {
 
     ImageView important, groupColor;
     ImageButton editButton;
@@ -40,14 +26,10 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     String roofDay = "";
     String addressName, buildingName;
     String[] days = {"일","월","화","수","목","금","토"};
-    MapPoint markerPoint;
     ScrollView scrollView;
     double latitude, longitude;
 
     Intent intent;
-    MapView mapView;
-    ViewGroup mapViewContainer;
-    MapPOIItem marker;
 
     int tmpImportance;
     String tmpItemName, tmpGroupName, tmpRoof, tmpDate;
@@ -80,7 +62,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         doneDateArea = findViewById(R.id.done_date_area);
         roof = findViewById(R.id.loof);
         address = findViewById(R.id.address);
-        mapViewContainer = findViewById(R.id.map_view);
         scrollView = findViewById(R.id.scroll_view);
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
@@ -96,7 +77,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         tmpRoof = "0111111";
         latitude = 37.53737528;
         longitude = 127.00557633;
-        markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
 
 
         // 1. set importance
@@ -159,15 +139,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 */
 
 
-        //6. get Address
-        getAddress(longitude, latitude);
-
-
-
-        //7. kakao map
-        mapView = new MapView(this);
-        mapView.setMapViewEventListener(this);
-        mapViewContainer.addView(mapView);
 
 
     }
@@ -191,7 +162,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.btn_modify:
-                        intent = new Intent(DetailActivity.this, AddItemActivity.class);
+                        intent = new Intent(DetailActivity.this, AlarmActivity.class);
                         intent.putExtra("itemId",1);
                         startActivity(intent);
                         return true;
@@ -233,132 +204,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     }
 
 
-
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-20
-     * Created By: Kim Mikyung
-     * Function: Convert longitude and latitude to address
-     * @param longitude, latitude
-     */
-    private void getAddress(final double longitude, final double latitude) {
-
-        new Thread(new Runnable() {
-            String json = null;
-
-            @Override
-            public void run() {
-                try {
-                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84"; // json
-                    URL url = new URL(apiURL);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18"); //header
-                    int responseCode = con.getResponseCode();
-                    BufferedReader br = null;
-
-                    if (responseCode == 200) { // 정상 호출
-                        Log.d(TAG, "getPointFromNaver: 정상호출");
-                        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    }
-
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-                    while ((inputLine = br.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    br.close();
-
-                    json = response.toString();
-                    if (json == null) {
-                        return;
-                    }
-
-                    JSONObject jsonObject = new JSONObject(json);
-                    JSONArray resultsArray = jsonObject.getJSONArray("documents");
-                    JSONObject jsonObject1 = resultsArray.getJSONObject(0);
-                    JSONObject dataObject = (JSONObject) jsonObject1.get("road_address");
-
-                    addressName = dataObject.getString("address_name");
-                    buildingName = dataObject.getString("building_name");
-
-                    address.setText(addressName);
-                    marker = new MapPOIItem();
-                    marker.setItemName(buildingName);
-                    marker.setMapPoint(markerPoint);
-                    marker.setShowDisclosureButtonOnCalloutBalloon(false);
-                    mapView.addPOIItem(marker);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-
-
-
-    /**
-     * Last Modified:
-     * Last Modified By: -
-     * Created: 2020-02-20
-     * Created By: Kim Mikyung
-     * Function: kakaomap EventListener
-     */
-    @Override
-    public void onMapViewInitialized(MapView mapView) {
-        mapView.setMapCenterPoint(markerPoint, true);
-    }
-
-    @Override
-    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
-
-    @Override
-    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
-        scrollView.requestDisallowInterceptTouchEvent(true);
-
-    }
 }
 
 
