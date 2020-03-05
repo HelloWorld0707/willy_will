@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- database information -->
+    <string name="database_file_name">will.db</string>
+    <integer name="database_version">2</integer>
+    <!-- ~database information -->
+
+    <!-- table names -->
+    <string name="calendar_table">_CALENDAR</string>
+    <string name="group_table">_GROUP</string>
+    <string name="item_table">_ITEM</string>
+    <string name="loop_info_table">_LOOP_INFO</string>
+    <!-- ~table names -->
+
+    <!-- columns -->
+    <string name="calendar_id_column">calendar_id</string>
+    <string name="calendar_date_column">calendar_date</string>
+
+    <string name="group_id_column">group_id</string>
+    <string name="group_name_column">group_name</string>
+    <string name="group_color_column">group_color</string>
+
+    <string name="item_id_column">item_id</string>
+    <string name="item_name_column">item_name</string>
+    <string name="item_important_column">item_important</string>
+    <string name="item_location_X_column">item_location_X</string>
+    <string name="item_location_Y_column">item_location_Y</string>
+    <string name="done_date_column">done_date</string>
+    <string name="start_date_column">start_date</string>
+    <string name="end_date_column">end_date</string>
+    <string name="to_do_id_column">to_do_id</string>
+
+    <string name="loop_id_column">loop_id</string>
+    <string name="loop_week_column">loop_week</string>
+    <!-- ~columns -->
+</resources>
