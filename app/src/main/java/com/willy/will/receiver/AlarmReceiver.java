@@ -16,11 +16,12 @@ import com.willy.will.detail.view.DetailActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context,"Alarm!", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context,"Alarm!", Toast.LENGTH_LONG).show();
 
-        /*
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, DetailActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -45,20 +46,21 @@ public class AlarmReceiver extends BroadcastReceiver {
             builder.setSmallIcon(R.mipmap.ic_launcher); // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
         }
 
+        for(int i=0;i<5;i++){
+            builder.setAutoCancel(true)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setTicker("{Time to watch some cool stuff!}")
+                    .setContentTitle("상태바 드래그시 보이는 타이틀" + i)
+                    .setContentText("상태바 드래그시 보이는 서브타이틀" + i)
+                    .setContentInfo("INFO")
+                    .setContentIntent(pendingI);
 
-        builder.setAutoCancel(true)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setTicker("{Time to watch some cool stuff!}")
-                .setContentTitle("상태바 드래그시 보이는 타이틀")
-                .setContentText("상태바 드래그시 보이는 서브타이틀")
-                .setContentInfo("INFO")
-                .setContentIntent(pendingI);
+            if (notificationManager != null) {
+                notificationManager.notify(i, builder.build());// 노티피케이션 동작시킴
+            }
 
-        if (notificationManager != null) {
-            notificationManager.notify(1234, builder.build());// 노티피케이션 동작시킴
         }
-        *
-         */
+
     }
 }

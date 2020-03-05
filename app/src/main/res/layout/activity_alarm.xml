@@ -35,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/action_bar">
 
 
+
       <Switch
           android:id="@+id/alarm_switch"
           android:layout_width="100dp"
