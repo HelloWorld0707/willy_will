@@ -282,24 +282,91 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     @Override
     protected boolean setResults(Intent intent) {
         try {
-            if (!startOfStartDate.equals("") && !endOfStartDate.equals("")) {
-                if (simpleDateFormat.parse(startOfStartDate).getTime() > simpleDateFormat.parse(endOfStartDate).getTime()) {
+            long comparison = 0L;
+            long doneComparison = 0L;
+            long current = 0L;
+            /** Check start date **/
+            // Check start of start date
+            if(!startOfStartDate.equals("")) {
+                comparison = simpleDateFormat.parse(startOfStartDate).getTime();
+                doneComparison = comparison;
+            }
+            // Check end of start date
+            if(!endOfStartDate.equals("")) {
+                current = simpleDateFormat.parse(endOfStartDate).getTime();
+                // startOfStartDate <= endOfStartDate ?
+                if(comparison <= current) {
+                    comparison = current;
+                }
+                else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
-            if (!startOfEndDate.equals("") && !endOfEndDate.equals("")) {
-                if (simpleDateFormat.parse(startOfEndDate).getTime() > simpleDateFormat.parse(endOfEndDate).getTime()) {
+            /* ~Check start date */
+            /** Check end date **/
+            // Check start of end date
+            if(!startOfEndDate.equals("")) {
+                current = simpleDateFormat.parse(startOfEndDate).getTime();
+                // comparison (startOfStartDate or endOfStartDate) <= startOfEndDate ?
+                if(comparison <= current) {
+                    comparison = current;
+                }
+                else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
-            if (onlyDone && !startOfDoneDate.equals("") && !endOfDoneDate.equals("")) {
-                if (simpleDateFormat.parse(startOfDoneDate).getTime() > simpleDateFormat.parse(endOfDoneDate).getTime()) {
+            // Check end of end date
+            if(!endOfEndDate.equals("")) {
+                current = simpleDateFormat.parse(endOfEndDate).getTime();
+                // comparison (startOfStartDate, endOfStartDate, or startOfEndDate) <= endOfEndDate ?
+                if(comparison <= current) {
+                    comparison = current;
+                }
+                else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
+            /* ~Check end date */
+            /** Check done date **/
+            if(onlyDone) {
+                // Check start of done date
+                if(!startOfDoneDate.equals("")) {
+                    current = simpleDateFormat.parse(startOfDoneDate).getTime();
+                    // startOfStartDate <= startOfDoneDate ?
+                    if(doneComparison <= current) {
+                        doneComparison = current;
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    if(endOfDoneDate.equals("")) {
+                        // startOfDoneDate <= endOfEndDate ? correct date : wrong date
+                        if(!endOfEndDate.equals("") && (current > comparison)) {
+                            Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    }
+                }
+                // Check end of done date
+                if(!endOfDoneDate.equals("")) {
+                    current = simpleDateFormat.parse(endOfDoneDate).getTime();
+                    // doneComparison (startOfStartDate or startOfDoneDate) <= endOfDoneDate ? correct date : wrong date
+                    if((doneComparison > 0L) && (doneComparison > current)) {
+                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    // endOfDoneDate <= endOfEndDate ? correct date : wrong date
+                    if(!endOfEndDate.equals("") && (current > comparison)) {
+                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+            }
+            /* ~Check done date */
         }
         catch (ParseException e) {
             Log.e("PeriodSearchSettingActivity", "Results: "+e.getMessage());
@@ -307,12 +374,14 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             return false;
         }
 
+        /** Put results in the intent **/
         intent.putExtra(startOfStartDateKey, startOfStartDate);
         intent.putExtra(endOfStartDateKey, endOfStartDate);
         intent.putExtra(startOfEndDateKey, startOfEndDate);
         intent.putExtra(endOfEndDateKey, endOfEndDate);
         intent.putExtra(startOfDoneDateKey, startOfDoneDate);
         intent.putExtra(endOfDoneDateKey, endOfDoneDate);
+        /* ~Put results in the intent */
         return true;
     }
 

@@ -55,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
     private String endOfStartDate = null;
     private String startOfEndDate = null;
     private String endOfEndDate = null;
+    private boolean onlyDone;
     private String startOfDoneDate = null;
     private String endOfDoneDate = null;
     private Distance selectedDistance;
@@ -166,14 +167,7 @@ public class SearchActivity extends AppCompatActivity {
         intent.putExtra(endOfStartDateKey, endOfStartDate);
         intent.putExtra(startOfEndDateKey, startOfEndDate);
         intent.putExtra(endOfEndDateKey, endOfEndDate);
-        if(selectedDone.equals(resources.getString(R.string.done))) {
-            intent.putExtra(resources.getString(R.string.only_done_key), true);
-        }
-        else {
-            intent.putExtra(resources.getString(R.string.only_done_key), false);
-            startOfDoneDate = "";
-            endOfDoneDate = "";
-        }
+        intent.putExtra(resources.getString(R.string.only_done_key), onlyDone);
         intent.putExtra(startOfDoneDateKey, startOfDoneDate);
         intent.putExtra(endOfDoneDateKey, endOfDoneDate);
 
@@ -199,6 +193,7 @@ public class SearchActivity extends AppCompatActivity {
         endOfStartDate = "";
         startOfEndDate = "";
         endOfEndDate = current;
+        onlyDone = false;
         startOfDoneDate = "";
         endOfDoneDate = "";
         selectedDistance = DistanceSet.distances.get(0);
@@ -220,6 +215,18 @@ public class SearchActivity extends AppCompatActivity {
             // Done and Repeat Search Setting
             else if (requestCode == getResources().getInteger(R.integer.done_repeat_search_setting_code)) {
                 selectedDone = data.getStringExtra(selectedDoneKey);
+                if(selectedDone.equals(resources.getString(R.string.done))) {
+                    if(!onlyDone) {
+                        onlyDone = true;
+                    }
+                }
+                else {
+                    if(onlyDone) {
+                        onlyDone = false;
+                        startOfDoneDate = "";
+                        endOfDoneDate = "";
+                    }
+                }
                 includedRepeat = data.getBooleanExtra(includedRepeatKey, true);
             }
             // Period Search Setting

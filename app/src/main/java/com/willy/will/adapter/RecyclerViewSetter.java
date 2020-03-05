@@ -101,6 +101,8 @@ public class RecyclerViewSetter {
                 else if (type == RecyclerViewItemType.GROUP_SEARCH) {
                     changeGroupItem();
                 }
+                // Done or Distance
+                else if (type == RecyclerViewItemType.DONE_SEARCH || type == RecyclerViewItemType.DISTANCE_SEARCH) { }
                 // ERROR: Wrong type
                 else {
                     Log.e("RecyclerViewSetter", "Setting: Wrong type");
