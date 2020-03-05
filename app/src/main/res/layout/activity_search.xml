@@ -39,9 +39,10 @@
         android:id="@+id/search_button"
         style="@style/ActionBtnStyle"
         android:foreground="@drawable/ic_search_24px"
-        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/search_text_input_layout" />
+        app:layout_constraintStart_toEndOf="@id/search_text_input_layout"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_setting_layout"

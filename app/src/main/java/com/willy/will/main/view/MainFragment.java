@@ -62,7 +62,7 @@ public class MainFragment extends Fragment {
         for(int i=0; i<20;i++){
             sample = new ToDoItem();
             sample.setName("sample"+i);
-            sample.setTime(getArguments().getString(ARG_NO,"Today"));
+            sample.setEndDate(getArguments().getString(ARG_NO,"Today"));
             sample.setDone(false);
             list.add(sample);
         }

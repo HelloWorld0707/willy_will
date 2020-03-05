@@ -17,12 +17,12 @@ import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.main.model.ToDoItem;
+import com.willy.will.search.controller.SearchController;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -43,6 +43,8 @@ public class SearchActivity extends AppCompatActivity {
     private Resources resources = null;
     private int code = 0;
     private String current = null;
+
+    private SearchController searchCtrl = null;
 
     private TextInputEditText textInputEditText = null;
     private RecyclerView recyclerView = null;
@@ -67,18 +69,12 @@ public class SearchActivity extends AppCompatActivity {
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
 
+        searchCtrl = new SearchController(getResources());
+
         /** Set data **/
         current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
-
-        toDoList = new ArrayList<>();
         initSearchSetting(getWindow().getDecorView());
-        //search(getWindow().getDecorView());
-        ToDoItem sample = new ToDoItem();
-        sample.setName("임시아이템");
-        sample.setRank(2);
-        sample.setRoutine(00);
-        sample.setTime(current);
-        toDoList.add(sample);
+        setToDoList("");
         /* ~Set data */
 
         /** Set Views **/
@@ -108,6 +104,16 @@ public class SearchActivity extends AppCompatActivity {
         /* ~Set extra names of Intent */
     }
 
+    private void setToDoList(String searchText) {
+        toDoList = searchCtrl.getToDoItems(
+                searchText,
+                toDoList, selectedGroups,
+                startOfDoneDate, endOfDoneDate,
+                includedRepeat,
+                startOfStartDate, endOfStartDate,
+                startOfEndDate, endOfEndDate);
+    }
+
     public void backToMain(View view) {
         /** Check focusing **/
         View focusedView = getCurrentFocus();
@@ -120,26 +126,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void search(View view) {
-        /** Preprocess **/
         String searchText = textInputEditText.getText().toString();
-
-        ArrayList<Integer> groupIds = new ArrayList<>();
-        if(selectedGroups.size() > 0) {
-            Iterator<Group> selectedGroupsIter = selectedGroups.iterator();
-            while (selectedGroupsIter.hasNext()) {
-                groupIds.add(selectedGroupsIter.next().getGroupId());
-            }
-        }
-
-        int maxDistance = selectedDistance.getLength();
-        /* ~Preprocess */
-
-        /*ArrayList<Integer> findedIds = findToDoItemIds(searchText, groupIds,
-                selectedDone, includedRepeat,
-                startOfStartDate, endOfStartDate, startOfEndDate, endOfEndDate, startOfDoneDate, endOfDoneDate
-                length);
-
-        setToDoItems(toDoList, findedIds);*/
+        setToDoList(searchText);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public void bringUpGroupSearchSetting(View view) {

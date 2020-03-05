@@ -10,16 +10,19 @@ import com.willy.will.common.model.Group;
 import java.util.ArrayList;
 
 public class GroupDBController {
-    private SQLiteDatabase readDatabase = null;
-    private SQLiteDatabase writeDatabase = null;
 
-    public GroupDBController() {
+    private Resources resources;
+    private SQLiteDatabase readDatabase;
+    private SQLiteDatabase writeDatabase;
+
+    public GroupDBController(Resources resources) {
+        this.resources = resources;
         readDatabase = DBAccess.getDbHelper().getReadableDatabase();
         writeDatabase = DBAccess.getDbHelper().getWritableDatabase();
     }
 
-    public ArrayList<Group> getAllGroups(Resources resources) {
-        ArrayList<Group> groups = new ArrayList<>();
+    public ArrayList<Group> getAllGroups() {
+        ArrayList<Group> groupList = new ArrayList<>();
 
         /** Read DB **/
         Cursor cursor = readDatabase.query(
@@ -40,10 +43,11 @@ public class GroupDBController {
             groupColor = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
 
             curGroup = new Group(groupId, groupName, groupColor);
-            groups.add(curGroup);
+            groupList.add(curGroup);
         }
         /* ~Put data in ArrayList */
 
-        return groups;
+        return groupList;
     }
+
 }
