@@ -18,19 +18,19 @@
         android:id="@+id/search_text_input_layout"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/text_input_layout_height"
-        android:layout_marginTop="@dimen/detail_icon_margin"
+        android:layout_marginTop="@dimen/text_input_layout_top_margin"
         android:focusableInTouchMode="true"
-        app:hintEnabled="false"
         app:endIconMode="clear_text"
-        app:layout_constraintTop_toTopOf="parent"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@id/search_setting_layout"
         app:layout_constraintEnd_toStartOf="@id/search_button"
         app:layout_constraintStart_toEndOf="@id/back_button"
-        app:layout_constraintBottom_toTopOf="@id/search_setting_layout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/search_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
