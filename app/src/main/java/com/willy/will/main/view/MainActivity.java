@@ -272,67 +272,67 @@ public class MainActivity extends AppCompatActivity{
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(1, 1, '운동', 1, '123.123123', '123.123123', '20200203', '20200201', '20200228', 1);");
+                    "VALUES(1, 1, '운동', 1, '123.123123', '123.123123', '2020-02-03', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(2, 1, '운동', 1, '123.123123', '123.123123', '20200206', '20200201', '20200228', 1);");
+                    "VALUES(2, 1, '운동', 1, '123.123123', '123.123123', '2020-02-06', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(3, 1, '운동', 1, '123.123123', '123.123123', '20200210', '20200201', '20200228', 1);");
+                    "VALUES(3, 1, '운동', 1, '123.123123', '123.123123', '2020-02-10', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(4, 1, '운동', 1, '123.123123', '123.123123', '20200213', '20200201', '20200228', 1);");
+                    "VALUES(4, 1, '운동', 1, '123.123123', '123.123123', '2020-02-13', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(5, 1, '운동', 1, '123.123123', '123.123123', '20200217', '20200201', '20200228', 1);");
+                    "VALUES(5, 1, '운동', 1, '123.123123', '123.123123', '2020-02-17', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(6, 1, '운동', 1, '123.123123', '123.123123', '20200220', '20200201', '20200228', 1);");
+                    "VALUES(6, 1, '운동', 1, '123.123123', '123.123123', '2020-02-20', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(7, 1, '운동', 1, '123.123123', '123.123123', '20200224', '20200201', '20200228', 1);");
+                    "VALUES(7, 1, '운동', 1, '123.123123', '123.123123', '2020-02-24', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(8, 1, '운동', 1, '123.123123', '123.123123', '20200227', '20200201', '20200228', 1);");
+                    "VALUES(8, 1, '운동', 1, '123.123123', '123.123123', '2020-02-27', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(9, 0, '영어공부', 4, '', '', '20200202', '20200202', '20200202', 2);");
+                    "VALUES(9, 0, '영어공부', 4, '', '', '2020-02-02', '2020-02-02', '2020-02-02', 2);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(10, 0, '밥', 2, '', '', '20200209', '20200209', '20200209', 3);");
+                    "VALUES(10, 0, '밥', 2, '', '', '2020-02-09', '2020-02-09', '2020-02-09', 3);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(11, 2, '레슨', 3, '', '', '20200211', '20200211', '20200218', 4);");
+                    "VALUES(11, 2, '레슨', 3, '', '', '2020-02-11', '2020-02-11', '2020-02-18', 4);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(12, 2, '레슨', 3, '', '', '20200216', '20200211', '20200218', 4);");
+                    "VALUES(12, 2, '레슨', 3, '', '', '2020-02-16', '2020-02-11', '2020-02-18', 4);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
                     "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(13, 2, '레슨', 3, '', '', '20200218', '20200211', '20200218', 4);");
+                    "VALUES(13, 2, '레슨', 3, '', '', '2020-02-18', '2020-02-11', '2020-02-18', 4);");
 
             db.execSQL("" +
                     "INSERT INTO _GROUP (group_id, group_name, group_color)" +
@@ -351,67 +351,67 @@ public class MainActivity extends AppCompatActivity{
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(1, '20200203', 1);"
+                    "VALUES(1, '2020-02-03', 1);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(2, '20200206', 2);"
+                    "VALUES(2, '2020-02-06', 2);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(3, '20200210', 3);"
+                    "VALUES(3, '2020-02-10', 3);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(4, '20200213', 4);"
+                    "VALUES(4, '2020-02-13', 4);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(5, '20200217', 5);"
+                    "VALUES(5, '2020-02-17', 5);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(6, '20200220', 6);"
+                    "VALUES(6, '2020-02-20', 6);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(7, '20200224', 7);"
+                    "VALUES(7, '2020-02-24', 7);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(8, '20200227', 8);"
+                    "VALUES(8, '2020-02-27', 8);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(9, '20200202', 9);"
+                    "VALUES(9, '2020-02-02', 9);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(10, '20200209', 10);"
+                    "VALUES(10, '2020-02-09', 10);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(11, '20200211', 11);"
+                    "VALUES(11, '2020-02-11', 11);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(12, '20200215', 12);"
+                    "VALUES(12, '2020-02-15', 12);"
             );
 
             db.execSQL("" +
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
-                    "VALUES(13, '20200218', 13);"
+                    "VALUES(13, '2020-02-18', 13);"
             );
         }
     }
