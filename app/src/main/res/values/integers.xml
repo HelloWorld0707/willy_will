@@ -9,7 +9,7 @@
 
     <!-- Group Search Setting -->
     <integer name="ghost_item_group_id">-8</integer>
-    <integer name="no_group_id">-1</integer>
+    <integer name="no_group_id">-2</integer>
     <!-- ~Group Search Setting -->
 
     <!-- Length for Distance Set -->
