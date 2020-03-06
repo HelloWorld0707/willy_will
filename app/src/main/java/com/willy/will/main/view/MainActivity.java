@@ -26,6 +26,7 @@ import com.willy.will.calander.view.CalendarActivity;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.search.view.SearchActivity;
+import com.willy.will.setting.AlarmActivity;
 
 
 import java.io.File;
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity{
 
     /** Move to AlarmManagementActivity */
     public void btnArsettingClick(View view){
-        Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        Intent intent = new Intent(MainActivity.this , AlarmActivity.class);
         drawer.closeDrawer(drawerView);
         startActivity(intent);
     }
