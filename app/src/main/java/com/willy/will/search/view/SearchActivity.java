@@ -69,7 +69,7 @@ public class SearchActivity extends AppCompatActivity {
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
 
-        searchCtrl = new SearchController(getResources());
+        searchCtrl = new SearchController(getResources(), recyclerView);
 
         /** Set data **/
         current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
@@ -107,7 +107,8 @@ public class SearchActivity extends AppCompatActivity {
     private void setToDoList(String searchText) {
         toDoList = searchCtrl.getToDoItems(
                 searchText,
-                toDoList, selectedGroups,
+                toDoList,
+                selectedGroups,
                 startOfDoneDate, endOfDoneDate,
                 includedRepeat,
                 startOfStartDate, endOfStartDate,

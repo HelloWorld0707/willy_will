@@ -2,6 +2,8 @@ package com.willy.will.search.controller;
 
 import android.content.res.Resources;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
 import com.willy.will.database.ToDoItemDBController;
@@ -13,10 +15,12 @@ import java.util.Iterator;
 public class SearchController {
 
     private Resources resources;
+    private RecyclerView recyclerView;
     private ToDoItemDBController toDoItemDBController;
 
-    public SearchController(Resources resources) {
+    public SearchController(Resources resources, RecyclerView recyclerView) {
         this.resources = resources;
+        this.recyclerView = recyclerView;
         toDoItemDBController = new ToDoItemDBController(resources);
     }
 
@@ -109,8 +113,7 @@ public class SearchController {
 
         String tempTable = String.format(
                 resources.getString(R.string.temporary_table_for_search_query),
-                itemNameQuery + groupsQuery + doneDateQuery + repeatQuery + startDateQuery + endDateQuery,
-                resources.getString(R.string.item_id_column)
+                itemNameQuery + groupsQuery + doneDateQuery + repeatQuery + startDateQuery + endDateQuery
         ).replace("WHERE  AND", "WHERE");
 
         toDoList = toDoItemDBController.searchToDoItems(toDoList, tempTable, toDoIdColumn);

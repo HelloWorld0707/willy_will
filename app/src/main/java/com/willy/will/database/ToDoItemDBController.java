@@ -32,7 +32,7 @@ public class ToDoItemDBController {
         Cursor cursor = readDatabase.query(
                 tempTable, null,
                 null, null,
-                groupByToDoIdColumn, null,
+                groupByToDoIdColumn, "max(" + resources.getString(R.string.item_id_column) + ")",
                 null);
         /* ~Read DB */
 
