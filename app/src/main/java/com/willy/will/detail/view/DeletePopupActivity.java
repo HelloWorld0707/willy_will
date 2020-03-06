@@ -7,13 +7,6 @@ import com.willy.will.common.model.PopupActivity;
 
 public class DeletePopupActivity extends PopupActivity {
 
-    /**
-     * Last Modified: -
-     * Last Modified By: -
-     * Created: 2020-02-29
-     * Created By: Kim Mikyung
-     * Function: Initialization (including layout ID)
-     */
 
     public DeletePopupActivity(){
         super(R.layout.activity_delete_popup);

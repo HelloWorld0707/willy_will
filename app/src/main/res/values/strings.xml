@@ -3,7 +3,8 @@
     <!-- common -->
     <string name="app_name">WILL</string>
     <string name="group">그룹</string>
-    <string name="start_date">시작 날짜</string>d
+    <string name="calendar_date">날짜</string>
+    <string name="start_date">시작 날짜</string>
     <string name="end_date">종료 날짜</string>
     <string name="done_date">완료 날짜</string>
     <string name="loop">반복</string>
