@@ -116,8 +116,11 @@ public class RecyclerViewSetter {
     }
 
     private void changeToDoItem() {
-        Intent intent = new Intent(parentView.getContext(), DetailActivity.class);
-        parentView.getContext().startActivity(intent);
+        if(tracker.hasSelection()) {
+            Intent intent = new Intent(parentView.getContext(), DetailActivity.class);
+            parentView.getContext().startActivity(intent);
+            tracker.clearSelection();
+        }
     }
 
     private void changeGroupItem() {
