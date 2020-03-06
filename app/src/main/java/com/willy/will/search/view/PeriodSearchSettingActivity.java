@@ -115,7 +115,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     public void setStartOfStart(View view) {
         dateListener.setKey(startOfStartDateKey);
 
-        if(startOfStartDate.length() > 0) {
+        if(startOfStartDate.isEmpty()) {
+            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        }
+        else {
             try {
                 Date date = simpleDateFormat.parse(startOfStartDate);
                 calendar.setTime(date);
@@ -124,9 +127,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
                 e.printStackTrace();
             }
-        }
-        else {
-            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
         datePickerDialog.setMessage(resources.getString(R.string.start_of_start_date_text));
@@ -137,7 +137,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     public void setEndOfStart(View view) {
         dateListener.setKey(endOfStartDateKey);
 
-        if(endOfStartDate.length() > 0) {
+        if(endOfStartDate.isEmpty()) {
+            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        }
+        else {
             try {
                 calendar.setTime(simpleDateFormat.parse(endOfStartDate));
                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
@@ -145,9 +148,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
                 e.printStackTrace();
             }
-        }
-        else {
-            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
         datePickerDialog.setMessage(resources.getString(R.string.end_of_start_date_text));
@@ -158,7 +158,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     public void setStartOfEnd(View view) {
         dateListener.setKey(startOfEndDateKey);
 
-        if(startOfEndDate.length() > 0) {
+        if(startOfEndDate.isEmpty()) {
+            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        }
+        else {
             try {
                 calendar.setTime(simpleDateFormat.parse(startOfEndDate));
                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
@@ -166,9 +169,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
                 e.printStackTrace();
             }
-        }
-        else {
-            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
         datePickerDialog.setMessage(resources.getString(R.string.start_of_end_date_text));
@@ -179,7 +179,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     public void setEndOfEnd(View view) {
         dateListener.setKey(endOfEndDateKey);
 
-        if(endOfEndDate.length() > 0) {
+        if(endOfEndDate.isEmpty()) {
+            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        }
+        else {
             try {
                 calendar.setTime(simpleDateFormat.parse(endOfEndDate));
                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
@@ -187,9 +190,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
                 e.printStackTrace();
             }
-        }
-        else {
-            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
         datePickerDialog.setMessage(resources.getString(R.string.end_of_end_date_text));
@@ -200,7 +200,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     public void setStartOfDone(View view) {
         dateListener.setKey(startOfDoneDateKey);
 
-        if(startOfDoneDate.length() > 0) {
+        if(startOfDoneDate.isEmpty()) {
+            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        }
+        else {
             try {
                 calendar.setTime(simpleDateFormat.parse(startOfDoneDate));
                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
@@ -208,9 +211,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
                 e.printStackTrace();
             }
-        }
-        else {
-            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
         datePickerDialog.setMessage(resources.getString(R.string.start_of_done_date_text));
@@ -221,7 +221,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     public void setEndOfDone(View view) {
         dateListener.setKey(endOfDoneDateKey);
 
-        if(endOfDoneDate.length() > 0) {
+        if(endOfDoneDate.isEmpty()) {
+            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+        }
+        else {
             try {
                 calendar.setTime(simpleDateFormat.parse(endOfDoneDate));
                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
@@ -229,9 +232,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
                 e.printStackTrace();
             }
-        }
-        else {
-            datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
         }
 
         datePickerDialog.setMessage(resources.getString(R.string.end_of_done_date_text));
@@ -282,24 +282,91 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     @Override
     protected boolean setResults(Intent intent) {
         try {
-            if (!startOfStartDate.equals("") && !endOfStartDate.equals("")) {
-                if (simpleDateFormat.parse(startOfStartDate).getTime() > simpleDateFormat.parse(endOfStartDate).getTime()) {
+            long comparison = 0L;
+            long doneComparison = 0L;
+            long current = 0L;
+            /** Check start date **/
+            // Check start of start date
+            if(!startOfStartDate.isEmpty()) {
+                comparison = simpleDateFormat.parse(startOfStartDate).getTime();
+                doneComparison = comparison;
+            }
+            // Check end of start date
+            if(!endOfStartDate.isEmpty()) {
+                current = simpleDateFormat.parse(endOfStartDate).getTime();
+                // startOfStartDate <= endOfStartDate ?
+                if(comparison <= current) {
+                    comparison = current;
+                }
+                else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
-            if (!startOfEndDate.equals("") && !endOfEndDate.equals("")) {
-                if (simpleDateFormat.parse(startOfEndDate).getTime() > simpleDateFormat.parse(endOfEndDate).getTime()) {
+            /* ~Check start date */
+            /** Check end date **/
+            // Check start of end date
+            if(!startOfEndDate.isEmpty()) {
+                current = simpleDateFormat.parse(startOfEndDate).getTime();
+                // comparison (startOfStartDate or endOfStartDate) <= startOfEndDate ?
+                if(comparison <= current) {
+                    comparison = current;
+                }
+                else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
-            if (onlyDone && !startOfDoneDate.equals("") && !endOfDoneDate.equals("")) {
-                if (simpleDateFormat.parse(startOfDoneDate).getTime() > simpleDateFormat.parse(endOfDoneDate).getTime()) {
+            // Check end of end date
+            if(!endOfEndDate.isEmpty()) {
+                current = simpleDateFormat.parse(endOfEndDate).getTime();
+                // comparison (startOfStartDate, endOfStartDate, or startOfEndDate) <= endOfEndDate ?
+                if(comparison <= current) {
+                    comparison = current;
+                }
+                else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
+            /* ~Check end date */
+            /** Check done date **/
+            if(onlyDone) {
+                // Check start of done date
+                if(!startOfDoneDate.isEmpty()) {
+                    current = simpleDateFormat.parse(startOfDoneDate).getTime();
+                    // startOfStartDate <= startOfDoneDate ?
+                    if(doneComparison <= current) {
+                        doneComparison = current;
+                    }
+                    else {
+                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    if(endOfDoneDate.isEmpty()) {
+                        // startOfDoneDate <= endOfEndDate ? correct date : wrong date
+                        if(!endOfEndDate.isEmpty() && (current > comparison)) {
+                            Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+                    }
+                }
+                // Check end of done date
+                if(!endOfDoneDate.isEmpty()) {
+                    current = simpleDateFormat.parse(endOfDoneDate).getTime();
+                    // doneComparison (startOfStartDate or startOfDoneDate) <= endOfDoneDate ? correct date : wrong date
+                    if((doneComparison > 0L) && (doneComparison > current)) {
+                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    // endOfDoneDate <= endOfEndDate ? correct date : wrong date
+                    if(!endOfEndDate.isEmpty() && (current > comparison)) {
+                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                }
+            }
+            /* ~Check done date */
         }
         catch (ParseException e) {
             Log.e("PeriodSearchSettingActivity", "Results: "+e.getMessage());
@@ -307,12 +374,14 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             return false;
         }
 
+        /** Put results in the intent **/
         intent.putExtra(startOfStartDateKey, startOfStartDate);
         intent.putExtra(endOfStartDateKey, endOfStartDate);
         intent.putExtra(startOfEndDateKey, startOfEndDate);
         intent.putExtra(endOfEndDateKey, endOfEndDate);
         intent.putExtra(startOfDoneDateKey, startOfDoneDate);
         intent.putExtra(endOfDoneDateKey, endOfDoneDate);
+        /* ~Put results in the intent */
         return true;
     }
 

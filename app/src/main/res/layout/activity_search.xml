@@ -18,19 +18,19 @@
         android:id="@+id/search_text_input_layout"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/text_input_layout_height"
-        android:layout_marginTop="@dimen/detail_icon_margin"
+        android:layout_marginTop="@dimen/text_input_layout_top_margin"
         android:focusableInTouchMode="true"
-        app:hintEnabled="false"
         app:endIconMode="clear_text"
-        app:layout_constraintTop_toTopOf="parent"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@id/search_setting_layout"
         app:layout_constraintEnd_toStartOf="@id/search_button"
         app:layout_constraintStart_toEndOf="@id/back_button"
-        app:layout_constraintBottom_toTopOf="@id/search_setting_layout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:hint="@string/search_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -39,9 +39,10 @@
         android:id="@+id/search_button"
         style="@style/ActionBtnStyle"
         android:foreground="@drawable/ic_search_24px"
-        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/search_text_input_layout" />
+        app:layout_constraintStart_toEndOf="@id/search_text_input_layout"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_setting_layout"

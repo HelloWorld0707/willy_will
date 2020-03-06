@@ -16,6 +16,7 @@ import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.PopupActivity;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.database.GroupDBController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,14 +41,9 @@ public class GroupSearchSettingActivity extends PopupActivity {
 
         /** Set data of items **/
         Resources resources = getResources();
-        groupList = new ArrayList<>();
-        groupList.add(new Group(resources.getInteger(R.integer.ghost_item_group_id), "", ""));
-        groupList.add(new Group(1, "첫 번째 그룹", "80FF3C3C"));
-        groupList.add(new Group(2, "두 번째 그룹", "80FF3C3C"));
-        groupList.add(new Group(3, "세 번째 그룹", "80FF3C3C"));
-        groupList.add(new Group(4, "네 번째 그룹", "80FF3C3C"));
-        groupList.add(new Group(5, "다섯 번째 그룹", "80FF3C3C"));
-        groupList.add(new Group(resources.getInteger(R.integer.no_group_id), resources.getString(R.string.no_group), ""));
+        groupList = new GroupDBController(getResources()).getAllGroups();
+        groupList.add(0, new Group(resources.getInteger(R.integer.ghost_item_group_id), "", ""));
+        groupList.add(groupList.size(), new Group(resources.getInteger(R.integer.no_group_id), resources.getString(R.string.no_group), ""));
         /* ~Set data of items */
 
         /** Set Views **/

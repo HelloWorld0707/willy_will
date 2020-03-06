@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
 
     <application
         android:name=".common.controller.App"
@@ -14,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".add.view.AddItemRepeatActivity"></activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -67,6 +68,17 @@
         <activity
             android:name=".calander.view.CalendarActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".setting.AlarmActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <receiver android:name=".receiver.DeviceBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.AlarmReceiver" />
+
     </application>
 
 </manifest>

@@ -9,17 +9,31 @@
         style="@style/PopupTitleStyle"
         android:text="@string/group" />
 
-    <TextView
-        android:id="@+id/selecting_all"
-        style="@style/TextRecyclerItemStyle"
-        android:onClick="onSelectAll"
-        android:text="@string/all" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/group_search_setting_recycler_view"
-        android:scrollbars="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/group_search_setting_recycler_view_max_height" />
+        android:layout_height="@dimen/search_setting_contents_view_height">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants">
+
+            <TextView
+                android:id="@+id/selecting_all"
+                style="@style/TextRecyclerItemStyle"
+                android:onClick="onSelectAll"
+                android:text="@string/all" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/group_search_setting_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <include layout="@layout/layout_popup_bottom"
         android:layout_width="match_parent"

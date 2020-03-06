@@ -5,17 +5,21 @@ import android.os.Parcelable;
 
 public class Group implements Parcelable {
 
-    private int groupId = -1;
-    private String groupName = null;
-    private String groupColor = null;
+    private int groupId;
+    private String groupName;
+    private String groupColor;
 
-    // temp
+    public Group() {
+        groupId = -1;
+        groupName = null;
+        groupColor = null;
+    }
+
     public Group(int groupId, String groupName, String groupColor) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.groupColor = groupColor;
     }
-    // ~temp
 
     protected Group(Parcel in) {
         groupId = in.readInt();
