@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
 import com.willy.will.database.ToDoItemDBController;
-import com.willy.will.main.model.ToDoItem;
+import com.willy.will.common.model.ToDoItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;

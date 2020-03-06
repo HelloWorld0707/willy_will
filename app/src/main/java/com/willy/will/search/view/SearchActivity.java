@@ -13,10 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
+import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.main.model.ToDoItem;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.search.controller.SearchController;
 import com.willy.will.search.model.Distance;
 import com.willy.will.search.model.DistanceSet;
@@ -83,11 +84,14 @@ public class SearchActivity extends AppCompatActivity {
             textInputEditText.clearFocus();
         }
 
-        recyclerView = new RecyclerViewSetter(
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.search_results_recycler_view, getWindow().getDecorView(),
                 RecyclerViewItemType.TO_DO, toDoList,
                 R.string.selection_id_search, false
-        ).setRecyclerView();
+        );
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        // WARNING: Only one must be assigned
+        recyclerViewSetter.setFragmentAndActivities(null, this, null);
         /* ~Set Views */
 
         /** Set extra names of Intent **/
@@ -116,14 +120,18 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void backToMain(View view) {
-        /** Check focusing **/
-        View focusedView = getCurrentFocus();
-        if(focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        if(recyclerView != null) {
+            if(!((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().hasSelection()) {
+                /** Check focusing **/
+                View focusedView = getCurrentFocus();
+                if (focusedView != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                /* ~Check focusing */
+                this.finish();
+            }
         }
-        /* ~Check focusing */
-        this.finish();
     }
 
     public void search(View view) {
@@ -198,6 +206,10 @@ public class SearchActivity extends AppCompatActivity {
 
         /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
+            // To-do Item Detail
+            if(requestCode == resources.getInteger(R.integer.detail_request_code)) {
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+            }
             // Group Search Setting
             if (requestCode == resources.getInteger(R.integer.group_search_setting_code)) {
                 selectedGroups = data.getParcelableArrayListExtra(selectedGroupsKey);

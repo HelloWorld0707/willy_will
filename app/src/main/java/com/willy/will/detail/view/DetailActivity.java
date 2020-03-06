@@ -209,7 +209,15 @@ public class DetailActivity extends Activity {
     }
     /*~ Back to MainActivity (Main View) */
 
-
+    /** Set results **/
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        //intent.putExtra("itemId", itemId);
+        setResult(RESULT_FIRST_USER, intent);
+        super.finish();
+    }
+    /* ~Set results */
 
     /** get Item by itemId from DB **/
     public Item getItemByItemId(int itemId){

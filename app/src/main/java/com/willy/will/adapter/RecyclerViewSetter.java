@@ -1,10 +1,12 @@
 package com.willy.will.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.selection.SelectionPredicates;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.detail.view.DetailActivity;
+import com.willy.will.main.view.MainFragment;
+import com.willy.will.search.view.SearchActivity;
 
 import java.util.ArrayList;
 
@@ -30,6 +34,12 @@ public class RecyclerViewSetter {
     private RecyclerViewAdapter adapter = null;
     private SelectionTracker tracker = null;
     /* ~For Setting RecyclerView */
+
+    /** For To-do Item **/
+    private MainFragment mainFragment = null;
+    private SearchActivity searchActivity = null;
+    //private ToDoItemManagementActivity toDoItemManagementActivity = null;
+    /* ~For To-do Item */
 
     /** For Group Search Setting **/
     private TextView selectingAllView = null;
@@ -115,11 +125,36 @@ public class RecyclerViewSetter {
         return recyclerView;
     }
 
+    // WARNING: Only one must be assigned
+    public void setFragmentAndActivities(MainFragment main,
+                                         SearchActivity search,
+                                         AppCompatActivity toDoManagement) {
+        mainFragment = main;
+        searchActivity = search;
+        //toDoItemManagementActivity = toDoManagement;
+    }
+
     private void changeToDoItem() {
         if(tracker.hasSelection()) {
-            Intent intent = new Intent(parentView.getContext(), DetailActivity.class);
-            parentView.getContext().startActivity(intent);
-            tracker.clearSelection();
+            Context context = parentView.getContext();
+            String extraName = context.getResources().getString(R.string.request_code);
+            int code = context.getResources().getInteger(R.integer.detail_request_code);
+
+            if(mainFragment != null) {
+                Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
+                intent.putExtra(extraName, code);
+                mainFragment.startActivityForResult(intent, code);
+            }
+            else if(searchActivity != null) {
+                Intent intent = new Intent(searchActivity, DetailActivity.class);
+                intent.putExtra(extraName, code);
+                searchActivity.startActivityForResult(intent, code);
+            }
+            /*else if(toDoItemManagementActivity != null) {
+                Intent intent = new Intent(toDoItemManagementActivity, DetailActivity.class);
+                intent.putExtra(extraName, code);
+                toDoItemManagementActivity.startActivityForResult(intent, code);
+            }*/
         }
     }
 
