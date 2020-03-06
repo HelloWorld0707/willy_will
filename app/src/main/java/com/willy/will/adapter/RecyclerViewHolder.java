@@ -169,8 +169,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            imgRoutine.getBackground().setTint(ContextCompat.getColor(context, R.color.colorInactive));
-            imgRank.getDrawable().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
         }
         else {
             span.setSpan(activeColorSpan
@@ -178,8 +178,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
-            imgRoutine.getBackground().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
-            imgRank.getDrawable().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
         }
     }
 
