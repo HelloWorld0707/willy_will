@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
     }
     /*~ Function: Move to SearchView */
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnCalendarClick(View view) {
         Intent intent = new Intent(MainActivity.this , CalendarActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
     }
     /*~Move to CalendarView*/
@@ -235,6 +235,7 @@ public class MainActivity extends AppCompatActivity{
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dbHelper.close();
                         android.os.Process.killProcess(android.os.Process.myPid());
                     }
                 })
