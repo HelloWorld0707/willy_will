@@ -1,4 +1,4 @@
-package com.willy.will.main.model;
+package com.willy.will.common.model;
 
 public class ToDoItem {
     private int itemId;

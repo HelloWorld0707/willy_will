@@ -17,7 +17,7 @@ import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.database.DBAccess;
 import com.willy.will.database.ToDoItemDBController;
-import com.willy.will.main.model.ToDoItem;
+import com.willy.will.common.model.ToDoItem;
 
 import java.util.ArrayList;
 
@@ -72,15 +72,27 @@ public class MainFragment extends Fragment {
         list = dbController.searchToDoItems(list, resources.getString(R.string.item_table),
                 resources.getString(R.string.item_important_column));
 
+        ArrayList<ToDoItem> list = new ArrayList<>();
+        ToDoItem sample = null;
+        for(int i=0; i<20;i++){
+            sample = new ToDoItem();
+            sample.setName("sample"+i);
+            sample.setEndDate(getArguments().getString(ARG_DATE,"Today"));
+            sample.setDone(false);
+            sample.setRank(i % 3 + 1);
+            list.add(sample);
+        }
         /* ~Set TodoItem */
 
         /** Initialization (including Item View)*/
-        // ↓↓↓↓↓↓↓↓↓↓ RecyclerViewAdapter 매개변수 고치는 바람에 부득이하게 수정함
-        recyclerView = new RecyclerViewSetter(
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.mainItemList, rootView,
                 RecyclerViewItemType.TO_DO, list,
                 R.string.selection_id_main, false
-        ).setRecyclerView();
+        );
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        // WARNING: Only one must be assigned
+        recyclerViewSetter.setFragmentAndActivities(this, null, null);
         /* ~Initialization (including Item View) */
 
         return rootView;

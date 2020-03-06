@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Search Setting Code -->
+    <!-- Request Code for Activity Result -->
+    <integer name="detail_request_code">0</integer>
     <integer name="group_search_setting_code">1</integer>
     <integer name="done_repeat_search_setting_code">2</integer>
     <integer name="period_search_setting_code">3</integer>
     <integer name="distance_search_setting_code">4</integer>
-    <!-- ~Search Setting Code -->
+    <!-- ~Request Code for Activity Result -->
 
     <!-- Group Search Setting -->
     <integer name="ghost_item_group_id">-8</integer>

@@ -38,8 +38,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     }
 
     // Get data when changed check box of to-do item (at holder)
-    public T getData(Long itemId) {
-        int position = Math.toIntExact((Long) itemId);
+    public T getData(int position) {
         return dset.get(position);
     }
 
