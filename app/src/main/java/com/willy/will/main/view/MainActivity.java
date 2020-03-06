@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,8 +25,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
+import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
+import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
 
@@ -33,14 +37,18 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
     public static DBAccess dbHelper;
+    private SQLiteDatabase readDatabase;
+    private Resources resources;
 
     private Spinner sp_group;
     private ArrayList<String> spgroupList;
     private ArrayAdapter<String> spgroupAdapter;
+    private int groupId;
 
     private DrawerLayout drawer;
     private View drawerView;
@@ -52,9 +60,7 @@ public class MainActivity extends AppCompatActivity{
     private String baseDate;
     private String sendDate;
 
-
     MainFragment fragmentmain;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,8 @@ public class MainActivity extends AppCompatActivity{
 
         dbHelper = DBAccess.getDbHelper();
         dummyCreate();
+
+        resources = getResources();
 
         /**set navigation Drawer**/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,13 +97,9 @@ public class MainActivity extends AppCompatActivity{
         });
         /*~open picker & change txt*/
 
-
         /**set sp_group **/
-        //(fix later)
-        spgroupList = new ArrayList<>();
-        for(int i=0; i<5;i++){
-            spgroupList.add("그룹"+i);
-        }
+        spgroupList = getGroupName();
+        groupId = 0;
 
         spgroupAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -110,15 +114,14 @@ public class MainActivity extends AppCompatActivity{
                                        int i, long id) {
                 Toast.makeText(getApplicationContext(),
                         "선택된 아이템 : "+sp_group.getItemAtPosition(i),Toast.LENGTH_SHORT).show();
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
         /*Set sp_group*/
 
-        /**set fragment (don't change position)**/
-        fragmentmain = MainFragment.getInstance(sendDate);
+        /**set fragment**/
+        fragmentmain = MainFragment.getInstance(sendDate,groupId);
 
         //add the fragment to container(frame layout)
         getSupportFragmentManager()
@@ -205,7 +208,7 @@ public class MainActivity extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = MainFragment.getInstance(sendDate);
+            fragmentmain = MainFragment.getInstance(sendDate,groupId);
 
             //make new fragment
             getSupportFragmentManager()
@@ -225,13 +228,37 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~ Change Date*/
 
+    /** Bring Spinner Group from DB*/
+    public ArrayList getGroupName() {
+        ArrayList<String> list = new ArrayList<>();
+        String groupName = null;
+
+        Cursor cursor = dbHelper.getReadableDatabase().query(resources.getString(R.string.group_table)
+                , null, null, null,
+                null, null, null);
+
+        list.add(resources.getString(R.string.all));
+
+        if(cursor.moveToFirst()) {
+            do {
+                groupName = cursor.getString(cursor.getColumnIndex(
+                        resources.getString(R.string.group_name_column)
+                ));
+                list.add(groupName);
+
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+    /* ~Bring Spinner Group from DB*/
+
     /** terminate application */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.app_name);
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setMessage("앱을 종료하시겠습니까?")
+        builder.setMessage(getResources().getString(R.string.terminate_msg))
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -248,6 +275,26 @@ public class MainActivity extends AppCompatActivity{
         alert.show();
     }
     /* ~terminate application */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /** Create Sample Data*/
     public void dummyCreate(){

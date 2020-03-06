@@ -1,10 +1,13 @@
 package com.willy.will.main.view;
 
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,26 +15,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.database.DBAccess;
+import com.willy.will.database.ToDoItemDBController;
 import com.willy.will.main.model.ToDoItem;
 
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
-    // dont fix it
-    private final static String EXTRA_ADAPTER = "BaseAdpater";
-
     //Recycler View
     private RecyclerView recyclerView = null;
 
     //fragment var
-    private static final String ARG_NO = "ARG_NO";
+    private static final String ARG_DATE = "ARG_DATE";
+    private static final String ARG_GROUP_NO = "ARG_GROUP_NO";
+    private static DBAccess dbHelper = DBAccess.getDbHelper();
+    private Resources resources;
+    private ToDoItemDBController dbController;
+
+    private ArrayList<ToDoItem> list;
 
 
     /**setting fragment*/
-    public static MainFragment getInstance(String dateString){
+    public static MainFragment getInstance(String dateString, int groupId){
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_NO,dateString);
+        args.putString(ARG_DATE,dateString);
+        args.putInt(ARG_GROUP_NO,groupId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +51,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String checkString = getArguments().getString(ARG_NO,"Today");
+        String checkString = getArguments().getString(ARG_DATE,"Today");
+        resources = getActivity().getResources();
 
         String text = checkString + "날의 프래그먼트";
         Log.d("MyFragment", "onCreate " + text+"***************************************");
@@ -56,16 +66,12 @@ public class MainFragment extends Fragment {
         ViewGroup rootView =
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
+
         /** Set TodoItem */
-        ArrayList<ToDoItem> list = new ArrayList<>();
-        ToDoItem sample = null;
-        for(int i=0; i<20;i++){
-            sample = new ToDoItem();
-            sample.setName("sample"+i);
-            sample.setEndDate(getArguments().getString(ARG_NO,"Today"));
-            sample.setDone(false);
-            list.add(sample);
-        }
+        dbController = new ToDoItemDBController(resources);
+        list = dbController.searchToDoItems(list, resources.getString(R.string.item_table),
+                resources.getString(R.string.item_important_column));
+
         /* ~Set TodoItem */
 
         /** Initialization (including Item View)*/
@@ -86,6 +92,5 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
     }
-
 
 }
