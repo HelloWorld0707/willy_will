@@ -125,7 +125,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             else {
                 imgRank.setImageDrawable(null);
             }
-            //imgRoutine.setImageDrawable(mitem.getToDoId());
             setActivation(cbDone.isChecked());
         }
         // Group
@@ -170,7 +169,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             imgRoutine.getBackground().setTint(ContextCompat.getColor(context, R.color.colorInactive));
-            imgRank.getDrawable().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            //imgRank.getDrawable().setTint(ContextCompat.getColor(context, R.color.colorInactive));
         }
         else {
             span.setSpan(activeColorSpan

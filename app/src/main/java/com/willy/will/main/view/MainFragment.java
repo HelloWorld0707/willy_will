@@ -72,16 +72,6 @@ public class MainFragment extends Fragment {
         list = dbController.searchToDoItems(list, resources.getString(R.string.item_table),
                 resources.getString(R.string.item_important_column));
 
-        ArrayList<ToDoItem> list = new ArrayList<>();
-        ToDoItem sample = null;
-        for(int i=0; i<20;i++){
-            sample = new ToDoItem();
-            sample.setName("sample"+i);
-            sample.setEndDate(getArguments().getString(ARG_DATE,"Today"));
-            sample.setDone(false);
-            sample.setRank(i % 3 + 1);
-            list.add(sample);
-        }
         /* ~Set TodoItem */
 
         /** Initialization (including Item View)*/
