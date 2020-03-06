@@ -168,8 +168,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
-            imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            if(imgRoutine.getDrawable() != null) {
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            }
+            if(imgRank.getDrawable() != null) {
+                imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            }
         }
         else {
             span.setSpan(activeColorSpan
@@ -177,8 +181,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
-            imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
-            imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            if(imgRoutine.getDrawable() != null) {
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            }
+            if(imgRank.getDrawable() != null) {
+                imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            }
         }
     }
 
