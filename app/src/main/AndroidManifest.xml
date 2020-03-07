@@ -43,7 +43,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".search.view.DoneRepeatSearchSettingActivity"
+            android:name=".search.view.DoneSearchSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity
@@ -51,7 +51,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".search.view.DistanceSearchSettingActivity"
+            android:name=".search.view.LoopSearchSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" /> <!-- set detail Activity -->
         <activity

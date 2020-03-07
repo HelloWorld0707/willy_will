@@ -65,17 +65,28 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/done_repeat_search_setting_button" />
+            app:layout_constraintEnd_toStartOf="@id/done_search_setting_button" />
 
         <Button
-            android:id="@+id/done_repeat_search_setting_button"
+            android:id="@+id/done_search_setting_button"
             style="@style/ButtonStyle"
             android:layout_width="@dimen/match_constraint"
-            android:onClick="bringUpDoneRepeatSearchSetting"
-            android:text="@string/done_repeat"
+            android:onClick="bringUpDoneSearchSetting"
+            android:text="@string/done"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/group_search_setting_button"
+            app:layout_constraintEnd_toStartOf="@id/loop_search_setting_button" />
+
+        <Button
+            android:id="@+id/loop_search_setting_button"
+            style="@style/ButtonStyle"
+            android:layout_width="@dimen/match_constraint"
+            android:onClick="bringUpLoopSearchSetting"
+            android:text="@string/loop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/done_search_setting_button"
             app:layout_constraintEnd_toStartOf="@id/period_search_setting_button" />
 
         <Button
@@ -86,18 +97,7 @@
             android:text="@string/period"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/done_repeat_search_setting_button"
-            app:layout_constraintEnd_toStartOf="@id/distance_search_setting_button" />
-
-        <Button
-            android:id="@+id/distance_search_setting_button"
-            style="@style/ButtonStyle"
-            android:layout_width="@dimen/match_constraint"
-            android:onClick="bringUpDistanceSearchSetting"
-            android:text="@string/distance"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/period_search_setting_button"
+            app:layout_constraintStart_toEndOf="@id/loop_search_setting_button"
             app:layout_constraintEnd_toStartOf="@id/revert_search_setting_button" />
 
         <ImageButton
@@ -110,7 +110,7 @@
             android:onClick="initSearchSetting"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/distance_search_setting_button"
+            app:layout_constraintStart_toEndOf="@id/period_search_setting_button"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

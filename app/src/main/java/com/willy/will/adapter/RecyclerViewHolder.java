@@ -24,7 +24,6 @@ import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.ToDoItem;
-import com.willy.will.search.model.Distance;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
@@ -71,10 +70,10 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 }
             });
         }
-        // Text-only (Group, Done, Distance)
+        // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
                 type == RecyclerViewItemType.DONE_SEARCH ||
-                type == RecyclerViewItemType.DISTANCE_SEARCH) {
+                type == RecyclerViewItemType.LOOP_SEARCH) {
             textOnlyView = view.findViewById(R.id.text_recycler_item);
         }
         // ERROR: Wrong type
@@ -138,15 +137,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 }
             }
         }
-        // Done
-        else if(type == RecyclerViewItemType.DONE_SEARCH) {
+        // Done or Loop
+        else if(type == RecyclerViewItemType.DONE_SEARCH ||
+                type == RecyclerViewItemType.LOOP_SEARCH) {
             String text = (String) data;
             textOnlyView.setText(text);
-        }
-        // Distance
-        else if(type == RecyclerViewItemType.DISTANCE_SEARCH) {
-            Distance distance = (Distance) data;
-            textOnlyView.setText(distance.getText());
         }
         // ERROR: Wrong type
         else {

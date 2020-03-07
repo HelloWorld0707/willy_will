@@ -53,10 +53,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         if(type == RecyclerViewItemType.TO_DO) {
             layoutId = R.layout.listitem;
         }
-        // Text-only (Group, Done, Distance)
+        // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
                 type == RecyclerViewItemType.DONE_SEARCH ||
-                type == RecyclerViewItemType.DISTANCE_SEARCH) {
+                type == RecyclerViewItemType.LOOP_SEARCH) {
             layoutId = R.layout.recycleritem_text_only;
         }
         // ERROR: Wrong type

@@ -34,7 +34,7 @@
     <!-- ~Button -->
 
     <!-- Search Setting Recycler View -->
-    <dimen name="search_setting_contents_view_height">195dp</dimen>
+    <dimen name="search_setting_contents_view_height">144dp</dimen>
     <!-- ~Search Setting Recycler View -->
 
     <!-- [2020-02-19] Modified by Lee Jaeeun -->

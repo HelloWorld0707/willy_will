@@ -9,9 +9,10 @@
         style="@style/PopupTitleStyle"
         android:text="@string/group" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/search_setting_contents_view_height">
+        android:layout_height="@dimen/search_setting_contents_view_height"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,12 +29,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_search_setting_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include layout="@layout/layout_popup_bottom"
         android:layout_width="match_parent"

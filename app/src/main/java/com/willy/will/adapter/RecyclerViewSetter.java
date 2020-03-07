@@ -104,15 +104,16 @@ public class RecyclerViewSetter {
                 super.onSelectionChanged();
 
                 // To-do
-                if (type == RecyclerViewItemType.TO_DO) {
+                if(type == RecyclerViewItemType.TO_DO) {
                     changeToDoItem();
                 }
                 // Group
-                else if (type == RecyclerViewItemType.GROUP_SEARCH) {
+                else if(type == RecyclerViewItemType.GROUP_SEARCH) {
                     changeGroupItem();
                 }
-                // Done or Distance
-                else if (type == RecyclerViewItemType.DONE_SEARCH || type == RecyclerViewItemType.DISTANCE_SEARCH) { }
+                // Done or Loop
+                else if(type == RecyclerViewItemType.DONE_SEARCH ||
+                        type == RecyclerViewItemType.LOOP_SEARCH) { }
                 // ERROR: Wrong type
                 else {
                     Log.e("RecyclerViewSetter", "Setting: Wrong type");

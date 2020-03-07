@@ -3,33 +3,29 @@ package com.willy.will.search.view;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.CheckBox;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
-import com.willy.will.common.controller.App;
 import com.willy.will.common.model.PopupActivity;
 import com.willy.will.common.model.RecyclerViewItemType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class DoneRepeatSearchSettingActivity extends PopupActivity {
+public class DoneSearchSettingActivity extends PopupActivity {
 
     private String selectedDoneKey = null;
-    private String includedRepeatKey = null;
 
     private RecyclerView recyclerView = null;
-    private CheckBox checkBox = null;
 
     private ArrayList<String> doneList = null;
 
     // Initialization (including layout ID)
-    public DoneRepeatSearchSettingActivity() {
-        super(R.layout.activity_done_repeat_search_setting);
+    public DoneSearchSettingActivity() {
+        super(R.layout.activity_done_search_setting);
     }
 
     @Override
@@ -38,9 +34,9 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
 
         /** Set data of item **/
         doneList = new ArrayList<>();
-        Resources resources = App.getContext().getResources();
+        Resources resources = getResources();
         doneList.add(resources.getString(R.string.all));
-        doneList.add(resources.getString(R.string.undone));
+        doneList.add(resources.getString(R.string.not_done));
         doneList.add(resources.getString(R.string.done));
         /* ~Set data of item */
 
@@ -50,12 +46,10 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
                 RecyclerViewItemType.DONE_SEARCH, doneList,
                 R.string.selection_id_done_search_setting, false
         ).setRecyclerView();
-        checkBox = findViewById(R.id.repeat_check_box);
         /* ~Set Views */
 
-        /** Set a selected item and checkbox checking **/
+        /** Set a selected item **/
         selectedDoneKey = resources.getString(R.string.selected_done_key);
-        includedRepeatKey = resources.getString(R.string.included_repeat_key);
 
         String selectedDone = getIntent().getStringExtra(selectedDoneKey);
         for(int i = 0; i < doneList.size(); i++) {
@@ -64,10 +58,7 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().select(selectedPosition);
             }
         }
-
-        boolean includedRepeat = getIntent().getBooleanExtra(includedRepeatKey, true);
-        checkBox.setChecked(includedRepeat);
-        /* ~Set a selected item and checkbox checking */
+        /* ~Set a selected item */
     }
 
     @Override
@@ -75,7 +66,6 @@ public class DoneRepeatSearchSettingActivity extends PopupActivity {
         Iterator selectIter = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().getSelection().iterator();
         int selectedIndex = Math.toIntExact((Long) selectIter.next());
         intent.putExtra(selectedDoneKey, doneList.get(selectedIndex));
-        intent.putExtra(includedRepeatKey, checkBox.isChecked());
         return true;
     }
 
