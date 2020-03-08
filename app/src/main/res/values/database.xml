@@ -43,6 +43,10 @@
     <string name="to_do_item_order">done, item_important, item_name</string>
     <!-- ~queries for sorting to-do item -->
 
+    <!-- query for to-do item loop -->
+    <string name="loop_column">CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN TRUE ELSE FALSE END AS loop</string>
+    <!-- ~query for to-do item loop -->
+
     <!-- queries for Search -->
     <string name="temporary_table_for_search_query">( SELECT * FROM _ITEM WHERE %1$s )</string>
     <!-- ~queries for Search -->
