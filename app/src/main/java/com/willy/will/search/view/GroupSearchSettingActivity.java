@@ -61,6 +61,7 @@ public class GroupSearchSettingActivity extends PopupActivity {
         ArrayList<Group> selectedGroups = getIntent().getParcelableArrayListExtra(selectedGroupsKey);
 
         SelectionTracker tracker = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker();
+        tracker.select(0L);
         // Previous setting
         if(selectedGroups.size() > 0) {
             Iterator<Group> selectIter = selectedGroups.iterator();
@@ -80,7 +81,6 @@ public class GroupSearchSettingActivity extends PopupActivity {
         // No previous setting
         else {
             selectingAllView.setSelected(true);
-            tracker.select(0L);
         }
         /* ~Set selected items */
     }
