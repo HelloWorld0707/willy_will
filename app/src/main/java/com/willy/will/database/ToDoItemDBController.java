@@ -99,31 +99,28 @@ public class ToDoItemDBController {
 
         //Read DB All Item
         if(selectedGroup == -1){
-            selectQuery = "SELECT i.item_name, i.done_date, " +
-                    "i.start_date, i.end_date, g.group_id, g.group_color," +
-                    " l.loop_week, i.item_id, i.to_do_id,i.item_important\n" +
-                    "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
-                    "WHERE i.group_id = g.group_id \n" +
-                    "AND i.to_do_id = l.to_do_id \n" +
-                    "AND date(i.start_date) <= \""+currentDate+"\"\n"+
-                    "AND date(i.end_date) >= \""+currentDate+"\" \n"+
-                    "ORDER BY i.done_date,i.item_important,i.item_name;";
+            selectQuery = "SELECT *," +
+                    "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop," +
+                    "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
+                    "FROM _ITEM \n" +
+                    "WHERE date(start_date) <= \""+currentDate+"\"\n"+
+                    "AND date(end_date) >= \""+currentDate+"\" \n"+
+                    "ORDER BY done,item_important,item_name;";
         }
 
         //Read DB by selected group
         else {
             selectedGroup+=1; // temp
 
-            selectQuery = "SELECT i.item_name, i.done_date, " +
-                    "i.start_date, i.end_date, g.group_id, g.group_color," +
-                    " l.loop_week, i.item_id, i.to_do_id, i.item_important\n" +
-                    "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
-                    "WHERE i.group_id = g.group_id \n" +
-                    "AND i.to_do_id = l.to_do_id \n" +
-                    "AND date(i.start_date) <= \""+currentDate+"\"\n"+
-                    "AND date(i.end_date) >= \""+currentDate+"\"\n"+
-                    "AND g.group_id = "+selectedGroup+"\n"+
-                    "ORDER BY i.done_date,i.item_important,i.item_name;";
+            selectQuery =
+                    "SELECT *," +
+                            "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop," +
+                            "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
+                            "FROM _ITEM \n" +
+                            "WHERE date(start_date) <= \""+currentDate+"\"\n"+
+                            "AND date(end_date) >= \""+currentDate+"\" \n"+
+                            "AND g.group_id = "+selectedGroup+"\n"+
+                            "ORDER BY done,item_important,item_name;";
         }
         Cursor cursor = readDatabase.rawQuery(selectQuery, null);
         Log.d("checkQuery",selectQuery);

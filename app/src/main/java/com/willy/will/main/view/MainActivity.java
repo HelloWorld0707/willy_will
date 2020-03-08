@@ -28,6 +28,7 @@ import com.willy.will.calander.view.CalendarActivity;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
+import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
     public static DBAccess dbHelper;
     private Resources resources;
 
+    private GroupDBController dbController;
     private Spinner sp_group;
     private ArrayList<String> spgroupList;
     private ArrayList<Group> groupList;
@@ -100,7 +102,8 @@ public class MainActivity extends AppCompatActivity{
         /*Set sp_group*/
 
         /**set fragment**/
-        groupList = getGroupName();
+        dbController = new GroupDBController(resources);
+        groupList = dbController.getAllGroups();
         groupId = -1;
         fragmentmain = MainFragment.getInstance(sendDate,groupId);
 
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
 
         /**set sp_group **/
         spgroupList = new ArrayList<String>();
-        spgroupList.add(0,"전체");
+        spgroupList.add(0,resources.getString(R.string.all));
         for (Group a: groupList) {
             spgroupList.add(a.getGroupName());
         }
@@ -250,37 +253,6 @@ public class MainActivity extends AppCompatActivity{
         tv_date.setText(baseDate);
     }
     /* ~ Change Date*/
-
-    /** Bring Spinner Group from DB*/
-    public ArrayList getGroupName() {
-        ArrayList<Group> list = new ArrayList<>();
-        Group curGroup = null;
-        String groupName = null;
-        String groupColor = null;
-        int groupId = -1;
-
-
-        Cursor cursor = dbHelper.getReadableDatabase().query(resources.getString(R.string.group_table)
-                , null, null, null,
-                null, null, null);
-
-
-        if(cursor.moveToFirst()) {
-            do {
-                groupName = cursor.getString(cursor.getColumnIndex(
-                        resources.getString(R.string.group_name_column)));
-                groupColor = cursor.getString(cursor.getColumnIndex(
-                        resources.getString(R.string.group_color_column)));
-                groupId = cursor.getInt(cursor.getColumnIndex(
-                        resources.getString(R.string.group_id_column)));
-
-                curGroup = new Group(groupId,groupName,groupColor);
-                list.add(curGroup);
-            } while (cursor.moveToNext());
-        }
-        return list;
-    }
-    /* ~Bring Spinner Group from DB*/
 
     /** terminate application */
     @Override
