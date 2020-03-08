@@ -2,6 +2,7 @@ package com.willy.will.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -23,6 +24,7 @@ import com.willy.will.R;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
@@ -40,6 +42,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private ImageView imgRoutine;
     private TextView tvTime;
     private CheckBox cbDone;
+
+    private ImageView groupColorCircleView;
+    private TextView taskNameView;
+    private TextView dDayOrAchivementView;
+    private CheckBox taskCheckBox;
     // ~View of Item
 
     // Initialization of THE item (Called for each item)
@@ -62,7 +69,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(cbDone.isPressed()) {
                         setActivation(b);
-                        int position = Math.toIntExact((Long) getItemId());
+                        int position = Math.toIntExact(getItemId());
                         ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                         toDoItem.setDone(b);
                         rcyclerVAdapter.notifyItemChanged(position);
@@ -75,6 +82,21 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 type == RecyclerViewItemType.DONE_SEARCH ||
                 type == RecyclerViewItemType.LOOP_SEARCH) {
             textOnlyView = view.findViewById(R.id.text_recycler_item);
+        }
+        // Task
+        else if(type == RecyclerViewItemType.TASK) {
+            groupColorCircleView = view.findViewById(R.id.group_color);
+            taskNameView = view.findViewById(R.id.task_name);
+            dDayOrAchivementView = view.findViewById(R.id.d_day_or_achievement);
+            taskCheckBox = view.findViewById(R.id.check_box);
+            taskCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int position = Math.toIntExact(getItemId());
+                    Task task = (Task) rcyclerVAdapter.getData(position);
+                    task.setChecked(isChecked);
+                }
+            });
         }
         // ERROR: Wrong type
         else {
@@ -142,6 +164,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 type == RecyclerViewItemType.LOOP_SEARCH) {
             String text = (String) data;
             textOnlyView.setText(text);
+        }
+        // Task
+        else if(type == RecyclerViewItemType.TASK) {
+            Task task = (Task) data;
+            if(task.getGroup().getGroupId() > 0) {
+                groupColorCircleView.getDrawable().setTint(Color.parseColor(task.getGroup().getGroupColor()));
+            }
+            taskNameView.setText(task.getName());
+            dDayOrAchivementView.setText(task.getdDayOrAchievement());
+            taskCheckBox.setChecked(task.isChecked());
         }
         // ERROR: Wrong type
         else {

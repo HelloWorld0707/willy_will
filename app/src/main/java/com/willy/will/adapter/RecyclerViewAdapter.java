@@ -57,7 +57,11 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
                 type == RecyclerViewItemType.DONE_SEARCH ||
                 type == RecyclerViewItemType.LOOP_SEARCH) {
-            layoutId = R.layout.recycleritem_text_only;
+            layoutId = R.layout.item_text_only;
+        }
+        // Task
+        else if(type == RecyclerViewItemType.TASK) {
+            layoutId = R.layout.item_task;
         }
         // ERROR: Wrong type
         else {
