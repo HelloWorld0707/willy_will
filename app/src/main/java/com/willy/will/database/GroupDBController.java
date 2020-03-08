@@ -29,7 +29,7 @@ public class GroupDBController {
                 resources.getString(R.string.group_table), null,
                 null, null,
                 null, null,
-                resources.getString(R.string.group_name_column)+ " ASC");
+                resources.getString(R.string.group_name_column) + " ASC");
         /* ~Read DB */
 
         /** Put data in ArrayList **/
