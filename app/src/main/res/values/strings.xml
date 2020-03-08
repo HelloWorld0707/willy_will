@@ -80,6 +80,7 @@
     <string name="only_done_key">onlyDone</string>
     <string name="start_of_done_date_key">startOfDoneDate</string>
     <string name="end_of_done_date_key">endOfDoneDate</string>
+    <string name="selected_group_from_main">Group</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
