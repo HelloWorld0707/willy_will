@@ -38,7 +38,7 @@
     <string name="search_hint">할 일 이름을 검색하십시오.</string>
     <string name="all">전체</string>
 
-    <string name="no_group">그룹 미설정</string>
+    <string name="no_group">그룹미정</string>
 
     <string name="done">완료</string>
     <string name="not_done">미완료</string>
