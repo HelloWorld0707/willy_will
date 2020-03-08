@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity{
         /*Set sp_group*/
 
         /**set fragment**/
+        sendGroup = -1;
         fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
 
         //add the fragment to container(frame layout)
@@ -109,7 +110,6 @@ public class MainActivity extends AppCompatActivity{
 
         /**set sp_group **/
         spgroupList = getGroupName();
-        sendGroup = -1;
 
         spgroupAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item,

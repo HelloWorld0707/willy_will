@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +66,7 @@ public class MainFragment extends Fragment {
 
 
         /** Set TodoItem */
-        list = mainToDoItems(list, resources.getString(R.string.item_table),
-                resources.getString(R.string.item_important_column),currentDate,groupId);
+        list = mainToDoItems(list,currentDate,groupId);
 
         /* ~Set TodoItem */
 
@@ -93,7 +93,6 @@ public class MainFragment extends Fragment {
 
     /** ToDoItem from DB */
     public ArrayList<ToDoItem> mainToDoItems(ArrayList<ToDoItem> toDoItemList,
-                                               String tempTable, String groupByToDoIdColumn,
                                              String currentDate, int selectedGroup) {
         SQLiteDatabase readDatabase = DBAccess.getDbHelper().getReadableDatabase();
         String selectQuery;
@@ -117,16 +116,18 @@ public class MainFragment extends Fragment {
 
         //Read DB by selected group
         else {
+            selectedGroup+=1; // temp
+            
             selectQuery = "SELECT i.item_name, i.done_date, " +
                     "i.start_date, i.end_date, g.group_id, g.group_color," +
                     " l.loop_week, i.item_id, i.to_do_id, i.item_important\n" +
                     "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
                     "WHERE i.group_id = g.group_id \n" +
                     "AND i.to_do_id = l.to_do_id \n" +
-                    "BETWEEN i.start_date AND i.end_date \n" +
                     "AND g.group_id = "+selectedGroup+";";
         }
         Cursor cursor = readDatabase.rawQuery(selectQuery, null);
+        Log.d("checkQuery",selectQuery);
 
         /** Put data in ArrayList **/
         ToDoItem curToDoItem = null;
