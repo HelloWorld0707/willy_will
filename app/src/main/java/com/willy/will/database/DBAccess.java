@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.core.content.ContextCompat;
+
 import com.willy.will.R;
 import com.willy.will.common.controller.App;
 
@@ -35,30 +37,41 @@ public class DBAccess extends SQLiteOpenHelper {
 
         // 새로운 테이블 생성
         query = "CREATE TABLE " + resources.getString(R.string.calendar_table) + "( " +
-                resources.getString(R.string.calendar_id_column) + " INTEGER NOT NULL," +
-                resources.getString(R.string.calendar_date_column) + " TEXT NOT NULL," +
-                resources.getString(R.string.item_id_column) + " INTEGER," +
+                resources.getString(R.string.calendar_id_column) + " INTEGER NOT NULL, " +
+                resources.getString(R.string.calendar_date_column) + " TEXT NOT NULL, " +
+                resources.getString(R.string.item_id_column) + " INTEGER, " +
                 "PRIMARY KEY(" + resources.getString(R.string.calendar_id_column) + ") );";
         db.execSQL(query);
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.group_table) + "( " +
-                resources.getString(R.string.group_id_column) + " INTEGER NOT NULL," +
-                resources.getString(R.string.group_name_column) + " TEXT NOT NULL," +
-                resources.getString(R.string.group_color_column) + " TEXT NOT NULL," +
+                resources.getString(R.string.group_id_column) + " INTEGER NOT NULL, " +
+                resources.getString(R.string.group_name_column) + " TEXT NOT NULL, " +
+                resources.getString(R.string.group_color_column) + " TEXT NOT NULL, " +
                 "PRIMARY KEY(" + resources.getString(R.string.group_id_column) + ") );"
+        );
+        String noGroupColorStr = String.format("#%08X", (0xFFFFFFFF & ContextCompat.getColor(App.getContext(), R.color.colorNoGroup)));
+        db.execSQL("" +
+                "INSERT INTO " + resources.getString(R.string.group_table) + "(" +
+                resources.getString(R.string.group_id_column) + ", " +
+                resources.getString(R.string.group_name_column) + ", " +
+                resources.getString(R.string.group_color_column) + ")" +
+                "VALUES(" +
+                resources.getInteger(R.integer.no_group_id) + ", '" +
+                resources.getString(R.string.no_group) + "', '" +
+                noGroupColorStr + "')"
         );
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.item_table) + "( " +
-                resources.getString(R.string.item_id_column) + " INTEGER NOT NULL," +
-                resources.getString(R.string.group_id_column) + " INTEGER," +
-                resources.getString(R.string.item_name_column) + " TEXT NOT NULL," +
-                resources.getString(R.string.item_important_column) + " INTEGER," +
-                resources.getString(R.string.item_location_X_column) + " TEXT," +
-                resources.getString(R.string.item_location_Y_column) + " TEXT," +
-                resources.getString(R.string.done_date_column) + " TEXT," +
-                resources.getString(R.string.start_date_column) + " TEXT NOT NULL," +
-                resources.getString(R.string.end_date_column) + " TEXT NOT NULL," +
-                resources.getString(R.string.to_do_id_column) + " INTEGER," +
+                resources.getString(R.string.item_id_column) + " INTEGER NOT NULL, " +
+                resources.getString(R.string.group_id_column) + " INTEGER, " +
+                resources.getString(R.string.item_name_column) + " TEXT NOT NULL, " +
+                resources.getString(R.string.item_important_column) + " INTEGER, " +
+                resources.getString(R.string.item_location_X_column) + " TEXT, " +
+                resources.getString(R.string.item_location_Y_column) + " TEXT, " +
+                resources.getString(R.string.done_date_column) + " TEXT, " +
+                resources.getString(R.string.start_date_column) + " TEXT NOT NULL, " +
+                resources.getString(R.string.end_date_column) + " TEXT NOT NULL, " +
+                resources.getString(R.string.to_do_id_column) + " INTEGER, " +
                 "PRIMARY KEY(" + resources.getString(R.string.item_id_column) + ") );"
         );
 
