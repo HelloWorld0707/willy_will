@@ -110,8 +110,6 @@ public class ToDoItemDBController {
 
         //Read DB by selected group
         else {
-            selectedGroup+=1; // temp
-
             selectQuery =
                     "SELECT *," +
                             "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop," +
@@ -119,7 +117,7 @@ public class ToDoItemDBController {
                             "FROM _ITEM \n" +
                             "WHERE date(start_date) <= \""+currentDate+"\"\n"+
                             "AND date(end_date) >= \""+currentDate+"\" \n"+
-                            "AND g.group_id = "+selectedGroup+"\n"+
+                            "AND group_id = "+selectedGroup+"\n"+
                             "ORDER BY done,item_important,item_name;";
         }
         Cursor cursor = readDatabase.rawQuery(selectQuery, null);

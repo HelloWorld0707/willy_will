@@ -31,6 +31,7 @@ import com.willy.will.database.DBAccess;
 import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
+import com.willy.will.setting.TaskManagementActivity;
 
 
 import java.io.File;
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity{
 
     /** Move to TaskManagementActivity */
     public void btnTaskSettingClick(View view){
-        Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        Intent intent = new Intent(MainActivity.this , TaskManagementActivity.class);
         drawer.closeDrawer(drawerView);
         startActivity(intent);
     }
