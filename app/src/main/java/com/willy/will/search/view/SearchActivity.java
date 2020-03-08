@@ -181,10 +181,10 @@ public class SearchActivity extends AppCompatActivity {
         selectedGroups = new ArrayList<>();
         selectedDone = resources.getString(R.string.all);
         selectedLoop = resources.getString(R.string.all);
-        startOfStartDate = current;
-        endOfStartDate = "";
-        startOfEndDate = "";
-        endOfEndDate = current;
+        startOfStartDate = "";
+        endOfStartDate = current;
+        startOfEndDate = current;
+        endOfEndDate = "";
         onlyDone = false;
         startOfDoneDate = "";
         endOfDoneDate = "";

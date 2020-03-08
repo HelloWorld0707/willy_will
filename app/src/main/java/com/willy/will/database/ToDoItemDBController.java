@@ -32,7 +32,8 @@ public class ToDoItemDBController {
         // Set columns
         String[] columns = {
                 "*",
-                resources.getString(R.string.done_column)
+                resources.getString(R.string.done_column),
+                resources.getString(R.string.loop_column)
         };
 
         // Set a column for GROUP BY
