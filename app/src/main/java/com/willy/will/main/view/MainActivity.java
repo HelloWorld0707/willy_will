@@ -25,10 +25,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
-import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
-import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
 
@@ -37,12 +35,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
     public static DBAccess dbHelper;
-    private SQLiteDatabase readDatabase;
     private Resources resources;
 
     private Spinner sp_group;
@@ -224,8 +220,6 @@ public class MainActivity extends AppCompatActivity{
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
             fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
-            sendGroup = -1;
-
             //make new fragment
             getSupportFragmentManager()
                     .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();

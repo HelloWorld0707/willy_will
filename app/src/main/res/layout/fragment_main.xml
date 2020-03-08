@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/tv_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:text="@string/not_exsist_list"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainItemList"
             android:layout_width="match_parent"
