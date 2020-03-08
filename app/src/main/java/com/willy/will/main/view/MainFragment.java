@@ -2,6 +2,7 @@ package com.willy.will.main.view;
 
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,11 +29,12 @@ public class MainFragment extends Fragment {
     //fragment var
     private static final String ARG_DATE = "ARG_DATE";
     private static final String ARG_GROUP_NO = "ARG_GROUP_NO";
-    private static DBAccess dbHelper = DBAccess.getDbHelper();
     private Resources resources;
     private ToDoItemDBController dbController;
 
     private ArrayList<ToDoItem> list;
+    private String currentDate;
+    private int groupId;
 
 
     /**setting fragment*/
@@ -46,31 +48,27 @@ public class MainFragment extends Fragment {
     }
     /*~setting fragment*/
 
-
     /** Store instance variables based on arguments passed */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String checkString = getArguments().getString(ARG_DATE,"Today");
         resources = getActivity().getResources();
-
-        String text = checkString + "날의 프래그먼트";
-        Log.d("MyFragment", "onCreate " + text+"***************************************");
     }
     /* ~Store instance variables based on arguments passed */
 
     /** Inflate the view for the fragment based on layout XML*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        currentDate = getArguments().getString(ARG_DATE);
+        groupId = getArguments().getInt(ARG_GROUP_NO);
 
         ViewGroup rootView =
                 (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
 
         /** Set TodoItem */
-        dbController = new ToDoItemDBController(resources);
-        list = dbController.searchToDoItems(list, resources.getString(R.string.item_table),
-                resources.getString(R.string.item_important_column));
+        list = mainToDoItems(list, resources.getString(R.string.item_table),
+                resources.getString(R.string.item_important_column),currentDate,groupId);
 
         /* ~Set TodoItem */
 
@@ -95,4 +93,77 @@ public class MainFragment extends Fragment {
         super.onResume();
     }
 
+    /** ToDoItem from DB */
+    public ArrayList<ToDoItem> mainToDoItems(ArrayList<ToDoItem> toDoItemList,
+                                               String tempTable, String groupByToDoIdColumn,
+                                             String currentDate, int selectedGroup) {
+        SQLiteDatabase readDatabase = DBAccess.getDbHelper().getReadableDatabase();
+        String selectQuery;
+
+        // Initialization of ArrayList
+        if(toDoItemList == null) {
+            toDoItemList = new ArrayList<>();
+        }
+
+
+        //Read DB All Item
+        if(selectedGroup == -1){
+            selectQuery = "SELECT i.item_name, i.done_date, " +
+                    "i.start_date, i.end_date, g.group_id, g.group_color," +
+                    " l.loop_week, i.item_id, i.to_do_id,i.item_important\n" +
+                    "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
+                    "WHERE i.group_id = g.group_id \n" +
+                    "AND i.to_do_id = l.to_do_id \n" +
+                    "AND date(i.start_date)<="+currentDate+"<=date(i.end_date)\n;";
+        }
+
+        //Read DB by selected group
+        else {
+            selectQuery = "SELECT i.item_name, i.done_date, " +
+                    "i.start_date, i.end_date, g.group_id, g.group_color," +
+                    " l.loop_week, i.item_id, i.to_do_id, i.item_important\n" +
+                    "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
+                    "WHERE i.group_id = g.group_id \n" +
+                    "AND i.to_do_id = l.to_do_id \n" +
+                    "BETWEEN i.start_date AND i.end_date \n" +
+                    "AND g.group_id = "+selectedGroup+";";
+        }
+        Cursor cursor = readDatabase.rawQuery(selectQuery, null);
+
+        /** Put data in ArrayList **/
+        ToDoItem curToDoItem = null;
+        int itemId = -1;
+        int groupId = -1;
+        String doneDate = null;
+        boolean done = false;
+        String endDate = null;
+        int toDoId = -1;
+        int rank = -1;
+        String name = null;
+        String loop = null;
+        while(cursor.moveToNext()) {
+            itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
+            groupId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_id_column)));
+            doneDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.done_date_column)));
+            if(doneDate != null) {
+                done = true;
+            }
+            else {
+                done = false;
+            }
+            endDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.end_date_column)));
+            toDoId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.to_do_id_column)));
+            rank = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_important_column)));
+
+            name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
+//            loop = cursor.getString(cursor.getColumnIndex(resources.getString((R.string.loop))));
+
+            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
+            toDoItemList.add(curToDoItem);
+        }
+        /* ~Put data in ArrayList */
+
+        return toDoItemList;
+    }
+    /* ~ToDoItem from DB */
 }
