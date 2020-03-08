@@ -21,19 +21,33 @@ public class ToDoItemDBController {
         writeDatabase = DBAccess.getDbHelper().getWritableDatabase();
     }
 
-    public ArrayList<ToDoItem> searchToDoItems(ArrayList<ToDoItem> toDoItemList,
-                                               String tempTable, String groupByToDoIdColumn) {
-        // Initialization of ArrayList
+    public ArrayList<ToDoItem> searchToDoItems(ArrayList<ToDoItem> toDoItemList, String tempTable) {
+        /** Initialize to-do item list **/
         if(toDoItemList == null) {
             toDoItemList = new ArrayList<>();
         }
+        /* ~Initialize to-do item list */
 
         /** Read DB **/
+        // Set columns
+        String[] columns = {
+                "*",
+                resources.getString(R.string.done_column)
+        };
+
+        // Set a column for GROUP BY
+        String groupBy = resources.getString(R.string.to_do_id_column);
+        // Set HAVING
+        String having = "max(" + resources.getString(R.string.item_id_column) + ")";
+
+        // Set order
+        String order = resources.getString(R.string.to_do_item_order);
+
         Cursor cursor = readDatabase.query(
-                tempTable, null,
+                tempTable, columns,
                 null, null,
-                groupByToDoIdColumn, "max(" + resources.getString(R.string.item_id_column) + ")",
-                null);
+                groupBy, having,
+                order);
         /* ~Read DB */
 
         /** Put data in ArrayList **/

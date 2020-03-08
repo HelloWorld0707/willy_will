@@ -38,6 +38,11 @@
     <string name="strftime_function">strftime(\'%%Y%%m%%d\', %1$s)</string>
     <!-- ~functions -->
 
+    <!-- queries for sorting to-do item -->
+    <string name="done_column">CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done</string>
+    <string name="to_do_item_order">done, item_important, item_name</string>
+    <!-- ~queries for sorting to-do item -->
+
     <!-- queries for Search -->
     <string name="temporary_table_for_search_query">( SELECT * FROM _ITEM WHERE %1$s )</string>
     <!-- ~queries for Search -->

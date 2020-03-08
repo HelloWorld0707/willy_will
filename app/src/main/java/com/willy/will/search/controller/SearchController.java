@@ -31,21 +31,21 @@ public class SearchController {
                                             String selectedLoop,
                                             String startOfStartDate, String endOfStartDate,
                                             String startOfEndDate, String endOfEndDate) {
+        /** Initialize to-do item list **/
         if(toDoList == null) {
             toDoList = new ArrayList<>();
         }
         else if(!toDoList.isEmpty()) {
             toDoList.clear();
         }
+        /* ~Initialize to-do item list */
 
-        String toDoIdColumn = resources.getString(R.string.to_do_id_column);
-
+        /** Set the temporary table **/
         // For dates
         String strftime = resources.getString(R.string.strftime_function);
         String comparisonDate = null;
         String criDate = null;
 
-        /** Set criteria of a temporary table **/
         // Set item name criterion
         String itemNameQuery = "";
         if(!searchName.isEmpty()) {
@@ -85,6 +85,7 @@ public class SearchController {
         // Set loop criterion
         String loopQuery = "";
         if(!selectedLoop.equals(resources.getString(R.string.all))) {
+            String toDoIdColumn = resources.getString(R.string.to_do_id_column);
             if (selectedLoop.equals(resources.getString(R.string.not_loop))) {
                 loopQuery += (" AND " +
                         toDoIdColumn + " NOT IN " +
@@ -121,14 +122,14 @@ public class SearchController {
                 endDateQuery += (" AND " + comparisonDate + " <= " + criDate);
             }
         }
-        /* ~Set criteria of a temporary table */
 
         String tempTable = String.format(
                 resources.getString(R.string.temporary_table_for_search_query),
                 itemNameQuery + groupsQuery + doneQuery + loopQuery + startDateQuery + endDateQuery
         ).replace("WHERE  AND", "WHERE");
+        /* ~Set the temporary table */
 
-        toDoList = toDoItemDBController.searchToDoItems(toDoList, tempTable, toDoIdColumn);
+        toDoList = toDoItemDBController.searchToDoItems(toDoList, tempTable);
 
         return toDoList;
     }
