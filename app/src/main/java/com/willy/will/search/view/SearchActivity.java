@@ -40,6 +40,7 @@ public class SearchActivity extends AppCompatActivity {
     private String extraNameCode = null;
     private Resources resources = null;
     private int code = 0;
+    private Group currentGroup = null;
     private String current = null;
 
     private SearchController searchCtrl = null;
@@ -69,6 +70,7 @@ public class SearchActivity extends AppCompatActivity {
         searchCtrl = new SearchController(getResources(), recyclerView);
 
         /** Set data **/
+        currentGroup = getIntent().getParcelableExtra(resources.getString(R.string.current_group_key));
         current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
         initSearchSetting(getWindow().getDecorView());
         setToDoList("");
@@ -178,7 +180,15 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void initSearchSetting(View view) {
-        selectedGroups = new ArrayList<>();
+        if(selectedGroups == null) {
+            selectedGroups = new ArrayList<>();
+        }
+        else {
+            selectedGroups.clear();
+        }
+        if(currentGroup != null) {
+            selectedGroups.add(currentGroup);
+        }
         selectedDone = resources.getString(R.string.all);
         selectedLoop = resources.getString(R.string.all);
         startOfStartDate = "";

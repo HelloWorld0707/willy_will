@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".setting.TaskManagementActivity"></activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -70,6 +69,9 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".setting.AlarmActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".setting.TaskManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <receiver android:name=".receiver.DeviceBootReceiver">
