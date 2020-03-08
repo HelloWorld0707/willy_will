@@ -1,13 +1,11 @@
 package com.willy.will.main.view;
 
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DBAccess;
 import com.willy.will.database.ToDoItemDBController;
-import com.willy.will.common.model.ToDoItem;
 
 import java.util.ArrayList;
 
@@ -69,8 +67,7 @@ public class MainFragment extends Fragment {
 
         /** Set TodoItem */
         dbController = new ToDoItemDBController(resources);
-        list = dbController.searchToDoItems(list, resources.getString(R.string.item_table),
-                resources.getString(R.string.item_important_column));
+        list = dbController.searchToDoItems(list, resources.getString(R.string.item_table));
 
         /* ~Set TodoItem */
 
