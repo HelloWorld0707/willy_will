@@ -25,10 +25,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
-import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
-import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
 
@@ -37,18 +35,16 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
     public static DBAccess dbHelper;
-    private SQLiteDatabase readDatabase;
     private Resources resources;
 
     private Spinner sp_group;
     private ArrayList<String> spgroupList;
     private ArrayAdapter<String> spgroupAdapter;
-    private int groupId;
+    private int sendGroup;
 
     private DrawerLayout drawer;
     private View drawerView;
@@ -97,9 +93,19 @@ public class MainActivity extends AppCompatActivity{
         });
         /*~open picker & change txt*/
 
+        /*Set sp_group*/
+
+        /**set fragment**/
+        sendGroup = -1;
+        fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
+
+        //add the fragment to container(frame layout)
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+        /*~set fragment*/
+
         /**set sp_group **/
         spgroupList = getGroupName();
-        groupId = 0;
 
         spgroupAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -108,25 +114,28 @@ public class MainActivity extends AppCompatActivity{
         sp_group = (Spinner)findViewById(R.id.sp_group);
         sp_group.setAdapter(spgroupAdapter);
         sp_group.setSelection(0,false);
+
+        //sp_group clickListener
         sp_group.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int i, long id) {
                 Toast.makeText(getApplicationContext(),
                         "선택된 아이템 : "+sp_group.getItemAtPosition(i),Toast.LENGTH_SHORT).show();
+
+                getSupportFragmentManager()
+                        .beginTransaction().remove(fragmentmain).commit();
+
+                sendGroup = i-1;
+                fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
+
+                getSupportFragmentManager()
+                        .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-        /*Set sp_group*/
 
-        /**set fragment**/
-        fragmentmain = MainFragment.getInstance(sendDate,groupId);
-
-        //add the fragment to container(frame layout)
-        getSupportFragmentManager()
-                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
-        /*~set fragment*/
 
         /** set fab event Listener **/
         FloatingActionButton fab = findViewById(R.id.fabItemAdd);
@@ -145,7 +154,9 @@ public class MainActivity extends AppCompatActivity{
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
+        intent.putExtra(getResources().getString(R.string.selection_id_group_search_setting),sendGroup);
 //        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+//        Log.d("GroupIdcheck","**********그룹"+sendGroup+"*************");
         startActivity(intent);
     }
     /*~ Function: Move to SearchView */
@@ -208,8 +219,7 @@ public class MainActivity extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = MainFragment.getInstance(sendDate,groupId);
-
+            fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
             //make new fragment
             getSupportFragmentManager()
                     .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
