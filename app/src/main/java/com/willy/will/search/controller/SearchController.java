@@ -67,11 +67,12 @@ public class SearchController {
         // Set done criterion
         String doneQuery = "";
         if(!selectedDone.equals(resources.getString(R.string.all))) {
-            comparisonDate = String.format(strftime, resources.getString(R.string.done_date_column));
+            String doneDateColumn = resources.getString(R.string.done_date_column);
             if (selectedDone.equals(resources.getString(R.string.not_done))) {
-                doneQuery += (comparisonDate + " = NULL OR" + comparisonDate + " = ''");
+                doneQuery += (" AND " + doneDateColumn + " = NULL OR " + doneDateColumn + " = ''");
             }
             else if(selectedDone.equals(resources.getString(R.string.done))) {
+                comparisonDate = String.format(strftime, doneDateColumn);
                 if (!startOfDoneDate.isEmpty()) {
                     criDate = String.format(strftime, "'" + startOfDoneDate + "'");
                     doneQuery += (" AND " + comparisonDate + " >= " + criDate);
