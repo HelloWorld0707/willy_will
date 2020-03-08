@@ -116,8 +116,8 @@ public class MainFragment extends Fragment {
                     "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
                     "WHERE i.group_id = g.group_id \n" +
                     "AND i.to_do_id = l.to_do_id \n" +
-                    "AND date(i.end_date) >= \""+currentDate+"\" \n"+
                     "AND date(i.start_date) <= \""+currentDate+"\"\n"+
+                    "AND date(i.end_date) >= \""+currentDate+"\" \n"+
                     "ORDER BY i.done_date,i.item_important,i.item_name;";
         }
 
@@ -131,8 +131,8 @@ public class MainFragment extends Fragment {
                     "FROM _ITEM i, _GROUP g, _LOOP_INFO l \n" +
                     "WHERE i.group_id = g.group_id \n" +
                     "AND i.to_do_id = l.to_do_id \n" +
+                    "AND date(i.start_date) <= \""+currentDate+"\"\n"+
                     "AND date(i.end_date) >= \""+currentDate+"\"\n"+
-                    "AND date(i.start_date) >= \""+currentDate+"\"\n"+
                     "AND g.group_id = "+selectedGroup+"\n"+
                     "ORDER BY i.done_date,i.item_important,i.item_name;";
         }
