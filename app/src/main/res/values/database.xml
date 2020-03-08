@@ -44,7 +44,7 @@
     <!-- ~queries for sorting to-do item -->
 
     <!-- query for to-do item loop -->
-    <string name="loop_column">CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN TRUE ELSE FALSE END AS loop</string>
+    <string name="loop_column">CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop</string>
     <!-- ~query for to-do item loop -->
 
     <!-- queries for Search -->

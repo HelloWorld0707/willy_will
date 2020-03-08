@@ -70,6 +70,7 @@
     <!-- #################### value #################### -->
     <!-- extra names of Intent -->
     <string name="current_date_key">currentDate</string>
+    <string name="current_group_key">currentGroup</string>
     <string name="selected_groups_key">selectedGroups</string>
     <string name="selected_done_key">selectedDone</string>
     <string name="selected_loop_key">selectedLoop</string>
