@@ -25,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
+import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.search.view.SearchActivity;
@@ -32,6 +33,7 @@ import com.willy.will.setting.AlarmActivity;
 
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,8 +45,10 @@ public class MainActivity extends AppCompatActivity{
 
     private Spinner sp_group;
     private ArrayList<String> spgroupList;
+    private ArrayList<Group> groupList;
     private ArrayAdapter<String> spgroupAdapter;
-    private int sendGroup;
+    private Group sendGroup;
+    private int groupId;
 
     private DrawerLayout drawer;
     private View drawerView;
@@ -96,8 +100,9 @@ public class MainActivity extends AppCompatActivity{
         /*Set sp_group*/
 
         /**set fragment**/
-        sendGroup = -1;
-        fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
+        groupList = getGroupName();
+        groupId = -1;
+        fragmentmain = MainFragment.getInstance(sendDate,groupId);
 
         //add the fragment to container(frame layout)
         getSupportFragmentManager()
@@ -105,7 +110,12 @@ public class MainActivity extends AppCompatActivity{
         /*~set fragment*/
 
         /**set sp_group **/
-        spgroupList = getGroupName();
+        spgroupList = new ArrayList<String>();
+        spgroupList.add(0,"전체");
+        for (Group a: groupList) {
+            spgroupList.add(a.getGroupName());
+        }
+
 
         spgroupAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -126,8 +136,11 @@ public class MainActivity extends AppCompatActivity{
                 getSupportFragmentManager()
                         .beginTransaction().remove(fragmentmain).commit();
 
-                sendGroup = i-1;
-                fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
+                groupId = i-1;
+                if(i == 0){ sendGroup = null;}
+                else{ sendGroup = groupList.get(i-1);}
+
+                fragmentmain = MainFragment.getInstance(sendDate, groupId);
 
                 getSupportFragmentManager()
                         .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
@@ -154,9 +167,9 @@ public class MainActivity extends AppCompatActivity{
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-        intent.putExtra(getResources().getString(R.string.selection_id_group_search_setting),sendGroup);
+        intent.putExtra(getResources().getString(R.string.current_date_key),sendGroup);
 //        Log.d("DateChecked","**********날짜"+sendDate+"*************");
-//        Log.d("GroupIdcheck","**********그룹"+sendGroup+"*************");
+//        Log.d("GroupIdcheck","**********그룹"+sendGroup.getGroupName()+"*************");
         startActivity(intent);
     }
     /*~ Function: Move to SearchView */
@@ -219,7 +232,7 @@ public class MainActivity extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = MainFragment.getInstance(sendDate,sendGroup);
+            fragmentmain = MainFragment.getInstance(sendDate,groupId);
             //make new fragment
             getSupportFragmentManager()
                     .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
@@ -240,22 +253,29 @@ public class MainActivity extends AppCompatActivity{
 
     /** Bring Spinner Group from DB*/
     public ArrayList getGroupName() {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<Group> list = new ArrayList<>();
+        Group curGroup = null;
         String groupName = null;
+        String groupColor = null;
+        int groupId = -1;
+
 
         Cursor cursor = dbHelper.getReadableDatabase().query(resources.getString(R.string.group_table)
                 , null, null, null,
                 null, null, null);
 
-        list.add(resources.getString(R.string.all));
 
         if(cursor.moveToFirst()) {
             do {
                 groupName = cursor.getString(cursor.getColumnIndex(
-                        resources.getString(R.string.group_name_column)
-                ));
-                list.add(groupName);
+                        resources.getString(R.string.group_name_column)));
+                groupColor = cursor.getString(cursor.getColumnIndex(
+                        resources.getString(R.string.group_color_column)));
+                groupId = cursor.getInt(cursor.getColumnIndex(
+                        resources.getString(R.string.group_id_column)));
 
+                curGroup = new Group(groupId,groupName,groupColor);
+                list.add(curGroup);
             } while (cursor.moveToNext());
         }
         return list;

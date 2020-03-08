@@ -11,7 +11,7 @@ public class ToDoItem {
     private int toDoId;
     private int rank;
     private String name;
-    private boolean done; //checkbox용
+    private boolean done;
 
     public ToDoItem() {
         itemId = -1;
