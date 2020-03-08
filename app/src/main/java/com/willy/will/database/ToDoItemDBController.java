@@ -8,7 +8,9 @@ import android.util.Log;
 import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ToDoItemDBController {
 
@@ -100,9 +102,10 @@ public class ToDoItemDBController {
         //Read DB All Item
         if(selectedGroup == -1){
             selectQuery = "SELECT *," +
-                    "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop," +
+                    "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) " +
+                    "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS loop," +
                     "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
-                    "FROM _ITEM \n" +
+                    "FROM _ITEM i\n" +
                     "WHERE date(start_date) <= \""+currentDate+"\"\n"+
                     "AND date(end_date) >= \""+currentDate+"\" \n"+
                     "ORDER BY done,item_important,item_name;";
@@ -112,9 +115,10 @@ public class ToDoItemDBController {
         else {
             selectQuery =
                     "SELECT *," +
-                            "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop," +
+                            "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) " +
+                            "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS loop," +
                             "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
-                            "FROM _ITEM \n" +
+                            "FROM _ITEM i\n" +
                             "WHERE date(start_date) <= \""+currentDate+"\"\n"+
                             "AND date(end_date) >= \""+currentDate+"\" \n"+
                             "AND group_id = "+selectedGroup+"\n"+
@@ -132,8 +136,8 @@ public class ToDoItemDBController {
         String endDate = null;
         int toDoId = -1;
         int rank = -1;
-//        int loop = -1;
-//       String loopday = null;
+        int dayNum = -1;
+        String loopday = null;
         String name = null;
 
         while(cursor.moveToNext()) {
@@ -151,10 +155,30 @@ public class ToDoItemDBController {
             rank = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_important_column)));
 
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
-//            loopday = cursor.getString(cursor.getColumnIndex(resources.getString((R.string.loop))));
+           loopday = cursor.getString(cursor.getColumnIndex(resources.getString(R.string.loop_t_n)));
+/*
+           if(loopday.length() != 0){
+               //loopday와 day of week 비교
+               //set day of week
+               Date d = java.sql.Date.valueOf(currentDate);
+               Calendar cal = Calendar.getInstance();
+               cal.setTime(d);
+               dayNum = cal.get(Calendar.DAY_OF_WEEK)-1;
 
-            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
-            toDoItemList.add(curToDoItem);
+               for(int i = 0; i<loopday.length();i++){
+
+                   int looppos = (int)loopday.charAt(i);
+                   //add item
+                   if(looppos == 49 && i == dayNum){
+                       curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
+                       toDoItemList.add(curToDoItem);
+                   }
+               }
+           }
+           else {*/
+               curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
+               toDoItemList.add(curToDoItem);
+//           }
         }
         /* ~Put data in ArrayList */
 
