@@ -57,13 +57,26 @@
 
                     <EditText
                         android:id="@+id/editText3"
-                        android:layout_width="match_parent"
+                        android:layout_width="150dp"
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:ems="10"
                         android:hint="@string/edit_Title"
                         android:inputType="textPersonName"
                         android:textSize="32sp" />
+
+                    <Button
+                        android:id="@+id/button"
+                        style="@style/DetailTitleStyle"
+                        android:gravity="center|right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="1dp"
+                        android:background="@drawable/btn_click_event"
+                        android:text="중요도"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="18sp"/>
                 </RelativeLayout>
 
                 <RelativeLayout
