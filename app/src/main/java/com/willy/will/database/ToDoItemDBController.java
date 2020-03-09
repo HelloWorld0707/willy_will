@@ -9,6 +9,7 @@ import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -175,4 +176,23 @@ public class ToDoItemDBController {
     }
     /* ~ToDoItem from DB */
 
+    /** Update DoneDate */
+    public void updateDB(int itemId,boolean activated){
+        //set TodayDate
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String today = sdf.format(date.getTime());
+
+        if(activated) {
+            writeDatabase.execSQL("update _ITEM \n" +
+                                  "set done_date=\"" + today + "\" \n" +
+                                  "where id=\"" + itemId + "\"; ");
+        }
+        else{
+            writeDatabase.execSQL("update _ITEM \n" +
+                                  "set done_date = NULL \n" +
+                                  "where id=\"" + itemId + "\"; ");
+        }
+    }
+    /* ~Update DoneDate */
 }
