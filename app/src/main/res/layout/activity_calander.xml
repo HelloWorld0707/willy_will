@@ -7,7 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/colorGroup4"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#007FFF"
         >
 
         <TextView
@@ -15,14 +18,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="YEAR"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/calenderMonthnDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MM / DD"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            />
     </LinearLayout>
 
 
@@ -32,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mcv_showOtherDates="all"
-        app:mcv_selectionColor="#00F"
+        app:mcv_selectionColor="#007FFF"
         />
 
     <ListView
