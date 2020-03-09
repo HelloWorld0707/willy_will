@@ -81,7 +81,7 @@
                         android:layout_marginRight="0dp"
                         android:background="#00ff0000"
                         android:gravity="center|right"
-                        android:text="그룹명"
+                        android:text="그룹선택"
                         android:textColor="@color/dark_gray"
                         android:textSize="18sp" />
 
@@ -104,6 +104,7 @@
                     <Button
                         android:id="@+id/btn_start"
                         style="@style/DetailTitleStyle"
+                        android:onClick="setStart"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/btn_click_event"
@@ -112,15 +113,16 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/editText11"
+                        style="@style/DetailTitleStyle"
+                        android:id="@+id/Text_start"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:background="@null"
                         android:ems="10"
-                        android:gravity="right|center_horizontal|center_vertical"
                         android:hint="@string/Date"
-                        android:inputType="date"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="right|center_horizontal|center_vertical"
                         android:textSize="18dp"/>
                 </RelativeLayout>
 
@@ -131,6 +133,7 @@
                     android:layout_marginEnd="30dp">
 
                     <Button
+                        android:onClick="setEnd"
                         style="@style/DetailTitleStyle"
                         android:id="@+id/btn_end"
                         android:layout_width="wrap_content"
@@ -141,15 +144,16 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/editText12"
+                        style="@style/DetailTitleStyle"
+                        android:id="@+id/Text_end"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:background="@null"
                         android:ems="10"
-                        android:gravity="right|center_horizontal|center_vertical"
                         android:hint="@string/Date"
-                        android:inputType="date"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="right|center_horizontal|center_vertical"
                         android:textSize="18dp" />
                 </RelativeLayout>
 

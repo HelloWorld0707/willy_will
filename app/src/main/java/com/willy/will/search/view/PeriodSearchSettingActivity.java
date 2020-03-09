@@ -145,11 +145,10 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 calendar.setTime(simpleDateFormat.parse(endOfStartDate));
                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE));
             } catch (ParseException e) {
-                Log.e("PeriodSearchSettingActivity", "Setting date: "+e.getMessage());
+                Log.e("PeriodSearchSettingActivity", "Setting date: " + e.getMessage());
                 e.printStackTrace();
             }
         }
-
         datePickerDialog.setMessage(resources.getString(R.string.end_of_start_date_text));
         datePickerDialog.show();
     }
@@ -233,7 +232,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 e.printStackTrace();
             }
         }
-
         datePickerDialog.setMessage(resources.getString(R.string.end_of_done_date_text));
         datePickerDialog.show();
     }

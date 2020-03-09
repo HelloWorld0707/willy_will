@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".common.view.Group_Color"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+
+    <TextView
+        style="@style/PopupTitleStyle"
+        android:text="색상" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/search_setting_contents_view_height"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/freeset5"
+            android:layout_width="195dp"
+            android:layout_height="194dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/trumpet"
+            android:onClick="onClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+        출처: https://parkshistory.tistory.com/20 [공부한 내용 정리하는 블로그]
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/layout_popup_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/basic_margin" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_button"
+        />
+</LinearLayout>

@@ -1,11 +1,10 @@
 package com.willy.will.common.view;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +17,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     ArrayAdapter<String> Adapter;
     ListView listView;
     Button btnAdd,btnDel;
-    EditText editText;
+    TextView Group_Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +25,9 @@ public class GroupManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_add_group);
 
         Items = new ArrayList<String>();
-        Items.add("First");
-        Items.add("Second");
-        Items.add("Third");
+        Items.add("운동");
+        Items.add("공부");
+        Items.add("레슨");
 
         Adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_single_choice,Items);
@@ -36,14 +35,15 @@ public class GroupManagementActivity extends AppCompatActivity {
         listView.setAdapter(Adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        editText = (EditText) findViewById(R.id.editText);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
-        btnDel = (Button) findViewById(R.id.btnDel);
+        Group_Text = findViewById(R.id.Group_Text);
 
-        btnAdd.setOnClickListener(listener);
-        btnDel.setOnClickListener(listener);
+        btnAdd = (Button) findViewById(R.id.btnAdd);
+        //btnDel = (Button) findViewById(R.id.btnDel);
+
+        /**btnAdd.setOnClickListener(listener);
+        //btnDel.setOnClickListener(listener);**/
     }
-    private View.OnClickListener listener = new View.OnClickListener(){
+    /**private View.OnClickListener listener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
             switch(v.getId()){
@@ -67,7 +67,7 @@ public class GroupManagementActivity extends AppCompatActivity {
             }
 
         }
-    };
+    };**/
 }
 
 
