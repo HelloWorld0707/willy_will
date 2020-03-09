@@ -83,7 +83,7 @@ public class MainFragment extends Fragment {
             display.getSize(size);
             int hei = size.y;
             int wid = size.x;
-            params.setMargins((int)wid/4,(int)hei/4,0,0);
+            params.setMargins((int)(2.8*wid)/10,(int)hei/4,0,0);
             Log.d("check size","****************hei"+(int) hei/2+". size: "+size+"****************");
             //set nullList size
             nullList.setLayoutParams(params);
