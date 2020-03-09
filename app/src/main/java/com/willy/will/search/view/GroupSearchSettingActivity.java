@@ -19,6 +19,8 @@ import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.database.GroupDBController;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class GroupSearchSettingActivity extends PopupActivity {
@@ -42,8 +44,10 @@ public class GroupSearchSettingActivity extends PopupActivity {
         /** Set data of items **/
         Resources resources = getResources();
         groupList = new GroupDBController(getResources()).getAllGroups();
+        Group noGroup = groupList.remove(resources.getInteger(R.integer.no_group_id));
+        Collections.sort(groupList, new AscendingGroupByName());
         groupList.add(0, new Group(resources.getInteger(R.integer.ghost_item_group_id), "", ""));
-        groupList.add(groupList.size(), new Group(resources.getInteger(R.integer.no_group_id), resources.getString(R.string.no_group), ""));
+        groupList.add(groupList.size(), noGroup);
         /* ~Set data of items */
 
         /** Set Views **/
@@ -61,6 +65,7 @@ public class GroupSearchSettingActivity extends PopupActivity {
         ArrayList<Group> selectedGroups = getIntent().getParcelableArrayListExtra(selectedGroupsKey);
 
         SelectionTracker tracker = ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker();
+        tracker.select(0L);
         // Previous setting
         if(selectedGroups.size() > 0) {
             Iterator<Group> selectIter = selectedGroups.iterator();
@@ -80,7 +85,6 @@ public class GroupSearchSettingActivity extends PopupActivity {
         // No previous setting
         else {
             selectingAllView.setSelected(true);
-            tracker.select(0L);
         }
         /* ~Set selected items */
     }
@@ -112,6 +116,13 @@ public class GroupSearchSettingActivity extends PopupActivity {
         }
         intent.putParcelableArrayListExtra(getResources().getString(R.string.selected_groups_key), selectedGroups);
         return true;
+    }
+
+    class AscendingGroupByName implements Comparator<Group> {
+        @Override
+        public int compare(Group o1, Group o2) {
+            return (o2.getGroupName()).compareTo(o1.getGroupName());
+        }
     }
 
 }

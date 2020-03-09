@@ -7,6 +7,7 @@
     <dimen name="basic_margin">16dp</dimen>
     <dimen name="text_recycler_item_height">48dp</dimen>
     <dimen name="text_recycler_item_text_size">20sp</dimen>
+    <dimen name="task_recycler_item_additional_text_size">14sp</dimen>
     <dimen name="main_date_text_size">50sp</dimen>
     <dimen name="text_input_layout_height">50dp</dimen>
     <dimen name="text_input_layout_top_margin">5dp</dimen>
@@ -34,10 +35,9 @@
     <!-- ~Button -->
 
     <!-- Search Setting Recycler View -->
-    <dimen name="search_setting_contents_view_height">195dp</dimen>
+    <dimen name="search_setting_contents_view_height">144dp</dimen>
     <!-- ~Search Setting Recycler View -->
 
-    <!-- [2020-02-19] Modified by Lee Jaeeun -->
     <!-- Spinner-->
     <dimen name="spinner_width">225dp</dimen>
     <!-- ~Spinner-->
@@ -67,14 +67,11 @@
     <dimen name="nav_menu_text">15sp</dimen>
     <!-- ~Navigation Menu-->
 
-    <!-- ~[2020-02-19] Modified by Lee Jaeeun -->
-
-    <!-- [2020-02-17] Modified by Kim Mikyung -->
+    <!-- detailActivity -->
     <dimen name="detail_icon_margin">15dp</dimen>
     <dimen name="detail_list_padding">20dp</dimen>
     <dimen name="detail_list_thick_height">64dp</dimen>
     <dimen name="detail_list_thin_height">58dp</dimen>
     <dimen name="detail_title_style">18dp</dimen>
-
-    <!-- ~[2020-02-17] Modified by Kim Mikyung -->
+    <!-- ~detailActivity -->
 </resources>

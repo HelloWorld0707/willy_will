@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,11 +24,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
+import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
+import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
-
+import com.willy.will.setting.TaskManagementActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -37,10 +40,15 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity{
 
     public static DBAccess dbHelper;
+    private Resources resources;
 
+    private GroupDBController dbController;
     private Spinner sp_group;
     private ArrayList<String> spgroupList;
+    private ArrayList<Group> groupList;
     private ArrayAdapter<String> spgroupAdapter;
+    private Group sendGroup;
+    private int groupId;
 
     private DrawerLayout drawer;
     private View drawerView;
@@ -52,9 +60,7 @@ public class MainActivity extends AppCompatActivity{
     private String baseDate;
     private String sendDate;
 
-
     MainFragment fragmentmain;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,8 @@ public class MainActivity extends AppCompatActivity{
 
         dbHelper = DBAccess.getDbHelper();
         dummyCreate();
+
+        resources = getResources();
 
         /**set navigation Drawer**/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,13 +97,26 @@ public class MainActivity extends AppCompatActivity{
         });
         /*~open picker & change txt*/
 
+        /*Set sp_group*/
+
+        /**set fragment**/
+        dbController = new GroupDBController(resources);
+        groupList = dbController.getAllGroups();
+        groupId = -1;
+        fragmentmain = MainFragment.getInstance(sendDate,groupId);
+
+        //add the fragment to container(frame layout)
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+        /*~set fragment*/
 
         /**set sp_group **/
-        //(fix later)
-        spgroupList = new ArrayList<>();
-        for(int i=0; i<5;i++){
-            spgroupList.add("그룹"+i);
+        spgroupList = new ArrayList<String>();
+        spgroupList.add(0,resources.getString(R.string.all));
+        for (Group a: groupList) {
+            spgroupList.add(a.getGroupName());
         }
+
 
         spgroupAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -104,6 +125,8 @@ public class MainActivity extends AppCompatActivity{
         sp_group = (Spinner)findViewById(R.id.sp_group);
         sp_group.setAdapter(spgroupAdapter);
         sp_group.setSelection(0,false);
+
+        //sp_group clickListener
         sp_group.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
@@ -111,19 +134,22 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(),
                         "선택된 아이템 : "+sp_group.getItemAtPosition(i),Toast.LENGTH_SHORT).show();
 
+                getSupportFragmentManager()
+                        .beginTransaction().remove(fragmentmain).commit();
+
+                groupId = i-1;
+                if(i == 0){ sendGroup = null;}
+                else{ sendGroup = groupList.get(i-1);}
+
+                fragmentmain = MainFragment.getInstance(sendDate, groupId);
+
+                getSupportFragmentManager()
+                        .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-        /*Set sp_group*/
 
-        /**set fragment (don't change position)**/
-        fragmentmain = MainFragment.getInstance(sendDate);
-
-        //add the fragment to container(frame layout)
-        getSupportFragmentManager()
-                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
-        /*~set fragment*/
 
         /** set fab event Listener **/
         FloatingActionButton fab = findViewById(R.id.fabItemAdd);
@@ -142,7 +168,9 @@ public class MainActivity extends AppCompatActivity{
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+        intent.putExtra(getResources().getString(R.string.current_group_key),sendGroup);
+//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+//        Log.d("GroupIdcheck","**********그룹"+sendGroup.getGroupName()+"*************");
         startActivity(intent);
     }
     /*~ Function: Move to SearchView */
@@ -152,7 +180,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnCalendarClick(View view) {
         Intent intent = new Intent(MainActivity.this , CalendarActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-        Log.d("DateChecked","**********날짜"+sendDate+"*************");
+//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
         startActivity(intent);
     }
     /*~Move to CalendarView*/
@@ -175,7 +203,7 @@ public class MainActivity extends AppCompatActivity{
 
     /** Move to TaskManagementActivity */
     public void btnTaskSettingClick(View view){
-        Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        Intent intent = new Intent(MainActivity.this , TaskManagementActivity.class);
         drawer.closeDrawer(drawerView);
         startActivity(intent);
     }
@@ -205,8 +233,7 @@ public class MainActivity extends AppCompatActivity{
                     .beginTransaction().remove(fragmentmain).commit();
             Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
-            fragmentmain = MainFragment.getInstance(sendDate);
-
+            fragmentmain = MainFragment.getInstance(sendDate,groupId);
             //make new fragment
             getSupportFragmentManager()
                     .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
@@ -231,10 +258,11 @@ public class MainActivity extends AppCompatActivity{
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.app_name);
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setMessage("앱을 종료하시겠습니까?")
+        builder.setMessage(getResources().getString(R.string.terminate_msg))
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dbHelper.close();
                         android.os.Process.killProcess(android.os.Process.myPid());
                     }
                 })
@@ -247,6 +275,26 @@ public class MainActivity extends AppCompatActivity{
         alert.show();
     }
     /* ~terminate application */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /** Create Sample Data*/
     public void dummyCreate(){

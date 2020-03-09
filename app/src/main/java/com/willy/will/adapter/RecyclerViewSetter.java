@@ -1,10 +1,14 @@
 package com.willy.will.adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.selection.SelectionPredicates;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.StorageStrategy;
@@ -13,8 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.view.DetailActivity;
+import com.willy.will.main.view.MainFragment;
+import com.willy.will.search.view.SearchActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecyclerViewSetter {
@@ -30,6 +38,12 @@ public class RecyclerViewSetter {
     private RecyclerViewAdapter adapter = null;
     private SelectionTracker tracker = null;
     /* ~For Setting RecyclerView */
+
+    /** For To-do Item **/
+    private MainFragment mainFragment = null;
+    private SearchActivity searchActivity = null;
+    //private ToDoItemManagementActivity toDoItemManagementActivity = null;
+    /* ~For To-do Item */
 
     /** For Group Search Setting **/
     private TextView selectingAllView = null;
@@ -94,15 +108,16 @@ public class RecyclerViewSetter {
                 super.onSelectionChanged();
 
                 // To-do
-                if (type == RecyclerViewItemType.TO_DO) {
+                if(type == RecyclerViewItemType.TO_DO) {
                     changeToDoItem();
                 }
                 // Group
-                else if (type == RecyclerViewItemType.GROUP_SEARCH) {
+                else if(type == RecyclerViewItemType.GROUP_SEARCH) {
                     changeGroupItem();
                 }
-                // Done or Distance
-                else if (type == RecyclerViewItemType.DONE_SEARCH || type == RecyclerViewItemType.DISTANCE_SEARCH) { }
+                // Done or Loop
+                else if(type == RecyclerViewItemType.DONE_SEARCH ||
+                        type == RecyclerViewItemType.LOOP_SEARCH) { }
                 // ERROR: Wrong type
                 else {
                     Log.e("RecyclerViewSetter", "Setting: Wrong type");
@@ -115,9 +130,40 @@ public class RecyclerViewSetter {
         return recyclerView;
     }
 
+    // WARNING: Only one must be assigned
+    public void setFragmentAndActivities(MainFragment main,
+                                         SearchActivity search,
+                                         AppCompatActivity toDoManagement) {
+        mainFragment = main;
+        searchActivity = search;
+        //toDoItemManagementActivity = toDoManagement;
+    }
+
     private void changeToDoItem() {
-        Intent intent = new Intent(parentView.getContext(), DetailActivity.class);
-        parentView.getContext().startActivity(intent);
+        if(tracker.hasSelection()) {
+            Context context = parentView.getContext();
+            String extraName = context.getResources().getString(R.string.request_code);
+            int code = context.getResources().getInteger(R.integer.detail_request_code);
+
+            if(mainFragment != null) {
+                int p = tracker.getSelection().hashCode();
+                Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
+                intent.putExtra(extraName, code);
+                intent.putExtra(parentView.getResources().getString(R.string.item_id)
+                , (Serializable) list.get(p));
+                mainFragment.startActivityForResult(intent, code);
+            }
+            else if(searchActivity != null) {
+                Intent intent = new Intent(searchActivity, DetailActivity.class);
+                intent.putExtra(extraName, code);
+                searchActivity.startActivityForResult(intent, code);
+            }
+            /*else if(toDoItemManagementActivity != null) {
+                Intent intent = new Intent(toDoItemManagementActivity, DetailActivity.class);
+                intent.putExtra(extraName, code);
+                toDoItemManagementActivity.startActivityForResult(intent, code);
+            }*/
+        }
     }
 
     private void changeGroupItem() {

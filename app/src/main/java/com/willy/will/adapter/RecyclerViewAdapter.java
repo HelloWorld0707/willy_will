@@ -38,8 +38,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     }
 
     // Get data when changed check box of to-do item (at holder)
-    public T getData(Long itemId) {
-        int position = Math.toIntExact((Long) itemId);
+    public T getData(int position) {
         return dset.get(position);
     }
 
@@ -54,11 +53,15 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         if(type == RecyclerViewItemType.TO_DO) {
             layoutId = R.layout.listitem;
         }
-        // Text-only (Group, Done, Distance)
+        // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
                 type == RecyclerViewItemType.DONE_SEARCH ||
-                type == RecyclerViewItemType.DISTANCE_SEARCH) {
-            layoutId = R.layout.recycleritem_text_only;
+                type == RecyclerViewItemType.LOOP_SEARCH) {
+            layoutId = R.layout.item_text_only;
+        }
+        // Task
+        else if(type == RecyclerViewItemType.TASK) {
+            layoutId = R.layout.item_task;
         }
         // ERROR: Wrong type
         else {

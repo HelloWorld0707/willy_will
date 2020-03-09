@@ -36,8 +36,7 @@
                     android:id="@+id/img_rank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/important1"/>
+                    android:layout_gravity="center" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -59,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_loop_24px"
+                    android:src="@drawable/ic_loop_24px"
                     android:gravity="center_vertical" />
 
                 <TextView

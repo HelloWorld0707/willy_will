@@ -2,10 +2,12 @@ package com.willy.will.search.controller;
 
 import android.content.res.Resources;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
 import com.willy.will.database.ToDoItemDBController;
-import com.willy.will.main.model.ToDoItem;
+import com.willy.will.common.model.ToDoItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,71 +15,87 @@ import java.util.Iterator;
 public class SearchController {
 
     private Resources resources;
+    private RecyclerView recyclerView;
     private ToDoItemDBController toDoItemDBController;
 
-    public SearchController(Resources resources) {
+    public SearchController(Resources resources, RecyclerView recyclerView) {
         this.resources = resources;
+        this.recyclerView = recyclerView;
         toDoItemDBController = new ToDoItemDBController(resources);
     }
 
     public ArrayList<ToDoItem> getToDoItems(String searchName,
                                             ArrayList<ToDoItem> toDoList,
                                             ArrayList<Group> groupList,
-                                            String startOfDoneDate, String endOfDoneDate,
-                                            boolean includedRepeat,
+                                            String selectedDone, String startOfDoneDate, String endOfDoneDate,
+                                            String selectedLoop,
                                             String startOfStartDate, String endOfStartDate,
                                             String startOfEndDate, String endOfEndDate) {
+        /** Initialize to-do item list **/
         if(toDoList == null) {
             toDoList = new ArrayList<>();
         }
         else if(!toDoList.isEmpty()) {
             toDoList.clear();
         }
+        /* ~Initialize to-do item list */
 
-        String toDoIdColumn = resources.getString(R.string.to_do_id_column);
-
+        /** Set the temporary table **/
         // For dates
         String strftime = resources.getString(R.string.strftime_function);
         String comparisonDate = null;
         String criDate = null;
 
-        /** Set criteria of a temporary table **/
         // Set item name criterion
         String itemNameQuery = "";
         if(!searchName.isEmpty()) {
             String itemNameColumn = resources.getString(R.string.item_name_column);
-            itemNameQuery += itemNameColumn + "like" + "'%" + itemNameColumn + "%'";
+            itemNameQuery += itemNameColumn + " like " + "'%" + itemNameColumn + "%'";
         }
         // Set group criterion
         String groupsQuery = "";
         if(groupList.size() > 0) {
+            groupsQuery += "( ";
             String groupIdColumn = resources.getString(R.string.group_id_column);
             Iterator<Group> groupsIter = groupList.iterator();
-            groupsQuery += (" ( " + groupIdColumn + "=" + groupsIter.next().getGroupId());
             while (groupsIter.hasNext()) {
-                groupsQuery += (" OR" + groupIdColumn + "=" + groupsIter.next().getGroupId());
+                groupsQuery += (" OR " + groupIdColumn + " = " + groupsIter.next().getGroupId());
             }
             groupsQuery += " )";
+            groupsQuery = groupsQuery.replace("(  OR", "(");
         }
-        // Set done date criterion
-        String doneDateQuery = "";
-        if(!startOfDoneDate.isEmpty() || !endOfDoneDate.isEmpty()) {
-            comparisonDate = String.format(strftime, resources.getString(R.string.done_date_column));
-            if(!startOfDoneDate.isEmpty()) {
-                criDate = String.format(strftime, "'" + startOfDoneDate + "'");
-                doneDateQuery += (" AND " + comparisonDate + ">=" + criDate);
+        // Set done criterion
+        String doneQuery = "";
+        if(!selectedDone.equals(resources.getString(R.string.all))) {
+            String doneDateColumn = resources.getString(R.string.done_date_column);
+            if (selectedDone.equals(resources.getString(R.string.not_done))) {
+                doneQuery += (" AND " + doneDateColumn + " = NULL OR " + doneDateColumn + " = ''");
             }
-            if(!endOfDoneDate.isEmpty()) {
-                criDate = String.format(strftime, "'" + endOfDoneDate + "'");
-                doneDateQuery += (" AND " + comparisonDate + "<=" + criDate);
+            else if(selectedDone.equals(resources.getString(R.string.done))) {
+                comparisonDate = String.format(strftime, doneDateColumn);
+                if (!startOfDoneDate.isEmpty()) {
+                    criDate = String.format(strftime, "'" + startOfDoneDate + "'");
+                    doneQuery += (" AND " + comparisonDate + " >= " + criDate);
+                }
+                if (!endOfDoneDate.isEmpty()) {
+                    criDate = String.format(strftime, "'" + endOfDoneDate + "'");
+                    doneQuery += (" AND " + comparisonDate + " <= " + criDate);
+                }
             }
         }
-        // Set repeat criterion
-        String repeatQuery = "";
-        if(!includedRepeat) {
-            repeatQuery += (" AND " +
-                    toDoIdColumn + " NOT IN " +
-                    "( SELECT " + toDoIdColumn + " FROM " + resources.getString(R.string.loop_info_table) + " )");
+        // Set loop criterion
+        String loopQuery = "";
+        if(!selectedLoop.equals(resources.getString(R.string.all))) {
+            String toDoIdColumn = resources.getString(R.string.to_do_id_column);
+            if (selectedLoop.equals(resources.getString(R.string.not_loop))) {
+                loopQuery += (" AND " +
+                        toDoIdColumn + " NOT IN " +
+                        "( SELECT " + toDoIdColumn + " FROM " + resources.getString(R.string.loop_info_table) + " )");
+            } else if (selectedLoop.equals(resources.getString(R.string.loop))) {
+                loopQuery += (" AND " +
+                        toDoIdColumn + " IN " +
+                        "( SELECT " + toDoIdColumn + " FROM " + resources.getString(R.string.loop_info_table) + " )");
+            }
         }
         // Set start date criterion
         String startDateQuery = "";
@@ -85,11 +103,11 @@ public class SearchController {
             comparisonDate = String.format(strftime, resources.getString(R.string.start_date_column));
             if(!startOfStartDate.isEmpty()) {
                 criDate = String.format(strftime, "'" + startOfStartDate + "'");
-                startDateQuery += (" AND " + comparisonDate + ">=" + criDate);
+                startDateQuery += (" AND " + comparisonDate + " >= " + criDate);
             }
             if(!endOfStartDate.isEmpty()) {
                 criDate = String.format(strftime, "'" + endOfStartDate + "'");
-                startDateQuery += (" AND " + comparisonDate + "<=" + criDate);
+                startDateQuery += (" AND " + comparisonDate + " <= " + criDate);
             }
         }
         // Set end date criterion
@@ -98,22 +116,21 @@ public class SearchController {
             comparisonDate = String.format(strftime, resources.getString(R.string.end_date_column));
             if(!startOfEndDate.isEmpty()) {
                 criDate = String.format(strftime, "'" + startOfEndDate + "'");
-                endDateQuery += (" AND " + comparisonDate + ">=" + criDate);
+                endDateQuery += (" AND " + comparisonDate + " >= " + criDate);
             }
             if(!endOfEndDate.isEmpty()) {
                 criDate = String.format(strftime, "'" + endOfEndDate + "'");
-                endDateQuery += (" AND " + comparisonDate + "<=" + criDate);
+                endDateQuery += (" AND " + comparisonDate + " <= " + criDate);
             }
         }
-        /* ~Set criteria of a temporary table */
 
         String tempTable = String.format(
                 resources.getString(R.string.temporary_table_for_search_query),
-                itemNameQuery + groupsQuery + doneDateQuery + repeatQuery + startDateQuery + endDateQuery,
-                resources.getString(R.string.item_id_column)
+                itemNameQuery + groupsQuery + doneQuery + loopQuery + startDateQuery + endDateQuery
         ).replace("WHERE  AND", "WHERE");
+        /* ~Set the temporary table */
 
-        toDoList = toDoItemDBController.searchToDoItems(toDoList, tempTable, toDoIdColumn);
+        toDoList = toDoItemDBController.searchToDoItems(toDoList, tempTable);
 
         return toDoList;
     }

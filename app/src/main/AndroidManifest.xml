@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".common.controller.App"
@@ -43,7 +42,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".search.view.DoneRepeatSearchSettingActivity"
+            android:name=".search.view.DoneSearchSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity
@@ -51,7 +50,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".search.view.DistanceSearchSettingActivity"
+            android:name=".search.view.LoopSearchSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" /> <!-- set detail Activity -->
         <activity
@@ -71,6 +70,9 @@
         <activity
             android:name=".setting.AlarmActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".setting.TaskManagementActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <receiver android:name=".receiver.DeviceBootReceiver">
             <intent-filter>
@@ -78,7 +80,6 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".receiver.AlarmReceiver" />
-
     </application>
 
 </manifest>

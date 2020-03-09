@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,13 +79,14 @@ public class DetailActivity extends Activity {
         day.add(6,(TextView)findViewById(R.id.saturday));
 
         /** get intent(item_id) from mainActivity **/ //수정 필요
-        //intent = getIntent();
+        Intent intent = getIntent();
+        ToDoItem item =null;
+        item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
         //int itemId = intent.getIntExtra("itemId",-1);
-        //dbHelper = DBAccess.getDbHelper();
         /*~ get itemId, calendar_date from mainActivity */
 
 
-        /** access DB **/
+
         todoItem = detailCtrl.getToDoItemByItemId(1);
         LocalDate localDate = getLocalDate(todoItem.getCalenderDate());
         achievementList = detailCtrl.getloopItem(todoItem.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
@@ -208,7 +210,15 @@ public class DetailActivity extends Activity {
     }
     /*~ Back to MainActivity (Main View) */
 
-
+    /** Set results **/
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        //intent.putExtra("itemId", itemId);
+        setResult(RESULT_FIRST_USER, intent);
+        super.finish();
+    }
+    /* ~Set results */
 
 
 

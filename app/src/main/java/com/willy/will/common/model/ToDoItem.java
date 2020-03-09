@@ -1,6 +1,8 @@
-package com.willy.will.main.model;
+package com.willy.will.common.model;
 
-public class ToDoItem {
+import java.io.Serializable;
+
+public class ToDoItem implements Serializable {
     private int itemId;
     private int groupId;
     private String locationX;
@@ -11,7 +13,7 @@ public class ToDoItem {
     private int toDoId;
     private int rank;
     private String name;
-    private boolean done; //checkbox용
+    private boolean done;
 
     public ToDoItem() {
         itemId = -1;

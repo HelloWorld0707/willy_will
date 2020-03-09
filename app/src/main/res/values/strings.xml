@@ -14,6 +14,11 @@
     <string name="action_settings">Settings</string>
     <!-- ~setting -->
 
+    <!-- main -->
+    <string name="terminate_msg">WILL을 종료하시겠습니까?</string>
+    <string name="not_exsist_list">오늘의 할 일이 존재하지 않습니다.</string>
+    <!-- ~main-->
+
     <!-- detail -->
     <string name="week_achievement_rate">주간 달성</string>
     <string name="sunday">일</string>
@@ -33,12 +38,12 @@
     <string name="search_hint">할 일 이름을 검색하십시오.</string>
     <string name="all">전체</string>
 
-    <string name="no_group">그룹 미설정</string>
+    <string name="no_group">그룹미정</string>
 
-    <string name="done_repeat">완료/반복</string>
-    <string name="undone">미완료</string>
     <string name="done">완료</string>
-    <string name="including_repeat">반복 포함</string>
+    <string name="not_done">미완료</string>
+
+    <string name="not_loop">반복하지 않음</string>
 
     <string name="period">기간</string>
     <string name="tilde">~</string>
@@ -50,7 +55,6 @@
     <string name="end_of_done_date_text">완료 날짜의 끝</string>
     <string name="date_error">날짜의 범위가 적절하지 않습니다.</string>
 
-    <string name="distance">거리</string>
     <string name="distance_text">여기서 %1$d%2$s 이내</string>
     <!-- ~search -->
 
@@ -66,9 +70,10 @@
     <!-- #################### value #################### -->
     <!-- extra names of Intent -->
     <string name="current_date_key">currentDate</string>
+    <string name="current_group_key">currentGroup</string>
     <string name="selected_groups_key">selectedGroups</string>
     <string name="selected_done_key">selectedDone</string>
-    <string name="included_repeat_key">includedRepeat</string>
+    <string name="selected_loop_key">selectedLoop</string>
     <string name="start_of_start_date_key">startOfStartDate</string>
     <string name="end_of_start_date_key">endOfStartDate</string>
     <string name="start_of_end_date_key">startOfEndDate</string>
@@ -76,7 +81,8 @@
     <string name="only_done_key">onlyDone</string>
     <string name="start_of_done_date_key">startOfDoneDate</string>
     <string name="end_of_done_date_key">endOfDoneDate</string>
-    <string name="selected_distance_key">selectedDistance</string>
+    <string name="selected_group_from_main">Group</string>
+    <string name="item_id">itemId</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
@@ -84,7 +90,8 @@
     <string name="selection_id_search">SearchSelection</string>
     <string name="selection_id_group_search_setting">groupSearchSettingSelection</string>
     <string name="selection_id_done_search_setting">doneSearchSettingSelection</string>
-    <string name="selection_id_distance_search_setting">distanceSearchSettingSelection</string>
+    <string name="selection_id_loop_search_setting">loopSearchSettingSelection</string>
+    <string name="selection_id_task_management">taskManagementSelection</string>
     <!-- ~selection id for recycler view -->
 
     <!-- startActivityForResult -->

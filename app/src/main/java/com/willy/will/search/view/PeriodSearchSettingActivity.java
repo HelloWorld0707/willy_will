@@ -283,22 +283,20 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     protected boolean setResults(Intent intent) {
         try {
             long comparison = 0L;
-            long doneComparison = 0L;
+            long sComparison = 0L;
+            long eComparison = 0L;
             long current = 0L;
             /** Check start date **/
             // Check start of start date
             if(!startOfStartDate.isEmpty()) {
                 comparison = simpleDateFormat.parse(startOfStartDate).getTime();
-                doneComparison = comparison;
+                sComparison = comparison;
             }
             // Check end of start date
             if(!endOfStartDate.isEmpty()) {
                 current = simpleDateFormat.parse(endOfStartDate).getTime();
-                // startOfStartDate <= endOfStartDate ?
-                if(comparison <= current) {
-                    comparison = current;
-                }
-                else {
+                // startOfStartDate <= endOfStartDate ? correct date : wrong date
+                if(comparison > current) {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -308,7 +306,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             // Check start of end date
             if(!startOfEndDate.isEmpty()) {
                 current = simpleDateFormat.parse(startOfEndDate).getTime();
-                // comparison (startOfStartDate or endOfStartDate) <= startOfEndDate ?
+                // startOfStartDate <= startOfEndDate ?
                 if(comparison <= current) {
                     comparison = current;
                 }
@@ -320,9 +318,9 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             // Check end of end date
             if(!endOfEndDate.isEmpty()) {
                 current = simpleDateFormat.parse(endOfEndDate).getTime();
-                // comparison (startOfStartDate, endOfStartDate, or startOfEndDate) <= endOfEndDate ?
+                // comparison (startOfStartDate or startOfEndDate) <= endOfEndDate ?
                 if(comparison <= current) {
-                    comparison = current;
+                    eComparison = current;
                 }
                 else {
                     Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
@@ -332,12 +330,13 @@ public class PeriodSearchSettingActivity extends PopupActivity {
             /* ~Check end date */
             /** Check done date **/
             if(onlyDone) {
+                comparison = 0L;
                 // Check start of done date
                 if(!startOfDoneDate.isEmpty()) {
                     current = simpleDateFormat.parse(startOfDoneDate).getTime();
                     // startOfStartDate <= startOfDoneDate ?
-                    if(doneComparison <= current) {
-                        doneComparison = current;
+                    if(sComparison <= current) {
+                        comparison = current;
                     }
                     else {
                         Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
@@ -345,7 +344,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                     }
                     if(endOfDoneDate.isEmpty()) {
                         // startOfDoneDate <= endOfEndDate ? correct date : wrong date
-                        if(!endOfEndDate.isEmpty() && (current > comparison)) {
+                        if(current > eComparison) {
                             Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                             return false;
                         }
@@ -354,13 +353,13 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 // Check end of done date
                 if(!endOfDoneDate.isEmpty()) {
                     current = simpleDateFormat.parse(endOfDoneDate).getTime();
-                    // doneComparison (startOfStartDate or startOfDoneDate) <= endOfDoneDate ? correct date : wrong date
-                    if((doneComparison > 0L) && (doneComparison > current)) {
+                    // comparison (startOfStartDate or startOfDoneDate) <= endOfDoneDate ? correct date : wrong date
+                    if (comparison > current) {
                         Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                         return false;
                     }
                     // endOfDoneDate <= endOfEndDate ? correct date : wrong date
-                    if(!endOfEndDate.isEmpty() && (current > comparison)) {
+                    if(current > eComparison) {
                         Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
                         return false;
                     }

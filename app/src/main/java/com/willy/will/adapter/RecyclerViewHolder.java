@@ -1,6 +1,8 @@
 package com.willy.will.adapter;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -13,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +24,8 @@ import com.willy.will.R;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.main.model.ToDoItem;
-import com.willy.will.search.model.Distance;
+import com.willy.will.common.model.Task;
+import com.willy.will.common.model.ToDoItem;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
@@ -29,8 +33,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private BackgroundColorSpan activeColorSpan = null;
 
     private RecyclerViewAdapter rcyclerVAdapter = null;
-
-    private Resources resources = null;
 
     // View of Item
     private TextView textOnlyView;
@@ -40,13 +42,18 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private ImageView imgRoutine;
     private TextView tvTime;
     private CheckBox cbDone;
+
+    private ImageView groupColorCircleView;
+    private TextView taskNameView;
+    private TextView dDayOrAchivementView;
+    private CheckBox taskCheckBox;
     // ~View of Item
 
     // Initialization of THE item (Called for each item)
     public <T> RecyclerViewHolder(RecyclerViewAdapter adapter, RecyclerViewItemType type, View view) {
         super(view);
         rcyclerVAdapter = adapter;
-        resources = view.getContext().getResources();
+        Resources resources = view.getContext().getResources();
 
         // To-do
         if(type == RecyclerViewItemType.TO_DO) {
@@ -62,18 +69,34 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(cbDone.isPressed()) {
                         setActivation(b);
-                        ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(getItemId());
+                        int position = Math.toIntExact(getItemId());
+                        ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                         toDoItem.setDone(b);
-
+                        rcyclerVAdapter.notifyItemChanged(position);
                     }
                 }
             });
         }
-        // Text-only (Group, Done, Distance)
+        // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
                 type == RecyclerViewItemType.DONE_SEARCH ||
-                type == RecyclerViewItemType.DISTANCE_SEARCH) {
+                type == RecyclerViewItemType.LOOP_SEARCH) {
             textOnlyView = view.findViewById(R.id.text_recycler_item);
+        }
+        // Task
+        else if(type == RecyclerViewItemType.TASK) {
+            groupColorCircleView = view.findViewById(R.id.group_color);
+            taskNameView = view.findViewById(R.id.task_name);
+            dDayOrAchivementView = view.findViewById(R.id.d_day_or_achievement);
+            taskCheckBox = view.findViewById(R.id.check_box);
+            taskCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    int position = Math.toIntExact(getItemId());
+                    Task task = (Task) rcyclerVAdapter.getData(position);
+                    task.setChecked(isChecked);
+                }
+            });
         }
         // ERROR: Wrong type
         else {
@@ -107,10 +130,23 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime.setText(mitem.getEndDate());
             tvName.setText(mitem.getName());
             cbDone.setChecked(mitem.getDone());
+            int rank = mitem.getRank();
+            if(rank == 1) {
+                imgRank.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
+                        R.drawable.important1, null));
+            }
+            else if(rank == 2) {
+                imgRank.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
+                        R.drawable.important2, null));
+            }
+            else if(rank == 3) {
+                imgRank.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
+                        R.drawable.important3, null));
+            }
+            else {
+                imgRank.setImageDrawable(null);
+            }
             setActivation(cbDone.isChecked());
-            //imgRank.setImageDrawable(mitem.getRank());
-            //imgRoutine.setImageDrawable(mitem.getToDoId());
-
         }
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
@@ -123,15 +159,21 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 }
             }
         }
-        // Done
-        else if(type == RecyclerViewItemType.DONE_SEARCH) {
+        // Done or Loop
+        else if(type == RecyclerViewItemType.DONE_SEARCH ||
+                type == RecyclerViewItemType.LOOP_SEARCH) {
             String text = (String) data;
             textOnlyView.setText(text);
         }
-        // Distance
-        else if(type == RecyclerViewItemType.DISTANCE_SEARCH) {
-            Distance distance = (Distance) data;
-            textOnlyView.setText(distance.getText());
+        // Task
+        else if(type == RecyclerViewItemType.TASK) {
+            Task task = (Task) data;
+            if(task.getGroup().getGroupId() > 0) {
+                groupColorCircleView.getDrawable().setTint(Color.parseColor(task.getGroup().getGroupColor()));
+            }
+            taskNameView.setText(task.getName());
+            dDayOrAchivementView.setText(task.getdDayOrAchievement());
+            taskCheckBox.setChecked(task.isChecked());
         }
         // ERROR: Wrong type
         else {
@@ -143,6 +185,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     // Activation of to-do item
     private void setActivation(boolean activated) {
+        Context context = App.getContext();
+
         Spannable span = (Spannable) tvName.getText();
 
         if(activated) {
@@ -151,8 +195,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            imgRoutine.getBackground().setTint(resources.getColor(R.color.colorInactive));
-            imgRank.getBackground().setTint(resources.getColor(R.color.colorInactive));
+            if(imgRoutine.getDrawable() != null) {
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            }
+            if(imgRank.getDrawable() != null) {
+                imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
+            }
         }
         else {
             span.setSpan(activeColorSpan
@@ -160,8 +208,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
-            imgRoutine.getBackground().setTint(resources.getColor(R.color.colorPrimary));
-            imgRank.getBackground().setTint(resources.getColor(R.color.colorPrimary));
+            if(imgRoutine.getDrawable() != null) {
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            }
+            if(imgRank.getDrawable() != null) {
+                imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            }
         }
     }
 

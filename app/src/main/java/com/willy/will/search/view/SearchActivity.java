@@ -13,13 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
+import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.main.model.ToDoItem;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.search.controller.SearchController;
-import com.willy.will.search.model.Distance;
-import com.willy.will.search.model.DistanceSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,18 +29,18 @@ public class SearchActivity extends AppCompatActivity {
 
     private String selectedGroupsKey = null;
     private String selectedDoneKey = null;
-    private String includedRepeatKey = null;
     private String startOfStartDateKey = null;
     private String endOfStartDateKey = null;
     private String startOfEndDateKey = null;
     private String endOfEndDateKey = null;
     private String startOfDoneDateKey = null;
     private String endOfDoneDateKey = null;
-    private String selectedDistanceKey = null;
+    private String selectedLoopKey = null;
 
     private String extraNameCode = null;
     private Resources resources = null;
     private int code = 0;
+    private Group currentGroup = null;
     private String current = null;
 
     private SearchController searchCtrl = null;
@@ -52,7 +51,7 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<ToDoItem> toDoList = null;
     private ArrayList<Group> selectedGroups = null;
     private String selectedDone = null;
-    private boolean includedRepeat;
+    private String selectedLoop = null;
     private String startOfStartDate = null;
     private String endOfStartDate = null;
     private String startOfEndDate = null;
@@ -60,7 +59,6 @@ public class SearchActivity extends AppCompatActivity {
     private boolean onlyDone;
     private String startOfDoneDate = null;
     private String endOfDoneDate = null;
-    private Distance selectedDistance;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,9 +67,10 @@ public class SearchActivity extends AppCompatActivity {
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
 
-        searchCtrl = new SearchController(getResources());
+        searchCtrl = new SearchController(getResources(), recyclerView);
 
         /** Set data **/
+        currentGroup = getIntent().getParcelableExtra(resources.getString(R.string.current_group_key));
         current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
         initSearchSetting(getWindow().getDecorView());
         setToDoList("");
@@ -83,46 +82,53 @@ public class SearchActivity extends AppCompatActivity {
             textInputEditText.clearFocus();
         }
 
-        recyclerView = new RecyclerViewSetter(
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.search_results_recycler_view, getWindow().getDecorView(),
                 RecyclerViewItemType.TO_DO, toDoList,
                 R.string.selection_id_search, false
-        ).setRecyclerView();
+        );
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        // WARNING: Only one must be assigned
+        recyclerViewSetter.setFragmentAndActivities(null, this, null);
         /* ~Set Views */
 
         /** Set extra names of Intent **/
         selectedGroupsKey = resources.getString(R.string.selected_groups_key);
         selectedDoneKey = resources.getString(R.string.selected_done_key);
-        includedRepeatKey = resources.getString(R.string.included_repeat_key);
+        selectedLoopKey = resources.getString(R.string.selected_loop_key);
         startOfStartDateKey = resources.getString(R.string.start_of_start_date_key);
         endOfStartDateKey = resources.getString(R.string.end_of_start_date_key);
         startOfEndDateKey = resources.getString(R.string.start_of_end_date_key);
         endOfEndDateKey = resources.getString(R.string.end_of_end_date_key);
         startOfDoneDateKey = resources.getString(R.string.start_of_done_date_key);
         endOfDoneDateKey = resources.getString(R.string.end_of_done_date_key);
-        selectedDistanceKey = resources.getString(R.string.selected_distance_key);
         /* ~Set extra names of Intent */
     }
 
     private void setToDoList(String searchText) {
         toDoList = searchCtrl.getToDoItems(
                 searchText,
-                toDoList, selectedGroups,
-                startOfDoneDate, endOfDoneDate,
-                includedRepeat,
+                toDoList,
+                selectedGroups,
+                selectedDone, startOfDoneDate, endOfDoneDate,
+                selectedLoop,
                 startOfStartDate, endOfStartDate,
                 startOfEndDate, endOfEndDate);
     }
 
     public void backToMain(View view) {
-        /** Check focusing **/
-        View focusedView = getCurrentFocus();
-        if(focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        if(recyclerView != null) {
+            if(!((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().hasSelection()) {
+                /** Check focusing **/
+                View focusedView = getCurrentFocus();
+                if (focusedView != null) {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
+                /* ~Check focusing */
+                this.finish();
+            }
         }
-        /* ~Check focusing */
-        this.finish();
     }
 
     public void search(View view) {
@@ -140,12 +146,20 @@ public class SearchActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    public void bringUpDoneRepeatSearchSetting(View view) {
-        Intent intent = new Intent(this, DoneRepeatSearchSettingActivity.class);
+    public void bringUpDoneSearchSetting(View view) {
+        Intent intent = new Intent(this, DoneSearchSettingActivity.class);
         intent.putExtra(selectedDoneKey, selectedDone);
-        intent.putExtra(includedRepeatKey, includedRepeat);
 
-        code = resources.getInteger(R.integer.done_repeat_search_setting_code);
+        code = resources.getInteger(R.integer.done_search_setting_code);
+        intent.putExtra(extraNameCode, code);
+        startActivityForResult(intent, code);
+    }
+
+    public void bringUpLoopSearchSetting(View view) {
+        Intent intent = new Intent(this, LoopSearchSettingActivity.class);
+        intent.putExtra(selectedLoopKey, selectedLoop);
+
+        code = resources.getInteger(R.integer.loop_search_setting_code);
         intent.putExtra(extraNameCode, code);
         startActivityForResult(intent, code);
     }
@@ -165,27 +179,25 @@ public class SearchActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    public void bringUpDistanceSearchSetting(View view) {
-        Intent intent = new Intent(this, DistanceSearchSettingActivity.class);
-        intent.putExtra(selectedDistanceKey, selectedDistance);
-
-        code = resources.getInteger(R.integer.distance_search_setting_code);
-        intent.putExtra(extraNameCode, code);
-        startActivityForResult(intent, code);
-    }
-
     public void initSearchSetting(View view) {
-        selectedGroups = new ArrayList<>();
+        if(selectedGroups == null) {
+            selectedGroups = new ArrayList<>();
+        }
+        else {
+            selectedGroups.clear();
+        }
+        if(currentGroup != null) {
+            selectedGroups.add(currentGroup);
+        }
         selectedDone = resources.getString(R.string.all);
-        includedRepeat = true;
-        startOfStartDate = current;
-        endOfStartDate = "";
-        startOfEndDate = "";
-        endOfEndDate = current;
+        selectedLoop = resources.getString(R.string.all);
+        startOfStartDate = "";
+        endOfStartDate = current;
+        startOfEndDate = current;
+        endOfEndDate = "";
         onlyDone = false;
         startOfDoneDate = "";
         endOfDoneDate = "";
-        selectedDistance = DistanceSet.distances.get(0);
     }
 
     // Receive result data from SearchSettingActivity (Setting for Search)
@@ -197,12 +209,16 @@ public class SearchActivity extends AppCompatActivity {
 
         /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
+            // To-do Item Detail
+            if(requestCode == resources.getInteger(R.integer.detail_request_code)) {
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+            }
             // Group Search Setting
             if (requestCode == resources.getInteger(R.integer.group_search_setting_code)) {
                 selectedGroups = data.getParcelableArrayListExtra(selectedGroupsKey);
             }
-            // Done and Repeat Search Setting
-            else if (requestCode == getResources().getInteger(R.integer.done_repeat_search_setting_code)) {
+            // Done Search Setting
+            else if (requestCode == getResources().getInteger(R.integer.done_search_setting_code)) {
                 selectedDone = data.getStringExtra(selectedDoneKey);
                 if(selectedDone.equals(resources.getString(R.string.done))) {
                     if(!onlyDone) {
@@ -216,7 +232,10 @@ public class SearchActivity extends AppCompatActivity {
                         endOfDoneDate = "";
                     }
                 }
-                includedRepeat = data.getBooleanExtra(includedRepeatKey, true);
+            }
+            // Loop Search Setting
+            else if (requestCode == getResources().getInteger(R.integer.loop_search_setting_code)) {
+                selectedLoop = data.getStringExtra(selectedLoopKey);
             }
             // Period Search Setting
             else if (requestCode == getResources().getInteger(R.integer.period_search_setting_code)) {
@@ -226,10 +245,6 @@ public class SearchActivity extends AppCompatActivity {
                 endOfEndDate = data.getStringExtra(endOfEndDateKey);
                 startOfDoneDate = data.getStringExtra(startOfDoneDateKey);
                 endOfDoneDate = data.getStringExtra(endOfDoneDateKey);
-            }
-            // Distance Search Setting
-            else if (requestCode == getResources().getInteger(R.integer.distance_search_setting_code)) {
-                selectedDistance = data.getParcelableExtra(selectedDistanceKey);
             }
         }
         /* ~Success to receive data */
