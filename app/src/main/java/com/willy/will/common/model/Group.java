@@ -27,6 +27,18 @@ public class Group implements Parcelable {
         groupColor = in.readString();
     }
 
+    public static final Creator<Group> CREATOR = new Creator<Group>() {
+        @Override
+        public Group createFromParcel(Parcel in) {
+            return new Group(in);
+        }
+
+        @Override
+        public Group[] newArray(int size) {
+            return new Group[size];
+        }
+    };
+
     public int getGroupId() {
         return groupId;
     }
@@ -63,17 +75,5 @@ public class Group implements Parcelable {
         dest.writeString(this.groupName);
         dest.writeString(this.groupColor);
     }
-
-    public static final Creator<Group> CREATOR = new Creator<Group>() {
-        @Override
-        public Group createFromParcel(Parcel in) {
-            return new Group(in);
-        }
-
-        @Override
-        public Group[] newArray(int size) {
-            return new Group[size];
-        }
-    };
 
 }

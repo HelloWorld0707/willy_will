@@ -3,6 +3,7 @@ package com.willy.will.database;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
@@ -29,8 +30,13 @@ public class TaskDBController {
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
-    public ArrayList<Task> getAllTasks() {
-        ArrayList<Task> taskList = new ArrayList<>();
+    public ArrayList<Task> getAllTasks(ArrayList<Task> taskList) {
+        if(taskList == null) {
+            taskList = new ArrayList<>();
+        }
+        else if(!taskList.isEmpty()) {
+            taskList.clear();
+        }
 
         String itemIdColumn = resources.getString(R.string.item_id_column);
         String toDoIdColumn = resources.getString(R.string.to_do_id_column);
@@ -49,8 +55,7 @@ public class TaskDBController {
                         groupColorColumn + ", " +
                         itemNameColumn + ", " +
                         endDateColumn + " " +
-                "FROM " + resources.getString(R.string.item_table) + " " +
-                "INNER JOIN " + resources.getString(R.string.group_table) + " USING (" + groupIdColumn + ") " +
+                "FROM " + resources.getString(R.string.item_table) + " INNER JOIN " + resources.getString(R.string.group_table) + " USING (" + groupIdColumn + ") " +
                 "GROUP BY " + toDoIdColumn + " HAVING max(" + itemIdColumn + ") " +
                 "ORDER BY " +
                         groupIdColumn + ", " +
@@ -107,6 +112,18 @@ public class TaskDBController {
         /* ~Put data in ArrayList */
 
         return taskList;
+    }
+
+    public void deleteTasks(String whereToDoIds, String whereItemIds) {
+        /** Write DB (Delete) **/
+        // This ORDER is IMPORTANT
+        int deletedRows =  writeDatabase.delete(resources.getString(R.string.loop_info_table), whereToDoIds, null);
+        Log.i("TaskDBController", "Deleting: Delete a loop information");
+        deletedRows = writeDatabase.delete(resources.getString(R.string.calendar_table), whereItemIds, null);
+        Log.i("TaskDBController", "Deleting: Delete " + deletedRows + " items of calendar");
+        deletedRows = writeDatabase.delete(resources.getString(R.string.item_table), whereToDoIds, null);
+        Log.i("TaskDBController", "Deleting: Delete " + deletedRows + " items");
+        /* ~Write DB (Delete) */
     }
 
 }
