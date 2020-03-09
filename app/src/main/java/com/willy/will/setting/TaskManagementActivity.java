@@ -30,11 +30,14 @@ public class TaskManagementActivity extends AppCompatActivity {
         /* ~Set data of item */
 
         /** Set Views **/
-        recyclerView = new RecyclerViewSetter(
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.task_recycler_view, getWindow().getDecorView(),
                 RecyclerViewItemType.TASK, taskList,
                 R.string.selection_id_task_management, true
-        ).setRecyclerView();
+        );
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        // WARNING: Only one must be assigned
+        recyclerViewSetter.setFragmentAndActivities(null, null, this);
         /* ~Set Views */
     }
 
