@@ -1,21 +1,15 @@
 package com.willy.will.detail.controller;
 
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.willy.will.database.ToDoItemDBController;
 import com.willy.will.detail.model.Item;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.willy.will.main.view.MainActivity.dbHelper;
 
 public class DetailController {
 
     private SQLiteDatabase db;
-
     public DetailController() {
         db = dbHelper.getReadableDatabase();
     }
@@ -83,7 +77,42 @@ public class DetailController {
     /*~ get getloopItem by itemId from DB */
 
 
-    public boolean deleteItemByTodoId(int todoId){
-        return true;
+    /** delete item from _CALENDAR, _ITEM, _LOOP_INFO by to_do_id  **/
+    public void deleteItemByTodoId(int todoId){
+        String deleteLoopInfoQuery = "DELETE FROM _LOOP_INFO WHERE to_do_id ="+todoId+";";
+        String deleteCalendarQuery = "DELETE FROM _CALENDAR WHERE item_id in (SELECT item_id FROM _ITEM WHERE to_do_id="+todoId+");";
+        String deleteItemQuery = "DELETE FROM _ITEM WHERE to_do_id ="+todoId+";";
+        db.execSQL(deleteLoopInfoQuery);
+        db.execSQL(deleteCalendarQuery);
+        db.execSQL(deleteItemQuery);
     }
+    /*~ delete item from _CALENDAR, _ITEM, _LOOP_INFO by to_do_id  */
+
+
+
+    /** get itemList **/
+    public ArrayList<String> AlarmToDoItems() {
+        ArrayList<String>  toDoItemList = new ArrayList<>();
+
+        String selectQuery = "SELECT i.item_name " +
+                "FROM _ITEM i, _CALENDAR c\n" +
+                "WHERE i.item_id = c.item_id\n" +
+                "AND c.calendar_date=\"2020-02-09\"\n" +
+                "AND i.done_date IS NULL;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        String itemName = null;
+
+        if(cursor.moveToFirst()){
+            do {
+                itemName = cursor.getString(0);
+                toDoItemList.add(itemName);
+            }while (cursor.moveToNext());
+        }
+
+        return toDoItemList;
+    }
+    /*~ get itemList **/
+
+
 }
