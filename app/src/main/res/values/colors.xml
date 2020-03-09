@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- [2020-02-15] Created by Lee Jaeeun -->
+
     <color name="colorPrimary">#007fbf</color>
     <color name="colorInactive">#79646464</color>
     <color name="colorNoGroup">#00cccccc</color>
@@ -16,7 +16,6 @@
     <color name="colorGroup10">#80FF9CE1</color>
     <color name="colorString">#000000</color>
     <color name="white">#FFFFFFFF</color>
-    <!-- ~[2020-02-15] Created by Lee Jaeeun -->
 
     <color name="colorPrimaryTranslucent">#80007FBF</color>
     <color name="colorPrimaryBackground">#F2F4FE</color>
