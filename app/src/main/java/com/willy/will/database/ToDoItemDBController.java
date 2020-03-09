@@ -156,9 +156,8 @@ public class ToDoItemDBController {
 
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
            loopday = cursor.getString(cursor.getColumnIndex(resources.getString(R.string.loop_t_n)));
-/*
-           if(loopday.length() != 0){
-               //loopday와 day of week 비교
+
+           if(!loopday.equals("0")){
                //set day of week
                Date d = java.sql.Date.valueOf(currentDate);
                Calendar cal = Calendar.getInstance();
@@ -166,19 +165,22 @@ public class ToDoItemDBController {
                dayNum = cal.get(Calendar.DAY_OF_WEEK)-1;
 
                for(int i = 0; i<loopday.length();i++){
+                   if(toDoItemList.size()>=1){ break;}
 
-                   int looppos = (int)loopday.charAt(i);
-                   //add item
-                   if(looppos == 49 && i == dayNum){
-                       curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
-                       toDoItemList.add(curToDoItem);
+                   else{
+                       int looppos = (int)loopday.charAt(i);
+                       //add item
+                       if(looppos == 49 && i == dayNum){
+                           curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
+                           toDoItemList.add(curToDoItem);
+                       }
                    }
                }
            }
-           else {*/
+           else {
                curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
                toDoItemList.add(curToDoItem);
-//           }
+           }
         }
         /* ~Put data in ArrayList */
 
