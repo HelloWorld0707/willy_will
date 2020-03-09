@@ -71,7 +71,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                             toDoItem.setDone(b);
                             //setActivation(b, toDoItem.getGroupColor());
-                            setActivation(b, toDoItem.getColor());
+                            setActivation(b, toDoItem.getColor(), toDoItem.getLoop());
                             rcyclerVAdapter.notifyItemChanged(position);
                         }
                     }
@@ -138,10 +138,10 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             cbDone.setChecked(mitem.getDone());
             String color = mitem.getColor();
             int loop = mitem.getLoop();
-                imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
+            imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
                         R.drawable.ic_loop_24px, null));
-            if(loop == 0){
-                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorInactive));
+            if(loop == 1){
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorPrimary));
             }
 
             int rank = mitem.getRank();
@@ -161,7 +161,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.setImageDrawable(null);
             }
             //setActivation(cbDone.isChecked(), mitem.getGroupColor);
-            setActivation(cbDone.isChecked(), color);
+            setActivation(cbDone.isChecked(), color, loop);
         }
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
@@ -203,11 +203,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     }
 
     // Activation of to-do item
-    private void setActivation(boolean activated, String groupColor) {
+    private void setActivation(boolean activated, String groupColor, int loop) {
         Context context = App.getContext();
-
         Spannable span = (Spannable) tvName.getText();
-        int color = Color.parseColor(groupColor);
+
+        Log.d("checkloop","**************loop: "+loop+"*************");
 
         if(activated) {
             span.setSpan(inactiveColorSpan
@@ -215,7 +215,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            if(imgRoutine.getDrawable() != null) {
+            if(imgRoutine.getDrawable() != null && loop != 0) {
                 imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
             if(imgRank.getDrawable() != null) {
@@ -228,7 +228,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
-            if(imgRoutine.getDrawable() != null) {
+            if(imgRoutine.getDrawable() != null && loop != 0) {
                 imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context,R.color.colorPrimary));
             }
             if(imgRank.getDrawable() != null) {
