@@ -2,6 +2,8 @@ package com.willy.will.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.view.DetailActivity;
 import com.willy.will.main.view.MainFragment;
 import com.willy.will.search.view.SearchActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecyclerViewSetter {
@@ -142,8 +146,11 @@ public class RecyclerViewSetter {
             int code = context.getResources().getInteger(R.integer.detail_request_code);
 
             if(mainFragment != null) {
+                int p = tracker.getSelection().hashCode();
                 Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
                 intent.putExtra(extraName, code);
+                intent.putExtra(parentView.getResources().getString(R.string.item_id)
+                , (Serializable) list.get(p));
                 mainFragment.startActivityForResult(intent, code);
             }
             else if(searchActivity != null) {

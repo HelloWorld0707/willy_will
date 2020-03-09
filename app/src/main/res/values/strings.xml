@@ -82,6 +82,7 @@
     <string name="start_of_done_date_key">startOfDoneDate</string>
     <string name="end_of_done_date_key">endOfDoneDate</string>
     <string name="selected_group_from_main">Group</string>
+    <string name="item_id">itemId</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
