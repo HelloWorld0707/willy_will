@@ -132,29 +132,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/group_area">
 
                 <RelativeLayout
-                    android:id="@+id/calendar_date_area"
-                    style="@style/DetailListStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/detail_list_thick_height"
-                    android:background="@drawable/layout_border">
-
-                    <TextView
-                        style="@style/DetailTitleStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/calendar_date" />
-
-                    <TextView
-                        android:id="@+id/calendar_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:text="2020-01-31" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/start_date_area"
                     style="@style/DetailListStyle"
                     android:layout_width="match_parent"

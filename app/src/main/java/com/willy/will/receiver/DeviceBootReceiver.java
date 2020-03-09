@@ -8,31 +8,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
-
+import androidx.annotation.LongDef;
 import com.willy.will.receiver.AlarmReceiver;
-
 import java.util.Calendar;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
-//import static com.willy.will.setting.AlarmActivity.sharedPreferences;
 
 public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences("alarmIsChecked", MODE_PRIVATE);
+        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent1 = new Intent(context, AlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent1, 0);
 
-        if(sharedPreferences.getBoolean("switchIsChecked",false)){
-            Log.d("여기 : ",  sharedPreferences.getBoolean("switchIsChecked",false) + "" );
-            AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent1 = new Intent(context, AlarmReceiver.class);
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent1, 0);
-            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime()+5000,5000, alarmIntent);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("ALARM", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if(sharedPreferences.getBoolean("AlarmState",false)){
+            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5000,5000, alarmIntent);
+        }else{
+            alarmMgr.cancel(alarmIntent);
         }
-
-
 
 
             /*
@@ -51,9 +50,10 @@ public class DeviceBootReceiver extends BroadcastReceiver {
                     SystemClock.elapsedRealtime() +
                             60 * 1000, alarmIntent);
 
-
              */
 
 
     }
+
+
 }

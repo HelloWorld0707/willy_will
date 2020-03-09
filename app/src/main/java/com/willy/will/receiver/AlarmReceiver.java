@@ -6,11 +6,15 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import com.willy.will.R;
 import com.willy.will.detail.view.DetailActivity;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -18,8 +22,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Toast.makeText(context,"Alarm!", Toast.LENGTH_LONG).show();
-
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, DetailActivity.class);
@@ -62,4 +64,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
     }
+
 }
