@@ -1,6 +1,8 @@
 package com.willy.will.common.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -35,13 +37,17 @@ public class GroupManagementActivity extends AppCompatActivity {
         listView.setAdapter(Adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        Group_Text = findViewById(R.id.Group_Text);
+        //Group_Text = findViewById(R.id.Group_Text);
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         //btnDel = (Button) findViewById(R.id.btnDel);
 
         /**btnAdd.setOnClickListener(listener);
         //btnDel.setOnClickListener(listener);**/
+    }
+    public void bringUpGroupColor(View view) {
+        Intent intent = new Intent(this, Group_Color.class);
+        startActivity(intent);
     }
     /**private View.OnClickListener listener = new View.OnClickListener(){
         @Override

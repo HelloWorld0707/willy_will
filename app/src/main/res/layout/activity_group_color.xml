@@ -7,33 +7,136 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content">
 
-
     <TextView
         style="@style/PopupTitleStyle"
         android:text="색상" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/search_setting_contents_view_height"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/freeset5"
-            android:layout_width="195dp"
-            android:layout_height="194dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/trumpet"
-            android:onClick="onClick"
+            android:id="@+id/color1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circle_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/color2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/circle_button2"
+            app:layout_constraintStart_toEndOf="@+id/color1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/color3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/circle_button3"
+            app:layout_constraintStart_toEndOf="@+id/color2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/color4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/circle_button4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/color3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/color5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/color1" />
+
+        <Button
+            android:id="@+id/color6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button6"
+            app:layout_constraintStart_toEndOf="@+id/color5"
+            app:layout_constraintTop_toBottomOf="@+id/color2" />
+
+        <Button
+            android:id="@+id/color7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button7"
+            app:layout_constraintStart_toEndOf="@+id/color6"
+            app:layout_constraintTop_toBottomOf="@+id/color3" />
+
+        <Button
+            android:id="@+id/color8"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/color7"
+            app:layout_constraintTop_toBottomOf="@+id/color4" />
+
+        <Button
+            android:id="@+id/color9"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/color5" />
+
+        <Button
+            android:id="@+id/color10"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/color9"
+            app:layout_constraintTop_toBottomOf="@+id/color6" />
+
+        <Button
+            android:id="@+id/colot11"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button11"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/color10"
+            app:layout_constraintTop_toBottomOf="@+id/color7" />
+
+        <Button
+            android:id="@+id/color12"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/circle_button12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintStart_toEndOf="@+id/colot11"
+            app:layout_constraintTop_toBottomOf="@+id/color8" />
 
 
-        출처: https://parkshistory.tistory.com/20 [공부한 내용 정리하는 블로그]
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include layout="@layout/layout_popup_bottom"
@@ -41,10 +144,4 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/basic_margin" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/circle_button"
-        />
 </LinearLayout>

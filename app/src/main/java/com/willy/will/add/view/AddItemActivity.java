@@ -26,22 +26,20 @@ public class AddItemActivity extends Activity{
     private SimpleDateFormat simpleDateFormat = null;
     private Calendar today = null;
     private Calendar calendar = null;
-
     private String start_date_key = null;
     private String end_date_key = null;
-
     private Resources resources = null;
-
     private DatePickerDialog datePickerDialog = null;
     private DateListener dateListener = null;
-
     private String start_date = null;
     private String end_date = null;
 
     Switch repeat_switch;
-
     TextView Text_start=null;
     TextView Text_end=null;
+
+
+
 
     private View checkBox_group;
 

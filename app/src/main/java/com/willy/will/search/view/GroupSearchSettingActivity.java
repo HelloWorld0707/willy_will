@@ -24,11 +24,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 public class GroupSearchSettingActivity extends PopupActivity {
-
     private String selectedGroupsKey = null;
-
     private ArrayList<Group> groupList = null;
-
     private TextView selectingAllView = null;
     private RecyclerView recyclerView = null;
 
