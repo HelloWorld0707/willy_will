@@ -49,8 +49,9 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         int layoutId = 0;
-        // To-do
-        if(type == RecyclerViewItemType.TO_DO) {
+        // To-do item (of Main or Search)
+        if(type == RecyclerViewItemType.TO_DO_MAIN ||
+           type == RecyclerViewItemType.TO_DO_SEARCH) {
             layoutId = R.layout.listitem;
         }
         // Text-only (Group, Done, or Loop)

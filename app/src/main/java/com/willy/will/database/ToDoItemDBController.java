@@ -64,6 +64,8 @@ public class ToDoItemDBController {
         int toDoId = -1;
         int rank = -1;
         String name = null;
+        String color = null;
+        int loop = -1;
         while(cursor.moveToNext()) {
             itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
             groupId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_id_column)));
@@ -79,7 +81,7 @@ public class ToDoItemDBController {
             rank = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_important_column)));
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
 
-            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
+            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop);
             toDoItemList.add(curToDoItem);
         }
         /* ~Put data in ArrayList */
@@ -101,28 +103,33 @@ public class ToDoItemDBController {
 
         //Read DB All Item
         if(selectedGroup == -1){
-            selectQuery = "SELECT *," +
+            selectQuery =
+                    "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
+                    "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
                     "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) " +
-                    "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS loop," +
+                    "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS lp," +
                     "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
-                    "FROM _ITEM i\n" +
-                    "WHERE date(start_date) <= \""+currentDate+"\"\n"+
-                    "AND date(end_date) >= \""+currentDate+"\" \n"+
-                    "ORDER BY done,item_important,item_name;";
+                    "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
+                    "WHERE i.item_id = c.item_id \n" +
+                    "AND i.group_id = g.group_id \n"+
+                    "AND date(c.calendar_date) = \""+currentDate+"\" \n"+
+                    "ORDER BY done,i.item_important,i.item_name;";
         }
 
         //Read DB by selected group
         else {
             selectQuery =
-                    "SELECT *," +
+                    "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
+                            "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
                             "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) " +
-                            "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS loop," +
+                            "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS lp," +
                             "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
-                            "FROM _ITEM i\n" +
-                            "WHERE date(start_date) <= \""+currentDate+"\"\n"+
-                            "AND date(end_date) >= \""+currentDate+"\" \n"+
-                            "AND group_id = "+selectedGroup+"\n"+
-                            "ORDER BY done,item_important,item_name;";
+                            "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
+                            "WHERE i.item_id = c.item_id \n" +
+                            "AND i.group_id = g.group_id \n"+
+                            "AND date(c.calendar_date) = \""+currentDate+"\" \n" +
+                            "AND i.group_id = \""+selectedGroup+"\"\n"+
+                            "ORDER BY done,i.item_important,i.item_name;";
         }
         Cursor cursor = readDatabase.rawQuery(selectQuery, null);
         Log.d("checkQuery",selectQuery);
@@ -136,9 +143,10 @@ public class ToDoItemDBController {
         String endDate = null;
         int toDoId = -1;
         int rank = -1;
-        int dayNum = -1;
-        String loopday = null;
+        int loop = -1;
         String name = null;
+        String color = null;
+
 
         while(cursor.moveToNext()) {
             itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
@@ -153,34 +161,13 @@ public class ToDoItemDBController {
             endDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.end_date_column)));
             toDoId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.to_do_id_column)));
             rank = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_important_column)));
-
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
-           loopday = cursor.getString(cursor.getColumnIndex(resources.getString(R.string.loop_t_n)));
+            color = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
+            loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_t_n)));
 
-           if(!loopday.equals("0")){
-               //set day of week
-               Date d = java.sql.Date.valueOf(currentDate);
-               Calendar cal = Calendar.getInstance();
-               cal.setTime(d);
-               dayNum = cal.get(Calendar.DAY_OF_WEEK)-1;
 
-               for(int i = 0; i<loopday.length();i++){
-                   if(toDoItemList.size()>=1){ break;}
-
-                   else{
-                       int looppos = (int)loopday.charAt(i);
-                       //add item
-                       if(looppos == 49 && i == dayNum){
-                           curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
-                           toDoItemList.add(curToDoItem);
-                       }
-                   }
-               }
-           }
-           else {
-               curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name);
-               toDoItemList.add(curToDoItem);
-           }
+            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop);
+            toDoItemList.add(curToDoItem);
         }
         /* ~Put data in ArrayList */
 

@@ -32,7 +32,7 @@
 
     <string name="loop_id_column">loop_id</string>
     <string name="loop_week_column">loop_week</string>
-    <string name="loop_t_n">loop</string>
+    <string name="loop_t_n">lp</string>
     <!-- ~columns -->
 
     <!-- functions -->

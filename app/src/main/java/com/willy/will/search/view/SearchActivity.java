@@ -84,7 +84,7 @@ public class SearchActivity extends AppCompatActivity {
 
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.search_results_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.TO_DO, toDoList,
+                RecyclerViewItemType.TO_DO_SEARCH, toDoList,
                 R.string.selection_id_search, false
         );
         recyclerView = recyclerViewSetter.setRecyclerView();
@@ -200,7 +200,7 @@ public class SearchActivity extends AppCompatActivity {
         endOfDoneDate = "";
     }
 
-    // Receive result data from SearchSettingActivity (Setting for Search)
+    // Receive result data from Detail Activity or Search Setting Activity (Setting for Search)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
