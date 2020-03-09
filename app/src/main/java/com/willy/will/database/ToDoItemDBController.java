@@ -106,8 +106,7 @@ public class ToDoItemDBController {
             selectQuery =
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
                     "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
-                    "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) " +
-                    "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS lp," +
+                    "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
                     "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
                     "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
                     "WHERE i.item_id = c.item_id \n" +
@@ -121,8 +120,7 @@ public class ToDoItemDBController {
             selectQuery =
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
                             "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
-                            "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) " +
-                            "THEN (Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id) ELSE 0 END AS lp," +
+                            "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
                             "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
                             "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
                             "WHERE i.item_id = c.item_id \n" +
@@ -130,6 +128,7 @@ public class ToDoItemDBController {
                             "AND date(c.calendar_date) = \""+currentDate+"\" \n" +
                             "AND i.group_id = \""+selectedGroup+"\"\n"+
                             "ORDER BY done,i.item_important,i.item_name;";
+            //(Select loop_week from _LOOP_INFO l where i.to_do_id = l.to_do_id)(loop id)
         }
         Cursor cursor = readDatabase.rawQuery(selectQuery, null);
         Log.d("checkQuery",selectQuery);
@@ -164,6 +163,7 @@ public class ToDoItemDBController {
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
             color = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
             loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_t_n)));
+            Log.d("checkQuery","******"+loop+"********");
 
 
             curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop);
