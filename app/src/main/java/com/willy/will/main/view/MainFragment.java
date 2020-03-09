@@ -78,7 +78,7 @@ public class MainFragment extends Fragment {
             /** Initialization (including Item View)*/
             RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                     R.id.mainItemList, rootView,
-                    RecyclerViewItemType.TO_DO, list,
+                    RecyclerViewItemType.TO_DO_MAIN, list,
                     R.string.selection_id_main, false
             );
             recyclerView = recyclerViewSetter.setRecyclerView();

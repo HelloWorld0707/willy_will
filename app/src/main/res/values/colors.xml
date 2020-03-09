@@ -4,7 +4,7 @@
     <!-- [2020-02-15] Created by Lee Jaeeun -->
     <color name="colorPrimary">#007fbf</color>
     <color name="colorInactive">#79646464</color>
-    <color name="colorNoGroup">#00007fbf</color>
+    <color name="colorNoGroup">#00cccccc</color>
     <color name="colorGroup1">#80FF3C3C</color>
     <color name="colorGroup2">#80FF9800</color>
     <color name="colorGroup3">#80FFEB3B</color>

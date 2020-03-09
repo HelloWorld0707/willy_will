@@ -2,8 +2,6 @@ package com.willy.will.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.view.DetailActivity;
 import com.willy.will.main.view.MainFragment;
 import com.willy.will.search.view.SearchActivity;
@@ -107,8 +104,9 @@ public class RecyclerViewSetter {
             public void onSelectionChanged() {
                 super.onSelectionChanged();
 
-                // To-do
-                if(type == RecyclerViewItemType.TO_DO) {
+                // To-do item (of Main or Search)
+                if(type == RecyclerViewItemType.TO_DO_MAIN ||
+                   type == RecyclerViewItemType.TO_DO_SEARCH) {
                     changeToDoItem();
                 }
                 // Group
@@ -145,7 +143,8 @@ public class RecyclerViewSetter {
             String extraName = context.getResources().getString(R.string.request_code);
             int code = context.getResources().getInteger(R.integer.detail_request_code);
 
-            if(mainFragment != null) {
+            // To-do item of Main
+            if((type == RecyclerViewItemType.TO_DO_MAIN) && (mainFragment != null)) {
                 int p = tracker.getSelection().hashCode();
                 Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
                 intent.putExtra(extraName, code);
@@ -153,11 +152,13 @@ public class RecyclerViewSetter {
                 , (Serializable) list.get(p));
                 mainFragment.startActivityForResult(intent, code);
             }
-            else if(searchActivity != null) {
+            // To-do item of Search
+            else if((type == RecyclerViewItemType.TO_DO_SEARCH) && (searchActivity != null)) {
                 Intent intent = new Intent(searchActivity, DetailActivity.class);
                 intent.putExtra(extraName, code);
                 searchActivity.startActivityForResult(intent, code);
             }
+            // Task item of Task management
             /*else if(toDoItemManagementActivity != null) {
                 Intent intent = new Intent(toDoItemManagementActivity, DetailActivity.class);
                 intent.putExtra(extraName, code);

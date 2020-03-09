@@ -84,7 +84,7 @@ public class SearchActivity extends AppCompatActivity {
 
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.search_results_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.TO_DO, toDoList,
+                RecyclerViewItemType.TO_DO_SEARCH, toDoList,
                 R.string.selection_id_search, false
         );
         recyclerView = recyclerViewSetter.setRecyclerView();

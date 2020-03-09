@@ -1,7 +1,6 @@
 package com.willy.will.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Spannable;
@@ -30,7 +29,6 @@ import com.willy.will.common.model.ToDoItem;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     private static BackgroundColorSpan inactiveColorSpan = new BackgroundColorSpan(App.getContext().getColor(R.color.colorInactive));
-    private BackgroundColorSpan activeColorSpan = null;
 
     private RecyclerViewAdapter rcyclerVAdapter = null;
 
@@ -53,29 +51,36 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     public <T> RecyclerViewHolder(RecyclerViewAdapter adapter, RecyclerViewItemType type, View view) {
         super(view);
         rcyclerVAdapter = adapter;
-        Resources resources = view.getContext().getResources();
 
-        // To-do
-        if(type == RecyclerViewItemType.TO_DO) {
+        // To-do item (of Main or Search)
+        if(type == RecyclerViewItemType.TO_DO_MAIN ||
+           type == RecyclerViewItemType.TO_DO_SEARCH) {
             tvTime = view.findViewById(R.id.tv_time);
             imgRank = view.findViewById(R.id.img_rank);
             tvName = view.findViewById(R.id.tv_name);
             imgRoutine = view.findViewById(R.id.img_routine);
             cbDone = view.findViewById(R.id.cb_done);
 
-            activeColorSpan = new BackgroundColorSpan(resources.getColor(R.color.colorGroup7));
-            cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(cbDone.isPressed()) {
-                        setActivation(b);
-                        int position = Math.toIntExact(getItemId());
-                        ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
-                        toDoItem.setDone(b);
-                        rcyclerVAdapter.notifyItemChanged(position);
+            // To-do item of Main
+            if(type == RecyclerViewItemType.TO_DO_MAIN) {
+                cbDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if (cbDone.isPressed()) {
+                            int position = Math.toIntExact(getItemId());
+                            ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
+                            toDoItem.setDone(b);
+                            //setActivation(b, toDoItem.getGroupColor());
+                            setActivation(b, "#FF007fbf");
+                            rcyclerVAdapter.notifyItemChanged(position);
+                        }
                     }
-                }
-            });
+                });
+            }
+            // To-do item of Search
+            else if(type == RecyclerViewItemType.TO_DO_SEARCH) {
+                cbDone.setEnabled(false);
+            }
         }
         // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
@@ -125,7 +130,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // Bind data to THE item (Called for each item)
     public <T> void bind(RecyclerViewItemType type, T data, boolean isSelected) {
         // To-do
-        if(type == RecyclerViewItemType.TO_DO) {
+        if(type == RecyclerViewItemType.TO_DO_MAIN ||
+           type == RecyclerViewItemType.TO_DO_SEARCH) {
             ToDoItem mitem = (ToDoItem) data;
             tvTime.setText(mitem.getEndDate());
             tvName.setText(mitem.getName());
@@ -146,7 +152,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             else {
                 imgRank.setImageDrawable(null);
             }
-            setActivation(cbDone.isChecked());
+            //setActivation(cbDone.isChecked(), mitem.getGroupColor);
+            setActivation(cbDone.isChecked(), "#FF007fbf");
         }
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
@@ -168,8 +175,12 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         // Task
         else if(type == RecyclerViewItemType.TASK) {
             Task task = (Task) data;
-            if(task.getGroup().getGroupId() > 0) {
-                groupColorCircleView.getDrawable().setTint(Color.parseColor(task.getGroup().getGroupColor()));
+            if(task.getGroup().getGroupId() == 0) {
+                groupColorCircleView.setActivated(false);
+            }
+            else {
+                groupColorCircleView.setActivated(true);
+                groupColorCircleView.getDrawable().mutate().setTint(Color.parseColor(task.getGroup().getGroupColor()));
             }
             taskNameView.setText(task.getName());
             dDayOrAchivementView.setText(task.getdDayOrAchievement());
@@ -184,7 +195,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     }
 
     // Activation of to-do item
-    private void setActivation(boolean activated) {
+    private void setActivation(boolean activated, String groupColor) {
         Context context = App.getContext();
 
         Spannable span = (Spannable) tvName.getText();
@@ -203,7 +214,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             }
         }
         else {
-            span.setSpan(activeColorSpan
+            span.setSpan(new BackgroundColorSpan(Color.parseColor(groupColor))
                     , 0, tvName.length(),
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
