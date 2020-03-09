@@ -128,7 +128,7 @@ public class ToDoItemDBController {
                             "WHERE i.item_id = c.item_id \n" +
                             "AND i.group_id = g.group_id \n"+
                             "AND date(c.calendar_date) = \""+currentDate+"\" \n" +
-                            "\"AND group_id = \"+selectedGroup+\"\\n\""+
+                            "AND i.group_id = \""+selectedGroup+"\"\n"+
                             "ORDER BY done,i.item_important,i.item_name;";
         }
         Cursor cursor = readDatabase.rawQuery(selectQuery, null);
