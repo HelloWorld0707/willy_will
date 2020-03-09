@@ -9,6 +9,7 @@
     <string name="done_date">완료 날짜</string>
     <string name="loop">반복</string>
     <string name="successful_delete">삭제되었습니다.</string>
+    <string name="successful_movement">그룹을 변경하였습니다.</string>
     <!-- ~common -->
 
     <!-- setting -->

@@ -15,6 +15,7 @@ import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
+import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.TaskDBController;
 
 import java.util.ArrayList;
@@ -71,12 +72,33 @@ public class TaskManagementActivity extends AppCompatActivity {
 
     // Move tasks to other group
     public void setGroup(View view) {
-        //
+        Iterator<Task> iter = taskList.iterator();
+        Task curTask = null;
+        selectedTasks.clear();
+        while(iter.hasNext()) {
+            curTask = iter.next();
+            if(curTask.isChecked()) {
+                selectedTasks.add(curTask);
+            }
+        }
+
+        if(selectedTasks.isEmpty()) {
+            noCheckedTask.show();
+        }
+        else {
+            Intent intent = new Intent(this, GroupManagementActivity.class);
+            intent.putParcelableArrayListExtra(selectedTasksKey, selectedTasks);
+
+            code = resources.getInteger(R.integer.move_tasks_code);
+            intent.putExtra(extraNameCode, code);
+            startActivityForResult(intent, code);
+        }
     }
 
     public void removeTasks(View view) {
         Iterator<Task> iter = taskList.iterator();
         Task curTask = null;
+        selectedTasks.clear();
         while(iter.hasNext()) {
             curTask = iter.next();
             if(curTask.isChecked()) {
@@ -107,6 +129,11 @@ public class TaskManagementActivity extends AppCompatActivity {
             // To-do Item Detail
             if(requestCode == getResources().getInteger(R.integer.detail_request_code)) {
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+            }
+            // Move tasks (to other group)
+            else if(requestCode == resources.getInteger(R.integer.move_tasks_code)) {
+                recyclerView.getAdapter().notifyDataSetChanged();
+                Toast.makeText(this, resources.getString(R.string.successful_movement), Toast.LENGTH_SHORT).show();
             }
             // Remove tasks
             else if(requestCode == getResources().getInteger(R.integer.remove_tasks_code)) {
