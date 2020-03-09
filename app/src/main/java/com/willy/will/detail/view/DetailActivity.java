@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,9 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.appcompat.widget.PopupMenu;
 import com.willy.will.R;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DBAccess;
 import com.willy.will.detail.model.Item;
-import com.willy.will.setting.AlarmActivity;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,15 +81,16 @@ public class DetailActivity extends Activity {
         day.add(6,(TextView)findViewById(R.id.saturday));
 
         /** get intent(item_id) from mainActivity **/ //수정 필요
-        //intent = getIntent();
+        Intent intent = getIntent();
+        ToDoItem item =null;
+        item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
         //int itemId = intent.getIntExtra("itemId",-1);
-        //dbHelper = DBAccess.getDbHelper();
         /*~ get itemId, calendar_date from mainActivity */
 
 
         /** acess DB **/
         dbHelper = DBAccess.getDbHelper();
-        item1 = getItemByItemId(1);
+        item1 = getItemByItemId(item.getItemId());
         LocalDate localDate = getLocalDate(item1.getCalenderDate());
         achievementList = getloopItem(item1.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
         /*~ get DB data */

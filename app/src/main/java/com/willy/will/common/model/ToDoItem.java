@@ -1,6 +1,8 @@
 package com.willy.will.common.model;
 
-public class ToDoItem {
+import java.io.Serializable;
+
+public class ToDoItem implements Serializable {
     private int itemId;
     private int groupId;
     private String locationX;
