@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     android:verticalScrollbarPosition="right"
     tools:context=".add.view.AddItemActivity">
 
@@ -27,236 +28,276 @@
             android:onClick="Tomain" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#eee"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:background="@drawable/round_corner"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <EditText
-                    android:id="@+id/editText3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="@string/edit_Title"
-                    android:inputType="textPersonName"
-                    android:textSize="32sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <Button
-                    android:id="@+id/bnt_group"
-                    style="@style/DetailTitleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="0dp"
-                    android:background="#00ff0000"
-                    android:gravity="center|right"
-                    android:text="그룹명"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/editText4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="@string/edit_Group"
-                    android:inputType="textPersonName" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <Button
-                    android:id="@+id/btn_start"
-                    style="@style/DetailTitleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#00ff0000"
-                    android:text="시작날짜"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/editText11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="right|center_horizontal|center_vertical"
-                    android:hint="@string/Date"
-                    android:inputType="date"
-                    android:textSize="18dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <Button
-                    android:id="@+id/btn_end"
-                    style="@style/DetailTitleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#00ff0000"
-                    android:text="종료날짜"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/editText12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:background="@null"
-                    android:ems="10"
-                    android:gravity="right|center_horizontal|center_vertical"
-                    android:hint="@string/Date"
-                    android:inputType="date"
-                    android:textSize="18dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
-
-                <Button
-                    android:id="@+id/textView3"
-                    style="@style/DetailTitleStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:background="#00ff0000"
-                    android:text="위치"
-                    android:textColor="#4CAF50"
-                    android:textSize="18sp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/round_corner2"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp">
-
-                <Switch
-                    android:id="@+id/repeat_switch"
-                    style="@style/DetailTitleStyle"
-                    android:layout_width="100dp"
-                    android:layout_height="64dp"
-                    android:layout_alignParentStart="true"
-                    android:text="반복"
-                    android:textColor="#4CAF50"
-                    android:textOff="반복안함"
-                    android:textOn="반복"
-                    android:textSize="18sp" />
-
-            </RelativeLayout>
-
             <LinearLayout
-                android:id="@+id/checkBox_group"
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="30dp"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="360dp"
+                android:background="@drawable/round_corner"
+                android:orientation="vertical">
 
-                <CheckBox
-                    android:id="@+id/checkBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="월" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
 
+                    <EditText
+                        android:id="@+id/editText3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:ems="10"
+                        android:hint="@string/edit_Title"
+                        android:inputType="textPersonName"
+                        android:textSize="32sp" />
+                </RelativeLayout>
 
-                <CheckBox
-                    android:id="@+id/checkBox2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="화" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
 
-                <CheckBox
-                    android:id="@+id/checkBox3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="수" />
+                    <Button
+                        android:id="@+id/bnt_group"
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="0dp"
+                        android:background="#00ff0000"
+                        android:gravity="center|right"
+                        android:text="그룹명"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="18sp" />
 
-                <CheckBox
-                    android:id="@+id/checkBox4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="목" />
+                    <EditText
+                        android:id="@+id/editText4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:ems="10"
+                        android:hint="@string/edit_Group"
+                        android:inputType="textPersonName" />
+                </RelativeLayout>
 
-                <CheckBox
-                    android:id="@+id/checkBox5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="금" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
 
-                <CheckBox
-                    android:id="@+id/checkBox6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="토" />
+                    <Button
+                        android:id="@+id/btn_start"
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/btn_click_event"
+                        android:text="시작날짜"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="18sp" />
 
-                <CheckBox
-                    android:id="@+id/checkBox7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="일" />
+                    <TextView
+                        android:id="@+id/editText11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="right|center_horizontal|center_vertical"
+                        android:hint="@string/Date"
+                        android:inputType="date"
+                        android:textSize="18dp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
+
+                    <Button
+                        style="@style/DetailTitleStyle"
+                        android:id="@+id/btn_end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/btn_click_event"
+                        android:text="종료날짜"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/editText12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:ems="10"
+                        android:gravity="right|center_horizontal|center_vertical"
+                        android:hint="@string/Date"
+                        android:inputType="date"
+                        android:textSize="18dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
+
+                    <Button
+                        android:id="@+id/textView3"
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:background="#00ff0000"
+                        android:text="위치"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/round_corner2"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp">
+
+                    <Switch
+                        android:id="@+id/repeat_switch"
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="100dp"
+                        android:layout_height="64dp"
+                        android:layout_alignParentStart="true"
+                        android:text="반복"
+                        android:textColor="@color/colorPrimary"
+                        android:textOff="반복안함"
+                        android:textOn="반복"
+                        android:textSize="18sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/checkBox_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="월" />
+
+
+                    <CheckBox
+                        android:id="@+id/checkBox2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="화" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="목" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="금" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="토" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp">
+
+                <RelativeLayout
+                    android:layout_width="350dp"
+                    android:layout_height="64dp"
+                    android:layout_centerHorizontal="true">
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="175dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/btn_click_event"
+                        android:text="저장"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:stateListAnimator="@null"/>
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="175dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/btn_click_event"
+                        android:text="취소"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:stateListAnimator="@null"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

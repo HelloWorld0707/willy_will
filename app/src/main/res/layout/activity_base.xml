@@ -79,12 +79,12 @@
                         android:layout_width="@dimen/actionbar_button_size"
                         android:layout_height="@dimen/actionbar_button_size"
                         android:layout_alignBottom="@id/tv_date"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="bottom|left"
                         android:layout_marginStart="@dimen/button_margin"
                         android:layout_marginTop="@dimen/button_margin"
                         android:layout_marginEnd="@dimen/button_margin"
                         android:layout_marginBottom="@dimen/button_margin"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="bottom|left"
                         android:background="@drawable/ic_settings_24px"
                         android:onClick="btnSettingClick" />
                 </RelativeLayout>
@@ -99,7 +99,8 @@
             <FrameLayout
                 android:id="@+id/fragmentcontainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></FrameLayout>
+                android:layout_height="match_parent"
+                android:baselineAligned="false"></FrameLayout>
         </LinearLayout>
 
         <!-- Fab -->
