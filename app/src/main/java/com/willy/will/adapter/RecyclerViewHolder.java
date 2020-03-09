@@ -1,6 +1,7 @@
 package com.willy.will.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Spannable;
@@ -25,6 +26,7 @@ import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
+import com.willy.will.database.ToDoItemDBController;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
@@ -71,7 +73,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                             toDoItem.setDone(b);
                             //setActivation(b, toDoItem.getGroupColor());
-                            setActivation(b, toDoItem.getColor(), toDoItem.getLoop());
+                            setActivation(toDoItem.getItemId(), b, toDoItem.getColor(), toDoItem.getLoop());
                             rcyclerVAdapter.notifyItemChanged(position);
                         }
                     }
@@ -137,6 +139,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvName.setText(mitem.getName());
             cbDone.setChecked(mitem.getDone());
             String color = mitem.getColor();
+            int id = mitem.getItemId();
             int loop = mitem.getLoop();
             imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
                         R.drawable.ic_loop_24px, null));
@@ -161,7 +164,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.setImageDrawable(null);
             }
             //setActivation(cbDone.isChecked(), mitem.getGroupColor);
-            setActivation(cbDone.isChecked(), color, loop);
+            setActivation(id, cbDone.isChecked(), color, loop);
         }
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
@@ -203,11 +206,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     }
 
     // Activation of to-do item
-    private void setActivation(boolean activated, String groupColor, int loop) {
+    private void setActivation(int id, boolean activated, String groupColor, int loop) {
         Context context = App.getContext();
         Spannable span = (Spannable) tvName.getText();
+        Resources resources = App.getContext().getResources();
+        ToDoItemDBController dbController = new ToDoItemDBController(resources);
 
-        Log.d("checkloop","**************loop: "+loop+"*************");
+
 
         if(activated) {
             span.setSpan(inactiveColorSpan
@@ -221,6 +226,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             if(imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
+
         }
         else {
             span.setSpan(new BackgroundColorSpan(Color.parseColor(groupColor))
@@ -235,6 +241,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
             }
         }
+//        dbController.updateDB(id,activated); temp
     }
 
 }
