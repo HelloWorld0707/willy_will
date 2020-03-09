@@ -71,7 +71,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                             toDoItem.setDone(b);
                             //setActivation(b, toDoItem.getGroupColor());
-                            setActivation(b, "#FF007fbf");
+                            setActivation(b, toDoItem.getColor());
                             rcyclerVAdapter.notifyItemChanged(position);
                         }
                     }
@@ -136,6 +136,14 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime.setText(mitem.getEndDate());
             tvName.setText(mitem.getName());
             cbDone.setChecked(mitem.getDone());
+            String color = mitem.getColor();
+            int loop = mitem.getLoop();
+                imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
+                        R.drawable.ic_loop_24px, null));
+            if(loop == 0){
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorInactive));
+            }
+
             int rank = mitem.getRank();
             if(rank == 1) {
                 imgRank.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
@@ -153,7 +161,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.setImageDrawable(null);
             }
             //setActivation(cbDone.isChecked(), mitem.getGroupColor);
-            setActivation(cbDone.isChecked(), "#FF007fbf");
+            setActivation(cbDone.isChecked(), color);
         }
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
@@ -199,6 +207,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         Context context = App.getContext();
 
         Spannable span = (Spannable) tvName.getText();
+        int color = Color.parseColor(groupColor);
 
         if(activated) {
             span.setSpan(inactiveColorSpan
@@ -220,7 +229,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
             if(imgRoutine.getDrawable() != null) {
-                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context,R.color.colorPrimary));
             }
             if(imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
