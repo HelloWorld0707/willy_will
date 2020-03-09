@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,9 +32,7 @@ import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
 import com.willy.will.setting.TaskManagementActivity;
 
-
 import java.io.File;
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -171,7 +168,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-        intent.putExtra(getResources().getString(R.string.current_date_key),sendGroup);
+        intent.putExtra(getResources().getString(R.string.current_group_key),sendGroup);
 //        Log.d("DateChecked","**********날짜"+sendDate+"*************");
 //        Log.d("GroupIdcheck","**********그룹"+sendGroup.getGroupName()+"*************");
         startActivity(intent);
