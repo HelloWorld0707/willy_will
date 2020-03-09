@@ -6,19 +6,21 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
-
 import androidx.core.app.NotificationCompat;
 import com.willy.will.R;
+import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.view.DetailActivity;
-
-import static android.content.Context.MODE_PRIVATE;
+import java.util.List;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+    private DetailController detailCtrl;
+
+    public AlarmReceiver(){
+        detailCtrl = new DetailController();
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -37,32 +39,31 @@ public class AlarmReceiver extends BroadcastReceiver {
             builder.setSmallIcon(R.drawable.ic_launcher_foreground);
             String channelName = "매일 알람 채널";
             String description = "매일 정해진 시간에 알람합니다.";
-            int importance = NotificationManager.IMPORTANCE_HIGH; //소리와 알림메시지를 같이 보여줌
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("channelId", channelName, importance);
             channel.setDescription(description);
             if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel); // 노티피케이션 채널을 시스템에 등록
+                notificationManager.createNotificationChannel(channel);
             }
         } else{
-            builder.setSmallIcon(R.mipmap.ic_launcher); // Oreo 이하에서 mipmap 사용하지 않으면 Couldn't create icon: StatusBarIcon 에러남
+            builder.setSmallIcon(R.mipmap.ic_launcher);
         }
 
-        for(int i=0;i<5;i++){
+        List<String> list = detailCtrl.AlarmToDoItems();
+        for(int i=0;i<list.size();i++){
             builder.setAutoCancel(true)
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
                     .setTicker("{Time to watch some cool stuff!}")
-                    .setContentTitle("상태바 드래그시 보이는 타이틀" + i)
-                    .setContentText("상태바 드래그시 보이는 서브타이틀" + i)
+                    .setContentTitle("오늘의 할일")
+                    .setContentText(list.get(i))
                     .setContentInfo("INFO")
                     .setContentIntent(pendingI);
 
             if (notificationManager != null) {
-                notificationManager.notify(i, builder.build());// 노티피케이션 동작시킴
+                notificationManager.notify(i, builder.build());
             }
-
         }
-
     }
 
 }

@@ -1,10 +1,14 @@
 package com.willy.will.main.view;
 
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -71,6 +75,19 @@ public class MainFragment extends Fragment {
         list = dbController.mainToDoItems(list,currentDate,groupId);
         if(list.size() == 0){
             nullList = (TextView) rootView.findViewById(R.id.tv_default);
+
+            //get user display size
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            display.getSize(size);
+            int hei = size.y;
+            int wid = size.x;
+            params.setMargins((int)(2.8*wid)/10,(int)hei/4,0,0);
+            Log.d("check size","****************hei"+(int) hei/2+". size: "+size+"****************");
+            //set nullList size
+            nullList.setLayoutParams(params);
+
             nullList.setVisibility(rootView.VISIBLE);
         }
         /* ~Set TodoItem */
@@ -78,7 +95,7 @@ public class MainFragment extends Fragment {
             /** Initialization (including Item View)*/
             RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                     R.id.mainItemList, rootView,
-                    RecyclerViewItemType.TO_DO, list,
+                    RecyclerViewItemType.TO_DO_MAIN, list,
                     R.string.selection_id_main, false
             );
             recyclerView = recyclerViewSetter.setRecyclerView();

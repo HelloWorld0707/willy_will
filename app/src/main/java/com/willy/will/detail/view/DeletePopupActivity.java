@@ -6,8 +6,13 @@ import android.util.Log;
 
 import com.willy.will.R;
 import com.willy.will.common.model.PopupActivity;
+import com.willy.will.detail.controller.DetailController;
+import com.willy.will.main.view.MainActivity;
 
 public class DeletePopupActivity extends PopupActivity {
+
+    private DetailController detailCtrl;
+    int todoId;
 
 
     public DeletePopupActivity(){
@@ -18,14 +23,18 @@ public class DeletePopupActivity extends PopupActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //detailCtrl = new DetailController();
         Intent intent = getIntent();
-        int todoId = intent.getIntExtra("todoId",-1);
-        Log.d("todo", "onMenuItemClick: " + todoId);
-
+        todoId = intent.getIntExtra("todoId",-1);
+        Log.d("todoID", "1: "+todoId);
+        //detailCtrl.deleteItemByTodoId(todoId);
     }
 
     public boolean setResults(Intent intent){
-        //삭제 sql
+        detailCtrl = new DetailController();
+        detailCtrl.deleteItemByTodoId(todoId);
+        Intent intent1 = new Intent(DeletePopupActivity.this, MainActivity.class); // 수정 필요
+        startActivity(intent1);
         return true;
     }
 
