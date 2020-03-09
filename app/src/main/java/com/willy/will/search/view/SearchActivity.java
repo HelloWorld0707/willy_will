@@ -200,7 +200,7 @@ public class SearchActivity extends AppCompatActivity {
         endOfDoneDate = "";
     }
 
-    // Receive result data from SearchSettingActivity (Setting for Search)
+    // Receive result data from Detail Activity or Search Setting Activity (Setting for Search)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

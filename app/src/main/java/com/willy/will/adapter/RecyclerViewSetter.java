@@ -149,16 +149,15 @@ public class RecyclerViewSetter {
 
     private void selectToDoItem() {
         Context context = parentView.getContext();
-
-        Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
         String extraName = context.getResources().getString(R.string.request_code);
         int code = context.getResources().getInteger(R.integer.detail_request_code);
-        intent.putExtra(extraName, code);
 
         int p = tracker.getSelection().hashCode();
 
         // To-do item of Main
         if((type == RecyclerViewItemType.TO_DO_MAIN) && (mainFragment != null)) {
+            Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
+            intent.putExtra(extraName, code);
             intent.putExtra(parentView.getResources().getString(R.string.item_id)
                     , (Serializable) list.get(p));
 
@@ -166,6 +165,8 @@ public class RecyclerViewSetter {
         }
         // To-do item of Search
         else if((type == RecyclerViewItemType.TO_DO_SEARCH) && (searchActivity != null)) {
+            Intent intent = new Intent(searchActivity, DetailActivity.class);
+            intent.putExtra(extraName, code);
             intent.putExtra(parentView.getResources().getString(R.string.item_id)
                     , (Serializable) list.get(p));
 
@@ -193,15 +194,16 @@ public class RecyclerViewSetter {
         if(taskManagementActivity != null) {
             Context context = parentView.getContext();
 
-            Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
             String extraName = context.getResources().getString(R.string.request_code);
             int code = context.getResources().getInteger(R.integer.detail_request_code);
-            intent.putExtra(extraName, code);
 
             int p = tracker.getSelection().hashCode();
             Task selectedTask = (Task) list.get(p);
             ToDoItem toDoItem = new ToDoItem();
             toDoItem.setItemId(selectedTask.getItemId());
+
+            Intent intent = new Intent(taskManagementActivity, DetailActivity.class);
+            intent.putExtra(extraName, code);
             intent.putExtra(parentView.getResources().getString(R.string.item_id)
                     , (Serializable) toDoItem);
 
