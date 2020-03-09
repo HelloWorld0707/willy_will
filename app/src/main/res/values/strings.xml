@@ -114,5 +114,9 @@
     <string name="btn_color">color</string>
     <string name="edit_Group">그룹명</string>
     <string name="Date">0000-00-00</string>
+    <string name="start_date_text">시작날짜</string>
+    <string name="end_date_text">종료날짜</string>
+    <string name="start_date_key">startDate</string>
+    <string name="end_date_key">endDate</string>
     <!-- add text -->
 </resources>

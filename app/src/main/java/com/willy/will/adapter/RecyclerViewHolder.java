@@ -1,6 +1,7 @@
 package com.willy.will.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Spannable;
@@ -25,6 +26,7 @@ import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
+import com.willy.will.database.ToDoItemDBController;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
@@ -71,7 +73,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                             toDoItem.setDone(b);
                             //setActivation(b, toDoItem.getGroupColor());
-                            setActivation(b, "#FF007fbf");
+                            setActivation(toDoItem.getItemId(), b, toDoItem.getColor(), toDoItem.getLoop());
                             rcyclerVAdapter.notifyItemChanged(position);
                         }
                     }
@@ -136,6 +138,15 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             tvTime.setText(mitem.getEndDate());
             tvName.setText(mitem.getName());
             cbDone.setChecked(mitem.getDone());
+            String color = mitem.getColor();
+            int id = mitem.getItemId();
+            int loop = mitem.getLoop();
+            imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
+                        R.drawable.ic_loop_24px, null));
+            if(loop == 1){
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorPrimary));
+            }
+
             int rank = mitem.getRank();
             if(rank == 1) {
                 imgRank.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
@@ -153,7 +164,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.setImageDrawable(null);
             }
             //setActivation(cbDone.isChecked(), mitem.getGroupColor);
-            setActivation(cbDone.isChecked(), "#FF007fbf");
+            setActivation(id, cbDone.isChecked(), color, loop);
         }
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
@@ -195,10 +206,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     }
 
     // Activation of to-do item
-    private void setActivation(boolean activated, String groupColor) {
+    private void setActivation(int id, boolean activated, String groupColor, int loop) {
         Context context = App.getContext();
-
         Spannable span = (Spannable) tvName.getText();
+        Resources resources = App.getContext().getResources();
+        ToDoItemDBController dbController = new ToDoItemDBController(resources);
+
+
 
         if(activated) {
             span.setSpan(inactiveColorSpan
@@ -206,12 +220,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            if(imgRoutine.getDrawable() != null) {
+            if(imgRoutine.getDrawable() != null && loop != 0) {
                 imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
             if(imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
+
         }
         else {
             span.setSpan(new BackgroundColorSpan(Color.parseColor(groupColor))
@@ -219,13 +234,14 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
-            if(imgRoutine.getDrawable() != null) {
-                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
+            if(imgRoutine.getDrawable() != null && loop != 0) {
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context,R.color.colorPrimary));
             }
             if(imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
             }
         }
+//        dbController.updateDB(id,activated); temp
     }
 
 }

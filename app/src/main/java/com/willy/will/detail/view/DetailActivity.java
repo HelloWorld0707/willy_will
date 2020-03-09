@@ -4,28 +4,34 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.PopupMenu;
+
 import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
 import static java.time.temporal.TemporalAdjusters.nextOrSame;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
+
 
 
 public class DetailActivity extends Activity {
@@ -45,6 +51,8 @@ public class DetailActivity extends Activity {
     private static Item todoItem;
     private static List<Item> achievementList;
     private DetailController detailCtrl = null;
+    private ScrollView scrollView;
+
 
 
 
@@ -71,6 +79,7 @@ public class DetailActivity extends Activity {
         address = findViewById(R.id.address);
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
+        scrollView = findViewById(R.id.scroll_view);
         day.add(0,(TextView)findViewById(R.id.sunday));
         day.add(1,(TextView)findViewById(R.id.monday));
         day.add(2,(TextView)findViewById(R.id.tuesday));
@@ -88,7 +97,7 @@ public class DetailActivity extends Activity {
 
 
 
-        todoItem = detailCtrl.getToDoItemByItemId(1);
+        todoItem = detailCtrl.getToDoItemByItemId(item.getItemId());
         LocalDate localDate = getLocalDate(todoItem.getCalenderDate());
         achievementList = detailCtrl.getloopItem(todoItem.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
         /** access DB **/
@@ -150,14 +159,11 @@ public class DetailActivity extends Activity {
         doneDate.setText((todoItem.getDoneDate()==null)?"미완료":todoItem.getDoneDate());
         roof.setText(roofDay);
         achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
-        if(todoItem.getLocationX()==null||todoItem.getLocationY()==null){
-            locationArea.setVisibility(View.GONE);
-        }else{
-            latitude = Float.parseFloat(todoItem.getLocationY());
-            longitude = Float.parseFloat(todoItem.getLocationX());// 경도
-            // 수정 필요
-        }
+
         /*~ set data */
+
+
+
 
     }
 
@@ -179,9 +185,9 @@ public class DetailActivity extends Activity {
                 Intent intent;
                 switch (item.getItemId()){
                     case R.id.btn_modify:
-                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
-                        intent.putExtra("itemId",todoItem.getItemId());
-                        startActivity(intent);
+                        //intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
+                        //intent.putExtra("itemId",todoItem.getItemId());
+                        //startActivity(intent);
                         return true;
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
@@ -211,6 +217,8 @@ public class DetailActivity extends Activity {
     }
     /*~ Back to MainActivity (Main View) */
 
+
+
     /** Set results **/
     @Override
     public void finish() {
@@ -219,9 +227,5 @@ public class DetailActivity extends Activity {
         setResult(RESULT_FIRST_USER, intent);
         super.finish();
     }
-    /* ~Set results */
-
-
-
 
 }
