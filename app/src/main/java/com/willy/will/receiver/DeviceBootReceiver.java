@@ -8,16 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
-
 import androidx.annotation.LongDef;
-
 import com.willy.will.receiver.AlarmReceiver;
-
 import java.util.Calendar;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
-//import static com.willy.will.setting.AlarmActivity.sharedPreferences;
 
 public class DeviceBootReceiver extends BroadcastReceiver {
 
