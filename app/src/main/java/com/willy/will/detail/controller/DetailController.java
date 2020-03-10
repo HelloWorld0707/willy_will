@@ -3,6 +3,8 @@ package com.willy.will.detail.controller;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.willy.will.detail.model.Item;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static com.willy.will.main.view.MainActivity.dbHelper;
@@ -61,7 +63,7 @@ public class DetailController {
                 "SELECT i.done_date , c.calendar_date " +
                         "FROM _ITEM i, _CALENDAR c " +
                         "WHERE i.item_id = c.item_id " +
-                        "AND  c.calendar_date BETWEEN \"2020-02-12\" AND \"2020-02-17\"" + //수정
+                        "AND  c.calendar_date BETWEEN \""+startOfWeek+"\" AND \""+endOfWeek+"\"" + //수정
                         "AND i.to_do_id = (SELECT to_do_id " +
                         "FROM _ITEM " +
                         "WHERE item_id="+itemId+");";
@@ -95,12 +97,15 @@ public class DetailController {
 
     /** get itemList **/
     public ArrayList<String> AlarmToDoItems() {
+
+        LocalDate today = LocalDate.now();
+        String todayStr = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
         ArrayList<String>  toDoItemList = new ArrayList<>();
 
         String selectQuery = "SELECT i.item_name " +
                 "FROM _ITEM i, _CALENDAR c\n" +
                 "WHERE i.item_id = c.item_id\n" +
-                "AND c.calendar_date=\"2020-02-09\"\n" +
+                "AND c.calendar_date=\""+todayStr+"\"\n" +
                 "AND (i.done_date IS NULL OR i.done_date =\"\");";
 
         Cursor cursor = db.rawQuery(selectQuery, null);

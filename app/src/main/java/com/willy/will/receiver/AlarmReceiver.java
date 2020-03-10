@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
+import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 import com.willy.will.R;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.view.DetailActivity;
+
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -28,6 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         resources = context.getResources();
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, DetailActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP

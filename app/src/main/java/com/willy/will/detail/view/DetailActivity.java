@@ -178,8 +178,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         if(todoItem.getLocationX()==null||todoItem.getLocationY()==null){
             locationArea.setVisibility(View.GONE);
         }else{
-            latitude = Float.parseFloat(todoItem.getLocationY());
-            longitude = Float.parseFloat(todoItem.getLocationX());// 경도
+            latitude = 37.53737528;//Float.parseFloat(todoItem.getLocationY());
+            longitude = 127.00557633;//Float.parseFloat(todoItem.getLocationX());// 경도
             markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
 
             getAddress(longitude, latitude);
