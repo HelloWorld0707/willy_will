@@ -6,17 +6,23 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
+import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 import com.willy.will.R;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.view.DetailActivity;
+
+import java.time.LocalDate;
 import java.util.List;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
 
     private DetailController detailCtrl;
+    private Resources resources;
 
     public AlarmReceiver(){
         detailCtrl = new DetailController();
@@ -24,6 +30,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        resources = context.getResources();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, DetailActivity.class);
@@ -37,8 +45,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-            String channelName = "매일 알람 채널";
-            String description = "매일 정해진 시간에 알람합니다.";
+            String channelName = resources.getString(R.string.alarm_settings_title);
+            String description = resources.getString(R.string.alarm_settings_msg);
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("channelId", channelName, importance);
             channel.setDescription(description);

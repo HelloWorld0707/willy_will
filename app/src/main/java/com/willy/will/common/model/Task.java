@@ -1,6 +1,9 @@
 package com.willy.will.common.model;
 
-public class Task {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Task implements Parcelable {
 
     private int itemId;
     private int toDoId;
@@ -26,6 +29,27 @@ public class Task {
         this.dDayOrAchievement = dDayOrAchievement;
         this.checked = false;
     }
+
+    protected Task(Parcel in) {
+        itemId = in.readInt();
+        toDoId = in.readInt();
+        group = in.readParcelable(Group.class.getClassLoader());
+        name = in.readString();
+        dDayOrAchievement = in.readString();
+        checked = in.readByte() != 0;
+    }
+
+    public static final Creator<Task> CREATOR = new Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
 
     public int getItemId() {
         return itemId;
@@ -73,5 +97,21 @@ public class Task {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // The writing order is important
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(itemId);
+        dest.writeInt(toDoId);
+        dest.writeParcelable(group, flags);
+        dest.writeString(name);
+        dest.writeString(dDayOrAchievement);
+        dest.writeByte((byte) (checked ? 1 : 0));
     }
 }

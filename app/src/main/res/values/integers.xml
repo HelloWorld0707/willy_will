@@ -6,6 +6,8 @@
     <integer name="done_search_setting_code">2</integer>
     <integer name="loop_search_setting_code">3</integer>
     <integer name="period_search_setting_code">4</integer>
+    <integer name="move_tasks_code">5</integer>
+    <integer name="remove_tasks_code">6</integer>
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->

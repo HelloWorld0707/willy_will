@@ -33,6 +33,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     private String endOfDoneDateKey = null;
 
     private Resources resources = null;
+    private Toast dateError = null;
     private Button startOfStartButton = null;
     private Button endOfStartButton = null;
     private Button startOfEndButton = null;
@@ -63,6 +64,9 @@ public class PeriodSearchSettingActivity extends PopupActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        resources = getResources();
+        dateError = Toast.makeText(this, resources.getString(R.string.date_error), Toast.LENGTH_SHORT);
+
         /** Set theme of Dialogs **/
         datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme);
         dateListener = new DateListener();
@@ -79,7 +83,6 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         /* ~Set Views */
 
         /** Set values **/
-        resources = getResources();
         startOfStartDateKey = resources.getString(R.string.start_of_start_date_key);
         endOfStartDateKey = resources.getString(R.string.end_of_start_date_key);
         startOfEndDateKey = resources.getString(R.string.start_of_end_date_key);
@@ -282,8 +285,8 @@ public class PeriodSearchSettingActivity extends PopupActivity {
         try {
             long comparison = 0L;
             long sComparison = 0L;
-            long eComparison = 0L;
             long current = 0L;
+
             /** Check start date **/
             // Check start of start date
             if(!startOfStartDate.isEmpty()) {
@@ -295,7 +298,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                 current = simpleDateFormat.parse(endOfStartDate).getTime();
                 // startOfStartDate <= endOfStartDate ? correct date : wrong date
                 if(comparison > current) {
-                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                    dateError.show();
                     return false;
                 }
             }
@@ -309,23 +312,21 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                     comparison = current;
                 }
                 else {
-                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                    dateError.show();
                     return false;
                 }
             }
             // Check end of end date
             if(!endOfEndDate.isEmpty()) {
                 current = simpleDateFormat.parse(endOfEndDate).getTime();
-                // comparison (startOfStartDate or startOfEndDate) <= endOfEndDate ?
-                if(comparison <= current) {
-                    eComparison = current;
-                }
-                else {
-                    Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                // comparison (startOfStartDate or startOfEndDate) <= endOfEndDate ? correct date : wrong date
+                if(comparison > current) {
+                    dateError.show();
                     return false;
                 }
             }
             /* ~Check end date */
+
             /** Check done date **/
             if(onlyDone) {
                 comparison = 0L;
@@ -337,15 +338,8 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                         comparison = current;
                     }
                     else {
-                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        dateError.show();
                         return false;
-                    }
-                    if(endOfDoneDate.isEmpty()) {
-                        // startOfDoneDate <= endOfEndDate ? correct date : wrong date
-                        if(current > eComparison) {
-                            Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
                     }
                 }
                 // Check end of done date
@@ -353,12 +347,7 @@ public class PeriodSearchSettingActivity extends PopupActivity {
                     current = simpleDateFormat.parse(endOfDoneDate).getTime();
                     // comparison (startOfStartDate or startOfDoneDate) <= endOfDoneDate ? correct date : wrong date
                     if (comparison > current) {
-                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-                    // endOfDoneDate <= endOfEndDate ? correct date : wrong date
-                    if(current > eComparison) {
-                        Toast.makeText(getBaseContext(), resources.getString(R.string.date_error), Toast.LENGTH_SHORT).show();
+                        dateError.show();
                         return false;
                     }
                 }

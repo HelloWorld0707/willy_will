@@ -4,8 +4,8 @@ public class Item {
     private int itemId;
     private String itemName;
     private int important;
-    private String locationX;
-    private String locationY;
+    private String latitude;
+    private String longitude;
     private String doneDate;
     private String startDate;
     private String endDate;
@@ -43,20 +43,20 @@ public class Item {
         this.important = important;
     }
 
-    public String getLocationX() {
-        return locationX;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setLocationX(String locationX) {
-        this.locationX = locationX;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
-    public String getLocationY() {
-        return locationY;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setLocationY(String locationY) {
-        this.locationY = locationY;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getDoneDate() {

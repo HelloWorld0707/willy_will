@@ -52,7 +52,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         // To-do item (of Main or Search)
         if(type == RecyclerViewItemType.TO_DO_MAIN ||
            type == RecyclerViewItemType.TO_DO_SEARCH) {
-            layoutId = R.layout.listitem;
+            layoutId = R.layout.item_main;
         }
         // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||

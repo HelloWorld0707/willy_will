@@ -17,6 +17,8 @@ import com.willy.will.R;
 import com.willy.will.main.view.MainActivity;
 import com.willy.will.receiver.AlarmReceiver;
 
+import java.util.Calendar;
+
 public class AlarmActivity extends Activity {
     Switch alarmSwitch;
     SharedPreferences sharedPreferences;
@@ -42,18 +44,21 @@ public class AlarmActivity extends Activity {
                 setAlarm();
             }
         });
-
-
     }
 
 
     public void setAlarm(){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+
         AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         Intent intent1 = new Intent(this, AlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent1, 0);
 
         if(alarmSwitch.isChecked()){
-            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5000,5000, alarmIntent);
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
         }else{
             alarmMgr.cancel(alarmIntent);
         }

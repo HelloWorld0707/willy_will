@@ -21,6 +21,18 @@ public class Distance implements Parcelable {
         use = in.readByte() != 0;
     }
 
+    public static final Creator<Distance> CREATOR = new Creator<Distance>() {
+        @Override
+        public Distance createFromParcel(Parcel in) {
+            return new Distance(in);
+        }
+
+        @Override
+        public Distance[] newArray(int size) {
+            return new Distance[size];
+        }
+    };
+
     public int getLength() {
         return length;
     }
@@ -59,15 +71,4 @@ public class Distance implements Parcelable {
         dest.writeInt(useInt);
     }
 
-    public static final Creator<Distance> CREATOR = new Creator<Distance>() {
-        @Override
-        public Distance createFromParcel(Parcel in) {
-            return new Distance(in);
-        }
-
-        @Override
-        public Distance[] newArray(int size) {
-            return new Distance[size];
-        }
-    };
 }

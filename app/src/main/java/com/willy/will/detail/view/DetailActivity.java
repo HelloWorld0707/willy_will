@@ -2,9 +2,9 @@ package com.willy.will.detail.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +31,19 @@ import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
 import static java.time.temporal.TemporalAdjusters.nextOrSame;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends Activity implements MapView.MapViewEventListener{
 
     private ImageView important, groupColor;
     private ImageButton editButton;
@@ -51,7 +60,12 @@ public class DetailActivity extends Activity {
     private static Item todoItem;
     private static List<Item> achievementList;
     private DetailController detailCtrl = null;
+    private MapPoint markerPoint;
     private ScrollView scrollView;
+    private MapView mapView;
+    private ViewGroup mapViewContainer;
+    private MapPOIItem marker;
+    private Resources resources;
 
 
 
@@ -62,6 +76,7 @@ public class DetailActivity extends Activity {
         setContentView(R.layout.activity_detail);
 
         detailCtrl = new DetailController();
+        resources = getResources();
 
         important = findViewById(R.id.important);
         itemName = findViewById(R.id.item_name);
@@ -77,6 +92,7 @@ public class DetailActivity extends Activity {
         locationArea = findViewById(R.id.location_area);
         roof = findViewById(R.id.loof);
         address = findViewById(R.id.address);
+        mapViewContainer = findViewById(R.id.map_view);
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
         scrollView = findViewById(R.id.scroll_view);
@@ -116,50 +132,65 @@ public class DetailActivity extends Activity {
             important.setImageResource(R.drawable.important2);
         }else if(ImportanceValue==3){
             important.setImageResource(R.drawable.important3);
-        }else {
+        }else if(ImportanceValue==4){
             important.setVisibility(View.GONE); }
         /*~ set importance Image */
 
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
-        if(loopWeek.equals("0000000")){
-            startDateArea.setVisibility(View.GONE);
-            endDateArea.setVisibility(View.GONE);
+        if(loopWeek ==null){
             achievementRateArea.setVisibility(View.GONE);
-            roofDay += "안함";
-        }else if(loopWeek.equals("1111111")){ //매일
-            doneDateArea.setVisibility(View.GONE);
-            roofDay += "매일";
+            roofDay += "반복 안함";
         }else {
-            doneDateArea.setVisibility(View.GONE);
-            for (int i = 0; i < loopWeek.length(); i++) {
-                if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; } }
-        /*~ set loopWeek */
-
-
-        /** set achievementArea(rate, loop day) **/
-        for(int i=0;i<achievementList.size();i++){
-            int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
-            if(achievementList.get(i).getDoneDate() == null){
-                day.get(index).setBackgroundResource(R.drawable.achievement_false);
-            }else{
-                day.get(index).setBackgroundResource(R.drawable.achievement_true);
-                rate++;
+            if(loopWeek.equals("1111111")){ //매일
+                doneDateArea.setVisibility(View.GONE);
+                roofDay += "매일";
+            }else {
+                doneDateArea.setVisibility(View.GONE);
+                for (int i = 0; i < loopWeek.length(); i++) {
+                    if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; }
             }
+            for(int i=0;i<achievementList.size();i++){
+                int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
+                String doneDateValue = achievementList.get(i).getDoneDate();
+                if(doneDateValue==null || doneDateValue==""){
+                    day.get(index).setBackgroundResource(R.drawable.achievement_false);
+                }else{
+                    day.get(index).setBackgroundResource(R.drawable.achievement_true);
+                    rate++;
+                }
+            }
+            achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
         }
         /*~ set achievementArea(rate, loop day) */
 
 
+
         /** set data **/
         itemName.setText(todoItem.getItemName());
-        groupColor.getDrawable().setTint(Color.parseColor(todoItem.getGroupColor()));
-        groupName.setText((todoItem.getGroupName()==null)?"그룹미정":todoItem.getGroupName());
+        if(todoItem.getGroupId() == 0){
+            groupColor.setActivated(false);
+        }else{
+            groupColor.setActivated(true);
+            groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
+        }
+        groupName.setText((todoItem.getGroupName()==null)?resources.getString(R.string.no_group):todoItem.getGroupName());
         startDate.setText(todoItem.getStartDate());
         endDate.setText(todoItem.getEndDate());
-        doneDate.setText((todoItem.getDoneDate()==null)?"미완료":todoItem.getDoneDate());
+        doneDate.setText((todoItem.getDoneDate()==null)?resources.getString(R.string.not_done):todoItem.getDoneDate());
         roof.setText(roofDay);
-        achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
+        if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
+            locationArea.setVisibility(View.GONE);
+        }else{
+            latitude = 37.53737528;//Float.parseFloat(todoItem.getLocationY());
+            longitude = 127.00557633;//Float.parseFloat(todoItem.getLocationX());// 경도
+            markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
 
+            getAddress(longitude, latitude);
+            mapView = new MapView(this);
+            mapView.setMapViewEventListener(this);
+            mapViewContainer.addView(mapView);
+        }
         /*~ set data */
 
 
@@ -192,7 +223,6 @@ public class DetailActivity extends Activity {
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
                         intent.putExtra("todoId",todoItem.getTodoId());
-                        Log.d("todo", "onMenuItemClick: " + todoItem.getTodoId());
                         startActivity(intent);
                         return true;
                 }
@@ -223,9 +253,121 @@ public class DetailActivity extends Activity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        //intent.putExtra("itemId", itemId);
         setResult(RESULT_FIRST_USER, intent);
         super.finish();
     }
 
+
+
+    /**  get Address (rest api) **/
+    private void getAddress(final double longitude, final double latitude) {
+
+        new Thread(new Runnable() {
+            String json = null;
+
+            @Override
+            public void run() {
+                try {
+                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84"; // json
+                    URL url = new URL(apiURL);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("GET");
+                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18"); //header
+                    int responseCode = con.getResponseCode();
+                    BufferedReader br = null;
+
+                    if (responseCode == 200) { // 정상 호출
+                        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    }
+
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = br.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    br.close();
+
+                    json = response.toString();
+                    if (json == null) {
+                        return;
+                    }
+
+                    JSONObject jsonObject = new JSONObject(json);
+                    JSONArray resultsArray = jsonObject.getJSONArray("documents");
+                    JSONObject jsonObject1 = resultsArray.getJSONObject(0);
+                    JSONObject dataObject = (JSONObject) jsonObject1.get("road_address");
+
+                    addressName = dataObject.getString("address_name");
+                    buildingName = dataObject.getString("building_name");
+
+                    address.setText(addressName);
+                    marker = new MapPOIItem();
+                    marker.setItemName(buildingName);
+                    marker.setMapPoint(markerPoint);
+                    marker.setShowDisclosureButtonOnCalloutBalloon(false);
+                    mapView.addPOIItem(marker);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+
+
+    /** kakaomap EventListener **/
+    @Override
+    public void onMapViewInitialized(MapView mapView) {
+        mapView.setMapCenterPoint(markerPoint, true);
+    }
+
+    @Override
+    public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewZoomLevelChanged(MapView mapView, int i) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
+
+    @Override
+    public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+    }
 }
