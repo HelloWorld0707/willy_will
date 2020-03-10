@@ -127,37 +127,35 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             important.setImageResource(R.drawable.important2);
         }else if(ImportanceValue==3){
             important.setImageResource(R.drawable.important3);
-        }else {
+        }else if(ImportanceValue==4){
             important.setVisibility(View.GONE); }
         /*~ set importance Image */
 
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
-        if(loopWeek.equals("0000000")){
-            startDateArea.setVisibility(View.GONE);
-            endDateArea.setVisibility(View.GONE);
+        if(loopWeek.equals(null)){
             achievementRateArea.setVisibility(View.GONE);
-            roofDay += "안함";
-        }else if(loopWeek.equals("1111111")){ //매일
-            doneDateArea.setVisibility(View.GONE);
-            roofDay += "매일";
+            roofDay += "반복 안함";
         }else {
-            doneDateArea.setVisibility(View.GONE);
-            for (int i = 0; i < loopWeek.length(); i++) {
-                if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; } }
-        /*~ set loopWeek */
-
-
-        /** set achievementArea(rate, loop day) **/
-        for(int i=0;i<achievementList.size();i++){
-            int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
-            String doneDateValue = achievementList.get(i).getDoneDate();
-            if(doneDateValue==null || doneDateValue==""){
-                day.get(index).setBackgroundResource(R.drawable.achievement_false);
-            }else{
-                day.get(index).setBackgroundResource(R.drawable.achievement_true);
-                rate++;
+            if(loopWeek.equals("1111111")){ //매일
+                doneDateArea.setVisibility(View.GONE);
+                roofDay += "매일";
+            }else {
+                doneDateArea.setVisibility(View.GONE);
+                for (int i = 0; i < loopWeek.length(); i++) {
+                    if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; }
             }
+            for(int i=0;i<achievementList.size();i++){
+                int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
+                String doneDateValue = achievementList.get(i).getDoneDate();
+                if(doneDateValue==null || doneDateValue==""){
+                    day.get(index).setBackgroundResource(R.drawable.achievement_false);
+                }else{
+                    day.get(index).setBackgroundResource(R.drawable.achievement_true);
+                    rate++;
+                }
+            }
+            achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
         }
         /*~ set achievementArea(rate, loop day) */
 
@@ -176,7 +174,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         endDate.setText(todoItem.getEndDate());
         doneDate.setText((todoItem.getDoneDate()==null)?"미완료":todoItem.getDoneDate());
         roof.setText(roofDay);
-        achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
         if(todoItem.getLocationX()==null||todoItem.getLocationY()==null){
             locationArea.setVisibility(View.GONE);
         }else{

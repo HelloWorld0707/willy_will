@@ -17,13 +17,15 @@ public class DetailController {
     /** get Item by itemId from DB **/
     public Item getToDoItemByItemId(int itemId){
         String selectQuery =
-                "SELECT i.item_name, i.item_location_x, i.item_location_y, i.done_date, " +
-                        "i.start_date, i.end_date, g.group_name, g.group_color, c.calendar_date, l.loop_week, i.item_id, i.to_do_id\n" +
-                        "FROM _ITEM i, _GROUP g, _LOOP_INFO l, _CALENDAR c\n" +
-                        "WHERE i.group_id = g.group_id \n" +
-                        "AND i.to_do_id = l.to_do_id \n" +
-                        "AND i.item_id = c.item_id \n" +
-                        "AND i.item_id = "+itemId+";";
+                "SELECT item_name, item_location_X, item_location_Y, done_date, start_date, end_date, group_name, group_color, calendar_date, loop_week, item_id, item.to_do_id " +
+                "FROM " +
+                    "(SELECT * " +
+                    "FROM _ITEM i, _CALENDAR c, _GROUP g " +
+                    "WHERE i.item_id = c.item_id " +
+                    "AND i.group_id = g.group_id) AS item " +
+                    "LEFT OUTER JOIN _LOOP_INFO l " +
+                "ON item.to_do_id = l.to_do_id " +
+                "WHERE item.item_id = "+itemId+";";
 
         Cursor cursor = db.rawQuery(selectQuery,null);
         Item item = new Item();
