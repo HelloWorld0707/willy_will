@@ -105,7 +105,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignLeft="@id/group_name"
                     android:layout_gravity="center_vertical"
+                    android:layerType="software"
                     android:src="@drawable/group_color"
+                    android:state_activated="true"
                     android:visibility="visible" />
 
                 <TextView

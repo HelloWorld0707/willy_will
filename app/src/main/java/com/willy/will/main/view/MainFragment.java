@@ -1,5 +1,7 @@
 package com.willy.will.main.view;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -10,17 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
+import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.ToDoItemDBController;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainFragment extends Fragment {
     //Recycler View
@@ -113,5 +119,17 @@ public class MainFragment extends Fragment {
         super.onResume();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        /** Success to receive data **/
+        if (resultCode == Activity.RESULT_FIRST_USER) {
+            // To-do Item Detail
+            if (requestCode == getResources().getInteger(R.integer.detail_request_code)) {
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+                }
+            }
+        }
+        /* ~Success to receive data */
 }

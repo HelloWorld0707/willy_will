@@ -186,12 +186,12 @@ public class ToDoItemDBController {
         if(activated) {
             writeDatabase.execSQL("update _ITEM \n" +
                                   "set done_date=\"" + today + "\" \n" +
-                                  "where id=\"" + itemId + "\"; ");
+                                  "where item_id=\"" + itemId + "\"; ");
         }
         else{
             writeDatabase.execSQL("update _ITEM \n" +
                                   "set done_date = NULL \n" +
-                                  "where id=\"" + itemId + "\"; ");
+                                  "where item_id=\"" + itemId + "\"; ");
         }
     }
     /* ~Update DoneDate */

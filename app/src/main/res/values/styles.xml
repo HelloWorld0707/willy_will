@@ -121,4 +121,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- ActionBtnStyle by seongsik -->
+    <style name="ActionBtnStyle2">
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>

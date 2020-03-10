@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        setContentView(R.layout.activity_main);
 
         dbHelper = DBAccess.getDbHelper();
         dummyCreate();
@@ -320,67 +320,67 @@ public class MainActivity extends AppCompatActivity{
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(1, 1, '운동', 1, '123.123123', '123.123123', '2020-02-03', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(1, 1, '운동', 1, '23.123123', '23.123123', '2020-02-03', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(2, 1, '운동', 1, '123.123123', '123.123123', '2020-02-06', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(2, 1, '운동', 1, '23.123123', '23.123123', '2020-02-06', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(3, 1, '운동', 1, '123.123123', '123.123123', '2020-02-10', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(3, 1, '운동', 1, '23.123123', '23.123123', '2020-02-10', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(4, 1, '운동', 1, '123.123123', '123.123123', '2020-02-13', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(4, 1, '운동', 1, '23.123123', '23.123123', '2020-02-13', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(5, 1, '운동', 1, '123.123123', '123.123123', '2020-02-17', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(5, 1, '운동', 1, '23.123123', '23.123123', '2020-02-17', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(6, 1, '운동', 1, '123.123123', '123.123123', '2020-02-20', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(6, 1, '운동', 1, '23.123123', '23.123123', '2020-02-20', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(7, 1, '운동', 1, '123.123123', '123.123123', '2020-02-24', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(7, 1, '운동', 1, '23.123123', '23.123123', '2020-02-24', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
-                    "VALUES(8, 1, '운동', 1, '123.123123', '123.123123', '2020-02-27', '2020-02-01', '2020-02-28', 1);");
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(8, 1, '운동', 1, '23.123123', '23.123123', '2020-02-27', '2020-02-01', '2020-02-28', 1);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
                     "VALUES(9, 0, '영어공부', 4, '', '', '2020-02-02', '2020-02-02', '2020-02-02', 2);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
                     "VALUES(10, 0, '밥', 2, '', '', '2020-02-09', '2020-02-09', '2020-02-09', 3);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
                     "VALUES(11, 2, '레슨', 3, '', '', '2020-02-11', '2020-02-11', '2020-02-18', 4);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
                     "VALUES(12, 2, '레슨', 3, '', '', '2020-02-16', '2020-02-11', '2020-02-18', 4);");
 
             db.execSQL("" +
                     "INSERT INTO _ITEM " +
-                    "(item_id, group_id, item_name, item_important, item_location_X, item_location_Y, done_date, start_date, end_date, to_do_id)" +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
                     "VALUES(13, 2, '레슨', 3, '', '', '2020-02-18', '2020-02-11', '2020-02-18', 4);");
 
             db.execSQL("" +
@@ -462,7 +462,83 @@ public class MainActivity extends AppCompatActivity{
                     "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
                     "VALUES(13, '2020-02-18', 13);"
             );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(14, '2020-03-11', 14);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(15, '2020-03-12', 15);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(16, '2020-03-18', 16);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(17, '2020-03-19', 16);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(18, '2020-03-19', 17);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(19, '2020-03-19', 18);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(20, '2020-03-19', 19);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_id, calendar_date, item_id)" +
+                    "VALUES(21, '2020-03-19', 20);"
+            );
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(14, 0, 'ENGLISH', 1, '', '', NULL, '2020-02-11', '2020-02-11', 5);");
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(15, 0, 'ENGLISH', 2, '', '', NULL, '2020-02-12', '2020-02-12', 6);");
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(16, 0, 'ENGLISH', 4, '25.225555', '22.333555', NULL, '2020-03-18', '2020-03-19', 7);");
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(17, 0, 'ENGLISH', 4, '25.225555', '22.333555', NULL, '2020-03-19', '2020-03-21', 8);");
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(18, 1, 'ENGLISH', 1, '25.225555', '22.333555', NULL, '2020-03-18', '2020-03-19', 9);");
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(19, 0, 'ENGLISH', 3, '25.225555', '22.333555', NULL, '2020-03-19', '2020-03-19', 10);");
+
+            db.execSQL("" +
+                    "INSERT INTO _ITEM " +
+                    "(item_id, group_id, item_name, item_important, latitude, longitude, done_date, start_date, end_date, to_do_id)" +
+                    "VALUES(20, 0, 'ENGLISH', 4, '25.225555', '22.333555', NULL, '2020-03-19', '2020-03-20', 11);");
         }
     }
     /* ~dummyCreate */
+
 }
