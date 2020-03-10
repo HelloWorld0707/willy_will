@@ -44,7 +44,7 @@ public class TaskDBController {
         String groupNameColumn = resources.getString(R.string.group_name_column);
         String groupColorColumn = resources.getString(R.string.group_color_column);
         String itemNameColumn = resources.getString(R.string.item_name_column);
-        String loopColumn = resources.getString(R.string.loop_column);
+        String loopColumnQuery = resources.getString(R.string.loop_column_query);
         String endDateColumn = resources.getString(R.string.end_date_column);
 
         String query =
@@ -55,7 +55,7 @@ public class TaskDBController {
                         groupNameColumn + ", " +
                         groupColorColumn + ", " +
                         itemNameColumn + ", " +
-                        loopColumn + ", " +
+                        loopColumnQuery + ", " +
                         endDateColumn + " " +
                 "FROM " + resources.getString(R.string.item_table) + " INNER JOIN " + resources.getString(R.string.group_table) + " USING (" + groupIdColumn + ") " +
                 "GROUP BY " + toDoIdColumn + " HAVING max(" + itemIdColumn + ") " +
@@ -82,7 +82,7 @@ public class TaskDBController {
                     cursor.getString(cursor.getColumnIndexOrThrow(groupColorColumn))
             );
 
-            loop = cursor.getInt(cursor.getColumnIndexOrThrow(loopColumn)) == 1 ? true : false ;
+            loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_column))) == 1 ? true : false ;
 
             if(loop) {
                 dDayOrAchievement = getAchievementDays(
@@ -116,7 +116,7 @@ public class TaskDBController {
         String itemIdColumn = resources.getString(R.string.item_id_column);
         String doneDateColumn = resources.getString(R.string.done_date_column);
 
-        String itemJoinCalendar = String.format(resources.getString(R.string.item_join_calendar), today, toDoId);
+        String itemJoinCalendar = String.format(resources.getString(R.string.item_join_calendar_query), "'" + today + "'", toDoId);
 
         String calendarDate = String.format(resources.getString(R.string.strftime_function), resources.getString(R.string.calendar_date_column));
 
@@ -127,7 +127,15 @@ public class TaskDBController {
                     "( SELECT max(" + itemIdColumn + ") " +
                     "FROM " + itemJoinCalendar + " )" +
                 " - " +
-                    "( SELECT CASE WHEN c = 0 THEN c ELSE " + itemIdColumn + " END " +
+                    "( SELECT" +
+                        " CASE WHEN c = 0" +
+                            " THEN " +
+                                "( SELECT " + itemIdColumn +
+                                " FROM " + itemJoinCalendar +
+                                " ORDER BY " + calendarDate + " ASC LIMIT 1 )" +
+                                " - 1" +
+                            " ELSE " + itemIdColumn +
+                        " END " +
                     "FROM ( " +
                         "SELECT " + itemIdColumn + ", " + "count(" + itemIdColumn + ") AS c " +
                         "FROM " +

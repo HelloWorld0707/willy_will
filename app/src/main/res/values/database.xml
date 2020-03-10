@@ -40,19 +40,21 @@
     <!-- ~functions -->
 
     <!-- queries for sorting to-do item -->
-    <string name="done_column">CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done</string>
+    <string name="done_column">done</string>
+    <string name="done_column_query">CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done</string>
     <string name="to_do_item_order">done, item_important, item_name</string>
     <!-- ~queries for sorting to-do item -->
 
     <!-- query for to-do item loop -->
-    <string name="loop_column">CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop</string>
+    <string name="loop_column">loop</string>
+    <string name="loop_column_query">CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS loop</string>
     <!-- ~query for to-do item loop -->
 
     <!-- queries for Search -->
     <string name="temporary_table_for_search_query">( SELECT * FROM _ITEM WHERE %1$s )</string>
     <!-- ~queries for Search -->
 
-    <!-- queries for continuous -->
-    <string name="item_join_calendar">( SELECT * FROM _ITEM INNER JOIN _CALENDAR USING (item_id) WHERE strftime(\'%%Y%%m%%d\', calendar_date) &lt;= strftime(\'%%Y%%m%%d\', %1$s) AND to_do_id = %2$d )</string>
-    <!-- ~queries for continuous -->
+    <!-- queries for achievement days -->
+    <string name="item_join_calendar_query">( SELECT * FROM _ITEM INNER JOIN _CALENDAR USING (item_id) WHERE strftime(\'%%Y%%m%%d\', calendar_date) &lt;= strftime(\'%%Y%%m%%d\', %1$s) AND to_do_id = %2$d )</string>
+    <!-- ~queries for achievement days -->
 </resources>
