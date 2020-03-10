@@ -92,7 +92,8 @@ public class TaskDBController {
             }
             else {
                 dDayOrAchievement = getDDay(
-                        cursor.getString(cursor.getColumnIndexOrThrow(endDateColumn))
+                        cursor.getString(cursor.getColumnIndexOrThrow(endDateColumn)),
+                        Calendar.getInstance()
                 );
             }
 
@@ -140,7 +141,7 @@ public class TaskDBController {
                         "SELECT " + itemIdColumn + ", " + "count(" + itemIdColumn + ") AS c " +
                         "FROM " +
                             itemJoinCalendar +
-                        " WHERE ( " + doneDateColumn + " = NULL OR " + doneDateColumn + " = '' ) " +
+                        " WHERE ( " + doneDateColumn + " IS NULL OR " + doneDateColumn + " = '' ) " +
                             "ORDER BY " + calendarDate + " DESC " +
                             "LIMIT 1 )" +
                         " )" +
@@ -161,18 +162,21 @@ public class TaskDBController {
         return achievementDays;
     }
 
-    public String getDDay(String end_date) {
+    public String getDDay(String end_date, Calendar today) {
         String dDay = null;
 
         if (end_date != null && !end_date.equals("")) {
+            final long ONE_DAY = 24 * 60 * 60 * 1000;
             try {
-                long days = (Calendar.getInstance().getTime().getTime() - simpleDateFormat.parse(end_date).getTime()) / (24 * 60 * 60 * 1000);
+                // Must be divided SEPARATELY
+                long days = today.getTime().getTime() / ONE_DAY - simpleDateFormat.parse(end_date).getTime() / ONE_DAY;
+                dDay = "D";
                 if (days < 0L) {
-                    dDay = "D" + days;
+                    dDay += days;
                 } else if (days > 0L) {
-                    dDay = "D+" + days;
+                    dDay += ("+" + days);
                 } else {
-                    dDay = "D-day";
+                    dDay += "-Day";
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
