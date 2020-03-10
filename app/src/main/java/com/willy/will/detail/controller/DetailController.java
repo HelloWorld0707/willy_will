@@ -3,6 +3,8 @@ package com.willy.will.detail.controller;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.willy.will.detail.model.Item;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static com.willy.will.main.view.MainActivity.dbHelper;
@@ -17,13 +19,15 @@ public class DetailController {
     /** get Item by itemId from DB **/
     public Item getToDoItemByItemId(int itemId){
         String selectQuery =
-                "SELECT i.item_name, i.item_location_x, i.item_location_y, i.done_date, " +
-                        "i.start_date, i.end_date, g.group_name, g.group_color, c.calendar_date, l.loop_week, i.item_id, i.to_do_id\n" +
-                        "FROM _ITEM i, _GROUP g, _LOOP_INFO l, _CALENDAR c\n" +
-                        "WHERE i.group_id = g.group_id \n" +
-                        "AND i.to_do_id = l.to_do_id \n" +
-                        "AND i.item_id = c.item_id \n" +
-                        "AND i.item_id = "+itemId+";";
+                "SELECT item_name, item_location_X, item_location_Y, done_date, start_date, end_date, group_name, group_color, calendar_date, loop_week, item_id, item.to_do_id, item.item_important " +
+                "FROM " +
+                    "(SELECT * " +
+                    "FROM _ITEM i, _CALENDAR c, _GROUP g " +
+                    "WHERE i.item_id = c.item_id " +
+                    "AND i.group_id = g.group_id) AS item " +
+                    "LEFT OUTER JOIN _LOOP_INFO l " +
+                "ON item.to_do_id = l.to_do_id " +
+                "WHERE item.item_id = "+itemId+";";
 
         Cursor cursor = db.rawQuery(selectQuery,null);
         Item item = new Item();
@@ -42,6 +46,7 @@ public class DetailController {
                 item.setLoopWeek(cursor.getString(9));
                 item.setItemId(cursor.getInt(10));
                 item.setTodoId(cursor.getInt(11));
+                item.setImportant(cursor.getInt(12));
             }while (cursor.moveToNext());
         }
         return item;
@@ -58,7 +63,7 @@ public class DetailController {
                 "SELECT i.done_date , c.calendar_date " +
                         "FROM _ITEM i, _CALENDAR c " +
                         "WHERE i.item_id = c.item_id " +
-                        "AND  c.calendar_date BETWEEN \"2020-02-12\" AND \"2020-02-17\"" + //수정
+                        "AND  c.calendar_date BETWEEN \""+startOfWeek+"\" AND \""+endOfWeek+"\"" + //수정
                         "AND i.to_do_id = (SELECT to_do_id " +
                         "FROM _ITEM " +
                         "WHERE item_id="+itemId+");";
@@ -92,13 +97,16 @@ public class DetailController {
 
     /** get itemList **/
     public ArrayList<String> AlarmToDoItems() {
+
+        LocalDate today = LocalDate.now();
+        String todayStr = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
         ArrayList<String>  toDoItemList = new ArrayList<>();
 
         String selectQuery = "SELECT i.item_name " +
                 "FROM _ITEM i, _CALENDAR c\n" +
                 "WHERE i.item_id = c.item_id\n" +
-                "AND c.calendar_date=\"2020-02-09\"\n" +
-                "AND i.done_date IS NULL;";
+                "AND c.calendar_date=\""+todayStr+"\"\n" +
+                "AND (i.done_date IS NULL OR i.done_date =\"\");";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         String itemName = null;
