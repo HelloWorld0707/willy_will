@@ -2,6 +2,8 @@ package com.willy.will.detail.controller;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.willy.will.detail.model.Item;
 
 import java.time.LocalDate;
@@ -99,14 +101,22 @@ public class DetailController {
     public ArrayList<String> AlarmToDoItems() {
 
         LocalDate today = LocalDate.now();
-        String todayStr = today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth();
+        String monthValStr = null;
+        int monthVal = today.getMonthValue();
+        if(monthVal<10){
+            monthValStr = "0" + monthVal;
+        }else{
+            monthValStr = monthVal+"";
+        }
+
+        String todayStr = today.getYear() + "-" + monthValStr+ "-" + today.getDayOfMonth();
         ArrayList<String>  toDoItemList = new ArrayList<>();
 
         String selectQuery = "SELECT i.item_name " +
                 "FROM _ITEM i, _CALENDAR c\n" +
                 "WHERE i.item_id = c.item_id\n" +
                 "AND c.calendar_date=\""+todayStr+"\"\n" +
-                "AND (i.done_date IS NULL OR i.done_date =\"\");";
+                "AND i.done_date IS NULL;";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         String itemName = null;
