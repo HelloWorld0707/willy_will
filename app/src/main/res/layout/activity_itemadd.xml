@@ -26,9 +26,21 @@
             android:layout_marginStart="50dp"
             android:foreground="?attr/homeAsUpIndicator"
             android:onClick="Tomain" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/ActionBtnStyle2"
+            android:layout_width="175dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="저장"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/AddScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,16 +79,15 @@
 
                     <Button
                         android:id="@+id/button"
-                        style="@style/DetailTitleStyle"
-                        android:gravity="center|right"
+                        style="@style/ActionBtnStyle2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="1dp"
-                        android:background="@drawable/btn_click_event"
+                        android:gravity="center"
                         android:text="중요도"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="18sp"/>
+                        android:textColor="@color/colorString"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -87,16 +98,16 @@
 
                     <Button
                         android:id="@+id/bnt_group"
-                        style="@style/DetailTitleStyle"
+                        style="@style/ActionBtnStyle2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="0dp"
-                        android:background="#00ff0000"
-                        android:gravity="center|right"
+                        android:gravity="center"
                         android:text="그룹선택"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="18sp" />
+                        android:textColor="@color/colorString"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/editText4"
@@ -111,62 +122,68 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="30dp">
 
                     <Button
                         android:id="@+id/btn_start"
-                        style="@style/DetailTitleStyle"
-                        android:onClick="setStart"
+                        style="@style/ActionBtnStyle2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@drawable/btn_click_event"
+                        android:gravity="center"
+                        android:onClick="setStart"
                         android:text="시작날짜"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="18sp" />
+                        android:textColor="@color/colorString"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        style="@style/DetailTitleStyle"
                         android:id="@+id/Text_start"
+                        style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toEndOf="@+id/btn_start"
                         android:background="@null"
-                        android:ems="10"
-                        android:hint="@string/Date"
-                        android:textColor="@color/colorPrimary"
                         android:gravity="right|center_horizontal|center_vertical"
-                        android:textSize="18dp"/>
+                        android:hint="@string/Date"
+                        android:onClick="setStart"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="30dp">
 
                     <Button
-                        android:onClick="setEnd"
-                        style="@style/DetailTitleStyle"
                         android:id="@+id/btn_end"
+                        style="@style/ActionBtnStyle2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@drawable/btn_click_event"
+                        android:gravity="center"
+                        android:onClick="setEnd"
                         android:text="종료날짜"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="18sp" />
+                        android:textColor="@color/colorString"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        style="@style/DetailTitleStyle"
                         android:id="@+id/Text_end"
+                        style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toEndOf="@+id/btn_end"
                         android:background="@null"
-                        android:ems="10"
-                        android:hint="@string/Date"
-                        android:textColor="@color/colorPrimary"
                         android:gravity="right|center_horizontal|center_vertical"
+                        android:hint="@string/Date"
+                        android:onClick="setEnd"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="18dp" />
                 </RelativeLayout>
 
@@ -184,7 +201,7 @@
                         android:layout_alignParentStart="true"
                         android:background="#00ff0000"
                         android:text="위치"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorString"
                         android:textSize="18sp" />
 
                 </RelativeLayout>
@@ -212,7 +229,7 @@
                         android:layout_height="64dp"
                         android:layout_alignParentStart="true"
                         android:text="반복"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorString"
                         android:textOff="반복안함"
                         android:textOn="반복"
                         android:textSize="18sp" />
@@ -277,41 +294,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp">
-
-                <RelativeLayout
-                    android:layout_width="350dp"
-                    android:layout_height="64dp"
-                    android:layout_centerHorizontal="true">
-
-                    <Button
-                        android:id="@+id/button2"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/btn_click_event"
-                        android:text="저장"
-                        android:textSize="20dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:stateListAnimator="@null"/>
-
-                    <Button
-                        android:id="@+id/button3"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/btn_click_event"
-                        android:text="취소"
-                        android:textSize="20dp"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:stateListAnimator="@null"/>
-
-                </RelativeLayout>
-            </RelativeLayout>
 
 
         </LinearLayout>

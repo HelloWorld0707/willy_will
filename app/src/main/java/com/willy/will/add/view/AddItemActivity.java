@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -33,20 +34,28 @@ public class AddItemActivity extends Activity{
     private DateListener dateListener = null;
     private String start_date = null;
     private String end_date = null;
-
     Switch repeat_switch;
-    TextView Text_start=null;
-    TextView Text_end=null;
+    TextView Text_start;
+    TextView Text_end;
 
-
-
+    // 현재시간을 msec 으로 구한다.
+    long now = System.currentTimeMillis();
+    // 현재시간을 date 변수에 저장한다.
+    Date date = new Date(now);
+    // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd");
+    // nowDate 변수에 값을 저장한다.
+    String formatDate = sdfNow.format(date);
+    TextView dateNow;
 
     private View checkBox_group;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemadd);
+
 
         repeat_switch = (Switch) findViewById(R.id.repeat_switch);
         checkBox_group = findViewById(R.id.checkBox_group);
@@ -66,6 +75,9 @@ public class AddItemActivity extends Activity{
         Button btn_end = findViewById(R.id.btn_end);
         Text_start = findViewById(R.id.Text_start);
         Text_end = findViewById(R.id.Text_end);
+
+        Text_start.setText(formatDate);
+        Text_end.setText(formatDate);
 
         /** set value **/
         resources = getResources();
@@ -91,7 +103,14 @@ public class AddItemActivity extends Activity{
                 // checked -> add_item_repeat
                 if (repeat_switch.isChecked() == true) {
                     checkBox_group.setVisibility(View.VISIBLE);
-                    // switch off
+                    
+                    final ScrollView scrollView=findViewById(R.id.AddScrollView);
+                    scrollView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    });
                 }
                 else {
                     checkBox_group.setVisibility(View.GONE);

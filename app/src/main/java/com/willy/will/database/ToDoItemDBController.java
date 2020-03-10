@@ -8,7 +8,6 @@ import android.util.Log;
 import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,8 +35,8 @@ public class ToDoItemDBController {
         // Set columns
         String[] columns = {
                 "*",
-                resources.getString(R.string.done_column),
-                resources.getString(R.string.loop_column)
+                resources.getString(R.string.done_column_query),
+                resources.getString(R.string.loop_column_query)
         };
 
         // Set a column for GROUP BY
