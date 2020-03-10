@@ -179,7 +179,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         endDate.setText(todoItem.getEndDate());
         doneDate.setText((todoItem.getDoneDate()==null)?resources.getString(R.string.not_done):todoItem.getDoneDate());
         roof.setText(roofDay);
-        if(todoItem.getLocationX()==null||todoItem.getLocationY()==null){
+        if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
             locationArea.setVisibility(View.GONE);
         }else{
             latitude = 37.53737528;//Float.parseFloat(todoItem.getLocationY());
