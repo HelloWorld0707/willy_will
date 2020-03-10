@@ -1,11 +1,11 @@
 package com.willy.will.calander.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,8 +14,6 @@ import com.willy.will.R;
 import com.willy.will.database.DateDBController;
 
 import java.util.ArrayList;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class CalendarBaseAdapter extends BaseAdapter {
     private ArrayList<DateDBController.ItemNGroup> items = new ArrayList<>();
@@ -35,6 +33,7 @@ public class CalendarBaseAdapter extends BaseAdapter {
         return items.get(position).getItem_id();
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
@@ -55,6 +54,7 @@ public class CalendarBaseAdapter extends BaseAdapter {
         }
         else{
             colorTmp.setActivated(false);
+            colorTmp.getDrawable().mutate().setTint(Color.parseColor(item.getGroup_color()));
         }
         itemName.setText(item.getItem_name());
 
@@ -64,8 +64,4 @@ public class CalendarBaseAdapter extends BaseAdapter {
     public void addItem(DateDBController.ItemNGroup item){
         items.add(item);
     }
-
-
-
-
 }
