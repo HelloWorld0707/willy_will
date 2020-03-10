@@ -44,6 +44,7 @@ public class TaskDBController {
         String groupNameColumn = resources.getString(R.string.group_name_column);
         String groupColorColumn = resources.getString(R.string.group_color_column);
         String itemNameColumn = resources.getString(R.string.item_name_column);
+        String loopColumn = resources.getString(R.string.loop_column);
         String endDateColumn = resources.getString(R.string.end_date_column);
 
         String query =
@@ -54,6 +55,7 @@ public class TaskDBController {
                         groupNameColumn + ", " +
                         groupColorColumn + ", " +
                         itemNameColumn + ", " +
+                        loopColumn + ", " +
                         endDateColumn + " " +
                 "FROM " + resources.getString(R.string.item_table) + " INNER JOIN " + resources.getString(R.string.group_table) + " USING (" + groupIdColumn + ") " +
                 "GROUP BY " + toDoIdColumn + " HAVING max(" + itemIdColumn + ") " +
@@ -66,52 +68,114 @@ public class TaskDBController {
         /* ~Read DB */
 
         /** Put data in ArrayList **/
+        int curToDoId = -1;
         Group curGroup = null;
         Task curTask = null;
-        String end_date = null;
+        boolean loop = false;
         String dDayOrAchievement = null;
         while(cursor.moveToNext()) {
+            curToDoId = cursor.getInt(cursor.getColumnIndexOrThrow(toDoIdColumn));
+
             curGroup = new Group(
                     cursor.getInt(cursor.getColumnIndexOrThrow(groupIdColumn)),
                     cursor.getString(cursor.getColumnIndexOrThrow(groupNameColumn)),
                     cursor.getString(cursor.getColumnIndexOrThrow(groupColorColumn))
             );
 
-            end_date = cursor.getString(cursor.getColumnIndexOrThrow(endDateColumn));
+            loop = cursor.getInt(cursor.getColumnIndexOrThrow(loopColumn)) == 1 ? true : false ;
 
-            if(end_date != null && !end_date.equals("")) {
-                try {
-                    long days = ( Calendar.getInstance().getTime().getTime() - simpleDateFormat.parse(end_date).getTime() ) / (24 * 60 * 60 * 1000);
-                    if(days < 0L) {
-                        dDayOrAchievement = "D" +  days;
-                    }
-                    else if(days > 0L) {
-                        dDayOrAchievement = "D+" +  days;
-                    }
-                    else {
-                        dDayOrAchievement = "D-day";
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    dDayOrAchievement = "";
-                }
+            if(loop) {
+                dDayOrAchievement = getAchievementDays(
+                        curToDoId,
+                        simpleDateFormat.format(Calendar.getInstance().getTime())
+                );
             }
             else {
-                //dDayOrAchievement = null;
-                dDayOrAchievement = "";
+                dDayOrAchievement = getDDay(
+                        cursor.getString(cursor.getColumnIndexOrThrow(endDateColumn))
+                );
             }
 
             curTask = new Task(
                     cursor.getInt(cursor.getColumnIndexOrThrow(itemIdColumn)),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(toDoIdColumn)),
+                    curToDoId,
                     curGroup, cursor.getString(cursor.getColumnIndexOrThrow(itemNameColumn)),
                     dDayOrAchievement
             );
+
             taskList.add(curTask);
         }
         /* ~Put data in ArrayList */
 
         return taskList;
+    }
+
+    public String getAchievementDays(int toDoId, String today) {
+        String achievementDays = null;
+
+        String itemIdColumn = resources.getString(R.string.item_id_column);
+        String doneDateColumn = resources.getString(R.string.done_date_column);
+
+        String itemJoinCalendar = String.format(resources.getString(R.string.item_join_calendar), today, toDoId);
+
+        String calendarDate = String.format(resources.getString(R.string.strftime_function), resources.getString(R.string.calendar_date_column));
+
+        String columnName = "con";
+
+        String query =
+                "SELECT ( " +
+                    "( SELECT max(" + itemIdColumn + ") " +
+                    "FROM " + itemJoinCalendar + " )" +
+                " - " +
+                    "( SELECT CASE WHEN c = 0 THEN c ELSE " + itemIdColumn + " END " +
+                    "FROM ( " +
+                        "SELECT " + itemIdColumn + ", " + "count(" + itemIdColumn + ") AS c " +
+                        "FROM " +
+                            itemJoinCalendar +
+                        " WHERE ( " + doneDateColumn + " = NULL OR " + doneDateColumn + " = '' ) " +
+                            "ORDER BY " + calendarDate + " DESC " +
+                            "LIMIT 1 )" +
+                        " )" +
+                " ) AS " + columnName;
+
+        /** Read DB **/
+        Cursor cursor = readDatabase.rawQuery(query, null);
+        /* ~Read DB */
+
+        /** Put data **/
+        int continuous = -1;
+        if(cursor.moveToNext()) {
+            continuous = cursor.getInt(cursor.getColumnIndexOrThrow(columnName));
+        }
+        achievementDays = String.format(resources.getString(R.string.achievement_days), continuous);
+        /* ~Put data */
+
+        return achievementDays;
+    }
+
+    public String getDDay(String end_date) {
+        String dDay = null;
+
+        if (end_date != null && !end_date.equals("")) {
+            try {
+                long days = (Calendar.getInstance().getTime().getTime() - simpleDateFormat.parse(end_date).getTime()) / (24 * 60 * 60 * 1000);
+                if (days < 0L) {
+                    dDay = "D" + days;
+                } else if (days > 0L) {
+                    dDay = "D+" + days;
+                } else {
+                    dDay = "D-day";
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                dDay = "";
+            }
+        } else {
+            //dDayOrAchievement = null;
+            dDay = "";
+        }
+
+        return dDay;
     }
 
     public void deleteTasks(String whereToDoIds, String whereItemIds) {

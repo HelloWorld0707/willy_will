@@ -51,4 +51,8 @@
     <!-- queries for Search -->
     <string name="temporary_table_for_search_query">( SELECT * FROM _ITEM WHERE %1$s )</string>
     <!-- ~queries for Search -->
+
+    <!-- queries for continuous -->
+    <string name="item_join_calendar">( SELECT * FROM _ITEM INNER JOIN _CALENDAR USING (item_id) WHERE strftime(\'%%Y%%m%%d\', calendar_date) &lt;= strftime(\'%%Y%%m%%d\', %1$s) AND to_do_id = %2$d )</string>
+    <!-- ~queries for continuous -->
 </resources>
