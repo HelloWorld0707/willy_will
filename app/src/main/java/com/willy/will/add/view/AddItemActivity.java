@@ -14,11 +14,13 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
+import com.willy.will.common.view.Group_Color;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,12 @@ public class AddItemActivity extends Activity{
     private DateListener dateListener = null;
     private String start_date = null;
     private String end_date = null;
+    private View checkBox_group;
+
+    private Spinner important;
+    private TextView important_result;
+
+
     Switch repeat_switch;
     TextView Text_start;
     TextView Text_end;
@@ -50,13 +58,26 @@ public class AddItemActivity extends Activity{
     String formatDate = sdfNow.format(date);
     TextView dateNow;
 
-    private View checkBox_group;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemadd);
+
+        important = (Spinner)findViewById(R.id.important);
+        important_result =(TextView)findViewById(R.id.important_result);
+
+        /**important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                important_result.setText(parent.getItemAtPosition(position).toString()); // string으로 변환
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });**/
+
 
 
         repeat_switch = (Switch) findViewById(R.id.repeat_switch);
@@ -146,6 +167,10 @@ public class AddItemActivity extends Activity{
                 }
             }
         });
+
+    }
+    public void bringUpgroupcolor(View view) {
+        Intent intent = new Intent(this, Group_Color.class);
 
     }
 

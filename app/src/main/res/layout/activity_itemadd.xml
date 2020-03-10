@@ -76,18 +76,32 @@
                         android:inputType="textPersonName"
                         android:textSize="32sp" />
 
-                    <Button
-                        android:id="@+id/button"
-                        style="@style/ActionBtnStyle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="64dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                    <TextView
+                        android:id="@+id/important_result"
+                        android:layout_width="140dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="0dp"
                         android:gravity="center"
-                        android:text="중요도"
+                        android:text="중요도 선택"
                         android:textColor="@color/colorString"
-                        android:textSize="18sp"
+                        android:textSize="18dp"
                         android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/important"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_below="@+id/important_result"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginRight="0dp"
+                        android:entries="@array/important"
+                        android:text="중요도"
+                        android:textColor="@color/colorString" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -99,6 +113,7 @@
                     <Button
                         android:id="@+id/bnt_group"
                         style="@style/ActionBtnStyle2"
+                        android:onClick="bringUpgroupcolor"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"

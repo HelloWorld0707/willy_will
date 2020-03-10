@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" >
-        <shape>
-            <solid android:color="#DDDDDD"/>
-            <corners android:radius="25dp"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="24.0"
+    android:viewportWidth="24.0">
 
-        </shape>
-    </item>
+    <path
+        android:name="circle"
+        android:fillColor="#FF000000"
+        android:pathData="M12 12 m-10 0 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 z" />
 
-    <item android:state_pressed="false">
-        <shape>
-            <solid android:color="#00ff0000"/>
-        </shape>
-    </item>
-</selector>
+    <path
+        android:name="check"
+        android:pathData="M6,11 l3.5,4 l8,-7"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="1" />
+
+</vector>

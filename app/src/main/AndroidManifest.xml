@@ -15,8 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".add.view.AddItem_important"></activity>
-        <activity android:name=".common.view.Group_Color" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -33,6 +31,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- set addItem Activity -->
+        <activity
+            android:name=".common.view.Group_Color"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme"/>
         <activity
             android:name=".add.view.AddItemActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" /> <!-- set searchItem Activity -->
