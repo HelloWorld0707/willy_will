@@ -2,9 +2,9 @@ package com.willy.will.detail.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,6 @@ import static java.time.temporal.TemporalAdjusters.previousOrSame;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-import java.io.Serializable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -62,6 +61,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private MapView mapView;
     private ViewGroup mapViewContainer;
     private MapPOIItem marker;
+    private Resources resources;
 
 
 
@@ -72,6 +72,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         setContentView(R.layout.activity_detail);
 
         detailCtrl = new DetailController();
+        resources = getResources();
 
         important = findViewById(R.id.important);
         itemName = findViewById(R.id.item_name);
@@ -133,7 +134,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
-        if(loopWeek.equals(null)){
+        if(loopWeek ==null){
             achievementRateArea.setVisibility(View.GONE);
             roofDay += "반복 안함";
         }else {
@@ -169,16 +170,16 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             groupColor.setActivated(true);
             groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
         }
-        groupName.setText((todoItem.getGroupName()==null)?"그룹미정":todoItem.getGroupName());
+        groupName.setText((todoItem.getGroupName()==null)?resources.getString(R.string.no_group):todoItem.getGroupName());
         startDate.setText(todoItem.getStartDate());
         endDate.setText(todoItem.getEndDate());
-        doneDate.setText((todoItem.getDoneDate()==null)?"미완료":todoItem.getDoneDate());
+        doneDate.setText((todoItem.getDoneDate()==null)?resources.getString(R.string.not_done):todoItem.getDoneDate());
         roof.setText(roofDay);
         if(todoItem.getLocationX()==null||todoItem.getLocationY()==null){
             locationArea.setVisibility(View.GONE);
         }else{
-            latitude = 37.53737528;//Float.parseFloat(todoItem.getLocationY());
-            longitude = 127.00557633;//Float.parseFloat(todoItem.getLocationX());// 경도
+            latitude = Float.parseFloat(todoItem.getLocationY());
+            longitude = Float.parseFloat(todoItem.getLocationX());// 경도
             markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
 
             getAddress(longitude, latitude);
@@ -218,7 +219,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
                         intent.putExtra("todoId",todoItem.getTodoId());
-                        Log.d("todo", "onMenuItemClick: " + todoItem.getTodoId());
                         startActivity(intent);
                         return true;
                 }

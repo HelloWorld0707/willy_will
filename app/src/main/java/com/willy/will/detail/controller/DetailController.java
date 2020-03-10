@@ -17,7 +17,7 @@ public class DetailController {
     /** get Item by itemId from DB **/
     public Item getToDoItemByItemId(int itemId){
         String selectQuery =
-                "SELECT item_name, item_location_X, item_location_Y, done_date, start_date, end_date, group_name, group_color, calendar_date, loop_week, item_id, item.to_do_id " +
+                "SELECT item_name, item_location_X, item_location_Y, done_date, start_date, end_date, group_name, group_color, calendar_date, loop_week, item_id, item.to_do_id, item.item_important " +
                 "FROM " +
                     "(SELECT * " +
                     "FROM _ITEM i, _CALENDAR c, _GROUP g " +
@@ -44,6 +44,7 @@ public class DetailController {
                 item.setLoopWeek(cursor.getString(9));
                 item.setItemId(cursor.getInt(10));
                 item.setTodoId(cursor.getInt(11));
+                item.setImportant(cursor.getInt(12));
             }while (cursor.moveToNext());
         }
         return item;
