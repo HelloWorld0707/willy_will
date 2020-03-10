@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,12 +86,12 @@ public class MainFragment extends Fragment {
             //get user display size
             Display display = getActivity().getWindowManager().getDefaultDisplay();
             Point size = new Point();
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             display.getSize(size);
             int hei = size.y;
-            int wid = size.x;
-            params.setMargins((int)(2.8*wid)/10,(int)hei/4,0,0);
-            Log.d("check size","****************hei"+(int) hei/2+". size: "+size+"****************");
+            params.setMargins(0,(int)hei/4,0,0);
+            nullList.setGravity(Gravity.CENTER_HORIZONTAL);
+
             //set nullList size
             nullList.setLayoutParams(params);
 
