@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+            builder.setSmallIcon(R.drawable.notification_icon);
             String channelName = resources.getString(R.string.alarm_settings_title);
             String description = resources.getString(R.string.alarm_settings_msg);
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -54,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 notificationManager.createNotificationChannel(channel);
             }
         } else{
-            builder.setSmallIcon(R.mipmap.ic_launcher);
+            builder.setSmallIcon(R.mipmap.will_launcher);
         }
 
         List<String> list = detailCtrl.AlarmToDoItems();

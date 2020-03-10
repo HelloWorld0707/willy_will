@@ -59,6 +59,7 @@ public class AlarmActivity extends Activity {
 
         if(alarmSwitch.isChecked()){
             alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+            //alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5000,5000, alarmIntent);
         }else{
             alarmMgr.cancel(alarmIntent);
         }
