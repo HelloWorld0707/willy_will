@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:verticalScrollbarPosition="right"
-    android:background="#eeeeee"
-    tools:context=".add.view.AddItemActivity">
+    android:background="#eeeeee">
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -24,7 +23,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="50dp"
             android:foreground="?attr/homeAsUpIndicator"
-            android:onClick="Tomain" />
+            android:onClick="toadd" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -38,11 +37,11 @@
 
         <Button
             android:id="@+id/color2"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/circle_button2"
             app:layout_constraintStart_toEndOf="@+id/color1"
