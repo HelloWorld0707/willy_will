@@ -213,35 +213,34 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         ToDoItemDBController dbController = new ToDoItemDBController(resources);
 
 
-
-        if(activated) {
+        if (activated) {
             span.setSpan(inactiveColorSpan
                     , 0, tvName.length(),
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tvTime.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            if(imgRoutine.getDrawable() != null && loop != 0) {
+            if (imgRoutine.getDrawable() != null && loop != 0) {
                 imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
-            if(imgRank.getDrawable() != null) {
+            if (imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
 
-        }
-        else {
+        } else {
             span.setSpan(new BackgroundColorSpan(Color.parseColor(groupColor))
                     , 0, tvName.length(),
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             tvName.setPaintFlags(0);
             tvTime.setPaintFlags(0);
-            if(imgRoutine.getDrawable() != null && loop != 0) {
-                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context,R.color.colorPrimary));
+            if (imgRoutine.getDrawable() != null && loop != 0) {
+                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
             }
-            if(imgRank.getDrawable() != null) {
+            if (imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
             }
+
+            dbController.updateDB(id, activated);
         }
-//        dbController.updateDB(id,activated); temp
     }
 
 }
