@@ -100,7 +100,7 @@ public class DetailController {
                 "FROM _ITEM i, _CALENDAR c\n" +
                 "WHERE i.item_id = c.item_id\n" +
                 "AND c.calendar_date=\"2020-02-09\"\n" +
-                "AND i.done_date IS NULL;";
+                "AND (i.done_date IS NULL OR i.done_date =\"\");";
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         String itemName = null;
