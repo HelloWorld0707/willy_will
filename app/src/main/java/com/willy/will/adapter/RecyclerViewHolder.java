@@ -72,7 +72,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             int position = Math.toIntExact(getItemId());
                             ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                             toDoItem.setDone(b);
-                            //setActivation(b, toDoItem.getGroupColor());
                             setActivation(toDoItem.getItemId(), b, toDoItem.getColor(), toDoItem.getLoop());
                             rcyclerVAdapter.notifyItemChanged(position);
                         }
@@ -226,7 +225,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorInactive));
             }
 
-        } else {
+            }
+            else {
             span.setSpan(new BackgroundColorSpan(Color.parseColor(groupColor))
                     , 0, tvName.length(),
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -238,9 +238,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             if (imgRank.getDrawable() != null) {
                 imgRank.getDrawable().mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary));
             }
-
-            dbController.updateDB(id, activated);
         }
+        dbController.updateDB(id, activated);
     }
 
 }

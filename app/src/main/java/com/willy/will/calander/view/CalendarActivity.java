@@ -3,7 +3,11 @@ package com.willy.will.calander.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +20,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.willy.will.R;
@@ -29,7 +36,10 @@ import com.willy.will.detail.view.DetailActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.willy.will.common.controller.App.getContext;
 
 public class CalendarActivity extends Activity {
     private String[] currentDate = null;
@@ -60,6 +70,13 @@ public class CalendarActivity extends Activity {
 
         /** device display size controller */
         windowDm = getApplicationContext().getResources().getDisplayMetrics();
+
+        /** calendar settion */
+        //setTopbarVisible
+        MaterialCalendarView calendar = findViewById(R.id.calendarView);
+        calendar.setTopbarVisible(false);
+        calendar.addDecorators( new SundayDecorator(),
+                                new SaturdayDecorator());
     }
 
     /** Back to MainActivity **/
@@ -126,5 +143,43 @@ public class CalendarActivity extends Activity {
         // ~setListView Height
     }
 
+    private class SundayDecorator implements DayViewDecorator {
 
+        private final Calendar calendar = Calendar.getInstance();
+
+        public SundayDecorator() {
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            return weekDay == Calendar.SUNDAY;
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.RED));
+        }
+    }
+
+    private class SaturdayDecorator implements DayViewDecorator {
+
+        private final Calendar calendar = Calendar.getInstance();
+
+        public SaturdayDecorator() {
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            return weekDay == Calendar.SATURDAY;
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.BLUE));
+        }
+    }
 }

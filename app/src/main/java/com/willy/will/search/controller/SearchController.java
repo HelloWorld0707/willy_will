@@ -69,7 +69,7 @@ public class SearchController {
         if(!selectedDone.equals(resources.getString(R.string.all))) {
             String doneDateColumn = resources.getString(R.string.done_date_column);
             if (selectedDone.equals(resources.getString(R.string.not_done))) {
-                doneQuery += (" AND " + doneDateColumn + " = NULL OR " + doneDateColumn + " = ''");
+                doneQuery += (" AND " + doneDateColumn + " IS NULL OR " + doneDateColumn + " = ''");
             }
             else if(selectedDone.equals(resources.getString(R.string.done))) {
                 comparisonDate = String.format(strftime, doneDateColumn);
