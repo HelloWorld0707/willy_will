@@ -3,6 +3,7 @@ package com.willy.will.common.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,9 +43,22 @@ public class GroupManagementActivity extends AppCompatActivity {
         btnAdd = (Button) findViewById(R.id.btnAdd);
         //btnDel = (Button) findViewById(R.id.btnDel);
 
+
         /**btnAdd.setOnClickListener(listener);
         //btnDel.setOnClickListener(listener);**/
     }
+
+    public void toadd(View view) {
+        // Check focusing
+        View focusedView = getCurrentFocus();
+        if(focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        // ~Check focusing
+        this.finish();
+    }
+
     public void bringUpGroupColor(View view) {
         Intent intent = new Intent(this, Group_Color.class);
         startActivity(intent);
