@@ -37,12 +37,9 @@
     <!-- search -->
     <string name="search_hint">할 일 이름을 검색하십시오.</string>
     <string name="all">전체</string>
-
     <string name="no_group">그룹미정</string>
-
     <string name="done">완료</string>
     <string name="not_done">미완료</string>
-
     <string name="not_loop">반복하지 않음</string>
 
     <string name="period">기간</string>
@@ -113,5 +110,10 @@
     <string name="end_date_text">종료날짜</string>
     <string name="start_date_key">startDate</string>
     <string name="end_date_key">endDate</string>
+
+    <string name="First">중요도1</string>
+    <string name="Second">중요도2</string>
+    <string name="Third">중요도3</string>
+    <string name="empty">중요도4</string>
     <!-- add text -->
 </resources>

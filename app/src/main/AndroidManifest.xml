@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".common.view.Group_Color"></activity>
+        <activity android:name=".add.view.AddItem_important"></activity>
+        <activity android:name=".common.view.Group_Color" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
