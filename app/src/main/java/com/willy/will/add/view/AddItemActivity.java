@@ -2,6 +2,7 @@ package com.willy.will.add.view;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -88,6 +90,33 @@ public class AddItemActivity extends Activity{
         end_date = getString(R.string.end_date_key);
 
 
+        /** edit keyboard invisible 1 **/
+        final EditText Title_editText;
+        Title_editText = (EditText)findViewById(R.id.Title_editText);
+        Title_editText.setInputType(0);
+        Title_editText.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Title_editText.setInputType(1);
+                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mgr.showSoftInput(Title_editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+
+        /** edit keyboard invisible **/
+        final EditText Group_editText;
+        Group_editText = (EditText)findViewById(R.id.Group_editText);
+        Group_editText.setInputType(0);
+        Group_editText.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Group_editText.setInputType(1);
+                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mgr.showSoftInput(Group_editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+
+
         /******* Group buuton -> moving ********************/
         Button bnt_group = findViewById(R.id.bnt_group);
         bnt_group.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +132,7 @@ public class AddItemActivity extends Activity{
                 // checked -> add_item_repeat
                 if (repeat_switch.isChecked() == true) {
                     checkBox_group.setVisibility(View.VISIBLE);
-                    
+
                     final ScrollView scrollView=findViewById(R.id.AddScrollView);
                     scrollView.post(new Runnable() {
                         @Override
