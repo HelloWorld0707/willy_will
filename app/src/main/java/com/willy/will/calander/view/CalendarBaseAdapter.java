@@ -5,13 +5,17 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.willy.will.R;
 import com.willy.will.database.DateDBController;
 
 import java.util.ArrayList;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class CalendarBaseAdapter extends BaseAdapter {
     private ArrayList<DateDBController.ItemNGroup> items = new ArrayList<>();
@@ -40,13 +44,18 @@ public class CalendarBaseAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.calendar_listview, parent, false);
         }
 
-        TextView colorTmp = convertView.findViewById(R.id.calendarGroupColorTemp);
-        TextView grpName = convertView.findViewById(R.id.calendarGroupText);
-        TextView itemName = convertView.findViewById(R.id.calendarItemNameText);
+        ImageView colorTmp = convertView.findViewById(R.id.calendar_group_color);
+        TextView itemName = convertView.findViewById(R.id.calendar_task_name);
 
         DateDBController.ItemNGroup item = getItem(position);
-        colorTmp.setBackgroundColor(Color.parseColor(item.getGroup_color()));
-        grpName.setText(item.getGroup_name());
+
+        if(item.getItem_id() != 0) {
+            colorTmp.setActivated(true);
+            colorTmp.getDrawable().mutate().setTint(Color.parseColor(item.getGroup_color()));
+        }
+        else{
+            colorTmp.setActivated(false);
+        }
         itemName.setText(item.getItem_name());
 
         return convertView;
@@ -55,4 +64,8 @@ public class CalendarBaseAdapter extends BaseAdapter {
     public void addItem(DateDBController.ItemNGroup item){
         items.add(item);
     }
+
+
+
+
 }

@@ -1,11 +1,15 @@
 package com.willy.will.calander.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +22,12 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.willy.will.R;
+import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DateDBController;
+import com.willy.will.detail.view.DeletePopupActivity;
+import com.willy.will.detail.view.DetailActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +35,11 @@ public class CalendarActivity extends Activity {
     private String[] currentDate = null;
     private DateDBController dateDBController = null;
     private Resources resources = null;
+    private TextView Textyear= null;
+    private TextView TextMon = null;
+
+    private DisplayMetrics windowDm = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,45 +48,83 @@ public class CalendarActivity extends Activity {
         Resources resources = getResources();
         /** Set current Date **/
         currentDate = getIntent().getStringExtra(resources.getString(R.string.current_date_key)).split("-");
-        TextView textView = (TextView)findViewById(R.id.calenderYear);
-        textView.setText(currentDate[0] + "년");
+        Textyear = (TextView)findViewById(R.id.calenderYear);
+        Textyear.setText(currentDate[0] + "년");
 
-        textView = (TextView)findViewById(R.id.calenderMonthnDay);
-        textView.setText(currentDate[1] + "월 " + currentDate[2] + "일");
+        TextMon = (TextView)findViewById(R.id.calenderMonthnDay);
+        TextMon.setText(currentDate[1] + "월 " + currentDate[2] + "일");
 
         /** set Calendar Listenser */
         OncalendarClickListener calanderListener = new OncalendarClickListener();
         ((MaterialCalendarView)findViewById(R.id.calendarView)).setOnDateChangedListener(calanderListener);
+
+        /** device display size controller */
+        windowDm = getApplicationContext().getResources().getDisplayMetrics();
     }
 
+    /** Back to MainActivity **/
+    public void backToMain(View view) {
+        View focusedView = getCurrentFocus();
+        if(focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        this.finish();
+    }
 
+    /** calendar controll listner */
     private class OncalendarClickListener implements OnDateSelectedListener {
         @Override
         public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
             // Toast.makeText(getBaseContext(), date.getYear()+"/"+ (date.getMonth()+1)+"/"+ date.getDay(), Toast.LENGTH_LONG).show();
             setDateAtCalendar(date.getYear(), (date.getMonth()+1), date.getDay());
+            Textyear.setText(date.getYear() + "년");
+            TextMon .setText((date.getMonth()+1) + "월 " + date.getDay() + "일");
         }
     }
 
-    // set Data at calendar
+    /** set Data at calendar */
     private void setDateAtCalendar(int yy, int mm,  int dd){
         /**init resource */
         resources = getResources();
 
         /** Create List Adapter*/
-        CalendarBaseAdapter calendarBaseAdapter = new CalendarBaseAdapter();
+        final CalendarBaseAdapter calendarBaseAdapter = new CalendarBaseAdapter();
 
         /** setDBController*/
         dateDBController = new DateDBController(resources);
         List<DateDBController.calendarItem> itemIdList = dateDBController.getMonthItemByDate(yy,mm,dd);
-        // ArrayList<DateDBController.ItemNGroup> iandgList = new ArrayList<>();
         for (DateDBController.calendarItem item:itemIdList) {
             DateDBController.ItemNGroup itemNGroup = dateDBController.getItemNGroupByItemId(item.getItemId());
-            // iandgList.add(itemNGroup);
             calendarBaseAdapter.addItem(itemNGroup);
         }
-
         ListView calendarList = findViewById(R.id.calendarListView);
         calendarList.setAdapter(calendarBaseAdapter);
+
+        // set ListView Click Listener
+        calendarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int itemId = (int) calendarBaseAdapter.getItemId(position);
+                ToDoItem toDoItem = new ToDoItem();
+                toDoItem.setItemId(itemId);
+                Intent intent = new Intent(CalendarActivity.this, DetailActivity.class);
+                intent.putExtra(resources.getString(R.string.item_id), toDoItem);
+                startActivity(intent);
+            }
+        });
+        // ~set ListView Click Listener
+
+        // setListView Height
+        ViewGroup.LayoutParams params = calendarList.getLayoutParams();
+
+        int height = 130;// findViewById(R.id.calendarListView).getMeasuredHeight();
+        int listSize = calendarBaseAdapter.getCount();
+        params.height = height * listSize;
+        calendarList.setLayoutParams(params);
+        calendarList.requestLayout();
+        // ~setListView Height
     }
+
+
 }
