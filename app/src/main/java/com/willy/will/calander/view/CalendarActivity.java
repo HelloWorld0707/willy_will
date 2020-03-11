@@ -28,6 +28,7 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DateDBController;
@@ -65,18 +66,20 @@ public class CalendarActivity extends Activity {
         TextMon.setText(currentDate[1] + "월 " + currentDate[2] + "일");
 
         /** set Calendar Listenser */
-        OncalendarClickListener calanderListener = new OncalendarClickListener();
-        ((MaterialCalendarView)findViewById(R.id.calendarView)).setOnDateChangedListener(calanderListener);
+        MaterialCalendarView calendar = findViewById(R.id.calendarView);
+        OncalendarClickListener touchListener = new OncalendarClickListener();
+        calendar.setOnDateChangedListener(touchListener);
+        OnMonthChangedListener dragListener = new OnCalendarMonthOverListener();
+        calendar.setOnMonthChangedListener(dragListener);
+
+        /** highlight at holiday */
+        calendar.setTopbarVisible(false);
+        calendar.addDecorators( new SundayDecorator(),
+                new SaturdayDecorator());
 
         /** device display size controller */
         windowDm = getApplicationContext().getResources().getDisplayMetrics();
 
-        /** calendar settion */
-        //setTopbarVisible
-        MaterialCalendarView calendar = findViewById(R.id.calendarView);
-        calendar.setTopbarVisible(false);
-        calendar.addDecorators( new SundayDecorator(),
-                                new SaturdayDecorator());
     }
 
     /** Back to MainActivity **/
@@ -89,19 +92,33 @@ public class CalendarActivity extends Activity {
         this.finish();
     }
 
-    /** calendar controll listner */
+    /** calendar select listner */
     private class OncalendarClickListener implements OnDateSelectedListener {
         @Override
         public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-            // Toast.makeText(getBaseContext(), date.getYear()+"/"+ (date.getMonth()+1)+"/"+ date.getDay(), Toast.LENGTH_LONG).show();
             setDateAtCalendar(date.getYear(), (date.getMonth()+1), date.getDay());
             Textyear.setText(date.getYear() + "년");
             TextMon .setText((date.getMonth()+1) + "월 " + date.getDay() + "일");
         }
     }
 
+    /** claendar month change listner */
+    private class OnCalendarMonthOverListener implements OnMonthChangedListener {
+        @Override
+        public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+            int yyyy = date.getYear();
+            int mm = date.getMonth()+1;
+            int dd = date.getDay();
+
+            Textyear.setText(yyyy + "년");
+            TextMon.setText(mm + "월 " + dd + "일");
+
+            setDateAtCalendar(yyyy,mm,dd);
+        }
+    }
+
     /** set Data at calendar */
-    private void setDateAtCalendar(int yy, int mm,  int dd){
+    private void setDateAtCalendar(int yyyy, int mm,  int dd){
         /**init resource */
         resources = getResources();
 
@@ -110,7 +127,7 @@ public class CalendarActivity extends Activity {
 
         /** setDBController*/
         dateDBController = new DateDBController(resources);
-        List<DateDBController.calendarItem> itemIdList = dateDBController.getMonthItemByDate(yy,mm,dd);
+        List<DateDBController.calendarItem> itemIdList = dateDBController.getMonthItemByDate(yyyy,mm,dd);
         for (DateDBController.calendarItem item:itemIdList) {
             DateDBController.ItemNGroup itemNGroup = dateDBController.getItemNGroupByItemId(item.getItemId());
             calendarBaseAdapter.addItem(itemNGroup);

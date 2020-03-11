@@ -33,7 +33,6 @@ public class CalendarBaseAdapter extends BaseAdapter {
         return items.get(position).getItem_id();
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
@@ -54,7 +53,6 @@ public class CalendarBaseAdapter extends BaseAdapter {
         }
         else{
             colorTmp.setActivated(false);
-            colorTmp.getDrawable().mutate().setTint(Color.parseColor(item.getGroup_color()));
         }
         itemName.setText(item.getItem_name());
 
