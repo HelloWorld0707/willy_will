@@ -171,7 +171,6 @@ public class AddItemActivity extends Activity{
     }
     public void bringUpgroupcolor(View view) {
         Intent intent = new Intent(this, Group_Color.class);
-
     }
 
     // Start Date Picker Dialog for start of start date

@@ -27,39 +27,32 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="@drawable/round_corner"
         android:id="@+id/relativeLayout3"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
+        android:background="@drawable/round_corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <Button
-            android:id="@+id/color2"
+            android:onClick="bringUpGroupColor"
+            android:id="@+id/bnt_color"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="40dp"
             android:background="@drawable/circle_button2"
             app:layout_constraintStart_toEndOf="@+id/color1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:onClick="bringUpGroupColor"
-            style="@style/DetailTitleStyle"
-            android:layout_width="100dp"
-            android:layout_height="64dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="30dp"
-            android:background="@null"
-            android:gravity="center"
-            android:text="색상 선택"
-            android:textColor="@color/dark_gray"
-            tools:ignore="OnClick" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
 
     </RelativeLayout>
 

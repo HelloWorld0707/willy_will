@@ -37,7 +37,6 @@
         <Button
             android:onClick="color3_checked"
             android:id="@+id/color3"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -48,7 +47,6 @@
 
         <Button
             android:id="@+id/color4"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -60,7 +58,6 @@
 
         <Button
             android:id="@+id/color5"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -72,7 +69,6 @@
 
         <Button
             android:id="@+id/color6"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -86,7 +82,6 @@
 
         <Button
             android:id="@+id/color7"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -100,7 +95,6 @@
 
         <Button
             android:id="@+id/color8"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -114,7 +108,6 @@
 
         <Button
             android:id="@+id/color9"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -128,7 +121,6 @@
 
         <Button
             android:id="@+id/color10"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -142,7 +134,6 @@
 
         <Button
             android:id="@+id/colot11"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -156,7 +147,6 @@
 
         <Button
             android:id="@+id/color12"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
