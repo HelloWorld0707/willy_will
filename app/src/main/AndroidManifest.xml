@@ -79,6 +79,9 @@
             android:name=".setting.DeleteTasksPopupActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".add.view.LocationSearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <receiver android:name=".receiver.DeviceBootReceiver">
             <intent-filter>

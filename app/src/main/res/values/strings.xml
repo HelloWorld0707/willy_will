@@ -119,6 +119,7 @@
     <string name="end_date_text">종료날짜</string>
     <string name="start_date_key">startDate</string>
     <string name="end_date_key">endDate</string>
+    <string name="location_placeholder">장소명으로 검색</string>
 
     <string name="First">중요도1</string>
     <string name="Second">중요도2</string>
