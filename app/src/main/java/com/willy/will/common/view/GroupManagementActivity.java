@@ -1,5 +1,6 @@
 package com.willy.will.common.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,8 +21,13 @@ public class GroupManagementActivity extends AppCompatActivity {
     ArrayList<String> Items;
     ArrayAdapter<String> Adapter;
     ListView listView;
-    TextView textView2;
+    TextView txt_color;
     Button btnAdd, btnDel;
+    private static final int REQUEST_CODE = 777;
+
+    private String result = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +35,17 @@ public class GroupManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_add_group);
 
         bnt_color = (Button) findViewById(R.id.bnt_color);
-        textView2 = (TextView) findViewById(R.id.textView3);
-
         Items = new ArrayList<String>();
         Items.add("운동");
         Items.add("공부");
         Items.add("레슨");
-
         Adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_single_choice, Items);
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(Adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+        txt_color = (TextView) findViewById(R.id.txt_color);
 
         //Group_Text = findViewById(R.id.Group_Text);
         //btnAdd = (Button) findViewById(R.id.btnAdd);
@@ -63,10 +67,23 @@ public class GroupManagementActivity extends AppCompatActivity {
     }
 
     public void bringUpGroupColor(View view) {
-        Intent intent = new Intent(this, Group_Color.class);
-        startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), Group_Color.class);
+        startActivityForResult(intent,REQUEST_CODE);
     }
-}
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE) {
+            result = data.getStringExtra("result");
+            txt_color.setText(result);
+
+            // 색선택되면 화면에 뜨게해야함..
+            }
+        }
+
+    }
 
     /**private View.OnClickListener listener = new View.OnClickListener(){
         @Override
