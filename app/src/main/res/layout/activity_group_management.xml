@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:verticalScrollbarPosition="right"
-    android:background="#eeeeee">
+    android:background="#eeeeee"
+    tools:context=".common.view.GroupManagementActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -27,7 +28,7 @@
             style="@style/ActionBtnStyle"
             android:layout_alignParentEnd="true"
             android:foreground="@drawable/ic_rounded_check_24px"
-            android:onClick="toadd" />
+            android:onClick="submit" />
 
     </RelativeLayout>
 

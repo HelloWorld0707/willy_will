@@ -78,7 +78,7 @@
             android:name=".setting.TaskManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".setting.DeleteTasksPopupActivity"
+            android:name=".setting.ManageTasksPopupActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
 

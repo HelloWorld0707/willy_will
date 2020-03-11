@@ -2,6 +2,7 @@ package com.willy.will.common.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 777;
 
+    private Resources resources;
     private ListViewAdapter<Group> adapter;
 
     private ImageButton submitBtn;
@@ -43,16 +45,18 @@ public class GroupManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_management);
 
+        resources = getResources();
+        int requestCode = getIntent().getIntExtra(resources.getString(R.string.request_code), getResources().getInteger(R.integer.group_setting_code));
+
         /** Set submit button **/
         submitBtn = findViewById(R.id.submit_button);
-        int requestCode = getIntent().getIntExtra(getResources().getString(R.string.request_code), getResources().getInteger(R.integer.group_setting_code));
-        if(requestCode == getResources().getInteger(R.integer.group_management_code)) {
+        if(requestCode == resources.getInteger(R.integer.group_management_code)) {
             submitBtn.setVisibility(View.GONE);
         }
         /* ~Set submit button */
 
         /** Set group list view **/
-        groupList = new GroupDBController(getResources()).getAllGroups();
+        groupList = new GroupDBController(resources).getAllGroups();
 
         adapter = new ListViewAdapter<>(
                 groupList,
@@ -130,10 +134,10 @@ public class GroupManagementActivity extends AppCompatActivity {
         }
     }
 
-    public void submitSetting(View view) {
+    public void submit(View view) {
         Intent intent = new Intent();
         intent.putExtra(
-                getResources().getString(R.string.group_setting_key),
+                resources.getString(R.string.group_setting_key),
                 groupList.get(adapter.getSelectedPosition())
         );
         setResult(RESULT_FIRST_USER, intent);

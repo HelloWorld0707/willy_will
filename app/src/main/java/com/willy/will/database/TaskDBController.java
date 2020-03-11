@@ -1,5 +1,6 @@
 package com.willy.will.database;
 
+import android.content.ContentValues;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -191,15 +192,34 @@ public class TaskDBController {
     }
 
     public void deleteTasks(String whereToDoIds, String whereItemIds) {
-        /** Write DB (Delete) **/
+        /** Write DB (DELETE) **/
         // This ORDER is IMPORTANT
-        int deletedRows =  writeDatabase.delete(resources.getString(R.string.loop_info_table), whereToDoIds, null);
+        int deletedRows = writeDatabase.delete(
+                resources.getString(R.string.loop_info_table),
+                whereToDoIds, null
+        );
         Log.i("TaskDBController", "Deleting: Delete a loop information");
         deletedRows = writeDatabase.delete(resources.getString(R.string.calendar_table), whereItemIds, null);
         Log.i("TaskDBController", "Deleting: Delete " + deletedRows + " items of calendar");
         deletedRows = writeDatabase.delete(resources.getString(R.string.item_table), whereToDoIds, null);
         Log.i("TaskDBController", "Deleting: Delete " + deletedRows + " items");
-        /* ~Write DB (Delete) */
+        /* ~Write DB (DELETE) */
+    }
+
+    public void moveTasks(int groupId, String whereToDoIds) {
+        /** Set the column name and the value **/
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(resources.getString(R.string.group_id_column), groupId);
+        /* ~Set the column name and the value */
+
+        /** Write DB (UPDATE) **/
+        int movedRows = writeDatabase.update(
+                resources.getString(R.string.item_table),
+                contentValues,
+                whereToDoIds, null
+        );
+        Log.i("TaskDBController", "Moving: Move " + movedRows + " items");
+        /* ~Write DB (UPDATE) */
     }
 
 }

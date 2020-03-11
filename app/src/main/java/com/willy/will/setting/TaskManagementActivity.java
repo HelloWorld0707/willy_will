@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.view.GroupManagementActivity;
@@ -26,6 +27,7 @@ public class TaskManagementActivity extends AppCompatActivity {
     private String extraNameCode = null;
     private String selectedTasksKey = null;
     private Resources resources = null;
+    private TaskDBController taskDBCtrl = null;
     private Toast noCheckedTask = null;
 
     private RecyclerView recyclerView = null;
@@ -43,10 +45,11 @@ public class TaskManagementActivity extends AppCompatActivity {
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
         selectedTasksKey = resources.getString(R.string.selected_tasks_key);
+        taskDBCtrl = new TaskDBController(resources);
         noCheckedTask = Toast.makeText(this, resources.getString(R.string.no_checked_task), Toast.LENGTH_SHORT);
 
         /** Set data of item **/
-        taskList = new TaskDBController(resources).getAllTasks(taskList);
+        taskList = taskDBCtrl.getAllTasks(taskList);
         selectedTasks = new ArrayList<>();
         /* ~Set data of item */
 
@@ -87,9 +90,8 @@ public class TaskManagementActivity extends AppCompatActivity {
         }
         else {
             Intent intent = new Intent(this, GroupManagementActivity.class);
-            intent.putParcelableArrayListExtra(selectedTasksKey, selectedTasks);
 
-            code = resources.getInteger(R.integer.move_tasks_code);
+            code = resources.getInteger(R.integer.group_setting_code);
             intent.putExtra(extraNameCode, code);
             startActivityForResult(intent, code);
         }
@@ -110,7 +112,7 @@ public class TaskManagementActivity extends AppCompatActivity {
             noCheckedTask.show();
         }
         else {
-            Intent intent = new Intent(this, DeleteTasksPopupActivity.class);
+            Intent intent = new Intent(this, ManageTasksPopupActivity.class);
             intent.putParcelableArrayListExtra(selectedTasksKey, selectedTasks);
 
             code = resources.getInteger(R.integer.remove_tasks_code);
@@ -127,16 +129,31 @@ public class TaskManagementActivity extends AppCompatActivity {
         /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
             // To-do Item Detail
-            if(requestCode == getResources().getInteger(R.integer.detail_request_code)) {
+            if(requestCode == resources.getInteger(R.integer.detail_request_code)) {
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+            }
+            // Group setting (to move tasks to this group)
+            else if(requestCode == resources.getInteger(R.integer.group_setting_code)) {
+                String groupSettingKey = resources.getString(R.string.group_setting_key);
+                Group selectedGroup = data.getParcelableExtra(groupSettingKey);
+
+                Intent intent = new Intent(this, ManageTasksPopupActivity.class);
+                intent.putParcelableArrayListExtra(selectedTasksKey, selectedTasks);
+                intent.putExtra(groupSettingKey, selectedGroup);
+
+                code = resources.getInteger(R.integer.move_tasks_code);
+                intent.putExtra(extraNameCode, code);
+                startActivityForResult(intent, code);
             }
             // Move tasks (to other group)
             else if(requestCode == resources.getInteger(R.integer.move_tasks_code)) {
+                taskList = taskDBCtrl.getAllTasks(taskList);
+                selectedTasks.clear();
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_movement), Toast.LENGTH_SHORT).show();
             }
             // Remove tasks
-            else if(requestCode == getResources().getInteger(R.integer.remove_tasks_code)) {
+            else if(requestCode == resources.getInteger(R.integer.remove_tasks_code)) {
                 Iterator<Task> selectIter = selectedTasks.iterator();
                 while(selectIter.hasNext()) {
                     taskList.remove(selectIter.next());
