@@ -141,6 +141,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             int id = mitem.getItemId();
             int loop = mitem.getLoop();
             if(loop == 1) {
+                imgRoutine.setVisibility(View.VISIBLE);
                 imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(
                         App.getContext().getResources(),
                         R.drawable.ic_loop_24px,
@@ -174,12 +175,17 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
             Group group = (Group) data;
-            textOnlyView.setText(group.getGroupName());
             // Hide a ghost item for changing selection mode of multiple selection
             if(group.getGroupName().equals("")) {
                 if(textOnlyView.getVisibility() != View.GONE) {
                     textOnlyView.setVisibility(View.GONE);
                 }
+            }
+            else {
+                if(textOnlyView.getVisibility() == View.GONE) {
+                    textOnlyView.setVisibility(View.VISIBLE);
+                }
+                textOnlyView.setText(group.getGroupName());
             }
         }
         // Done or Loop
