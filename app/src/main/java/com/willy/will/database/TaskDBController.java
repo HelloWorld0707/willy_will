@@ -26,7 +26,6 @@ public class TaskDBController {
         this.resources = resources;
         readDatabase = DBAccess.getDbHelper().getReadableDatabase();
         writeDatabase = DBAccess.getDbHelper().getWritableDatabase();
-
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 

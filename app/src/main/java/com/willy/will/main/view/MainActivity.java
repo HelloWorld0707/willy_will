@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity{
 
         dbHelper = DBAccess.getDbHelper();
         dummyCreate();
-
         resources = getResources();
 
         /**set navigation Drawer**/

@@ -34,7 +34,6 @@ public class DBAccess extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Resources resources = App.getContext().getResources();
         String query = null;
-
         // 새로운 테이블 생성
         query = "CREATE TABLE " + resources.getString(R.string.calendar_table) + "( " +
                 resources.getString(R.string.calendar_id_column) + " INTEGER NOT NULL, " +
