@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,33 +25,55 @@ import java.util.ArrayList;
 
 public class GroupManagementActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 777;
+
+    private ListViewAdapter<Group> adapter;
+
+    private ImageButton submitBtn;
     Button btnAdd,btnDel;
     TextView Group_Text;
+    TextView txt_color;
+
+    private ArrayList<Group> groupList;
+
+    private String result = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_management);
 
+        /** Set submit button **/
+        submitBtn = findViewById(R.id.submit_button);
+        int requestCode = getIntent().getIntExtra(getResources().getString(R.string.request_code), getResources().getInteger(R.integer.group_setting_code));
+        if(requestCode == getResources().getInteger(R.integer.group_management_code)) {
+            submitBtn.setVisibility(View.GONE);
+        }
+        /* ~Set submit button */
+
         /** Set group list view **/
-        ArrayList<Group> groupList = new ArrayList<>();
         groupList = new GroupDBController(getResources()).getAllGroups();
 
-        ListViewAdapter<Group> adapter = new ListViewAdapter<>(
+        adapter = new ListViewAdapter<>(
                 groupList,
                 R.layout.item_group,
                 new ListViewHolder<Group>() {
                     private ImageView groupColorView;
                     private TextView groupName;
+                    private RadioButton radioButton;
 
                     @Override
-                    public void setView(View convertView) {
+                    public void setView(int position, View convertView) {
                         groupColorView = convertView.findViewById(R.id.group_color);
                         groupName = convertView.findViewById(R.id.group_name);
+                        radioButton = convertView.findViewById(R.id.radio_button);
+                        if(!radioButton.hasOnClickListeners()) {
+                            radioButton.setOnClickListener(new RadioButtonListener(position));
+                        }
                     }
 
                     @Override
-                    public void bindData(Group data) {
+                    public void bindData(Group data, boolean selected) {
                         /** Set the group color circle **/
                         if(data.getGroupId() == 0) {
                             groupColorView.setActivated(false);
@@ -63,6 +87,10 @@ public class GroupManagementActivity extends AppCompatActivity {
                         /** Set the group name **/
                         groupName.setText(data.getGroupName());
                         /* ~Set the group name */
+
+                        /** Set the radio button **/
+                        radioButton.setChecked(selected);
+                        /* ~Set the radio button */
                     }
                 }
         );
@@ -71,7 +99,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         groupListView.setAdapter(adapter);
         /* ~Set group list view */
 
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd = (Button) findViewById(R.id.btn_color);
     }
 
     public void toadd(View view) {
@@ -99,38 +127,31 @@ public class GroupManagementActivity extends AppCompatActivity {
             txt_color.setText(result);
 
             // 색선택되면 화면에 뜨게해야함..
-            }
         }
-
     }
 
-    /**private View.OnClickListener listener = new View.OnClickListener(){
+    public void submitSetting(View view) {
+        Intent intent = new Intent();
+        intent.putExtra(
+                getResources().getString(R.string.group_setting_key),
+                groupList.get(adapter.getSelectedPosition())
+        );
+        setResult(RESULT_FIRST_USER, intent);
+        this.finish();
+    }
+
+    class RadioButtonListener implements View.OnClickListener {
+        private int itemId;
+
+        public RadioButtonListener(int itemId) {
+            this.itemId = itemId;
+        }
+
         @Override
         public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.btnAdd:
-                    String text = editText.getText().toString();
-                    if(text.length() != 0){
-                        Items.add(text);
-                        editText.setText("");
-                        Adapter.notifyDataSetChanged();
-                    }
-                    break;
-                case R.id.btnDel:
-                    int pos;
-                    pos = listView.getCheckedItemPosition();
-                    if (pos != ListView.INVALID_POSITION){
-                        Items.remove(pos);
-                        listView.clearChoices();
-                        Adapter.notifyDataSetChanged();
-                    }
-                    break;
-            }
-
+            adapter.setSelectedPosition(itemId);
+            adapter.notifyDataSetChanged();
         }
-    };**/
+    }
 
-
-
-
-
+}

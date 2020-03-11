@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Request Code for Activity Result -->
-    <integer name="detail_request_code">0</integer>
-    <integer name="group_search_setting_code">1</integer>
-    <integer name="done_search_setting_code">2</integer>
-    <integer name="loop_search_setting_code">3</integer>
-    <integer name="period_search_setting_code">4</integer>
-    <integer name="move_tasks_code">5</integer>
-    <integer name="remove_tasks_code">6</integer>
+    <integer name="group_setting_code">1</integer>
+    <integer name="detail_request_code">2</integer>
+    <integer name="group_search_setting_code">3</integer>
+    <integer name="done_search_setting_code">4</integer>
+    <integer name="loop_search_setting_code">5</integer>
+    <integer name="period_search_setting_code">6</integer>
+    <integer name="group_management_code">7</integer>
+    <integer name="move_tasks_code">8</integer>
+    <integer name="remove_tasks_code">9</integer>
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->
