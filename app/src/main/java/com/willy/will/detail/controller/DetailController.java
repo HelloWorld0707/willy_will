@@ -2,21 +2,19 @@ package com.willy.will.detail.controller;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import com.willy.will.detail.model.Item;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static com.willy.will.main.view.MainActivity.dbHelper;
 
 public class DetailController {
-
+    
     private SQLiteDatabase db;
-    public DetailController() {
+
+    public DetailController(){
         db = dbHelper.getReadableDatabase();
     }
+
 
     /** get Item by itemId from DB **/
     public Item getToDoItemByItemId(int itemId){
@@ -95,42 +93,6 @@ public class DetailController {
     }
     /*~ delete item from _CALENDAR, _ITEM, _LOOP_INFO by to_do_id  */
 
-
-
-    /** get itemList **/
-    public ArrayList<String> AlarmToDoItems() {
-
-        LocalDate today = LocalDate.now();
-        String monthValStr = null;
-        int monthVal = today.getMonthValue();
-        if(monthVal<10){
-            monthValStr = "0" + monthVal;
-        }else{
-            monthValStr = monthVal+"";
-        }
-
-        String todayStr = today.getYear() + "-" + monthValStr+ "-" + today.getDayOfMonth();
-        ArrayList<String>  toDoItemList = new ArrayList<>();
-
-        String selectQuery = "SELECT i.item_name " +
-                "FROM _ITEM i, _CALENDAR c\n" +
-                "WHERE i.item_id = c.item_id\n" +
-                "AND c.calendar_date=\""+todayStr+"\"\n" +
-                "AND i.done_date IS NULL;";
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        String itemName = null;
-
-        if(cursor.moveToFirst()){
-            do {
-                itemName = cursor.getString(0);
-                toDoItemList.add(itemName);
-            }while (cursor.moveToNext());
-        }
-
-        return toDoItemList;
-    }
-    /*~ get itemList **/
 
 
 }

@@ -36,35 +36,13 @@ public class AlarmActivity extends Activity {
 
 
         alarmSwitch.setChecked(sharedPreferences.getBoolean("AlarmState",false));
-        setAlarm();
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 editor.putBoolean("AlarmState", alarmSwitch.isChecked());
                 editor.commit();
-                setAlarm();
             }
         });
     }
-
-
-    public void setAlarm(){
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-
-        AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent1 = new Intent(this, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent1, 0);
-
-        if(alarmSwitch.isChecked()){
-            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-            //alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5000,5000, alarmIntent);
-        }else{
-            alarmMgr.cancel(alarmIntent);
-        }
-    }
-
 
 
     /** Back to MainActivity **/
