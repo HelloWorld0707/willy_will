@@ -118,6 +118,12 @@ public class CalendarActivity extends Activity {
         ListView calendarList = findViewById(R.id.calendarListView);
         calendarList.setAdapter(calendarBaseAdapter);
 
+        // set Visible at listView
+        if(calendarBaseAdapter.getCount() > 0)
+            calendarList.setVisibility(View.VISIBLE);
+        else
+            calendarList.setVisibility(View.INVISIBLE);
+
         // set ListView Click Listener
         calendarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -143,6 +149,7 @@ public class CalendarActivity extends Activity {
         // ~setListView Height
     }
 
+    /** calendar custom class. set Red text on sunday */
     private class SundayDecorator implements DayViewDecorator {
 
         private final Calendar calendar = Calendar.getInstance();
