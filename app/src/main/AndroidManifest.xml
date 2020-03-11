@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".common.controller.App"
@@ -91,6 +92,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".receiver.AlarmReceiver" />
+        <receiver android:name=".receiver.NotificationReceiver" />
     </application>
 
 </manifest>

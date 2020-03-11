@@ -1,13 +1,16 @@
 package com.willy.will.receiver;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -16,61 +19,33 @@ import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.view.DetailActivity;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private DetailController detailCtrl;
-    private Resources resources;
-
-    public AlarmReceiver(){
-        detailCtrl = new DetailController();
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
+        final PendingResult result = goAsync();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
 
-        resources = context.getResources();
+        AlarmManager alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent1 = new Intent(context, NotificationReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent1, 0);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(context, DetailActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingI = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channelId");
+        SharedPreferences sharedPreferences = context.getSharedPreferences("ALARM", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            builder.setSmallIcon(R.drawable.notification_icon);
-            String channelName = resources.getString(R.string.alarm_settings_title);
-            String description = resources.getString(R.string.alarm_settings_msg);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("channelId", channelName, importance);
-            channel.setDescription(description);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        } else{
-            builder.setSmallIcon(R.drawable.notification_icon);
-        }
-
-        List<String> list = detailCtrl.AlarmToDoItems();
-        for(int i=0;i<list.size();i++){
-            builder.setAutoCancel(true)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
-                    .setWhen(System.currentTimeMillis())
-                    .setTicker("{Time to watch some cool stuff!}")
-                    .setContentTitle("오늘의 할일")
-                    .setContentText(list.get(i))
-                    .setContentInfo("INFO")
-                    .setContentIntent(pendingI);
-
-            if (notificationManager != null) {
-                notificationManager.notify(i, builder.build());
-            }
+        if(sharedPreferences.getBoolean("AlarmState",false)){
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+            //alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+5000,5000, alarmIntent);
+        }else{
+            alarmMgr.cancel(alarmIntent);
         }
     }
 
