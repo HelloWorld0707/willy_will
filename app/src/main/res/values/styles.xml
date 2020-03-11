@@ -86,6 +86,15 @@
     </style>
     <!-- ~Text Recycler Item Style -->
 
+    <!-- Group Color Style for Group Color Setting -->
+    <style name = "GroupColorStyle">
+        <item name="android:layout_width">@dimen/group_color_vector_size</item>
+        <item name="android:layout_height">@dimen/group_color_vector_size</item>
+        <item name="android:layout_margin">@dimen/basic_margin</item>
+        <item name="android:src">@drawable/group_color</item>
+    </style>
+    <!-- ~Group Color Style for Group Color Setting -->
+
     <!-- [2020-02-17] Modified by Kim Mikyung -->
     <style name="ActionBtnStyle">
         <item name="android:layout_width">@dimen/actionbar_button_size</item>

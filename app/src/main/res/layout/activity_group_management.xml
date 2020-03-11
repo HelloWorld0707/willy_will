@@ -9,69 +9,92 @@
     tools:context=".common.view.GroupManagementActivity">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout2"
+        android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/relativeLayout2">
 
         <ImageButton
             android:id="@+id/back_button"
             style="@style/BackButtonStyle"
             android:layout_alignParentStart="true"
-            android:onClick="toadd" />
+            android:onClick="backToMain" />
 
         <ImageButton
             android:id="@+id/submit_button"
             style="@style/ActionBtnStyle"
             android:layout_alignParentEnd="true"
+            android:tint="@color/colorPrimary"
             android:foreground="@drawable/ic_rounded_check_24px"
             android:onClick="submit" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/relativeLayout3"
+        android:id="@+id/relativeLayout2"
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="@drawable/round_corner"
+        android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout1"
+        app:layout_constraintBottom_toTopOf="@id/relativeLayout3">
 
-        <Button
-            android:id="@+id/btn_color"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentTop="true"
+        <ImageButton
+            android:id="@+id/group_color_button"
+            style="@style/GroupColorStyle"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            android:onClick="bringUpGroupColorSetting" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/group_name_text_input_layout"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/group_color_button"
+            android:layout_toStartOf="@id/add_button"
+            android:focusableInTouchMode="true"
+            app:endIconMode="clear_text"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/group_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/group_name_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/add_button"
+            style="@style/ActionBtnStyle"
+            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="45dp"
-            android:onClick="bringUpGroupColor"
-            android:background="@drawable/circle_button2"
-            app:layout_constraintStart_toEndOf="@+id/color1"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/txt_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:foreground="@drawable/ic_add_circle_outline_24px"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:onClick="addGroup" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relativeLayout3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/round_corner2"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <ListView
             android:id="@+id/group_list_view"

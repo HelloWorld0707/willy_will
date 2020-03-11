@@ -34,6 +34,11 @@
     <dimen name="button_margin">2dp</dimen>
     <!-- ~Button -->
 
+    <!-- Group -->
+    <dimen name="group_color_size">20dp</dimen>
+    <dimen name="group_color_vector_size">24dp</dimen>
+    <!-- Group -->
+
     <!-- Search Setting Recycler View -->
     <dimen name="search_setting_contents_view_height">144dp</dimen>
     <!-- ~Search Setting Recycler View -->

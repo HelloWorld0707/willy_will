@@ -1,21 +1,23 @@
 package com.willy.will.common.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.ListViewAdapter;
 import com.willy.will.common.controller.ListViewHolder;
@@ -26,19 +28,19 @@ import java.util.ArrayList;
 
 public class GroupManagementActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CODE = 777;
-
     private Resources resources;
+    private Toast noColorToast;
+    private Toast noNameToast;
+
+    private GroupDBController groupDBCtrl;
     private ListViewAdapter<Group> adapter;
 
     private ImageButton submitBtn;
-    Button btnAdd,btnDel;
-    TextView Group_Text;
-    TextView txt_color;
+    private ImageButton groupColorBtn;
+    private TextInputEditText textInputEditText;
 
     private ArrayList<Group> groupList;
-
-    private String result = null;
+    private Group newGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +48,27 @@ public class GroupManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_management);
 
         resources = getResources();
-        int requestCode = getIntent().getIntExtra(resources.getString(R.string.request_code), getResources().getInteger(R.integer.group_setting_code));
+        noColorToast = Toast.makeText(this, resources.getString(R.string.no_group_color_text), Toast.LENGTH_SHORT);
+        noNameToast = Toast.makeText(this, resources.getString(R.string.group_name_hint), Toast.LENGTH_SHORT);
+
+        groupDBCtrl = new GroupDBController(resources);
 
         /** Set submit button **/
         submitBtn = findViewById(R.id.submit_button);
+        int requestCode = getIntent().getIntExtra(
+                resources.getString(R.string.request_code),
+                getResources().getInteger(R.integer.group_setting_code)
+        );
         if(requestCode == resources.getInteger(R.integer.group_management_code)) {
             submitBtn.setVisibility(View.GONE);
         }
         /* ~Set submit button */
 
+        /****/
+        textInputEditText = findViewById(R.id.group_name_edit_text);
+
         /** Set group list view **/
-        groupList = new GroupDBController(resources).getAllGroups();
+        groupList = groupDBCtrl.getAllGroups(groupList);
 
         adapter = new ListViewAdapter<>(
                 groupList,
@@ -103,35 +115,8 @@ public class GroupManagementActivity extends AppCompatActivity {
         groupListView.setAdapter(adapter);
         /* ~Set group list view */
 
-        btnAdd = (Button) findViewById(R.id.btn_color);
-    }
-
-    public void toadd(View view) {
-        // Check focusing
-        View focusedView = getCurrentFocus();
-        if (focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-        // ~Check focusing
-        this.finish();
-    }
-
-    public void bringUpGroupColor(View view) {
-        Intent intent = new Intent(getApplicationContext(), Group_Color.class);
-        startActivityForResult(intent,REQUEST_CODE);
-    }
-
-    @SuppressLint("ResourceAsColor")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE) {
-            result = data.getStringExtra("result");
-            txt_color.setText(result);
-
-            // 색선택되면 화면에 뜨게해야함..
-        }
+        groupColorBtn = findViewById(R.id.group_color_button);
+        groupColorBtn.setActivated(true);
     }
 
     public void submit(View view) {
@@ -142,6 +127,70 @@ public class GroupManagementActivity extends AppCompatActivity {
         );
         setResult(RESULT_FIRST_USER, intent);
         this.finish();
+    }
+
+    public void bringUpGroupColorSetting(View view) {
+        Intent intent = new Intent(this, GroupColorSetting.class);
+        int code = resources.getInteger(R.integer.group_color_setting_code);
+        startActivityForResult(intent, code);
+    }
+
+    public void backToMain(View view) {
+        // Check focusing
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        // ~Check focusing
+        this.finish();
+    }
+
+    public void addGroup(View view) {
+        if(newGroup == null) {
+            noColorToast.show();
+        }
+        else {
+            String newGroupName = textInputEditText.getText().toString();
+            if(newGroupName == null || newGroupName.isEmpty()) {
+                noNameToast.show();
+            }
+            else {
+                newGroup.setGroupName(newGroupName);
+                groupDBCtrl.insertGroup(newGroup);
+
+                newGroupName = null;
+                groupColorBtn.getDrawable().mutate().setTint(resources.getColor(R.color.light_gray, null));
+                textInputEditText.setText("");
+                groupList = groupDBCtrl.getAllGroups(groupList);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /** Success to receive data **/
+        if(resultCode == Activity.RESULT_FIRST_USER) {
+            if (requestCode == resources.getInteger(R.integer.group_color_setting_code)) {
+                int colorInt = data.getIntExtra(
+                        resources.getString(R.string.group_color_setting_key),
+                        resources.getColor(R.color.light_gray, null)
+                );
+
+                if(newGroup == null) {
+                    newGroup = new Group();
+                }
+                String selectedColor = String.format("#%08X", (0xFFFFFFFF & colorInt));
+                newGroup.setGroupColor(selectedColor);
+
+                groupColorBtn.getDrawable().mutate().setTint(colorInt);
+            }
+        }
+        /* ~Success to receive data */
     }
 
     class RadioButtonListener implements View.OnClickListener {

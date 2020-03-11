@@ -4,24 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -32,15 +26,10 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DateDBController;
-import com.willy.will.detail.view.DeletePopupActivity;
 import com.willy.will.detail.view.DetailActivity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static com.willy.will.common.controller.App.getContext;
 
 public class CalendarActivity extends Activity {
     private String[] currentDate = null;
