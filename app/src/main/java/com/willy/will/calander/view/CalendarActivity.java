@@ -156,6 +156,7 @@ public class CalendarActivity extends Activity {
         // ~set ListView Click Listener
 
         // setListView Height
+        /*
         ViewGroup.LayoutParams params = calendarList.getLayoutParams();
 
         int height = 134;// findViewById(R.id.calendarListView).getMeasuredHeight();
@@ -163,6 +164,7 @@ public class CalendarActivity extends Activity {
         params.height = height * listSize;
         calendarList.setLayoutParams(params);
         calendarList.requestLayout();
+        */
         // ~setListView Height
     }
 
