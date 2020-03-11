@@ -147,7 +147,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                         R.drawable.ic_loop_24px,
                         null
                 ));
-                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorPrimary));
             }
             else {
                 imgRoutine.setVisibility(View.GONE);
