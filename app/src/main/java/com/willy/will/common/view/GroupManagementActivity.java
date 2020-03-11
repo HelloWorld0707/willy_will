@@ -1,51 +1,76 @@
 package com.willy.will.common.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.willy.will.R;
+import com.willy.will.adapter.ListViewAdapter;
+import com.willy.will.common.controller.ListViewHolder;
+import com.willy.will.common.model.Group;
+import com.willy.will.database.GroupDBController;
 
 import java.util.ArrayList;
 
 public class GroupManagementActivity extends AppCompatActivity {
-    ArrayList<String> Items;
-    ArrayAdapter<String> Adapter;
-    ListView listView;
+
     Button btnAdd,btnDel;
     TextView Group_Text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group_management);
 
-        setContentView(R.layout.activity_item_add_group);
+        /** Set group list view **/
+        ArrayList<Group> groupList = new ArrayList<>();
+        groupList = new GroupDBController(getResources()).getAllGroups();
 
-        Items = new ArrayList<String>();
-        Items.add("운동");
-        Items.add("공부");
-        Items.add("레슨");
+        ListViewAdapter<Group> adapter = new ListViewAdapter<>(
+                groupList,
+                R.layout.item_group,
+                new ListViewHolder<Group>() {
+                    private ImageView groupColorView;
+                    private TextView groupName;
 
-        Adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_single_choice,Items);
-        listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(Adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                    @Override
+                    public void setView(View convertView) {
+                        groupColorView = convertView.findViewById(R.id.group_color);
+                        groupName = convertView.findViewById(R.id.group_name);
+                    }
 
-        //Group_Text = findViewById(R.id.Group_Text);
+                    @Override
+                    public void bindData(Group data) {
+                        /** Set the group color circle **/
+                        if(data.getGroupId() == 0) {
+                            groupColorView.setActivated(false);
+                        }
+                        else {
+                            groupColorView.setActivated(true);
+                            groupColorView.getDrawable().mutate().setTint(Color.parseColor(data.getGroupColor()));
+                        }
+                        /* ~Set the group color circle */
+
+                        /** Set the group name **/
+                        groupName.setText(data.getGroupName());
+                        /* ~Set the group name */
+                    }
+                }
+        );
+
+        ListView groupListView = (ListView) findViewById(R.id.group_list_view);
+        groupListView.setAdapter(adapter);
+        /* ~Set group list view */
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
-        //btnDel = (Button) findViewById(R.id.btnDel);
-
-
-        /**btnAdd.setOnClickListener(listener);
-        //btnDel.setOnClickListener(listener);**/
     }
 
     public void toadd(View view) {
