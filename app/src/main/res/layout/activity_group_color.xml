@@ -13,8 +13,8 @@
         android:orientation="horizontal">
 
         <Button
+            android:onClick="color1_checked"
             android:id="@+id/color1"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -24,8 +24,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:onClick="color2_checked"
             android:id="@+id/color2"
-            style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -35,6 +35,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:onClick="color3_checked"
             android:id="@+id/color3"
             style="@style/ActionBtnStyle2"
             android:layout_width="30dp"
@@ -52,9 +53,8 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:background="@drawable/circle_button4"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="color4_checked"
             app:layout_constraintStart_toEndOf="@+id/color3"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,8 +66,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/circle_button5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/color1" />
+            android:onClick="color5_checked"
+            app:layout_constraintStart_toEndOf="@+id/color4"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/color6"
@@ -76,9 +77,12 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/circle_button6"
+            android:onClick="color6_checked"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/color5"
-            app:layout_constraintTop_toBottomOf="@+id/color2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/color7"
@@ -87,9 +91,12 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/circle_button7"
-            app:layout_constraintStart_toEndOf="@+id/color6"
-            app:layout_constraintTop_toBottomOf="@+id/color3" />
+            android:onClick="color7_checked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/color1" />
 
         <Button
             android:id="@+id/color8"
@@ -98,11 +105,12 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/circle_button8"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="color8_checked"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/color7"
-            app:layout_constraintTop_toBottomOf="@+id/color4" />
+            app:layout_constraintTop_toBottomOf="@+id/color2" />
 
         <Button
             android:id="@+id/color9"
@@ -113,9 +121,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/circle_button9"
+            android:onClick="color9_checked"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/color5" />
+            app:layout_constraintStart_toEndOf="@+id/color8"
+            app:layout_constraintTop_toBottomOf="@+id/color3" />
 
         <Button
             android:id="@+id/color10"
@@ -126,9 +135,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/circle_button10"
+            android:onClick="color10_checked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/color9"
-            app:layout_constraintTop_toBottomOf="@+id/color6" />
+            app:layout_constraintTop_toBottomOf="@+id/color4" />
 
         <Button
             android:id="@+id/colot11"
@@ -139,9 +149,10 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/circle_button11"
+            android:onClick="color11_checked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/color10"
-            app:layout_constraintTop_toBottomOf="@+id/color7" />
+            app:layout_constraintTop_toBottomOf="@+id/color5" />
 
         <Button
             android:id="@+id/color12"
@@ -153,17 +164,13 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/circle_button12"
+            android:onClick="color12_checked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/colot11"
-            app:layout_constraintTop_toBottomOf="@+id/color8" />
+            app:layout_constraintTop_toBottomOf="@+id/color6" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include layout="@layout/layout_popup_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/basic_margin" />
 
 </LinearLayout>
