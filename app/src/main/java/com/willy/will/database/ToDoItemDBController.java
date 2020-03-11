@@ -80,6 +80,8 @@ public class ToDoItemDBController {
             toDoId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.to_do_id_column)));
             rank = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_important_column)));
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
+            color = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
+            loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_column)));
 
             curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop);
             toDoItemList.add(curToDoItem);

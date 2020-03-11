@@ -128,6 +128,7 @@ public class SearchController {
                 resources.getString(R.string.temporary_table_for_search_query),
                 itemNameQuery + groupsQuery + doneQuery + loopQuery + startDateQuery + endDateQuery
         ).replace("WHERE  AND", "WHERE");
+        tempTable += " INNER JOIN " + resources.getString(R.string.group_table) + " USING (" + resources.getString(R.string.group_id_column) + ")";
         /* ~Set the temporary table */
 
         toDoList = toDoItemDBController.searchToDoItems(toDoList, tempTable);

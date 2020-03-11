@@ -140,10 +140,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             String color = mitem.getColor();
             int id = mitem.getItemId();
             int loop = mitem.getLoop();
-            imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
-                        R.drawable.ic_loop_24px, null));
-            if(loop == 1){
+            if(loop == 1) {
+                imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(
+                        App.getContext().getResources(),
+                        R.drawable.ic_loop_24px,
+                        null
+                ));
                 imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorPrimary));
+            }
+            else {
+                imgRoutine.setVisibility(View.GONE);
             }
 
             int rank = mitem.getRank();
