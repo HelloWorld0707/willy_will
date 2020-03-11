@@ -89,6 +89,7 @@
     <string name="selected_group_from_main">Group</string>
     <string name="item_id">itemId</string>
     <string name="selected_tasks_key">selectedTaskKeys</string>
+    <string name="group_setting_key">groupSettingKey</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->

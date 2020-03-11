@@ -12,15 +12,25 @@ import java.util.ArrayList;
 
 public class ListViewAdapter<T> extends BaseAdapter {
 
-    private ArrayList<T> list = null;
-    private int layoutId = -1;
+    private ArrayList<T> list;
+    private int layoutId;
+    private ListViewHolder holder;
 
-    private ListViewHolder holder = null;
+    private int selectedPosition;
 
     public ListViewAdapter(ArrayList<T> list, int layoutId, ListViewHolder holder) {
         this.list = list;
         this.layoutId = layoutId;
         this.holder = holder;
+        selectedPosition = 0;
+    }
+
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
     }
 
     @Override
@@ -45,8 +55,9 @@ public class ListViewAdapter<T> extends BaseAdapter {
             convertView = inflater.inflate(layoutId, parent, false);
         }
 
-        holder.setView(convertView);
-        holder.bindData(list.get(position));
+        holder.setView(position, convertView);
+        boolean selected = (position == selectedPosition ? true : false);
+        holder.bindData(list.get(position), selected);
 
         return convertView;
     }
