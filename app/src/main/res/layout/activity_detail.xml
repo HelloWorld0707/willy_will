@@ -58,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_list_thick_height"
                 android:background="@drawable/round_corner"
+                android:paddingBottom="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/group_area"
                 app:layout_constraintEnd_toEndOf="parent"
