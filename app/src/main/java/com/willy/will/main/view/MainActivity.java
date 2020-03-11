@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
 
         /**set fragment**/
         dbController = new GroupDBController(resources);
-        groupList = dbController.getAllGroups();
+        groupList = dbController.getAllGroups(groupList);
         groupId = -1;
         fragmentmain = MainFragment.getInstance(sendDate,groupId);
 

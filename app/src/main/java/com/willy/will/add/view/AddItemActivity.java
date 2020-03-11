@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
-import com.willy.will.common.view.Group_Color;
+import com.willy.will.common.view.GroupColorSetting;
 import com.willy.will.database.DBAccess;
 
 import java.text.ParseException;
@@ -164,7 +164,7 @@ public class AddItemActivity extends Activity{
 
     }
     public void bringUpgroupcolor(View view) {
-        Intent intent = new Intent(this, Group_Color.class);
+        Intent intent = new Intent(this, GroupColorSetting.class);
     }
 
     // Start Date Picker Dialog for start of start date

@@ -5,8 +5,6 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.core.content.ContextCompat;
-
 import com.willy.will.R;
 import com.willy.will.common.controller.App;
 
@@ -48,7 +46,7 @@ public class DBAccess extends SQLiteOpenHelper {
                 resources.getString(R.string.group_color_column) + " TEXT NOT NULL, " +
                 "PRIMARY KEY(" + resources.getString(R.string.group_id_column) + ") );"
         );
-        String noGroupColorStr = String.format("#%08X", (0xFFFFFFFF & ContextCompat.getColor(App.getContext(), R.color.colorNoGroup)));
+        String noGroupColorStr = String.format("#%08X", (0xFFFFFFFF & resources.getColor(R.color.colorNoGroup, null)));
         db.execSQL("" +
                 "INSERT INTO " + resources.getString(R.string.group_table) + "(" +
                 resources.getString(R.string.group_id_column) + ", " +

@@ -68,6 +68,11 @@
     <string name="copyright">© 2020 Willy All Rights Reserved</string>
     <!-- ~navigation drawer -->
 
+    <!-- group management -->
+    <string name="group_name_hint">그룹 이름을 작성하십시오.</string>
+    <string name="no_group_color_text">그룹 색상을 선택하십시오.</string>
+    <!-- ~group management -->
+
     <!-- task management -->
     <string name="no_checked_task">항목을 체크하십시오.</string>
     <!-- ~task management -->
@@ -91,6 +96,7 @@
     <string name="item_id">itemId</string>
     <string name="selected_tasks_key">selectedTaskKeys</string>
     <string name="group_setting_key">groupSettingKey</string>
+    <string name="group_color_setting_key">groupColorSettingKey</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
@@ -110,6 +116,11 @@
     <string name="unit_short">m</string>
     <string name="unit_long">km</string>
     <!-- ~distance -->
+
+    <!-- group color -->
+    <string name="group_color_view_name">color</string>
+    <string name="group_color_name">colorGroup</string>
+    <!-- ~group color -->
     <!-- #################### ~value #################### -->
 
     <!-- add text -->

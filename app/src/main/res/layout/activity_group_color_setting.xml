@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/PopupStyle"
+    android:layout_width="240dp"
+    android:orientation="vertical"
+    tools:context=".common.view.GroupColorSetting">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/basic_padding">
+
+        <ImageView
+            android:id="@+id/color1"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color2"
+            app:layout_constraintBottom_toTopOf="@id/color4" />
+
+        <ImageView
+            android:id="@+id/color2"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/color1"
+            app:layout_constraintEnd_toStartOf="@id/color3"
+            app:layout_constraintBottom_toTopOf="@id/color5" />
+
+        <ImageView
+            android:id="@+id/color3"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/color2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/color6" />
+
+        <ImageView
+            android:id="@+id/color4"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toBottomOf="@id/color1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color5"
+            app:layout_constraintBottom_toTopOf="@id/color7" />
+
+        <ImageView
+            android:id="@+id/color5"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toBottomOf="@id/color2"
+            app:layout_constraintStart_toEndOf="@id/color4"
+            app:layout_constraintEnd_toStartOf="@id/color6"
+            app:layout_constraintBottom_toTopOf="@id/color8" />
+
+        <ImageView
+            android:id="@+id/color6"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toBottomOf="@id/color3"
+            app:layout_constraintStart_toEndOf="@id/color5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/color9" />
+
+        <ImageView
+            android:id="@+id/color7"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toBottomOf="@id/color4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/color8"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/color8"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toBottomOf="@id/color5"
+            app:layout_constraintStart_toEndOf="@id/color7"
+            app:layout_constraintEnd_toStartOf="@id/color9"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/color9"
+            style="@style/GroupColorStyle"
+            app:layout_constraintTop_toBottomOf="@id/color6"
+            app:layout_constraintStart_toEndOf="@id/color8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/layout_popup_bottom" />
+
+</LinearLayout>

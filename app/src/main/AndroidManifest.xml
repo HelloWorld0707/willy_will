@@ -33,10 +33,6 @@
             </intent-filter>
         </activity> <!-- set addItem Activity -->
         <activity
-            android:name=".common.view.Group_Color"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/PopupTheme"/>
-        <activity
             android:name=".add.view.AddItemActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" /> <!-- set searchItem Activity -->
         <activity
@@ -69,6 +65,10 @@
             android:name=".common.view.GroupManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".add.view.AddItemActivity" />
+        <activity
+            android:name=".common.view.GroupColorSetting"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme"/>
         <activity
             android:name=".calander.view.CalendarActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
