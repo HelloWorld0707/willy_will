@@ -78,9 +78,12 @@
             android:name=".setting.TaskManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".setting.DeleteTasksPopupActivity"
+            android:name=".setting.ManageTasksPopupActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".add.view.LocationSearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <receiver android:name=".receiver.DeviceBootReceiver">
             <intent-filter>

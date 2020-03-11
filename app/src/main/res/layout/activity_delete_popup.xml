@@ -14,6 +14,7 @@
         <!-- ~Third Line -->
         <!-- First Line -->
         <TextView
+            android:id="@+id/notice_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"

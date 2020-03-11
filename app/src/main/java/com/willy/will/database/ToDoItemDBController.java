@@ -66,6 +66,7 @@ public class ToDoItemDBController {
         String name = null;
         String color = null;
         int loop = -1;
+
         while(cursor.moveToNext()) {
             itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
             groupId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_id_column)));

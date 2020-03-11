@@ -36,7 +36,8 @@
     <string name="location">위치</string>
     <string name="item_modify">수정</string>
     <string name="item_delete">삭제</string>
-    <string name="delete_msg">할 일을 삭제하겠습니까?</string>
+    <string name="delete_msg">할 일을 삭제하시겠습니까?</string>
+    <string name="move_msg">그룹을 변경하시겠습니까?</string>
     <!-- ~detail -->
 
     <!-- search -->
@@ -89,6 +90,7 @@
     <string name="selected_group_from_main">Group</string>
     <string name="item_id">itemId</string>
     <string name="selected_tasks_key">selectedTaskKeys</string>
+    <string name="group_setting_key">groupSettingKey</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
@@ -119,6 +121,7 @@
     <string name="end_date_text">종료날짜</string>
     <string name="start_date_key">startDate</string>
     <string name="end_date_key">endDate</string>
+    <string name="location_placeholder">장소명으로 검색</string>
 
     <string name="First">중요도1</string>
     <string name="Second">중요도2</string>

@@ -94,6 +94,14 @@
         <item name="android:layout_margin">@dimen/detail_icon_margin</item>
     </style>
 
+    <style name="CloseBtnStyle">
+        <item name="android:layout_width">@dimen/actionbar_button_size</item>
+        <item name="android:layout_height">@dimen/actionbar_button_size</item>
+        <item name="android:background">@drawable/ic_rounded_close_24px</item>
+        <item name="android:layout_margin">@dimen/detail_icon_margin</item>
+        <item name="android:backgroundTint">@color/dark_gray</item>
+    </style>
+
     <style name="DetailListStyle">
         <item name="android:paddingRight">@dimen/detail_list_padding</item>
         <item name="android:paddingLeft">@dimen/detail_list_padding</item>
@@ -103,6 +111,17 @@
         <item name="android:textSize">@dimen/detail_title_style</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LocationTitleStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16dp</item>
+        <item name="color">@color/almost_black</item>
+    </style>
+
+    <style name="LocationTextStyle">
+        <item name="color">@color/dark_gray</item>
+
     </style>
 
     <style name="DetailDayStyle">
