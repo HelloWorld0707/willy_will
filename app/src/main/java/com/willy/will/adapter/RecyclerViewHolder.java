@@ -140,10 +140,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             String color = mitem.getColor();
             int id = mitem.getItemId();
             int loop = mitem.getLoop();
-            imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(App.getContext().getResources(),
-                        R.drawable.ic_loop_24px, null));
-            if(loop == 1){
-                imgRoutine.getDrawable().mutate().setTint(ContextCompat.getColor(App.getContext(), R.color.colorPrimary));
+            if(loop == 1) {
+                imgRoutine.setVisibility(View.VISIBLE);
+                imgRoutine.setImageDrawable(ResourcesCompat.getDrawable(
+                        App.getContext().getResources(),
+                        R.drawable.ic_loop_24px,
+                        null
+                ));
+            }
+            else {
+                imgRoutine.setVisibility(View.GONE);
             }
 
             int rank = mitem.getRank();
@@ -168,12 +174,17 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         // Group
         else if(type == RecyclerViewItemType.GROUP_SEARCH) {
             Group group = (Group) data;
-            textOnlyView.setText(group.getGroupName());
             // Hide a ghost item for changing selection mode of multiple selection
             if(group.getGroupName().equals("")) {
                 if(textOnlyView.getVisibility() != View.GONE) {
                     textOnlyView.setVisibility(View.GONE);
                 }
+            }
+            else {
+                if(textOnlyView.getVisibility() == View.GONE) {
+                    textOnlyView.setVisibility(View.VISIBLE);
+                }
+                textOnlyView.setText(group.getGroupName());
             }
         }
         // Done or Loop
