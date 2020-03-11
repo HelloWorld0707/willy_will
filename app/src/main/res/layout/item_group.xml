@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,14 +16,14 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/basic_margin"
             android:layerType="software"
-            android:state_activated="true"
             android:src="@drawable/group_color"
+            android:state_activated="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/task_name"
+            android:id="@+id/group_name"
             style="@style/TextRecyclerItemStyle"
             android:layout_width="wrap_content"
             android:background="@android:color/transparent"
@@ -31,27 +32,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/group_color" />
 
-        <TextView
-            android:id="@+id/d_day_or_achievement"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/basic_padding"
-            android:gravity="center"
-            android:textSize="@dimen/task_recycler_item_additional_text_size"
-            android:textColor="@color/colorString"
-            android:text="TextView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/check_box" />
-
-        <CheckBox
-            android:id="@+id/check_box"
+        <RadioButton
+            android:id="@+id/radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/checkbox_margin_start"
-            android:layout_marginEnd="@dimen/checkbox_margin_end"
-            android:buttonTint="@color/colorPrimary"
-            android:checked="false"
+            android:layout_marginHorizontal="@dimen/basic_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

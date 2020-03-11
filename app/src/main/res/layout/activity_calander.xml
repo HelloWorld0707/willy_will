@@ -28,7 +28,7 @@
     <ScrollView
         android:background="#eeeeee"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,8 +69,8 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/round_corner2"
                 app:mcv_selectionColor="#007FFF"
                 app:mcv_showOtherDates="all" />
@@ -81,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner2"
                 android:dividerHeight="0px"
-                android:divider="#00000000"/>
+                android:divider="#00000000"
+                android:visibility="invisible"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:verticalScrollbarPosition="right"
-    android:background="#eeeeee">
+    android:background="#eeeeee"
+    tools:context=".common.view.GroupManagementActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -18,12 +19,17 @@
 
         <ImageButton
             android:id="@+id/back_button"
-            style="@style/ActionBtnStyle"
-            android:layout_width="30dp"
+            style="@style/BackButtonStyle"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="50dp"
-            android:foreground="?attr/homeAsUpIndicator"
             android:onClick="toadd" />
+
+        <ImageButton
+            android:id="@+id/submit_button"
+            style="@style/ActionBtnStyle"
+            android:layout_alignParentEnd="true"
+            android:foreground="@drawable/ic_rounded_check_24px"
+            android:onClick="submit" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -36,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <Button
-            android:id="@+id/bnt_color"
+            android:id="@+id/btn_color"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentTop="true"
@@ -68,12 +74,14 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout3">
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/group_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#ffffff" />
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:choiceMode="none"
+            android:listSelector="@android:color/transparent"
+            android:divider="@null" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

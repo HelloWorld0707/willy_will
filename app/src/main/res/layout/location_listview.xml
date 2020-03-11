@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="fill_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/checkbox_margin_start"
+            android:layout_marginEnd="@dimen/checkbox_margin_end"
+            android:buttonTint="@color/colorPrimary"
+            android:background="@drawable/ic_place_black_24dp"
+            android:checked="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/place_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/LocationTitleStyle"
+                android:paddingTop="3dp"
+                android:text="상점명 노출영역"/>
+            <TextView
+                android:id="@+id/address_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/LocationTextStyle"
+                android:paddingTop="3dp"
+                android:text="도로명 노출 영역"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+

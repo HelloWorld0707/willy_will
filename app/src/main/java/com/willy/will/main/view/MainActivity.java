@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity{
     /** Move to GroupManagementActivity */
     public void btnGrSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
+        intent.putExtra(resources.getString(R.string.request_code), resources.getInteger(R.integer.group_management_code));
         drawer.closeDrawer(drawerView);
         startActivity(intent);
     }
