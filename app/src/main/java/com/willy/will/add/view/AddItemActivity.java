@@ -235,7 +235,8 @@ public class AddItemActivity extends Activity{
     }
 
     public void add_insert(View view){
-        // 실제 sql문을 수행하기 위한
+
+
         SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
 
         /** 테이블 : _CALENDAR  삽입******************************************************************/
@@ -271,11 +272,12 @@ public class AddItemActivity extends Activity{
                 to_do_id + "')"
         );
 
-
-
         Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
+
         finish();
     }
+
+
 }
 
 
