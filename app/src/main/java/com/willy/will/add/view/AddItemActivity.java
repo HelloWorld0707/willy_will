@@ -231,37 +231,46 @@ public class AddItemActivity extends Activity{
     }
 
     public void add_insert(View view){
-
-        /** group add **/
-        CREATE TABLE "_ITEM" (
-                "item_id"	INTEGER NOT NULL,
-                "group_id"	INTEGER,
-                "item_name"	TEXT NOT NULL,
-                "item_important"	INTEGER,
-                "latitude"	TEXT,
-                "longitude"	TEXT,
-                "done_date"	TEXT,
-                "start_date"	TEXT NOT NULL,
-                "end_date"	TEXT NOT NULL,
-                "to_do_id"	INTEGER,
-                PRIMARY KEY("item_id")
-
-        String names = Title_editText.getText().toString();
-
-        test_view.setText(names+colors);
-
         // 실제 sql문을 수행하기 위한
         SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
 
-        db.execSQL("INSERT INTO _GROUP ()" +
-                "VALUES (' " + names + " ', ' " + colors + " '); ");
+        /** 테이블 : _CALENDAR  삽입******************************************************************/
+        String calendar_dates = "2020-02-13";
+        int item_id=100;
+        db.execSQL("" +
+                "INSERT INTO _CALENDAR(calendar_date, item_id)" +
+                "VALUES(" + calendar_dates + ", '" + item_id+ "')"
+        );
+
+
+        /** 테이블 : _ITEM  삽입***********************************************************************/
+        int group_id = 100; //group_id
+        String item_name = Title_editText.getText().toString(); //item_name
+        int item_important =100; //item_important
+        String latitude = "111.111.111"; //latitude
+        String longitude = "111.333.222"; //longitude
+        String done_date = "2020-03-20"; //done_date
+        String start_date = "2020-03-20"; //start_date
+        String end_date = "2020-03-20"; //end_date
+        int to_do_id = 100; // to_do_id
+
+        db.execSQL("" +
+                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                "VALUES(" +
+                group_id + ", '" +
+                item_name + "', '" +
+                item_important + "', '" +
+                latitude + "', '" +
+                longitude + "', '" +
+                done_date + "', '" +
+                start_date + "', '" +
+                end_date + "', '" +
+                to_do_id + "')"
+        );
 
         Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
-
         finish();
     }
-
-
 }
 
 
