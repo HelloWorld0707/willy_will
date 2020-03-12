@@ -18,10 +18,10 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
-import com.willy.will.common.view.GroupColorSetting;
 import com.willy.will.database.DBAccess;
 
 import java.text.ParseException;
@@ -50,7 +50,7 @@ public class AddItemActivity extends Activity{
     Switch repeat_switch;
     TextView Text_start;
     TextView Text_end;
-    EditText Title_editText,Group_editText;
+    EditText Title_editText;
 
     long now = System.currentTimeMillis();
     Date date = new Date(now);
@@ -104,7 +104,6 @@ public class AddItemActivity extends Activity{
         end_date = getString(R.string.end_date_key);
 
         Title_editText = (EditText)findViewById(R.id.Title_editText);
-        Group_editText = (EditText)findViewById(R.id.Group_editText);
 
         /** edit keyboard invisible 1 **/
         Title_editText.setInputType(0);
@@ -116,18 +115,6 @@ public class AddItemActivity extends Activity{
                 mgr.showSoftInput(Title_editText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
-
-        /** edit keyboard invisible **/
-        Group_editText.setInputType(0);
-        Group_editText.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Group_editText.setInputType(1);
-                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mgr.showSoftInput(Group_editText, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-
 
         /******* Group buuton -> moving ********************/
         Button bnt_group = findViewById(R.id.bnt_group);
@@ -160,11 +147,9 @@ public class AddItemActivity extends Activity{
             }
         });
 
-
-
     }
     public void bringUpgroupcolor(View view) {
-        Intent intent = new Intent(this, GroupColorSetting.class);
+        Intent intent = new Intent(this, GroupManagementActivity.class);
     }
 
     // Start Date Picker Dialog for start of start date
@@ -246,19 +231,36 @@ public class AddItemActivity extends Activity{
     }
 
     public void add_insert(View view){
-        //String Title = Title_editText.getText().toString();
-        String Groupname = "테스트다";
-        String Groupcolor = "#0000000";
+
+        /** group add **/
+        CREATE TABLE "_ITEM" (
+                "item_id"	INTEGER NOT NULL,
+                "group_id"	INTEGER,
+                "item_name"	TEXT NOT NULL,
+                "item_important"	INTEGER,
+                "latitude"	TEXT,
+                "longitude"	TEXT,
+                "done_date"	TEXT,
+                "start_date"	TEXT NOT NULL,
+                "end_date"	TEXT NOT NULL,
+                "to_do_id"	INTEGER,
+                PRIMARY KEY("item_id")
+
+        String names = Title_editText.getText().toString();
+
+        test_view.setText(names+colors);
 
         // 실제 sql문을 수행하기 위한
         SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
 
-        db.execSQL("insert into _GROUP (group_name, group_color) values(?,?)",
-                new String[]{Groupname,Groupcolor});
-        db.close();
+        db.execSQL("INSERT INTO _GROUP ()" +
+                "VALUES (' " + names + " ', ' " + colors + " '); ");
+
+        Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
 
         finish();
     }
+
 
 }
 

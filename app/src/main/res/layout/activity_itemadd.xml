@@ -124,14 +124,16 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/Group_editText"
+                    <TextView
+                        android:id="@+id/Group_Textview"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:ems="10"
                         android:hint="@string/edit_Group"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPersonName"
+                        android:textSize="18sp"
+                        android:gravity="center|left"/>
                 </RelativeLayout>
 
                 <RelativeLayout
