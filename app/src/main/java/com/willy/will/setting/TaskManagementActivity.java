@@ -84,7 +84,6 @@ public class TaskManagementActivity extends AppCompatActivity {
                 selectedTasks.add(curTask);
             }
         }
-
         if(selectedTasks.isEmpty()) {
             noCheckedTask.show();
         }

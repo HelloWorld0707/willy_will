@@ -1,5 +1,6 @@
 package com.willy.will.add.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -10,14 +11,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
@@ -42,9 +47,14 @@ public class AddItemActivity extends Activity{
     private View checkBox_group;
 
     private Spinner important;
-    private TextView important_result;
+    private String important_string = null;
+    private int important_result;
 
     public static DBAccess dbHelper;
+
+    ImageButton check_button;
+    private String[] check_value = new String[7];
+    private String check_result = null;
 
     Switch repeat_switch;
     TextView Text_start;
@@ -57,8 +67,8 @@ public class AddItemActivity extends Activity{
     String formatDate = sdfNow.format(date);
     TextView dateNow;
 
-    private SQLiteDatabase readDatabase;
-    private SQLiteDatabase writeDatabase;
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +78,84 @@ public class AddItemActivity extends Activity{
         //dummyCreate();
         resources = getResources();
 
-
+        /************************* 중요도 data **************************************/
         important = (Spinner)findViewById(R.id.important);
-        important_result =(TextView)findViewById(R.id.important_result);
+        important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==0){
+                    important_result=1;
+                }
+                else if(position==1){
+                    important_result=2;
+                }
+                else if(position==2){
+                    important_result=3;
+                }else{
+                    important_result=4;
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        /************************* 반복 data **************************************/
+        final CheckBox Monday = (CheckBox)findViewById(R.id.Monday);
+        final CheckBox Tuesday = (CheckBox)findViewById(R.id.Tuesday);
+        final CheckBox Wednesday = (CheckBox)findViewById(R.id.Wednesday);
+        final CheckBox Thursday = (CheckBox)findViewById(R.id.Thursday);
+        final CheckBox Friday = (CheckBox)findViewById(R.id.Friday);
+        final CheckBox Saturday = (CheckBox)findViewById(R.id.Saturday);
+        final CheckBox sunday = (CheckBox)findViewById(R.id.sunday);
+        check_button = (ImageButton)findViewById(R.id.check_button);
+        check_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String result = "";  // 결과를 출력할 문자열  ,  항상 스트링은 빈문자열로 초기화 하는 습관을 가지자
+                if(Monday.isChecked() == true) {
+                    check_value[0] = "1";
+                }else{
+                    check_value[0] = "0";
+                }
+                if(Tuesday.isChecked() == true) {
+                    check_value[1] = "1";
+                }else{
+                    check_value[1] = "0";
+                }
+                if(Wednesday.isChecked() == true) {
+                    check_value[2] = "1";
+                }else{
+                    check_value[2] = "0";
+                }
+                if(Thursday.isChecked() == true) {
+                    check_value[3] = "1";
+                }else{
+                    check_value[3] = "0";
+                }
+                if(Friday.isChecked() == true) {
+                    check_value[4] = "1";
+                }else{
+                    check_value[4] = "0";
+                }
+                if(Saturday.isChecked() == true) {
+                    check_value[5] = "1";
+                }else{
+                    check_value[5] = "0";
+                }
+                if(sunday.isChecked() == true) {
+                    check_value[6] = "1";
+                }else{
+                    check_value[6] = "0";
+                }
+                check_result="";
+                for(int i=0; i<check_value.length;i++){
+
+                    check_result += check_value[i];
+                }
+                Toast.makeText(getApplicationContext(),check_result, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         repeat_switch = (Switch) findViewById(R.id.repeat_switch);
         checkBox_group = findViewById(R.id.checkBox_group);
@@ -149,10 +234,12 @@ public class AddItemActivity extends Activity{
     }
     public void bringUpgroupcolor(View view) {
         Intent intent = new Intent(this, GroupManagementActivity.class);
+        startActivity(intent);
     }
 
     public void bringUplocationSearch(View view){
         Intent intent = new Intent(this, LocationSearchActivity.class);
+        startActivity(intent);
     }
 
     // Start Date Picker Dialog for start of start date
@@ -233,6 +320,41 @@ public class AddItemActivity extends Activity{
         }
     }
 
+    public void add_insert(View view){
+        SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
+
+        /** 테이블 : _CALENDAR  삽입******************************************************************/
+        String calendar_dates = "2020-02-13";
+        int item_id=100;
+        db.execSQL("" +
+                "INSERT INTO _CALENDAR(calendar_date, item_id)" +
+                "VALUES('" + calendar_dates + "', '" + item_id+ "')"
+        );
+
+        /** 테이블 : _ITEM  삽입***********************************************************************/
+        int group_id = 100; //group_id
+        String item_name = Title_editText.getText().toString(); //item_name
+        int item_important = important_result; //item_important
+        String latitude = null; //latitude
+        String longitude = null; //longitude
+        String done_date = null; //done_date
+        String StartDate = start_date;
+        String EndDate = end_date;
+        int to_do_id = 100; // to_do_id
+
+        db.execSQL("" +
+                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                "VALUES(" +
+                group_id + ", '" +
+                item_name + "', '" +
+                item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                StartDate + "', '" +
+                EndDate + "', '" +
+                to_do_id + "')"
+        );
+        Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
+        finish();
+    }
 
 }
 

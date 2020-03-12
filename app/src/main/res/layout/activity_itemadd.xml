@@ -77,7 +77,7 @@
                         android:textSize="32sp" />
 
                     <TextView
-                        android:id="@+id/important_result"
+                        android:id="@+id/important_Vire"
                         android:layout_width="140dp"
                         android:layout_height="35dp"
                         android:layout_alignParentTop="true"
@@ -94,11 +94,8 @@
                         android:id="@+id/important"
                         android:layout_width="100dp"
                         android:layout_height="35dp"
-                        android:layout_below="@+id/important_result"
+                        android:layout_below="@+id/important_Vire"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginEnd="0dp"
-                        android:layout_marginRight="0dp"
                         android:entries="@array/important"
                         android:text="중요도"
                         android:textColor="@color/colorString" />
@@ -207,7 +204,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="30dp">
 
                     <Button
@@ -216,8 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
-                        android:background="#00ff0000"
-                        android:gravity="center|left"
+                        android:gravity="center"
                         android:onClick="bringUplocationSearch"
                         android:text="위치"
                         android:textColor="@color/colorString"
@@ -253,7 +249,13 @@
                         android:textOff="반복안함"
                         android:textOn="반복"
                         android:textSize="18sp" />
-
+                    <ImageButton
+                        android:id="@+id/check_button"
+                        style="@style/ActionBtnStyle"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="366dp"
+                        android:foreground="@drawable/ic_rounded_check_24px"
+                        android:foregroundTint="@color/colorPrimary" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -269,44 +271,44 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <CheckBox
-                        android:id="@+id/checkBox"
+                        android:id="@+id/Monday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="월" />
 
 
                     <CheckBox
-                        android:id="@+id/checkBox2"
+                        android:id="@+id/Tuesday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="화" />
 
                     <CheckBox
-                        android:id="@+id/checkBox3"
+                        android:id="@+id/Wednesday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="수" />
 
                     <CheckBox
-                        android:id="@+id/checkBox4"
+                        android:id="@+id/Thursday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="목" />
 
                     <CheckBox
-                        android:id="@+id/checkBox5"
+                        android:id="@+id/Friday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="금" />
 
                     <CheckBox
-                        android:id="@+id/checkBox6"
+                        android:id="@+id/Saturday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="토" />
 
                     <CheckBox
-                        android:id="@+id/checkBox7"
+                        android:id="@+id/sunday"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="일" />
