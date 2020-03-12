@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
     <color name="colorPrimary">#007fbf</color>
     <color name="colorInactive">#79646464</color>
     <color name="colorNoGroup">#00cccccc</color>
@@ -18,7 +16,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorPrimaryTranslucent">#80007FBF</color>
-    <color name="colorPrimaryBackground">#F2F4FE</color>
+    <color name="colorPrimaryBackground">#F2F5FE</color>
     <color name="light_gray">#ccc</color>
     <color name="dark_gray">#666666</color>
 

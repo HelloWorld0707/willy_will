@@ -55,7 +55,9 @@
     <style name="RoundLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/match_constraint</item>
-        <item name="android:padding">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingHorizontal">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingTop">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingBottom">@dimen/round_corner_layout_padding</item>
         <item name="android:background">@drawable/round_corner2</item>
     </style>
 
