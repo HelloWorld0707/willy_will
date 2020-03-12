@@ -211,6 +211,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         }
 
         itemView.setSelected(isSelected);
+        if(isSelected && (type == RecyclerViewItemType.TASK)) {
+            groupColorCircleView.setSelected(false);
+        }
     }
 
     // Activation of to-do item

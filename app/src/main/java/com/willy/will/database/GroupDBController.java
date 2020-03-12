@@ -60,10 +60,6 @@ public class GroupDBController {
     public void insertGroup(Group newGroup) {
         /** Set column names and values **/
         ContentValues contentValues = new ContentValues();
-        // temp
-        Cursor cursor = readDatabase.rawQuery("SELECT (max(group_id) + 1) AS new_id FROM _GROUP", null);
-        cursor.moveToNext();
-        contentValues.put(resources.getString(R.string.group_id_column), cursor.getInt(cursor.getColumnIndexOrThrow("new_id")));
         contentValues.put(resources.getString(R.string.group_name_column), newGroup.getGroupName());
         contentValues.put(resources.getString(R.string.group_color_column), newGroup.getGroupColor());
         /* Set column names and values */
