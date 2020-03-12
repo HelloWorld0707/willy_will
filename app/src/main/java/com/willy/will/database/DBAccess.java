@@ -76,7 +76,8 @@ public class DBAccess extends SQLiteOpenHelper {
                 resources.getString(R.string.loop_id_column) + " INTEGER NOT NULL" + " autoincrement, " +
                 resources.getString(R.string.to_do_id_column) + " INTEGER NOT NULL," +
                 resources.getString(R.string.loop_week_column) + " TEXT," +
-                "PRIMARY KEY(" + resources.getString(R.string.loop_id_column) + ", " + resources.getString(R.string.to_do_id_column) + ") );"
+                "PRIMARY KEY(" + resources.getString(R.string.loop_id_column) + ") );"
+                //, " + resources.getString(R.string.to_do_id_column) + "
         );
     }
 

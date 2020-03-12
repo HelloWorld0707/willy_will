@@ -152,6 +152,10 @@ public class AddItemActivity extends Activity{
         Intent intent = new Intent(this, GroupManagementActivity.class);
     }
 
+    public void bringUplocationSearch(View view){
+        Intent intent = new Intent(this, LocationSearchActivity.class);
+    }
+
     // Start Date Picker Dialog for start of start date
     public void setStart(View view) {
         dateListener.setKey(start_date_key);
@@ -239,9 +243,8 @@ public class AddItemActivity extends Activity{
         int item_id=100;
         db.execSQL("" +
                 "INSERT INTO _CALENDAR(calendar_date, item_id)" +
-                "VALUES(" + calendar_dates + ", '" + item_id+ "')"
+                "VALUES('" + calendar_dates + "', '" + item_id+ "')"
         );
-
 
         /** 테이블 : _ITEM  삽입***********************************************************************/
         int group_id = 100; //group_id
@@ -249,9 +252,9 @@ public class AddItemActivity extends Activity{
         int item_important =100; //item_important
         String latitude = "111.111.111"; //latitude
         String longitude = "111.333.222"; //longitude
-        String done_date = "2020-03-20"; //done_date
-        String start_date = "2020-03-20"; //start_date
-        String end_date = "2020-03-20"; //end_date
+        String done_date = "NULL"; //done_date
+        String StartDate = start_date;
+        String EndDate = end_date;
         int to_do_id = 100; // to_do_id
 
         db.execSQL("" +
@@ -263,14 +266,17 @@ public class AddItemActivity extends Activity{
                 latitude + "', '" +
                 longitude + "', '" +
                 done_date + "', '" +
-                start_date + "', '" +
-                end_date + "', '" +
+                StartDate + "', '" +
+                EndDate + "', '" +
                 to_do_id + "')"
         );
+
+
 
         Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
         finish();
     }
 }
+
 
 
