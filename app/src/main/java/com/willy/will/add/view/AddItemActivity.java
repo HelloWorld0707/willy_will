@@ -18,7 +18,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.willy.will.R;
 import com.willy.will.common.view.GroupManagementActivity;
@@ -232,49 +231,6 @@ public class AddItemActivity extends Activity{
                 Log.e("DateListener", "Invalid Key");
             }
         }
-    }
-
-    public void add_insert(View view){
-
-
-        SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
-
-        /** 테이블 : _CALENDAR  삽입******************************************************************/
-        String calendar_dates = "2020-02-13";
-        int item_id=100;
-        db.execSQL("" +
-                "INSERT INTO _CALENDAR(calendar_date, item_id)" +
-                "VALUES('" + calendar_dates + "', '" + item_id+ "')"
-        );
-
-        /** 테이블 : _ITEM  삽입***********************************************************************/
-        int group_id = 100; //group_id
-        String item_name = Title_editText.getText().toString(); //item_name
-        int item_important =100; //item_important
-        String latitude = "111.111.111"; //latitude
-        String longitude = "111.333.222"; //longitude
-        String done_date = "NULL"; //done_date
-        String StartDate = start_date;
-        String EndDate = end_date;
-        int to_do_id = 100; // to_do_id
-
-        db.execSQL("" +
-                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
-                "VALUES(" +
-                group_id + ", '" +
-                item_name + "', '" +
-                item_important + "', '" +
-                latitude + "', '" +
-                longitude + "', '" +
-                done_date + "', '" +
-                StartDate + "', '" +
-                EndDate + "', '" +
-                to_do_id + "')"
-        );
-
-        Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
-
-        finish();
     }
 
 
