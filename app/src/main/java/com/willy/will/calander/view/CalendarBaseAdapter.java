@@ -1,6 +1,5 @@
 package com.willy.will.calander.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -47,7 +46,7 @@ public class CalendarBaseAdapter extends BaseAdapter {
 
         DateDBController.ItemNGroup item = getItem(position);
 
-        if(item.getItem_id() != 0) {
+        if(item.getGroup_id() != 0) {
             colorTmp.setActivated(true);
             colorTmp.getDrawable().mutate().setTint(Color.parseColor(item.getGroup_color()));
         }

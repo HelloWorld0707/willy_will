@@ -15,7 +15,6 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/basic_margin"
             android:layerType="software"
-            android:state_activated="true"
             android:src="@drawable/group_color"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
