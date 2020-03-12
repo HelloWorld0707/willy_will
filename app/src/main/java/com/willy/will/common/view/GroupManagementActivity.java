@@ -37,6 +37,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     private InputMethodManager inputMethodManager;
     private ListViewAdapter<Group> adapter;
 
+    private ImageButton startToRemoveBtn;
     private ImageButton submitBtn;
     private ImageButton groupColorBtn;
     private TextInputEditText textInputEditText;
@@ -57,16 +58,20 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         groupDBCtrl = new GroupDBController(resources);
 
-        /** Set submit button **/
+        /** Set start to remove button and submit button **/
+        startToRemoveBtn = findViewById(R.id.start_to_remove_button);
         submitBtn = findViewById(R.id.submit_button);
         int requestCode = getIntent().getIntExtra(
                 resources.getString(R.string.request_code),
                 getResources().getInteger(R.integer.group_setting_code)
         );
+        if(requestCode == getResources().getInteger(R.integer.group_setting_code)) {
+            startToRemoveBtn.setVisibility(View.GONE);
+        }
         if(requestCode == resources.getInteger(R.integer.group_management_code)) {
             submitBtn.setVisibility(View.GONE);
         }
-        /* ~Set submit button */
+        /* ~Set start to remove button and submit button */
 
         /** Set Text Input Edit **/
         textInputEditText = findViewById(R.id.group_name_edit_text);

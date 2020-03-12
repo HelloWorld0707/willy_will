@@ -11,6 +11,8 @@ import com.willy.will.common.model.PopupActivity;
 import com.willy.will.common.model.Task;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class ManageTasksPopupActivity extends PopupActivity {
 
@@ -55,12 +57,17 @@ public class ManageTasksPopupActivity extends PopupActivity {
 
     @Override
     protected boolean setResults(Intent intent) {
+        Queue<Integer> selectedToDoIds = new LinkedList<>();
+        while(!selectedTasks.isEmpty()) {
+            selectedToDoIds.offer(selectedTasks.remove(0).getToDoId());
+        }
+
         TaskManagementController taskMngmntCtrl = new TaskManagementController(resources);
         if(requestCode == MOVE_CODE) {
-            taskMngmntCtrl.moveTasks(selectedGroupId, selectedTasks);
+            taskMngmntCtrl.moveTasks(selectedGroupId, selectedToDoIds);
         }
         else if(requestCode == REMOVE_CODE) {
-            taskMngmntCtrl.removeTasks(selectedTasks);
+            taskMngmntCtrl.removeTasks(selectedToDoIds);
         }
         return true;
     }

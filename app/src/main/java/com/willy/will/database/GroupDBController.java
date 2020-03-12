@@ -10,6 +10,8 @@ import com.willy.will.R;
 import com.willy.will.common.model.Group;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class GroupDBController {
 
@@ -68,6 +70,34 @@ public class GroupDBController {
         long rowId = writeDatabase.insert(resources.getString(R.string.group_table), null, contentValues);
         Log.i("GroupDBController", "Adding: Add group " + rowId);
         /* ~Write DB (INSERT) */
+    }
+
+    public Queue<Integer> getToDoIdsByGroupId(int groupId) {
+        Queue<Integer> toDoIds = new LinkedList<>();
+
+        /** Set Column to_do_id **/
+        String toDoIdColumn = resources.getString(R.string.to_do_id_column);
+        String[] columns = {
+                "DISTINCT " + toDoIdColumn
+        };
+        /* ~Set Column to_do_id */
+
+        /** Read DB **/
+        Cursor cursor = readDatabase.query(
+                resources.getString(R.string.item_table),
+                columns,
+                resources.getString(R.string.group_id_column) + " = " + groupId, null,
+                null, null,
+                null);
+        /* ~Read DB */
+
+        /** Put data in Queue **/
+        while(cursor.moveToNext()) {
+            toDoIds.offer(cursor.getInt(cursor.getColumnIndexOrThrow(toDoIdColumn)));
+        }
+        /* ~Put data in Queue */
+
+        return toDoIds;
     }
 
     public void deleteGroup(int groupId) {

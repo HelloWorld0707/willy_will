@@ -3,10 +3,9 @@ package com.willy.will.setting;
 import android.content.res.Resources;
 
 import com.willy.will.R;
-import com.willy.will.common.model.Task;
 import com.willy.will.database.TaskDBController;
 
-import java.util.ArrayList;
+import java.util.Queue;
 
 public class TaskManagementController {
 
@@ -19,9 +18,9 @@ public class TaskManagementController {
         taskDBCtrl = new TaskDBController(resources);
     }
 
-    public void removeTasks(ArrayList<Task> selectedTasks) {
+    public void removeTasks(Queue<Integer> selectedToDoIds) {
         /** Set to_do_id IN ( ... ) **/
-        String whereToDoIds = setWhereToDoIds(selectedTasks);
+        String whereToDoIds = setWhereToDoIds(selectedToDoIds);
         /* ~Set to_do_id IN ( ... ) */
 
         /** Set item_id IN ( ... ) for deleting items of calendar **/
@@ -35,11 +34,11 @@ public class TaskManagementController {
         taskDBCtrl.deleteTasks(whereToDoIds, whereItemIds);
     }
 
-    private String setWhereToDoIds(ArrayList<Task> selectedTasks) {
+    private String setWhereToDoIds(Queue<Integer> selectedToDoIds) {
         String whereToDoIds = resources.getString(R.string.to_do_id_column) + " IN ( ";
 
-        for(int i = selectedTasks.size() - 1; !selectedTasks.isEmpty(); i--) {
-            whereToDoIds += ( ((Task) selectedTasks.remove(i)).getToDoId() + ", " );
+        while(!selectedToDoIds.isEmpty()) {
+            whereToDoIds += ( selectedToDoIds.poll() + ", " );
         }
 
         int index = whereToDoIds.lastIndexOf(", ");
@@ -52,9 +51,9 @@ public class TaskManagementController {
         return whereToDoIds;
     }
 
-    public void moveTasks(int groupId, ArrayList<Task> selectedTasks) {
+    public void moveTasks(int groupId, Queue<Integer> selectedToDoIds) {
         /** Set to_do_id IN ( ... ) **/
-        String whereToDoIds = setWhereToDoIds(selectedTasks);
+        String whereToDoIds = setWhereToDoIds(selectedToDoIds);
         /* ~Set to_do_id IN ( ... ) */
 
         taskDBCtrl.moveTasks(groupId, whereToDoIds);

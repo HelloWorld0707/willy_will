@@ -28,10 +28,12 @@
     <style name="PopupTheme" parent="DialogTheme">
         <item name="android:windowBackground">@drawable/shape_white_rounded_rectangle</item>
     </style>
+
     <style name="PopupStyle">
         <item name="android:layout_width">@dimen/popup_width</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="PopupTitleStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/icon_button_size</item>
@@ -41,12 +43,34 @@
         <item name="android:textSize">@dimen/popup_title_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="PopupContentsTextViewStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorString</item>
     </style>
     <!-- ~Pop-up Theme & Style -->
+
+    <!-- Round Corner Layout -->
+    <style name="RoundLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/match_constraint</item>
+        <item name="android:padding">@dimen/round_corner_layout_padding</item>
+        <item name="android:background">@drawable/round_corner2</item>
+    </style>
+
+    <style name="TopLayout" parent="RoundLayout">
+        <item name="android:paddingTop">@dimen/match_constraint</item>
+        <item name="android:background">@drawable/round_corner</item>
+        <item name="android:layout_marginBottom">@dimen/basic_margin</item>
+    </style>
+
+    <style name="BottomLayout" parent="RoundLayout">
+        <item name="android:paddingBottom">@dimen/match_constraint</item>
+        <item name="android:background">@drawable/round_top_corner</item>
+        <item name="android:layout_marginTop">@dimen/basic_margin</item>
+    </style>
+    <!-- ~Round Corner Layout -->
 
     <!-- Back Button Style -->
     <style name="BackButtonStyle" parent="ActionBtnStyle">

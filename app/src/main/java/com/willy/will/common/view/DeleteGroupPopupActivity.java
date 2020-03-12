@@ -8,6 +8,9 @@ import com.willy.will.R;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.PopupActivity;
 import com.willy.will.database.GroupDBController;
+import com.willy.will.setting.TaskManagementController;
+
+import java.util.Queue;
 
 public class DeleteGroupPopupActivity extends PopupActivity {
 
@@ -29,7 +32,10 @@ public class DeleteGroupPopupActivity extends PopupActivity {
 
     @Override
     protected boolean setResults(Intent intent) {
-        new GroupDBController(getResources()).deleteGroup(groupId);
+        GroupDBController groupDBCtrl = new GroupDBController(getResources());
+        Queue<Integer> toDoIds = groupDBCtrl.getToDoIdsByGroupId(groupId);
+        new TaskManagementController(getResources()).removeTasks(toDoIds);
+        groupDBCtrl.deleteGroup(groupId);
         return true;
     }
 

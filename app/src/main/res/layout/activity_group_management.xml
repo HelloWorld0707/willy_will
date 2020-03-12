@@ -12,8 +12,8 @@
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#ffffff"
+        android:layout_height="@dimen/detail_list_thick_height"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@id/relativeLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,11 +53,10 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
-        android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:background="@drawable/round_corner"
+        style="@style/TopLayout"
+        android:layout_height="@dimen/detail_list_thick_height"
         android:gravity="center_vertical"
-        app:layout_constraintBottom_toTopOf="@id/relativeLayout3"
+        app:layout_constraintBottom_toTopOf="@id/group_list_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout1">
@@ -102,12 +101,9 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/round_corner2"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/group_list_layout"
+        style="@style/BottomLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -117,12 +113,17 @@
         <ListView
             android:id="@+id/group_list_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
             android:choiceMode="none"
             android:divider="@null"
-            android:listSelector="@android:color/transparent" />
-    </RelativeLayout>
+            android:listSelector="@android:color/transparent"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
