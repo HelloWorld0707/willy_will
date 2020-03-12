@@ -1,4 +1,4 @@
-package com.willy.will.common.controller;
+package com.willy.will.adapter;
 
 import android.view.View;
 

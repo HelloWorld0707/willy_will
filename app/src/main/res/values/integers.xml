@@ -9,8 +9,9 @@
     <integer name="period_search_setting_code">6</integer>
     <integer name="group_management_code">7</integer>
     <integer name="group_color_setting_code">8</integer>
-    <integer name="move_tasks_code">9</integer>
-    <integer name="remove_tasks_code">10</integer>
+    <integer name="remove_group_code">9</integer>
+    <integer name="move_tasks_code">10</integer>
+    <integer name="remove_tasks_code">11</integer>
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->

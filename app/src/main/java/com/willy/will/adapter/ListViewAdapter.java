@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.willy.will.common.controller.ListViewHolder;
-
 import java.util.ArrayList;
 
 public class ListViewAdapter<T> extends BaseAdapter {
@@ -18,11 +16,11 @@ public class ListViewAdapter<T> extends BaseAdapter {
 
     private int selectedPosition;
 
-    public ListViewAdapter(ArrayList<T> list, int layoutId, ListViewHolder holder) {
+    public ListViewAdapter(ArrayList<T> list, int layoutId, ListViewHolder holder, int selectedPosition) {
         this.list = list;
         this.layoutId = layoutId;
         this.holder = holder;
-        selectedPosition = 0;
+        this.selectedPosition = selectedPosition;
     }
 
     public int getSelectedPosition() {

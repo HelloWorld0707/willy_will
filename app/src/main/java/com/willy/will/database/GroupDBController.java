@@ -74,4 +74,15 @@ public class GroupDBController {
         /* ~Write DB (INSERT) */
     }
 
+    public void deleteGroup(int groupId) {
+        /** Set WHERE **/
+        String where = resources.getString(R.string.group_id_column) + " = " + groupId;
+        /* ~Set WHERE */
+
+        /** Write DB (DELETE) **/
+        int deletedRows = writeDatabase.delete(resources.getString(R.string.group_table), where, null);
+        Log.i("TaskDBController", "Deleting: Delete " + deletedRows + " group");
+        /* ~Write DB (DELETE) */
+    }
+
 }

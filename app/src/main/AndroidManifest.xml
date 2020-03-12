@@ -70,6 +70,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme"/>
         <activity
+            android:name=".common.view.DeleteGroupPopupActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/PopupTheme" />
+        <activity
             android:name=".calander.view.CalendarActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity

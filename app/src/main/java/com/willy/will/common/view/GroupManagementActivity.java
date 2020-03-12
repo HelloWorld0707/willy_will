@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.ListViewAdapter;
-import com.willy.will.common.controller.ListViewHolder;
+import com.willy.will.adapter.ListViewHolder;
 import com.willy.will.common.model.Group;
 import com.willy.will.database.GroupDBController;
 
@@ -31,6 +31,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     private Resources resources;
     private Toast noColorToast;
     private Toast noNameToast;
+    private int noGroupId;
 
     private GroupDBController groupDBCtrl;
     private ListViewAdapter<Group> adapter;
@@ -41,6 +42,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
     private ArrayList<Group> groupList;
     private Group newGroup;
+    private boolean removing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         resources = getResources();
         noColorToast = Toast.makeText(this, resources.getString(R.string.no_group_color_text), Toast.LENGTH_SHORT);
         noNameToast = Toast.makeText(this, resources.getString(R.string.group_name_hint), Toast.LENGTH_SHORT);
+        noGroupId = resources.getInteger(R.integer.no_group_id);
 
         groupDBCtrl = new GroupDBController(resources);
 
@@ -64,8 +67,9 @@ public class GroupManagementActivity extends AppCompatActivity {
         }
         /* ~Set submit button */
 
-        /****/
+        /** Set Text Input Edit **/
         textInputEditText = findViewById(R.id.group_name_edit_text);
+        /* ~Set Text Input Edit */
 
         /** Set group list view **/
         groupList = groupDBCtrl.getAllGroups(groupList);
@@ -73,42 +77,8 @@ public class GroupManagementActivity extends AppCompatActivity {
         adapter = new ListViewAdapter<>(
                 groupList,
                 R.layout.item_group,
-                new ListViewHolder<Group>() {
-                    private ImageView groupColorView;
-                    private TextView groupName;
-                    private RadioButton radioButton;
-
-                    @Override
-                    public void setView(int position, View convertView) {
-                        groupColorView = convertView.findViewById(R.id.group_color);
-                        groupName = convertView.findViewById(R.id.group_name);
-                        radioButton = convertView.findViewById(R.id.radio_button);
-                        if(!radioButton.hasOnClickListeners()) {
-                            radioButton.setOnClickListener(new RadioButtonListener(position));
-                        }
-                    }
-
-                    @Override
-                    public void bindData(Group data, boolean selected) {
-                        /** Set the group color circle **/
-                        if(data.getGroupId() == 0) {
-                            groupColorView.setActivated(false);
-                        }
-                        else {
-                            groupColorView.setActivated(true);
-                            groupColorView.getDrawable().mutate().setTint(Color.parseColor(data.getGroupColor()));
-                        }
-                        /* ~Set the group color circle */
-
-                        /** Set the group name **/
-                        groupName.setText(data.getGroupName());
-                        /* ~Set the group name */
-
-                        /** Set the radio button **/
-                        radioButton.setChecked(selected);
-                        /* ~Set the radio button */
-                    }
-                }
+                new GroupListViewHolder(this),
+                noGroupId
         );
 
         ListView groupListView = (ListView) findViewById(R.id.group_list_view);
@@ -117,6 +87,31 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         groupColorBtn = findViewById(R.id.group_color_button);
         groupColorBtn.setActivated(true);
+
+        removing = false;
+    }
+
+    public void backToMain(View view) {
+        // Check focusing
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        // ~Check focusing
+        this.finish();
+    }
+
+    public void startToRemoveGroup(View view) {
+        if(removing) {
+            removing = false;
+            adapter.setSelectedPosition(noGroupId);
+            adapter.notifyDataSetChanged();
+        }
+        else {
+            removing = true;
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void submit(View view) {
@@ -135,17 +130,6 @@ public class GroupManagementActivity extends AppCompatActivity {
         startActivityForResult(intent, code);
     }
 
-    public void backToMain(View view) {
-        // Check focusing
-        View focusedView = getCurrentFocus();
-        if (focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        }
-        // ~Check focusing
-        this.finish();
-    }
-
     public void addGroup(View view) {
         if(newGroup == null) {
             noColorToast.show();
@@ -159,7 +143,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                 newGroup.setGroupName(newGroupName);
                 groupDBCtrl.insertGroup(newGroup);
 
-                newGroupName = null;
+                newGroup = null;
                 groupColorBtn.getDrawable().mutate().setTint(resources.getColor(R.color.light_gray, null));
                 textInputEditText.setText("");
                 groupList = groupDBCtrl.getAllGroups(groupList);
@@ -175,6 +159,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
+            // Set group color (to add new group)
             if (requestCode == resources.getInteger(R.integer.group_color_setting_code)) {
                 int colorInt = data.getIntExtra(
                         resources.getString(R.string.group_color_setting_key),
@@ -189,8 +174,74 @@ public class GroupManagementActivity extends AppCompatActivity {
 
                 groupColorBtn.getDrawable().mutate().setTint(colorInt);
             }
+            // Remove group
+            else if(requestCode == resources.getInteger(R.integer.remove_group_code)) {
+                groupList = groupDBCtrl.getAllGroups(groupList);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();
+            }
         }
         /* ~Success to receive data */
+    }
+
+    class GroupListViewHolder implements ListViewHolder<Group> {
+        private GroupManagementActivity activity;
+
+        private ImageView groupColorView;
+        private TextView groupName;
+        private RadioButton radioButton;
+        private ImageButton removeButton;
+
+        public GroupListViewHolder(GroupManagementActivity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public void setView(int position, View convertView) {
+            groupColorView = convertView.findViewById(R.id.group_color);
+            groupName = convertView.findViewById(R.id.group_name);
+            radioButton = convertView.findViewById(R.id.radio_button);
+            if(!radioButton.hasOnClickListeners()) {
+                radioButton.setOnClickListener(new RadioButtonListener(position));
+            }
+            removeButton = convertView.findViewById(R.id.remove_button);
+            if(!removeButton.hasOnClickListeners()) {
+                removeButton.setOnClickListener(new RemoveButtonListner(position, activity));
+            }
+            if(removing) {
+                radioButton.setVisibility(View.GONE);
+                if(position != noGroupId) {
+                    removeButton.setVisibility(View.VISIBLE);
+                }
+            }
+            else {
+                radioButton.setVisibility(View.VISIBLE);
+                removeButton.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void bindData(Group data, boolean selected) {
+            /** Set the group color circle **/
+            if(data.getGroupId() == 0) {
+                groupColorView.setActivated(false);
+            }
+            else {
+                groupColorView.setActivated(true);
+                groupColorView.getDrawable().mutate().setTint(Color.parseColor(data.getGroupColor()));
+            }
+            /* ~Set the group color circle */
+
+            /** Set the group name **/
+            groupName.setText(data.getGroupName());
+            /* ~Set the group name */
+
+            /** Set the radio button **/
+            if(!removing) {
+                radioButton.setChecked(selected);
+            }
+            /* ~Set the radio button */
+        }
     }
 
     class RadioButtonListener implements View.OnClickListener {
@@ -204,6 +255,25 @@ public class GroupManagementActivity extends AppCompatActivity {
         public void onClick(View v) {
             adapter.setSelectedPosition(itemId);
             adapter.notifyDataSetChanged();
+        }
+    }
+
+    class RemoveButtonListner implements View.OnClickListener {
+        private GroupManagementActivity activity;
+        private int itemId;
+
+        public RemoveButtonListner(int itemId, GroupManagementActivity activity) {
+            this.itemId = itemId;
+            this.activity = activity;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(activity, DeleteGroupPopupActivity.class);
+            intent.putExtra(resources.getString(R.string.group_removal_key), groupList.get(itemId));
+
+            int code = resources.getInteger(R.integer.remove_group_code);
+            startActivityForResult(intent, code);
         }
     }
 
