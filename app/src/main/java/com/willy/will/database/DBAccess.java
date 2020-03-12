@@ -34,49 +34,52 @@ public class DBAccess extends SQLiteOpenHelper {
         String query = null;
         // 새로운 테이블 생성
         query = "CREATE TABLE " + resources.getString(R.string.calendar_table) + "( " +
-                resources.getString(R.string.calendar_id_column) + " INTEGER NOT NULL, " + "autoincrement, " +
-                resources.getString(R.string.calendar_date_column) + " TEXT NOT NULL, " +
-                resources.getString(R.string.item_id_column) + " INTEGER, " +
-                "PRIMARY KEY(" + resources.getString(R.string.calendar_id_column) + ") );";
+                    resources.getString(R.string.calendar_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.calendar_date_column) + " TEXT NOT NULL, " +
+                    resources.getString(R.string.item_id_column) + " INTEGER" +
+                " );";
         db.execSQL(query);
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.group_table) + "( " +
-                resources.getString(R.string.group_id_column) + " INTEGER NOT NULL, " + "autoincrement, " +
-                resources.getString(R.string.group_name_column) + " TEXT NOT NULL, " +
-                resources.getString(R.string.group_color_column) + " TEXT NOT NULL, " +
-                "PRIMARY KEY(" + resources.getString(R.string.group_id_column) + ") );"
+                    resources.getString(R.string.group_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.group_name_column) + " TEXT NOT NULL, " +
+                    resources.getString(R.string.group_color_column) + " TEXT NOT NULL" +
+                " );"
         );
         String noGroupColorStr = String.format("#%08X", (0xFFFFFFFF & resources.getColor(R.color.colorNoGroup, null)));
         db.execSQL("" +
                 "INSERT INTO " + resources.getString(R.string.group_table) + "(" +
-                resources.getString(R.string.group_id_column) + ", " +
-                resources.getString(R.string.group_name_column) + ", " +
-                resources.getString(R.string.group_color_column) + ")" +
+                    resources.getString(R.string.group_id_column) + ", " +
+                    resources.getString(R.string.group_name_column) + ", " +
+                    resources.getString(R.string.group_color_column) +
+                ") " +
                 "VALUES(" +
-                resources.getInteger(R.integer.no_group_id) + ", '" +
-                resources.getString(R.string.no_group) + "', '" +
-                noGroupColorStr + "')"
+                    resources.getInteger(R.integer.no_group_id) + ", '" +
+                    resources.getString(R.string.no_group) + "', '" +
+                    noGroupColorStr +
+                "')"
         );
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.item_table) + "( " +
-                resources.getString(R.string.item_id_column) + " INTEGER NOT NULL, " + "autoincrement, " +
-                resources.getString(R.string.group_id_column) + " INTEGER, " +
-                resources.getString(R.string.item_name_column) + " TEXT NOT NULL, " +
-                resources.getString(R.string.item_important_column) + " INTEGER, " +
-                resources.getString(R.string.latitude) + " TEXT, " +
-                resources.getString(R.string.longitude) + " TEXT, " +
-                resources.getString(R.string.done_date_column) + " TEXT, " +
-                resources.getString(R.string.start_date_column) + " TEXT NOT NULL, " +
-                resources.getString(R.string.end_date_column) + " TEXT NOT NULL, " +
-                resources.getString(R.string.to_do_id_column) + " INTEGER, " +
-                "PRIMARY KEY(" + resources.getString(R.string.item_id_column) + ") );"
+                    resources.getString(R.string.item_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.group_id_column) + " INTEGER, " +
+                    resources.getString(R.string.item_name_column) + " TEXT NOT NULL, " +
+                    resources.getString(R.string.item_important_column) + " INTEGER, " +
+                    resources.getString(R.string.latitude) + " TEXT, " +
+                    resources.getString(R.string.longitude) + " TEXT, " +
+                    resources.getString(R.string.done_date_column) + " TEXT, " +
+                    resources.getString(R.string.start_date_column) + " TEXT NOT NULL, " +
+                    resources.getString(R.string.end_date_column) + " TEXT NOT NULL, " +
+                    resources.getString(R.string.to_do_id_column) + " INTEGER" +
+                " );"
         );
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.loop_info_table) + "( " +
-                resources.getString(R.string.loop_id_column) + " INTEGER NOT NULL, " + "autoincrement, " +
-                resources.getString(R.string.to_do_id_column) + " INTEGER NOT NULL," +
-                resources.getString(R.string.loop_week_column) + " TEXT," +
-                "PRIMARY KEY(" + resources.getString(R.string.loop_id_column) + ", " + resources.getString(R.string.to_do_id_column) + ") );"
+                    resources.getString(R.string.loop_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.to_do_id_column) + " INTEGER NOT NULL, " +
+                    resources.getString(R.string.loop_week_column) + " TEXT, " +
+                    "UNIQUE (" + resources.getString(R.string.loop_id_column) + ", " + resources.getString(R.string.to_do_id_column) + ")" +
+                " );"
         );
     }
 
