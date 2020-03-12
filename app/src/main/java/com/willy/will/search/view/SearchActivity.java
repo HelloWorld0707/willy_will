@@ -124,16 +124,17 @@ public class SearchActivity extends AppCompatActivity {
                 /** Check focusing **/
                 View focusedView = getCurrentFocus();
                 if (focusedView != null) {
-                    onDownSoftKeyboard(view);
+                    onSoftKeyboardDown(view);
                 }
                 /* ~Check focusing */
+
                 this.finish();
             }
         }
     }
 
     public void search(View view) {
-        onDownSoftKeyboard(view);
+        onSoftKeyboardDown(view);
 
         String searchText = textInputEditText.getText().toString();
         setToDoList(searchText);
@@ -203,7 +204,7 @@ public class SearchActivity extends AppCompatActivity {
         endOfDoneDate = "";
     }
 
-    public void onDownSoftKeyboard(View view) {
+    public void onSoftKeyboardDown(View view) {
         inputMethodManager.hideSoftInputFromWindow(textInputEditText.getWindowToken(), 0);
     }
 

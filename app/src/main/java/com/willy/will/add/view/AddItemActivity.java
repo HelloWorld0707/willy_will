@@ -191,6 +191,11 @@ public class AddItemActivity extends Activity{
         end_date = getString(R.string.end_date_key);
 
         Title_editText = (EditText)findViewById(R.id.Title_editText);
+        selectedGroup = new Group(
+                resources.getInteger(R.integer.no_group_id),
+                resources.getString(R.string.no_group),
+                String.format("#%08X", (0xFFFFFFFF & resources.getColor(R.color.colorNoGroup, null)))
+        );
 
         /** edit keyboard invisible 1 **/
         Title_editText.setInputType(0);
@@ -205,6 +210,7 @@ public class AddItemActivity extends Activity{
 
         /** Group **/
         groupTextView = findViewById(R.id.group_textview);
+        groupTextView.setText(selectedGroup.getGroupName());
         /*Button bnt_group = findViewById(R.id.bnt_group);
         bnt_group.setOnClickListener(new View.OnClickListener() {
             @Override

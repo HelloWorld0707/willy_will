@@ -12,7 +12,6 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -181,13 +180,13 @@ public class MainActivity extends AppCompatActivity{
         SharedPreferences sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        if (sharedPreferences.getString("AlarmState", "default").equals("default")) {
+        /*if (sharedPreferences.getString("AlarmState", "default").equals("default")) {
             alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
             editor.putString("AlarmState", "on");
             editor.commit();
         } else if(sharedPreferences.getString("AlarmState", "default").equals("off")){
             alarmMgr.cancel(alarmIntent);
-        }
+        }*/
 
         /*~ set alarm & notification ~*/
 

@@ -34,6 +34,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     private int noGroupId;
 
     private GroupDBController groupDBCtrl;
+    private InputMethodManager inputMethodManager;
     private ListViewAdapter<Group> adapter;
 
     private ImageButton submitBtn;
@@ -69,6 +70,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         /** Set Text Input Edit **/
         textInputEditText = findViewById(R.id.group_name_edit_text);
+        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         /* ~Set Text Input Edit */
 
         /** Set group list view **/
@@ -95,14 +97,15 @@ public class GroupManagementActivity extends AppCompatActivity {
         // Check focusing
         View focusedView = getCurrentFocus();
         if (focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            onSoftKeyboardDown(view);
         }
         // ~Check focusing
+
         this.finish();
     }
 
     public void startToRemoveGroup(View view) {
+        onSoftKeyboardDown(view);
         if(removing) {
             removing = false;
             adapter.setSelectedPosition(noGroupId);
@@ -115,6 +118,13 @@ public class GroupManagementActivity extends AppCompatActivity {
     }
 
     public void submit(View view) {
+        // Check focusing
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            onSoftKeyboardDown(view);
+        }
+        // ~Check focusing
+
         Intent intent = new Intent();
         intent.putExtra(
                 resources.getString(R.string.group_setting_key),
@@ -148,8 +158,13 @@ public class GroupManagementActivity extends AppCompatActivity {
                 textInputEditText.setText("");
                 groupList = groupDBCtrl.getAllGroups(groupList);
                 adapter.notifyDataSetChanged();
+                onSoftKeyboardDown(view);
             }
         }
+    }
+
+    public void onSoftKeyboardDown(View view) {
+        inputMethodManager.hideSoftInputFromWindow(textInputEditText.getWindowToken(), 0);
     }
 
     @SuppressLint("ResourceAsColor")

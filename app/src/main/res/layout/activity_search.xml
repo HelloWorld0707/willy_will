@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="onDownSoftKeyboard"
+    android:onClick="onSoftKeyboardDown"
     tools:context=".search.view.SearchActivity">
 
     <ImageButton
@@ -32,8 +32,9 @@
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_hint"
-            android:inputType="text" />
+            android:inputType="text"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,7 +54,7 @@
         android:layout_margin="@dimen/basic_margin"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/search_results_recycler_view"
+        app:layout_constraintBottom_toTopOf="@id/search_results_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_text_input_layout">
@@ -117,17 +118,29 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_results_recycler_view"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_results_layout"
+        android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/match_constraint"
         android:layout_marginHorizontal="@dimen/basic_margin"
-        android:onClick="onDownSoftKeyboard"
-        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_setting_layout" />
+        app:layout_constraintTop_toBottomOf="@id/search_setting_layout">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_results_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
