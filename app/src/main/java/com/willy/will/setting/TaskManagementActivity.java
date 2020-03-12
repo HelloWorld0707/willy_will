@@ -120,7 +120,7 @@ public class TaskManagementActivity extends AppCompatActivity {
         }
     }
 
-    // Receive result data from Detail Activity
+    // Receive result data from other Activities
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

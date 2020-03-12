@@ -110,7 +110,7 @@
                     <Button
                         android:id="@+id/bnt_group"
                         style="@style/ActionBtnStyle2"
-                        android:onClick="bringUpgroupcolor"
+                        android:onClick="bringUpGroupSetting"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
@@ -122,7 +122,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/Group_Textview"
+                        android:id="@+id/group_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@null"

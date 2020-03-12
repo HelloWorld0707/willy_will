@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.willy.will.R;
+import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 
@@ -67,6 +68,8 @@ public class AddItemActivity extends Activity{
     String formatDate = sdfNow.format(date);
     TextView dateNow;
 
+    private TextView groupTextView;
+    private Group selectedGroup;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -200,15 +203,16 @@ public class AddItemActivity extends Activity{
             }
         });
 
-        /******* Group buuton -> moving ********************/
-        Button bnt_group = findViewById(R.id.bnt_group);
+        /** Group **/
+        groupTextView = findViewById(R.id.group_textview);
+        /*Button bnt_group = findViewById(R.id.bnt_group);
         bnt_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, GroupManagementActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
 
         repeat_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -232,9 +236,13 @@ public class AddItemActivity extends Activity{
         });
 
     }
-    public void bringUpgroupcolor(View view) {
+
+    public void bringUpGroupSetting(View view) {
         Intent intent = new Intent(this, GroupManagementActivity.class);
-        startActivity(intent);
+
+        int code = resources.getInteger(R.integer.group_setting_code);
+        intent.putExtra(resources.getString(R.string.request_code), code);
+        startActivityForResult(intent, code);
     }
 
     public void bringUplocationSearch(View view){
@@ -332,7 +340,7 @@ public class AddItemActivity extends Activity{
         );
 
         /** 테이블 : _ITEM  삽입***********************************************************************/
-        int group_id = 100; //group_id
+        int group_id = selectedGroup.getGroupId(); //group_id
         String item_name = Title_editText.getText().toString(); //item_name
         int item_important = important_result; //item_important
         String latitude = null; //latitude
@@ -354,6 +362,23 @@ public class AddItemActivity extends Activity{
         );
         Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    // Receive result data from other Activities
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /** Success to receive data **/
+        if(resultCode == Activity.RESULT_FIRST_USER) {
+            // Group setting (to move tasks to this group)
+            if(requestCode == resources.getInteger(R.integer.group_setting_code)) {
+                String groupSettingKey = resources.getString(R.string.group_setting_key);
+                selectedGroup = data.getParcelableExtra(groupSettingKey);
+                groupTextView.setText(selectedGroup.getGroupName());
+            }
+        }
+        /* ~Success to receive data */
     }
 
 }
