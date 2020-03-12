@@ -17,6 +17,7 @@ import com.willy.will.R;
 import com.willy.will.database.DBAccess;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.view.DetailActivity;
+import com.willy.will.main.view.MainActivity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         db = dbHelper.getReadableDatabase();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(context, DetailActivity.class);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingI = PendingIntent.getActivity(context, 0, notificationIntent, 0);
@@ -91,6 +92,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         String todayStr = today.getYear() + "-" + monthValStr+ "-" + today.getDayOfMonth();
         ArrayList<String>  toDoItemList = new ArrayList<>();
+        todayStr = "2020-03-12";
 
         String selectQuery = "SELECT i.item_name " +
                 "FROM _ITEM i, _CALENDAR c\n" +

@@ -1,13 +1,18 @@
 package com.willy.will.main.view;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +33,7 @@ import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.database.GroupDBController;
+import com.willy.will.receiver.NotificationReceiver;
 import com.willy.will.search.view.SearchActivity;
 import com.willy.will.setting.AlarmActivity;
 import com.willy.will.setting.TaskManagementActivity;
@@ -161,6 +167,31 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         /* ~set fab event Listener */
+
+
+        /** set alarm & notification **/
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+
+        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent1 = new Intent(this, NotificationReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent1, 0);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (sharedPreferences.getString("AlarmState", "default").equals("default")) {
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+            editor.putString("AlarmState", "on");
+            editor.commit();
+        } else if(sharedPreferences.getString("AlarmState", "default").equals("off")){
+            alarmMgr.cancel(alarmIntent);
+        }
+
+        /*~ set alarm & notification ~*/
+
+
     }
 
     /** Function: Move to SearchView */
