@@ -92,7 +92,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         String todayStr = today.getYear() + "-" + monthValStr+ "-" + today.getDayOfMonth();
         ArrayList<String>  toDoItemList = new ArrayList<>();
-        todayStr = "2020-03-12";
+        //todayStr = "2020-03-12";
 
         String selectQuery = "SELECT i.item_name " +
                 "FROM _ITEM i, _CALENDAR c\n" +
