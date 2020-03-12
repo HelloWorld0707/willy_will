@@ -156,7 +156,6 @@ public class GroupManagementActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
             // Set group color (to add new group)
