@@ -44,6 +44,7 @@ public class SearchActivity extends AppCompatActivity {
     private String current = null;
 
     private SearchController searchCtrl = null;
+    private InputMethodManager inputMethodManager = null;
 
     private TextInputEditText textInputEditText = null;
     private RecyclerView recyclerView = null;
@@ -81,6 +82,7 @@ public class SearchActivity extends AppCompatActivity {
         if(textInputEditText.hasFocus()) {
             textInputEditText.clearFocus();
         }
+        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.search_results_recycler_view, getWindow().getDecorView(),
@@ -122,8 +124,7 @@ public class SearchActivity extends AppCompatActivity {
                 /** Check focusing **/
                 View focusedView = getCurrentFocus();
                 if (focusedView != null) {
-                    InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    onDownSoftKeyboard(view);
                 }
                 /* ~Check focusing */
                 this.finish();
@@ -132,6 +133,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void search(View view) {
+        onDownSoftKeyboard(view);
+
         String searchText = textInputEditText.getText().toString();
         setToDoList(searchText);
         recyclerView.getAdapter().notifyDataSetChanged();
@@ -198,6 +201,10 @@ public class SearchActivity extends AppCompatActivity {
         onlyDone = false;
         startOfDoneDate = "";
         endOfDoneDate = "";
+    }
+
+    public void onDownSoftKeyboard(View view) {
+        inputMethodManager.hideSoftInputFromWindow(textInputEditText.getWindowToken(), 0);
     }
 
     // Receive result data from Detail Activity or Search Setting Activity (Setting for Search)
