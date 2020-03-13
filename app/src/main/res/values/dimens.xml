@@ -21,8 +21,6 @@
 
     <!-- Pop-up -->
     <dimen name="popup_width">300dp</dimen>
-    <!-- radius = width / 10 -->
-    <dimen name="popup_radius">30dp</dimen>
     <dimen name="popup_title_margin_vertical">10sp</dimen>
     <dimen name="popup_title_text_size">30sp</dimen>
     <!-- ~Pop-up -->

@@ -48,6 +48,7 @@ public class AddItemActivity extends Activity{
     private String start_date = null;
     private String end_date = null;
     private View checkBox_group;
+    private String itemName = null;
 
     private Spinner important;
     private String important_string = null;
@@ -119,7 +120,6 @@ public class AddItemActivity extends Activity{
         check_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = "";  // 결과를 출력할 문자열  ,  항상 스트링은 빈문자열로 초기화 하는 습관을 가지자
                 if(Monday.isChecked() == true) {
                     check_value[0] = "1";
                 }else{
@@ -155,6 +155,7 @@ public class AddItemActivity extends Activity{
                 }else{
                     check_value[6] = "0";
                 }
+
                 check_result="";
                 for(int i=0; i<check_value.length;i++){
 
@@ -191,8 +192,8 @@ public class AddItemActivity extends Activity{
         start_date_key = resources.getString(R.string.start_date_key);
         end_date_key = resources.getString(R.string.end_date_key);
 
-        start_date = getString(R.string.start_date_key);
-        end_date = getString(R.string.end_date_key);
+        start_date = simpleDateFormat.format(today.getTime());;
+        end_date = simpleDateFormat.format(today.getTime());;
 
         Title_editText = (EditText)findViewById(R.id.Title_editText);
         selectedGroup = new Group(
@@ -209,6 +210,10 @@ public class AddItemActivity extends Activity{
                 Title_editText.setInputType(1);
                 InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mgr.showSoftInput(Title_editText, InputMethodManager.SHOW_IMPLICIT);
+                itemName = Title_editText.getText().toString();
+                if(itemName.matches("")){
+                    itemName=null;
+                }
             }
         });
 
@@ -267,6 +272,7 @@ public class AddItemActivity extends Activity{
         dateListener.setKey(start_date_key);
         if(start_date.isEmpty()) {
             datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+            start_date = simpleDateFormat.format(today.getTime());
         }
         else {
             try {
@@ -288,6 +294,7 @@ public class AddItemActivity extends Activity{
 
         if(end_date.isEmpty()) {
             datePickerDialog.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DATE));
+            end_date = simpleDateFormat.format(today.getTime());
         }
         else {
             try {
@@ -343,37 +350,59 @@ public class AddItemActivity extends Activity{
     public void add_insert(View view){
         SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
 
-        /** 테이블 : _CALENDAR  삽입******************************************************************/
+        //for _CALENDAR
         String calendar_dates = "2020-02-13";
         int item_id=100;
-        db.execSQL("" +
-                "INSERT INTO _CALENDAR(calendar_date, item_id)" +
-                "VALUES('" + calendar_dates + "', '" + item_id+ "')"
-        );
 
-        /** 테이블 : _ITEM  삽입***********************************************************************/
+        //for _ITEM
         int group_id = selectedGroup.getGroupId(); //group_id
-        String item_name = Title_editText.getText().toString(); //item_name
+        String item_name = itemName; //item_name
         int item_important = important_result; //item_important
         String latitude = latitudeNum+""; //latitude
         String longitude = longitudeNum+""; //longitude
         String done_date = null; //done_date
         String StartDate = start_date;
         String EndDate = end_date;
-        int to_do_id = 100; // to_do_id
+        String loopweek = check_result;
 
-        db.execSQL("" +
-                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
-                "VALUES(" +
-                group_id + ", '" +
-                item_name + "', '" +
-                item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
-                StartDate + "', '" +
-                EndDate + "', '" +
-                to_do_id + "')"
-        );
-        Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
-        finish();
+        if(item_name == null) {
+            Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            /** 테이블 : _CALENDAR  삽입******************************************************************/
+
+            db.execSQL("" +
+                    "INSERT INTO _CALENDAR(calendar_date, item_id)" +
+                    "VALUES('" + calendar_dates + "', '" + item_id + "')"
+            );
+
+            /** 테이블 : _ITEM  삽입***********************************************************************/
+            db.execSQL("" +
+                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                    "VALUES(" +
+                    group_id + ", '" +
+                    item_name + "', '" +
+                    item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                    StartDate + "', '" +
+                    EndDate + "', " +
+                            "(SELECT to_do_id \n" +
+                            "FROM _ITEM \n" +
+                             "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);"
+            );
+
+            /** 테이블 : _LOOP_INFO  삽입
+            db.execSQL("" +
+                    "INSERT INTO _LOOP_INFO(to_do_id,loop_week)" +
+                    "VALUES (SELECT to_do_id \n" +
+                    "FROM _ITEM \n" +
+                    "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1)," +
+                    loopweek+");"
+
+            );*/
+            Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     // Receive result data from other Activities

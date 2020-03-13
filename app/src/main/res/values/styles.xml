@@ -51,7 +51,7 @@
     </style>
     <!-- ~Pop-up Theme & Style -->
 
-    <!-- Round Corner Layout -->
+    <!-- Round Corner Layout Style -->
     <style name="RoundLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/match_constraint</item>
@@ -72,12 +72,30 @@
         <item name="android:background">@drawable/round_top_corner</item>
         <item name="android:layout_marginTop">@dimen/basic_margin</item>
     </style>
-    <!-- ~Round Corner Layout -->
+    <!-- ~Round Corner Layout Style -->
 
-    <!-- Back Button Style -->
-    <style name="BackButtonStyle" parent="ActionBtnStyle">
+    <!-- Top Bar Style -->
+    <style name="TopBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/detail_list_thick_height</item>
+        <item name="android:paddingHorizontal">@dimen/round_corner_layout_padding</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="TopBarButtonStyle">
+        <item name="android:layout_width">@dimen/actionbar_button_size</item>
+        <item name="android:layout_height">@dimen/actionbar_button_size</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="BackButtonStyle" parent="TopBarButtonStyle">
         <item name="android:foreground">?attr/homeAsUpIndicator</item>
     </style>
+    <!-- ~Top Bar Style -->
+
+    <!-- Back Button Style -->
     <!-- ~Back Button Style -->
 
     <!-- Button Style -->

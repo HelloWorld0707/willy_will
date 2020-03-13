@@ -68,7 +68,6 @@ public class CalendarActivity extends Activity {
 
         /** device display size controller */
         windowDm = getApplicationContext().getResources().getDisplayMetrics();
-
     }
 
     /** Back to MainActivity **/
@@ -113,6 +112,7 @@ public class CalendarActivity extends Activity {
 
         /** Create List Adapter*/
         final CalendarBaseAdapter calendarBaseAdapter = new CalendarBaseAdapter();
+        //calendarBaseAdapter.initializeHeight();
 
         /** setDBController*/
         dateDBController = new DateDBController(resources);
@@ -124,12 +124,18 @@ public class CalendarActivity extends Activity {
         ListView calendarList = findViewById(R.id.calendarListView);
         calendarList.setAdapter(calendarBaseAdapter);
 
-        // set Visible at listView
-        if(calendarBaseAdapter.getCount() > 0)
-            calendarList.setVisibility(View.VISIBLE);
-        else
-            calendarList.setVisibility(View.INVISIBLE);
 
+        MaterialCalendarView calendar = findViewById(R.id.calendarView);
+        // set Visible at listView
+        if(calendarBaseAdapter.getCount() > 0) {
+            calendarList.setVisibility(View.VISIBLE);
+            calendar.setTileHeight((int)windowDm.ydpi/4);
+        }
+        else {
+            calendarList.setVisibility(View.GONE);
+            calendarList.setVisibility(View.INVISIBLE);
+            calendar.setTileHeight((int)windowDm.ydpi);
+        }
         // set ListView Click Listener
         calendarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -145,15 +151,14 @@ public class CalendarActivity extends Activity {
         // ~set ListView Click Listener
 
         // setListView Height
-        /*
         ViewGroup.LayoutParams params = calendarList.getLayoutParams();
 
-        int height = 134;// findViewById(R.id.calendarListView).getMeasuredHeight();
+        int heightPixel = resources.getDimensionPixelSize(R.dimen.text_recycler_item_height) + calendarList.getDividerHeight();
         int listSize = calendarBaseAdapter.getCount();
-        params.height = height * listSize;
+        params.height = calendarList.getPaddingTop() + heightPixel * listSize + calendarList.getPaddingBottom();
+
         calendarList.setLayoutParams(params);
         calendarList.requestLayout();
-        */
         // ~setListView Height
     }
 
