@@ -12,6 +12,8 @@
     <integer name="remove_group_code">9</integer>
     <integer name="move_tasks_code">10</integer>
     <integer name="remove_tasks_code">11</integer>
+    <integer name="location_search_code">12</integer>
+
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->

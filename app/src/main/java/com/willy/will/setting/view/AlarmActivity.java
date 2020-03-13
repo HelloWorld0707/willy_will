@@ -1,4 +1,4 @@
-package com.willy.will.setting;
+package com.willy.will.setting.view;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.willy.will.R;
+import com.willy.will.setting.controller.AlarmSet;
 
 public class AlarmActivity extends Activity {
     Switch alarmSwitch;
@@ -23,12 +24,16 @@ public class AlarmActivity extends Activity {
         sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-
-
         alarmSwitch.setChecked(sharedPreferences.getString("AlarmState","default").equals("off")?false:true);
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putString("AlarmState", alarmSwitch.isChecked()?"on":"off");
+                if(alarmSwitch.isChecked()){
+                    AlarmSet.onAlarm(getApplicationContext());
+                    editor.putString("AlarmState", "on");
+                }else{
+                    AlarmSet.offAlarm(getApplicationContext());
+                    editor.putString("AlarmState", "off");
+                }
                 editor.commit();
             }
         });

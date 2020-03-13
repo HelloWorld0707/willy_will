@@ -26,11 +26,13 @@ import android.widget.Toast;
 
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
+import com.willy.will.common.model.Location;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -50,6 +52,8 @@ public class AddItemActivity extends Activity{
 
     private Spinner important;
     private int important_result;
+    private double latitudeNum;
+    private double longitudeNum;
 
     public static DBAccess dbHelper;
 
@@ -256,7 +260,9 @@ public class AddItemActivity extends Activity{
 
     public void bringUplocationSearch(View view){
         Intent intent = new Intent(this, LocationSearchActivity.class);
-        startActivity(intent);
+        int code = resources.getInteger(R.integer.location_search_code);
+        intent.putExtra(resources.getString(R.string.location_search_code),code);
+        startActivityForResult(intent, code);
     }
 
     // Start Date Picker Dialog for start of start date
@@ -355,8 +361,8 @@ public class AddItemActivity extends Activity{
         int group_id = selectedGroup.getGroupId(); //group_id
         String item_name = itemName; //item_name
         int item_important = important_result; //item_important
-        String latitude = null; //latitude
-        String longitude = null; //longitude
+        String latitude = latitudeNum+""; //latitude
+        String longitude = longitudeNum+""; //longitude
         String done_date = null; //done_date
         String startDate = start_date;
         String endDate = end_date;
@@ -471,6 +477,13 @@ public class AddItemActivity extends Activity{
                 String groupSettingKey = resources.getString(R.string.group_setting_key);
                 selectedGroup = data.getParcelableExtra(groupSettingKey);
                 groupTextView.setText(selectedGroup.getGroupName());
+            }else if(requestCode == resources.getInteger(R.integer.location_search_code)){
+                ArrayList<Location> locationArrayList = data.getParcelableArrayListExtra(resources.getString(R.string.location_search_key));
+                Location location = locationArrayList.get(0);
+                latitudeNum = location.getLatitude();
+                longitudeNum = location.getLongitude();
+
+
             }
         }
         /* ~Success to receive data */

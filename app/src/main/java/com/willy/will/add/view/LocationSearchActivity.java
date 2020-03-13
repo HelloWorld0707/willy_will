@@ -4,66 +4,96 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
+import android.widget.ScrollView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.common.model.Location;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public class LocationSearchActivity extends Activity {
 
+    private ScrollView scrollView;
     private ListView searchList;
     private String searchText = "";
     private TextInputEditText textEditText = null;
+    private InputMethodManager inputMethodManager = null;
     final LocationBaseAdapter locationBaseAdapter = new LocationBaseAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_search);
+        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
 
+        /** Set Views **/
+        scrollView = findViewById(R.id.search_result_layout);
         searchList = findViewById(R.id.search_list_view);
         textEditText = findViewById(R.id.location_edit_text);
         if(textEditText.hasFocus()) {
             textEditText.clearFocus();
         }
 
+
+
+        /** click listView **/
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                ArrayList<Location> locationArrayList = new ArrayList<>();
                 Location location = locationBaseAdapter.getItem(position);
-                Intent intent = new Intent(LocationSearchActivity.this, AddItemActivity.class);
-                intent.putExtra("place", location);
-                startActivity(intent);
+                locationArrayList.add(location);
+                intent.putParcelableArrayListExtra(getResources().getString(R.string.location_search_key), locationArrayList);
+                setResult(RESULT_FIRST_USER,intent);
+                finish();
             }
         });
+
+
+
+        /** hide keyboard when touch scrollview **/
+        searchList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event != null && event.getAction() == MotionEvent.ACTION_MOVE)
+                    onSoftKeyboardDown(view);
+                return false;
+            }
+        });
+
 
     }
 
     public void searchLocation(View view){
+        onSoftKeyboardDown(view);
         searchText = textEditText.getText().toString();
         getSearchAddress(searchText);
-
     }
+
+
+    public void onSoftKeyboardDown(View view) {
+        inputMethodManager.hideSoftInputFromWindow(textEditText.getWindowToken(), 0);
+    }
+
 
     public void backToAdd(View view){
         View focusedView = getCurrentFocus();
         if(focusedView != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            onSoftKeyboardDown(view);
         }
         this.finish();
     }
@@ -71,14 +101,12 @@ public class LocationSearchActivity extends Activity {
 
     /**  get Address (rest api) **/
     private void getSearchAddress(final String searchText) {
-        Log.d("getLocationId", searchText);
 
         new Thread(new Runnable() {
             String json = null;
 
             @Override
             public void run() {
-
                 try {
                     String apiURL = "https://dapi.kakao.com/v2/local/search/keyword.json?query="+ searchText; // json
                     URL url = new URL(apiURL);
@@ -88,7 +116,7 @@ public class LocationSearchActivity extends Activity {
                     int responseCode = con.getResponseCode();
                     BufferedReader br = null;
 
-                    if (responseCode == 200) { // 정상 호출
+                    if (responseCode == 200) {
                         br = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     }
 
@@ -140,6 +168,7 @@ public class LocationSearchActivity extends Activity {
             }
         }).start();
     }
+    /*~  get Address (rest api) ~*/
 
 
 

@@ -1,4 +1,4 @@
-package com.willy.will.receiver;
+package com.willy.will.setting.receiver;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,20 +10,18 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 import com.willy.will.R;
 import com.willy.will.database.DBAccess;
 import com.willy.will.detail.controller.DetailController;
-import com.willy.will.detail.view.DetailActivity;
 import com.willy.will.main.view.MainActivity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.willy.will.main.view.MainActivity.dbHelper;
 
 public class NotificationReceiver extends BroadcastReceiver {
     private static DBAccess dbHelper = null;
@@ -80,19 +78,12 @@ public class NotificationReceiver extends BroadcastReceiver {
     }
     /** get itemList **/
     public ArrayList<String> alarmToDoItems() {
-
         LocalDate today = LocalDate.now();
-        String monthValStr = null;
-        int monthVal = today.getMonthValue();
-        if(monthVal<10){
-            monthValStr = "0" + monthVal;
-        }else{
-            monthValStr = monthVal+"";
-        }
 
+        int monthVal = today.getMonthValue();
+        String monthValStr = (monthVal<10)?"0"+monthVal:monthVal+"";
         String todayStr = today.getYear() + "-" + monthValStr+ "-" + today.getDayOfMonth();
         ArrayList<String>  toDoItemList = new ArrayList<>();
-        //todayStr = "2020-03-12";
 
         String selectQuery = "SELECT i.item_name " +
                 "FROM _ITEM i, _CALENDAR c\n" +

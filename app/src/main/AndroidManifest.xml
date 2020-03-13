@@ -77,7 +77,7 @@
             android:name=".calander.view.CalendarActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".setting.AlarmActivity"
+            android:name=".setting.view.AlarmActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".setting.TaskManagementActivity"
@@ -90,12 +90,12 @@
             android:name=".add.view.LocationSearchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
-        <receiver android:name=".receiver.DeviceBootReceiver">
+        <receiver android:name=".setting.receiver.DeviceBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.NotificationReceiver"/>
+        <receiver android:name=".setting.receiver.NotificationReceiver"/>
     </application>
 
 </manifest>

@@ -74,10 +74,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         detailCtrl = new DetailController();
         resources = getResources();
-
         important = findViewById(R.id.important);
         itemName = findViewById(R.id.item_name);
         groupName = findViewById(R.id.group_name);
@@ -108,15 +106,13 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         Intent intent = getIntent();
         ToDoItem item =null;
         item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
-        //int itemId = intent.getIntExtra("itemId",-1);
-        /*~ get itemId, calendar_date from mainActivity */
 
 
-
+        /** access DB **/
         todoItem = detailCtrl.getToDoItemByItemId(item.getItemId());
         LocalDate localDate = getLocalDate(todoItem.getCalenderDate());
         achievementList = detailCtrl.getloopItem(todoItem.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
-        /** access DB **/
+        /*~ access DB ~*/
 
 
         /** set DB data **/
@@ -193,10 +189,9 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }
         /*~ set data */
 
-
-
-
     }
+
+
 
     /** convert a String to LocalDate  **/
     public LocalDate getLocalDate(String date){
@@ -216,9 +211,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 Intent intent;
                 switch (item.getItemId()){
                     case R.id.btn_modify:
-                        //intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
-                        //intent.putExtra("itemId",todoItem.getItemId());
-                        //startActivity(intent);
+                        //modify
                         return true;
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
