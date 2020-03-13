@@ -23,6 +23,17 @@ import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
 
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +42,6 @@ import static java.time.DayOfWeek.SATURDAY;
 import static java.time.DayOfWeek.SUNDAY;
 import static java.time.temporal.TemporalAdjusters.nextOrSame;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 
@@ -48,8 +50,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private ImageView important, groupColor;
     private ImageButton editButton;
     private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address;
-    private RelativeLayout achievementRateArea,startDateArea, endDateArea, doneDateArea;
-    private LinearLayout locationArea;
+    private RelativeLayout startDateArea, endDateArea, doneDateArea;
+    private LinearLayout achievementRateArea, locationArea;
     private String roofDay = "";
     private String addressName, buildingName;
     private String[] days = {"일","월","화","수","목","금","토"};

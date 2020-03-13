@@ -79,8 +79,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         /* ~Set Text Input Edit */
 
         /** Set group list view **/
-        groupList = groupDBCtrl.getAllGroups(groupList);
-        Collections.sort(groupList, ascendingGroupByName);
+        setGroupList();
 
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.group_recycler_view, getWindow().getDecorView(),
@@ -93,6 +92,13 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         groupColorBtn = findViewById(R.id.group_color_button);
         groupColorBtn.setActivated(true);
+    }
+
+    private void setGroupList() {
+        groupList = groupDBCtrl.getAllGroups(groupList);
+        Group noGroup = groupList.remove(noGroupId);
+        Collections.sort(groupList, ascendingGroupByName);
+        groupList.add(noGroupId, noGroup);
     }
 
     public void backToMain(View view) {
@@ -146,8 +152,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                 newGroup = null;
                 groupColorBtn.getDrawable().mutate().setTint(resources.getColor(R.color.light_gray, null));
                 textInputEditText.setText("");
-                groupList = groupDBCtrl.getAllGroups(groupList);
-                Collections.sort(groupList, ascendingGroupByName);
+                setGroupList();
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 onSoftKeyboardDown(view);
@@ -182,8 +187,7 @@ public class GroupManagementActivity extends AppCompatActivity {
             }
             // Remove group
             else if(requestCode == resources.getInteger(R.integer.remove_group_code)) {
-                groupList = groupDBCtrl.getAllGroups(groupList);
-                Collections.sort(groupList, ascendingGroupByName);
+                setGroupList();
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();

@@ -16,7 +16,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -54,7 +53,6 @@ public class AddItemActivity extends Activity{
     private String item_name=null;
     public static DBAccess dbHelper;
 
-    ImageButton check_button;
     private String[] check_value = new String[7];
     private String check_result = null;
 
@@ -71,12 +69,13 @@ public class AddItemActivity extends Activity{
 
     private TextView groupTextView;
     private Group selectedGroup;
+    private CheckBox[] dayCheckBoxes;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_itemadd);
+        setContentView(R.layout.activity_add_item);
 
         dbHelper = DBAccess.getDbHelper();
         resources = getResources();
@@ -104,15 +103,16 @@ public class AddItemActivity extends Activity{
             }
         });
         /************************* 반복 data **************************************/
-        final CheckBox Monday = (CheckBox)findViewById(R.id.Monday);
-        final CheckBox Tuesday = (CheckBox)findViewById(R.id.Tuesday);
-        final CheckBox Wednesday = (CheckBox)findViewById(R.id.Wednesday);
-        final CheckBox Thursday = (CheckBox)findViewById(R.id.Thursday);
-        final CheckBox Friday = (CheckBox)findViewById(R.id.Friday);
-        final CheckBox Saturday = (CheckBox)findViewById(R.id.Saturday);
-        final CheckBox sunday = (CheckBox)findViewById(R.id.sunday);
+        dayCheckBoxes = new CheckBox[7];
+        String dayViewName = "day";
+        String packageName = getPackageName();
+        int viewId;
+        for(int i = 0; i < 7; i++) {
+            viewId = resources.getIdentifier(dayViewName + i, "id", packageName);
+            dayCheckBoxes[i] = findViewById(viewId);
+        }
 
-        repeat_switch = (Switch) findViewById(R.id.repeat_switch);
+        repeat_switch = findViewById(R.id.repeat_switch);
         checkBox_group = findViewById(R.id.checkBox_group);
 
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -188,78 +188,14 @@ public class AddItemActivity extends Activity{
                     });
                 }
                 else {
+                    for(CheckBox dayCheckBox : dayCheckBoxes) {
+                        dayCheckBox.setChecked(false);
+                    }
                     checkBox_group.setVisibility(View.GONE);
-                    Monday.setChecked(false);
-                    Tuesday.setChecked(false);
-                    Wednesday.setChecked(false);
-                    Thursday.setChecked(false);
-                    Friday.setChecked(false);
-                    Saturday.setChecked(false);
-                    sunday.setChecked(false);
                 }
             }
         });
 
-    }
-
-    public void check_check(View view) {
-        final CheckBox Monday = (CheckBox)findViewById(R.id.Monday);
-        final CheckBox Tuesday = (CheckBox)findViewById(R.id.Tuesday);
-        final CheckBox Wednesday = (CheckBox)findViewById(R.id.Wednesday);
-        final CheckBox Thursday = (CheckBox)findViewById(R.id.Thursday);
-        final CheckBox Friday = (CheckBox)findViewById(R.id.Friday);
-        final CheckBox Saturday = (CheckBox)findViewById(R.id.Saturday);
-        final CheckBox sunday = (CheckBox)findViewById(R.id.sunday);
-        if(Monday.isChecked() == true) {
-            check_value[0] = "1";
-        }else{
-            check_value[0] = "0";
-        }
-        if(Tuesday.isChecked() == true) {
-            check_value[1] = "1";
-        }else{
-            check_value[1] = "0";
-        }
-        if(Wednesday.isChecked() == true) {
-            check_value[2] = "1";
-        }else{
-            check_value[2] = "0";
-        }
-        if(Thursday.isChecked() == true) {
-            check_value[3] = "1";
-        }else{
-            check_value[3] = "0";
-        }
-        if(Friday.isChecked() == true) {
-            check_value[4] = "1";
-        }else{
-            check_value[4] = "0";
-        }
-        if(Saturday.isChecked() == true) {
-            check_value[5] = "1";
-        }else{
-            check_value[5] = "0";
-        }
-        if(sunday.isChecked() == true) {
-            check_value[6] = "1";
-        }else{
-            check_value[6] = "0";
-        }
-        String check_tem="";
-        String check_empty="";
-        for(int i=0; i<check_value.length;i++){
-            check_tem += check_value[i];
-
-            if (check_value[i]=="1"){
-                check_empty="not_empty";
-            }
-        }
-        if (check_empty.isEmpty()){
-            check_result=null;
-        }else{
-            check_result=check_tem;
-        }
-        Toast.makeText(getApplicationContext(),check_result, Toast.LENGTH_SHORT).show();
     }
 
     public void bringUpGroupSetting(View view) {
@@ -358,6 +294,21 @@ public class AddItemActivity extends Activity{
     }
 
     public void add_insert(View view) throws ParseException {
+        if(repeat_switch.isChecked()) {
+            check_result = "";
+            for(CheckBox dayCheckBox : dayCheckBoxes) {
+                if(dayCheckBox.isChecked()) {
+                    check_result += "1";
+                }
+                else {
+                    check_result += "0";
+                }
+            }
+        }
+        else {
+            check_result = null;
+        }
+
         SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
 
         //for _CALENDAR
@@ -386,7 +337,7 @@ public class AddItemActivity extends Activity{
 
         else {
             /** ADD NOT LOOP ITEM */
-            if(loopweek == null || loopweek=="0000000"){
+            if(loopweek == null || loopweek.equals("0000000")) {
                 /** Insert into _ITEM */
                 db.execSQL("" +
                         "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
