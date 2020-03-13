@@ -380,20 +380,20 @@ public class AddItemActivity extends Activity{
                     item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
                     StartDate + "', '" +
                     EndDate + "', " +
-                            "(SELECT to_do_id" +
-                            "from _ITEM " +
+                            "(SELECT to_do_id \n" +
+                            "FROM _ITEM \n" +
                              "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);"
             );
 
-            /** 테이블 : _LOOP_INFO  삽입***********************************************************************/
+            /** 테이블 : _LOOP_INFO  삽입
             db.execSQL("" +
                     "INSERT INTO _LOOP_INFO(to_do_id,loop_week)" +
-                    "VALUES(SELECT to_do_id" +
-                    "FROM _ITEM" +
+                    "VALUES (SELECT to_do_id \n" +
+                    "FROM _ITEM \n" +
                     "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1)," +
                     loopweek+");"
 
-            );
+            );*/
             Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
             finish();
         }
