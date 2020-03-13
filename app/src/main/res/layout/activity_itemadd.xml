@@ -199,7 +199,7 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:gravity="center_vertical"
-                            android:text="슈퍼 스타트 강남점"
+                            android:text="@string/no_location"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="25dp"/>
 

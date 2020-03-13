@@ -5,76 +5,78 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
+    android:background="@color/colorPrimaryBackground"
     android:onClick="onSoftKeyboardDown"
     tools:context=".add.view.LocationSearchActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        style="@style/TopBarStyle"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        android:background="@drawable/layout_border">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/search_result_layout">
 
         <ImageButton
-            android:id="@+id/close_button"
+            android:id="@+id/back_button"
+            style="@style/BackButtonStyle"
             android:onClick="backToAdd"
-            style="@style/CloseBtnStyle" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/location_search_layout"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </RelativeLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/location_search_layout"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/basic_margin"
+            android:gravity="center_vertical"
+            android:focusableInTouchMode="true"
+            app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/search_button"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/location_search_layout"
-        android:layout_width="@dimen/match_constraint"
-        android:layout_height="@dimen/text_input_layout_height"
-        android:layout_marginTop="@dimen/text_input_layout_top_margin"
-        android:layout_marginLeft="10dp"
-        android:focusableInTouchMode="true"
-        app:endIconMode="clear_text"
-        app:hintEnabled="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar"
-        app:layout_constraintEnd_toStartOf="@id/search_button">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/location_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@android:color/transparent"
+                android:hint="@string/location_placeholder" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/location_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:background="@android:color/transparent"
-            android:hint="@string/location_placeholder" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/search_button"
+            style="@style/TopBarButtonStyle"
+            android:foreground="@drawable/ic_search_24px"
+            android:onClick="searchLocation"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/location_search_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <ImageButton
-        android:id="@+id/search_button"
-        style="@style/ActionBtnStyle"
-        android:foreground="@drawable/ic_search_24px"
-        android:onClick="searchLocation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar"/>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ScrollView
+        style="@style/BottomLayout"
         android:id="@+id/search_result_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
         android:fillViewport="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/location_search_layout"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar"
         app:layout_constraintBottom_toBottomOf="parent">
         <ListView
             android:id="@+id/search_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_corner2"
-            android:layout_margin="10dp"
-            android:dividerHeight="0.5dp"
-            android:divider="@color/light_gray" />
+            android:divider="@null"/>
     </ScrollView>
 
 

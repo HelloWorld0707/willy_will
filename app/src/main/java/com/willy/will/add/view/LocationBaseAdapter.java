@@ -1,6 +1,7 @@
 package com.willy.will.add.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +37,20 @@ public class LocationBaseAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.location_listview, parent, false);
+            convertView = inflater.inflate(R.layout.item_location, parent, false);
         }
 
         TextView placeName = convertView.findViewById(R.id.place_name);
         TextView addressName = convertView.findViewById(R.id.address_name);
         Location location = getItem(position);
+        String addressNameValue = location.getAddressName();
         placeName.setText(location.getPlaceName());
-        addressName.setText(location.getAddressName());
+        Log.d("addressNameValue", "addressNameValue/" + addressNameValue+"/");
+        if(addressNameValue==null || addressNameValue.equals("")){
+            addressName.setVisibility(View.GONE);
+        }else{
+            addressName.setText(location.getAddressName());
+        }
 
         return convertView;
     }
