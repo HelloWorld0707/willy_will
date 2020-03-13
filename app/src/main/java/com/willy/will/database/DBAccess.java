@@ -34,14 +34,14 @@ public class DBAccess extends SQLiteOpenHelper {
         String query = null;
         // 새로운 테이블 생성
         query = "CREATE TABLE " + resources.getString(R.string.calendar_table) + "( " +
-                    resources.getString(R.string.calendar_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.calendar_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     resources.getString(R.string.calendar_date_column) + " TEXT NOT NULL, " +
                     resources.getString(R.string.item_id_column) + " INTEGER" +
                 " );";
         db.execSQL(query);
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.group_table) + "( " +
-                    resources.getString(R.string.group_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.group_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     resources.getString(R.string.group_name_column) + " TEXT NOT NULL, " +
                     resources.getString(R.string.group_color_column) + " TEXT NOT NULL" +
                 " );"
@@ -61,7 +61,7 @@ public class DBAccess extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.item_table) + "( " +
-                    resources.getString(R.string.item_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.item_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     resources.getString(R.string.group_id_column) + " INTEGER, " +
                     resources.getString(R.string.item_name_column) + " TEXT NOT NULL, " +
                     resources.getString(R.string.item_important_column) + " INTEGER, " +
@@ -75,7 +75,7 @@ public class DBAccess extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE TABLE " + resources.getString(R.string.loop_info_table) + "( " +
-                    resources.getString(R.string.loop_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    resources.getString(R.string.loop_id_column) + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     resources.getString(R.string.to_do_id_column) + " INTEGER NOT NULL, " +
                     resources.getString(R.string.loop_week_column) + " TEXT, " +
                     "UNIQUE (" + resources.getString(R.string.loop_id_column) + ", " + resources.getString(R.string.to_do_id_column) + ")" +

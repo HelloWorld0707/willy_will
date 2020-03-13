@@ -48,13 +48,11 @@ public class AddItemActivity extends Activity{
     private String start_date = null;
     private String end_date = null;
     private View checkBox_group;
-    private String itemName = null;
-
     private Spinner important;
     private int important_result;
     private double latitudeNum;
     private double longitudeNum;
-
+    private String item_name=null;
     public static DBAccess dbHelper;
 
     ImageButton check_button;
@@ -114,54 +112,6 @@ public class AddItemActivity extends Activity{
         final CheckBox Friday = (CheckBox)findViewById(R.id.Friday);
         final CheckBox Saturday = (CheckBox)findViewById(R.id.Saturday);
         final CheckBox sunday = (CheckBox)findViewById(R.id.sunday);
-        check_button = (ImageButton)findViewById(R.id.check_button);
-        check_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Monday.isChecked() == true) {
-                    check_value[0] = "1";
-                }else{
-                    check_value[0] = "0";
-                }
-                if(Tuesday.isChecked() == true) {
-                    check_value[1] = "1";
-                }else{
-                    check_value[1] = "0";
-                }
-                if(Wednesday.isChecked() == true) {
-                    check_value[2] = "1";
-                }else{
-                    check_value[2] = "0";
-                }
-                if(Thursday.isChecked() == true) {
-                    check_value[3] = "1";
-                }else{
-                    check_value[3] = "0";
-                }
-                if(Friday.isChecked() == true) {
-                    check_value[4] = "1";
-                }else{
-                    check_value[4] = "0";
-                }
-                if(Saturday.isChecked() == true) {
-                    check_value[5] = "1";
-                }else{
-                    check_value[5] = "0";
-                }
-                if(sunday.isChecked() == true) {
-                    check_value[6] = "1";
-                }else{
-                    check_value[6] = "0";
-                }
-
-                check_result="";
-                for(int i=0; i<check_value.length;i++){
-
-                    check_result += check_value[i];
-                }
-                Toast.makeText(getApplicationContext(),check_result, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         repeat_switch = (Switch) findViewById(R.id.repeat_switch);
         checkBox_group = findViewById(R.id.checkBox_group);
@@ -208,10 +158,6 @@ public class AddItemActivity extends Activity{
                 Title_editText.setInputType(1);
                 InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mgr.showSoftInput(Title_editText, InputMethodManager.SHOW_IMPLICIT);
-                itemName = Title_editText.getText().toString();
-                if(itemName.matches("")){
-                    itemName=null;
-                }
             }
         });
 
@@ -244,10 +190,77 @@ public class AddItemActivity extends Activity{
                 }
                 else {
                     checkBox_group.setVisibility(View.GONE);
+                    Monday.setChecked(false);
+                    Tuesday.setChecked(false);
+                    Wednesday.setChecked(false);
+                    Thursday.setChecked(false);
+                    Friday.setChecked(false);
+                    Saturday.setChecked(false);
+                    sunday.setChecked(false);
                 }
             }
         });
 
+    }
+
+    public void check_check(View view) {
+        final CheckBox Monday = (CheckBox)findViewById(R.id.Monday);
+        final CheckBox Tuesday = (CheckBox)findViewById(R.id.Tuesday);
+        final CheckBox Wednesday = (CheckBox)findViewById(R.id.Wednesday);
+        final CheckBox Thursday = (CheckBox)findViewById(R.id.Thursday);
+        final CheckBox Friday = (CheckBox)findViewById(R.id.Friday);
+        final CheckBox Saturday = (CheckBox)findViewById(R.id.Saturday);
+        final CheckBox sunday = (CheckBox)findViewById(R.id.sunday);
+        if(Monday.isChecked() == true) {
+            check_value[0] = "1";
+        }else{
+            check_value[0] = "0";
+        }
+        if(Tuesday.isChecked() == true) {
+            check_value[1] = "1";
+        }else{
+            check_value[1] = "0";
+        }
+        if(Wednesday.isChecked() == true) {
+            check_value[2] = "1";
+        }else{
+            check_value[2] = "0";
+        }
+        if(Thursday.isChecked() == true) {
+            check_value[3] = "1";
+        }else{
+            check_value[3] = "0";
+        }
+        if(Friday.isChecked() == true) {
+            check_value[4] = "1";
+        }else{
+            check_value[4] = "0";
+        }
+        if(Saturday.isChecked() == true) {
+            check_value[5] = "1";
+        }else{
+            check_value[5] = "0";
+        }
+        if(sunday.isChecked() == true) {
+            check_value[6] = "1";
+        }else{
+            check_value[6] = "0";
+        }
+        String check_tem="";
+        String check_empty="";
+        for(int i=0; i<check_value.length;i++){
+            check_tem += check_value[i];
+
+            if (check_value[i]=="1"){
+                check_empty="not_empty";
+            }
+        }
+        if (check_empty.isEmpty()){
+            check_result=null;
+        }else{
+            check_result=check_tem;
+        }
+        Toast.makeText(getApplicationContext(),check_result, Toast.LENGTH_SHORT).show();
     }
 
     public void bringUpGroupSetting(View view) {
@@ -359,7 +372,7 @@ public class AddItemActivity extends Activity{
 
         //for _ITEM
         int group_id = selectedGroup.getGroupId(); //group_id
-        String item_name = itemName; //item_name
+        item_name = Title_editText.getText().toString(); // item_name
         int item_important = important_result; //item_important
         String latitude = latitudeNum+""; //latitude
         String longitude = longitudeNum+""; //longitude
@@ -374,7 +387,7 @@ public class AddItemActivity extends Activity{
 
         else {
             /** ADD NOT LOOP ITEM */
-            if(loopweek == null){
+            if(loopweek == null || loopweek=="0000000"){
                 /** Insert into _ITEM */
                 db.execSQL("" +
                         "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +

@@ -251,6 +251,7 @@
                         android:textSize="18sp" />
                     <ImageButton
                         android:id="@+id/check_button"
+                        android:onClick="check_check"
                         style="@style/ActionBtnStyle"
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="366dp"
