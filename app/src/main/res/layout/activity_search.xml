@@ -4,60 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryBackground"
     android:onClick="onSoftKeyboardDown"
     tools:context=".search.view.SearchActivity">
 
-    <ImageButton
-        android:id="@+id/back_button"
-        style="@style/BackButtonStyle"
-        android:onClick="backToMain"
-        app:layout_constraintEnd_toStartOf="@id/search_text_input_layout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_layout"
+        style="@style/TopBarStyle"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_text_input_layout"
-        android:layout_width="@dimen/match_constraint"
-        android:layout_height="@dimen/text_input_layout_height"
-        android:layout_marginTop="@dimen/text_input_layout_top_margin"
-        android:focusableInTouchMode="true"
-        app:endIconMode="clear_text"
-        app:hintEnabled="false"
-        app:layout_constraintBottom_toTopOf="@id/search_setting_layout"
-        app:layout_constraintEnd_toStartOf="@id/search_button"
-        app:layout_constraintStart_toEndOf="@id/back_button"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/search_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:background="@android:color/transparent"
-            android:hint="@string/search_hint" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <ImageButton
-        android:id="@+id/search_button"
-        style="@style/ActionBtnStyle"
-        android:foreground="@drawable/ic_search_24px"
-        android:onClick="search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/search_text_input_layout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/search_setting_layout">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            style="@style/BackButtonStyle"
+            android:onClick="backToMain"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/search_text_input_layout"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_text_input_layout"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/basic_margin"
+            android:gravity="center_vertical"
+            android:focusableInTouchMode="true"
+            app:endIconMode="clear_text"
+            app:hintEnabled="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/search_button"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@android:color/transparent"
+                android:hint="@string/search_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/search_button"
+            style="@style/TopBarButtonStyle"
+            android:foreground="@drawable/ic_search_24px"
+            android:onClick="search"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/search_text_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_setting_layout"
-        android:layout_width="@dimen/match_constraint"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/basic_margin"
+        style="@style/TopBarStyle"
+        android:layout_height="@dimen/detail_list_thick_height"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/search_results_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_text_input_layout">
+        app:layout_constraintTop_toBottomOf="@id/top_layout">
 
         <Button
             android:id="@+id/group_search_setting_button"
@@ -120,27 +134,28 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_results_layout"
-        android:layout_width="@dimen/match_constraint"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
-        android:layout_marginHorizontal="@dimen/basic_margin"
+        android:paddingTop="@dimen/round_corner_layout_padding"
+        android:paddingHorizontal="@dimen/basic_padding"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_setting_layout">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_results_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_results_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
