@@ -49,7 +49,6 @@ public class AddItemActivity extends Activity{
     private String itemName = null;
 
     private Spinner important;
-    private String important_string = null;
     private int important_result;
 
     public static DBAccess dbHelper;
@@ -341,12 +340,17 @@ public class AddItemActivity extends Activity{
         }
     }
 
-    public void add_insert(View view){
+    public void add_insert(View view) throws ParseException {
         SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
 
         //for _CALENDAR
-        String calendar_dates = "2020-02-13";
-        int item_id=100;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date sdate = sdf.parse(start_date);
+        Date edate = sdf.parse(end_date);
+        long calDate = edate.getTime() - sdate.getTime();
+        long dateGap = calDate / (24*60*60*1000);
+        dateGap = Math.abs(dateGap);
+        String calenderDate = null;
 
         //for _ITEM
         int group_id = selectedGroup.getGroupId(); //group_id
@@ -355,8 +359,8 @@ public class AddItemActivity extends Activity{
         String latitude = null; //latitude
         String longitude = null; //longitude
         String done_date = null; //done_date
-        String StartDate = start_date;
-        String EndDate = end_date;
+        String startDate = start_date;
+        String endDate = end_date;
         String loopweek = check_result;
 
         if(item_name == null) {
@@ -364,36 +368,93 @@ public class AddItemActivity extends Activity{
         }
 
         else {
-            /** 테이블 : _CALENDAR  삽입******************************************************************/
+            /** ADD NOT LOOP ITEM */
+            if(loopweek == null){
+                /** Insert into _ITEM */
+                db.execSQL("" +
+                        "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                        "VALUES(" +
+                        group_id + ", '" +
+                        item_name + "', '" +
+                        item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                        startDate + "', '" +
+                        endDate + "', " +
+                        "(SELECT to_do_id \n" +
+                        "FROM _ITEM \n" +
+                        "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);"
+                );
+                /* ~Insert into _ITEM */
 
-            db.execSQL("" +
-                    "INSERT INTO _CALENDAR(calendar_date, item_id)" +
-                    "VALUES('" + calendar_dates + "', '" + item_id + "')"
-            );
+                /** Insert into _Calandar*/
 
-            /** 테이블 : _ITEM  삽입***********************************************************************/
-            db.execSQL("" +
-                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
-                    "VALUES(" +
-                    group_id + ", '" +
-                    item_name + "', '" +
-                    item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
-                    StartDate + "', '" +
-                    EndDate + "', " +
-                            "(SELECT to_do_id \n" +
-                            "FROM _ITEM \n" +
-                             "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);"
-            );
+                //setting startDate for DB
+                calendar.setTime(sdate);
+                calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
 
-            /** 테이블 : _LOOP_INFO  삽입
-            db.execSQL("" +
-                    "INSERT INTO _LOOP_INFO(to_do_id,loop_week)" +
-                    "VALUES (SELECT to_do_id \n" +
-                    "FROM _ITEM \n" +
-                    "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1)," +
-                    loopweek+");"
+                for(int i=0; i<dateGap+1; i++) {
+                    calendar.add(Calendar.DATE,1);
+                    calenderDate = sdf.format(calendar.getTime());
 
-            );*/
+                    db.execSQL("" +
+                            "INSERT INTO _CALENDAR(calendar_date, item_id)\n" +
+                            "VALUES('" + calenderDate + "'," +
+                            "(Select item_id\n" +
+                            "from _ITEM\n" +
+                            "WHERE item_id = (SELECT MAX(item_id) FROM _ITEM)));"
+                    );
+                }
+                /* ~Insert into _Calandar*/
+            }
+            /* ~ADD NOT LOOP ITEM */
+
+            /** ADD LOOP ITEM */
+            else {
+
+                /** 수정필요 Insert into _ITEM
+                db.execSQL("" +
+                        "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                        "VALUES(" +
+                        group_id + ", '" +
+                        item_name + "', '" +
+                        item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                        startDate + "', '" +
+                        endDate + "', " +
+                        "(SELECT to_do_id \n" +
+                        "FROM _ITEM \n" +
+                        "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);" //select문 가장 마지막 to_do id 구하는 용
+                );
+                /* ~Insert into _ITEM */
+
+                /** 수정필요 Insert into _Calandar
+
+                //setting startDate for DB
+                calendar.setTime(sdate);
+                calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
+
+                for(int i=0; i<dateGap+1; i++) {
+                    calendar.add(Calendar.DATE,1);
+                    calenderDate = sdf.format(calendar.getTime());
+
+                    db.execSQL("" +
+                            "INSERT INTO _CALENDAR(calendar_date, item_id)\n" +
+                            "VALUES('" + calenderDate + "'," +
+                            "(Select item_id\n" +
+                            "from _ITEM\n" +
+                            "WHERE item_id = (SELECT MAX(item_id) FROM _ITEM)));"
+                    );
+                }
+                /* ~Insert into _Calandar*/
+
+                /** Insert in to Loop*/
+                 db.execSQL(
+                 "INSERT INTO _LOOP_INFO(to_do_id,loop_week)" +
+                 "VALUES (" +
+                         "(SELECT to_do_id \n" +
+                         "FROM _ITEM \n" +
+                         "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1," +
+                         loopweek+");");
+
+            }
             Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
             finish();
         }
