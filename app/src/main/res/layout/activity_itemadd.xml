@@ -4,34 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
+    android:background="@color/colorPrimaryBackground"
     android:verticalScrollbarPosition="right"
     tools:context=".add.view.AddItemActivity">
 
-
     <RelativeLayout
         android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#ffffff"
+        style="@style/TopBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/AddScrollView">
 
         <ImageButton
             android:id="@+id/back_button"
-            style="@style/ActionBtnStyle"
-            android:layout_width="30dp"
+            style="@style/BackButtonStyle"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="50dp"
-            android:foreground="?attr/homeAsUpIndicator"
+            android:layout_centerVertical="true"
             android:onClick="Tomain" />
 
         <ImageButton
             android:id="@+id/submit_button"
-            style="@style/ActionBtnStyle"
+            style="@style/TopBarButtonStyle"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="366dp"
+            android:layout_centerVertical="true"
             android:foreground="@drawable/ic_rounded_check_24px"
             android:foregroundTint="@color/colorPrimary"
             android:onClick="add_insert" />
@@ -55,207 +51,201 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
+                style="@style/TopLayout"
+                android:padding="@dimen/detail_list_padding"
                 android:layout_width="match_parent"
-                android:layout_height="360dp"
-                android:background="@drawable/round_corner"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="20dp">
+                    android:layout_height="80dp"
+                    android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/Title_editText"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:ems="10"
                         android:hint="@string/edit_Title"
                         android:inputType="textPersonName"
-                        android:textSize="32sp" />
+                        android:textSize="23dp" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detail_list_thick_height">
 
                     <TextView
                         android:id="@+id/important_Vire"
-                        android:layout_width="140dp"
-                        android:layout_height="35dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="0dp"
-                        android:gravity="center"
-                        android:text="중요도 선택"
-                        android:textColor="@color/colorString"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/DetailTitleStyle"
+                        android:text="중요도" />
 
                     <Spinner
                         android:id="@+id/important"
-                        android:layout_width="100dp"
-                        android:layout_height="35dp"
-                        android:layout_below="@+id/important_Vire"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:entries="@array/important"
-                        android:text="중요도"
-                        android:textColor="@color/colorString" />
+                        android:text="중요도" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_height="@dimen/detail_list_thick_height"
+                    android:onClick="bringUpGroupSetting">
 
-                    <Button
-                        android:id="@+id/bnt_group"
-                        style="@style/ActionBtnStyle2"
-                        android:onClick="bringUpGroupSetting"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="0dp"
-                        android:gravity="center"
-                        android:text="그룹선택"
-                        android:textColor="@color/colorString"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:text="그룹"
+                        style="@style/DetailTitleStyle"/>
 
                     <TextView
                         android:id="@+id/group_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@null"
-                        android:ems="10"
-                        android:hint="@string/edit_Group"
-                        android:inputType="textPersonName"
-                        android:textSize="18sp"
-                        android:gravity="center|left"/>
-                </RelativeLayout>
+                        android:text="그룹 미정"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="25dp"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="30dp">
-
-                    <Button
-                        android:id="@+id/btn_start"
-                        style="@style/ActionBtnStyle2"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:onClick="setStart"
-                        android:text="시작날짜"
-                        android:textColor="@color/colorString"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/Text_start"
-                        style="@style/DetailTitleStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toEndOf="@+id/btn_start"
-                        android:background="@null"
-                        android:gravity="right|center_horizontal|center_vertical"
-                        android:hint="@string/Date"
-                        android:onClick="setStart"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="30dp">
-
-                    <Button
-                        android:id="@+id/btn_end"
-                        style="@style/ActionBtnStyle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:onClick="setEnd"
-                        android:text="종료날짜"
-                        android:textColor="@color/colorString"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/Text_end"
-                        style="@style/DetailTitleStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toEndOf="@+id/btn_end"
-                        android:background="@null"
-                        android:gravity="right|center_horizontal|center_vertical"
-                        android:hint="@string/Date"
-                        android:onClick="setEnd"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="30dp">
-
-                    <Button
-                        android:id="@+id/btn_Location"
-                        style="@style/ActionBtnStyle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentStart="true"
-                        android:gravity="center"
-                        android:onClick="bringUplocationSearch"
-                        android:text="위치"
-                        android:textColor="@color/colorString"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/next_btn" />
 
                 </RelativeLayout>
-
             </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    style="@style/RoundLayout"
+                    android:padding="@dimen/detail_list_padding"
+                    android:layout_marginBottom="@dimen/basic_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/detail_list_thick_height"
+                        android:onClick="setStart">
+
+                        <TextView
+                            android:id="@+id/btn_start"
+                            style="@style/DetailTitleStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/start_date"/>
+
+                        <TextView
+                            android:id="@+id/Text_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:hint="@string/Date"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginRight="25dp"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/detail_list_thick_height"
+                        android:onClick="setEnd">
+
+                        <TextView
+                            android:id="@+id/btn_end"
+                            style="@style/DetailTitleStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/end_date"/>
+
+                        <TextView
+                            android:id="@+id/Text_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:hint="@string/Date"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginRight="25dp"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:onClick="bringUplocationSearch">
+
+                        <TextView
+                            android:id="@+id/btn_Location"
+                            style="@style/DetailTitleStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/location"/>
+
+                        <TextView
+                            android:id="@+id/place_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center_vertical"
+                            android:text="슈퍼 스타트 강남점"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="25dp"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/next_btn" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/round_corner2"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/detail_list_padding"
+                style="@style/RoundLayout">
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp">
+                    android:layout_height="@dimen/detail_list_thick_height">
 
+                    <TextView
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="반복"/>
+
+                    <ImageButton
+                        android:id="@+id/check_button"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="150dp"
+                        android:foreground="@drawable/ic_rounded_check_24px"
+                        android:foregroundTint="@color/colorPrimary" />
                     <Switch
                         android:id="@+id/repeat_switch"
                         style="@style/DetailTitleStyle"
                         android:layout_width="100dp"
-                        android:layout_height="64dp"
-                        android:layout_alignParentStart="true"
-                        android:text="반복"
-                        android:textColor="@color/colorString"
-                        android:textOff="반복안함"
-                        android:textOn="반복"
-                        android:textSize="18sp" />
-                    <ImageButton
-                        android:id="@+id/check_button"
-                        style="@style/ActionBtnStyle"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="366dp"
-                        android:foreground="@drawable/ic_rounded_check_24px"
-                        android:foregroundTint="@color/colorPrimary" />
+                        android:layout_height="@dimen/detail_list_thick_height"
+                        android:layout_alignParentEnd="true" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -322,3 +312,4 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
