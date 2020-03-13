@@ -80,10 +80,10 @@
             android:name=".setting.view.AlarmActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".setting.TaskManagementActivity"
+            android:name=".setting.view.TaskManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".setting.ManageTasksPopupActivity"
+            android:name=".setting.view.ManageTasksPopupActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme" />
         <activity

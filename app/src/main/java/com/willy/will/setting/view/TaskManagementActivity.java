@@ -1,4 +1,4 @@
-package com.willy.will.setting;
+package com.willy.will.setting.view;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -20,7 +20,7 @@ import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.detail.view.DetailActivity;
 import com.willy.will.main.view.MainFragment;
 import com.willy.will.search.view.SearchActivity;
-import com.willy.will.setting.TaskManagementActivity;
+import com.willy.will.setting.view.TaskManagementActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
