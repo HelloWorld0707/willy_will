@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
-    android:onClick="onSoftKeyboardDown"
     tools:context=".add.view.LocationSearchActivity">
 
     <RelativeLayout
@@ -44,8 +43,6 @@
             android:id="@+id/location_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:background="@android:color/transparent"
             android:hint="@string/location_placeholder" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +71,7 @@
             android:background="@drawable/round_corner2"
             android:layout_margin="10dp"
             android:dividerHeight="0.5dp"
-            android:divider="@color/light_gray" />
+            android:divider="@color/light_gray"/>
     </ScrollView>
 
 
