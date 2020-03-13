@@ -285,6 +285,11 @@ public class MainActivity extends AppCompatActivity{
     /** terminate application */
     @Override
     public void onBackPressed() {
+        //checking open drawer
+        if(drawer.isDrawerOpen(drawerView)){
+            drawer.closeDrawer(drawerView);
+        }
+        
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.app_name);
         builder.setIcon(R.mipmap.ic_launcher);
