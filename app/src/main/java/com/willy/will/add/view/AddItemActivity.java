@@ -357,7 +357,6 @@ public class AddItemActivity extends Activity{
         String done_date = null; //done_date
         String StartDate = start_date;
         String EndDate = end_date;
-        int to_do_id = 100; // to_do_id
         String loopweek = check_result;
 
         if(item_name == null) {
