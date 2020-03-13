@@ -289,25 +289,26 @@ public class MainActivity extends AppCompatActivity{
         if(drawer.isDrawerOpen(drawerView)){
             drawer.closeDrawer(drawerView);
         }
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.app_name);
-        builder.setIcon(R.mipmap.ic_launcher);
-        builder.setMessage(getResources().getString(R.string.terminate_msg))
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dbHelper.close();
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(R.string.app_name);
+            builder.setIcon(R.mipmap.ic_launcher);
+            builder.setMessage(getResources().getString(R.string.terminate_msg))
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dbHelper.close();
+                            android.os.Process.killProcess(android.os.Process.myPid());
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
     /* ~terminate application */
 
