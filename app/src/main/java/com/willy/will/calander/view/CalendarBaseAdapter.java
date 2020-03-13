@@ -38,7 +38,7 @@ public class CalendarBaseAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.calendar_listview, parent, false);
+            convertView = inflater.inflate(R.layout.item_calendar, parent, false);
         }
 
         ImageView colorTmp = convertView.findViewById(R.id.calendar_group_color);
@@ -61,4 +61,5 @@ public class CalendarBaseAdapter extends BaseAdapter {
     public void addItem(DateDBController.ItemNGroup item){
         items.add(item);
     }
+
 }
