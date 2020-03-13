@@ -158,7 +158,7 @@ public class LocationSearchActivity extends Activity {
                     public void run() {
                         searchList.setAdapter(locationBaseAdapter);
                         ViewGroup.LayoutParams params = searchList.getLayoutParams();
-                        int height = 60;// findViewById(R.id.calendarListView).getMeasuredHeight();
+                        int height = 70;// findViewById(R.id.calendarListView).getMeasuredHeight();
                         int listSize = locationBaseAdapter.getCount();
                         params.height = height * listSize;
                         searchList.setLayoutParams(params);
