@@ -60,8 +60,7 @@ public class TaskManagementActivity extends AppCompatActivity {
                 R.string.selection_id_task_management, false
         );
         recyclerView = recyclerViewSetter.setRecyclerView();
-        // WARNING: Only one must be assigned
-        recyclerViewSetter.setFragmentAndActivities(null, null, this);
+        recyclerViewSetter.setActivity(this);
         /* ~Set Views */
     }
 

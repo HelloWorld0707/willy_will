@@ -19,8 +19,11 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
 
     private SelectionTracker<Long> tracker = null;
 
-    private ArrayList<T> dset = null;
+    private ArrayList<T> dset;
     private RecyclerViewItemType type;
+
+    // For no tracker
+    private int selectedPosition = -1;
 
     public RecyclerViewAdapter(RecyclerViewItemType itemType, ArrayList<T> dataset) {
         type = itemType;
@@ -42,6 +45,14 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         return dset.get(position);
     }
 
+    // For no tracker
+    public int getSelectedPosition() {
+        return selectedPosition;
+    }
+    public void setSelectedPosition(int position) {
+        this.selectedPosition = position;
+    }
+
     // Called for each item
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,6 +70,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
                 type == RecyclerViewItemType.DONE_SEARCH ||
                 type == RecyclerViewItemType.LOOP_SEARCH) {
             layoutId = R.layout.item_text_only;
+        }
+        // Group Management
+        else if(type == RecyclerViewItemType.GROUP) {
+            layoutId = R.layout.item_group;
         }
         // Task
         else if(type == RecyclerViewItemType.TASK) {
@@ -80,6 +95,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         T data = dset.get(position);
         if (tracker != null) {
             holder.bind(type, data, tracker.isSelected(Long.valueOf(position)));
+        }
+        else {
+            boolean selected = (position == selectedPosition) ? true : false;
+            holder.bind(type, data, selected);
         }
     }
 
