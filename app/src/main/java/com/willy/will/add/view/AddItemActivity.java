@@ -116,7 +116,6 @@ public class AddItemActivity extends Activity{
         check_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = "";  // 결과를 출력할 문자열  ,  항상 스트링은 빈문자열로 초기화 하는 습관을 가지자
                 if(Monday.isChecked() == true) {
                     check_value[0] = "1";
                 }else{
@@ -152,6 +151,7 @@ public class AddItemActivity extends Activity{
                 }else{
                     check_value[6] = "0";
                 }
+
                 check_result="";
                 for(int i=0; i<check_value.length;i++){
 
@@ -358,8 +358,8 @@ public class AddItemActivity extends Activity{
         String StartDate = start_date;
         String EndDate = end_date;
         int to_do_id = 100; // to_do_id
+        String loopweek = check_result;
 
-        Log.d("NULLCHECK","************************NULLCHECK:"+item_name+"****************");
         if(item_name == null) {
             Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
         }
@@ -380,8 +380,20 @@ public class AddItemActivity extends Activity{
                     item_name + "', '" +
                     item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
                     StartDate + "', '" +
-                    EndDate + "', '" +
-                    to_do_id + "')"
+                    EndDate + "', " +
+                            "(SELECT to_do_id" +
+                            "from _ITEM " +
+                             "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);"
+            );
+
+            /** 테이블 : _LOOP_INFO  삽입***********************************************************************/
+            db.execSQL("" +
+                    "INSERT INTO _LOOP_INFO(to_do_id,loop_week)" +
+                    "VALUES(SELECT to_do_id" +
+                    "FROM _ITEM" +
+                    "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1)," +
+                    loopweek+");"
+
             );
             Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
             finish();
