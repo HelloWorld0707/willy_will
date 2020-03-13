@@ -244,6 +244,7 @@ public class GroupManagementActivity extends AppCompatActivity {
             /** Set the group color circle **/
             if(data.getGroupId() == 0) {
                 groupColorView.setActivated(false);
+                groupColorView.getDrawable().mutate().setTint(resources.getColor(R.color.dark_gray, null));
             }
             else {
                 groupColorView.setActivated(true);
