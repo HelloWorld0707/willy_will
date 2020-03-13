@@ -113,6 +113,7 @@ public class CalendarActivity extends Activity {
 
         /** Create List Adapter*/
         final CalendarBaseAdapter calendarBaseAdapter = new CalendarBaseAdapter();
+        //calendarBaseAdapter.initializeHeight();
 
         /** setDBController*/
         dateDBController = new DateDBController(resources);
@@ -128,7 +129,7 @@ public class CalendarActivity extends Activity {
         if(calendarBaseAdapter.getCount() > 0)
             calendarList.setVisibility(View.VISIBLE);
         else
-            calendarList.setVisibility(View.INVISIBLE);
+            calendarList.setVisibility(View.GONE);
 
         // set ListView Click Listener
         calendarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -145,15 +146,14 @@ public class CalendarActivity extends Activity {
         // ~set ListView Click Listener
 
         // setListView Height
-        /*
         ViewGroup.LayoutParams params = calendarList.getLayoutParams();
 
-        int height = 134;// findViewById(R.id.calendarListView).getMeasuredHeight();
+        int heightPixel = resources.getDimensionPixelSize(R.dimen.text_recycler_item_height) + calendarList.getDividerHeight();
         int listSize = calendarBaseAdapter.getCount();
-        params.height = height * listSize;
+        params.height = calendarList.getPaddingTop() + heightPixel * listSize + calendarList.getPaddingBottom();
+
         calendarList.setLayoutParams(params);
         calendarList.requestLayout();
-        */
         // ~setListView Height
     }
 
