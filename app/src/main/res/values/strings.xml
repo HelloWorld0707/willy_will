@@ -98,6 +98,7 @@
     <string name="group_setting_key">groupSettingKey</string>
     <string name="group_color_setting_key">groupColorSettingKey</string>
     <string name="group_removal_key">groupRemovalKey</string>
+    <string name="location_search_key">locationSearchKey</string>
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
@@ -111,6 +112,7 @@
 
     <!-- startActivityForResult -->
     <string name="request_code">requestCode</string>
+    <string name="location_search_code">locationSearchCode</string>
     <!-- ~startActivityForResult -->
 
     <!-- distance -->

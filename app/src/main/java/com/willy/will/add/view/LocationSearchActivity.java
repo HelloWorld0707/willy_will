@@ -11,17 +11,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.common.model.Location;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 
 public class LocationSearchActivity extends Activity {
@@ -54,11 +53,13 @@ public class LocationSearchActivity extends Activity {
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                ArrayList<Location> locationArrayList = new ArrayList<>();
                 Location location = locationBaseAdapter.getItem(position);
-                Intent intent = new Intent(LocationSearchActivity.this, AddItemActivity.class);
-                intent.putExtra("place", location);
-                startActivity(intent);
-
+                locationArrayList.add(location);
+                intent.putParcelableArrayListExtra(getResources().getString(R.string.location_search_key), locationArrayList);
+                setResult(RESULT_FIRST_USER,intent);
+                finish();
             }
         });
 

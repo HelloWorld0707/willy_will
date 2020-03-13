@@ -12,7 +12,7 @@ import com.willy.will.main.view.MainActivity;
 public class DeletePopupActivity extends PopupActivity {
 
     private DetailController detailCtrl;
-    int todoId;
+    private int todoId;
 
 
     public DeletePopupActivity(){
@@ -22,18 +22,14 @@ public class DeletePopupActivity extends PopupActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //detailCtrl = new DetailController();
         Intent intent = getIntent();
         todoId = intent.getIntExtra("todoId",-1);
-        Log.d("todoID", "1: "+todoId);
-        //detailCtrl.deleteItemByTodoId(todoId);
     }
 
     public boolean setResults(Intent intent){
         detailCtrl = new DetailController();
         detailCtrl.deleteItemByTodoId(todoId);
-        Intent intent1 = new Intent(DeletePopupActivity.this, MainActivity.class); // 수정 필요
+        Intent intent1 = new Intent(DeletePopupActivity.this, MainActivity.class);
         startActivity(intent1);
         return true;
     }
