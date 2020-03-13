@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AscendingGroupByName;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.PopupActivity;
 import com.willy.will.common.model.RecyclerViewItemType;
@@ -20,7 +21,6 @@ import com.willy.will.database.GroupDBController;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 public class GroupSearchSettingActivity extends PopupActivity {
@@ -113,13 +113,6 @@ public class GroupSearchSettingActivity extends PopupActivity {
         }
         intent.putParcelableArrayListExtra(getResources().getString(R.string.selected_groups_key), selectedGroups);
         return true;
-    }
-
-    class AscendingGroupByName implements Comparator<Group> {
-        @Override
-        public int compare(Group o1, Group o2) {
-            return (o2.getGroupName()).compareTo(o1.getGroupName());
-        }
     }
 
 }

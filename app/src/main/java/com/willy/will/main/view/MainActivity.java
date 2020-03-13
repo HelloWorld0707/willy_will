@@ -30,9 +30,8 @@ import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
-import com.willy.will.setting.view.AlarmActivity;
 import com.willy.will.setting.TaskManagementActivity;
-import com.willy.will.setting.controller.AlarmSet;
+import com.willy.will.setting.view.AlarmActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -168,12 +167,12 @@ public class MainActivity extends AppCompatActivity{
         /** set alarm **/
         SharedPreferences sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        String alarmState = sharedPreferences.getString("AlarmState", "default");
+        /*String alarmState = sharedPreferences.getString("AlarmState", "default");
         if(alarmState.equals("default")){
             AlarmSet.onAlarm(this);
             editor.putString("AlarmState", "on");
             editor.commit();
-        }
+        }*/
         /*~ set alarm ~*/
 
     }

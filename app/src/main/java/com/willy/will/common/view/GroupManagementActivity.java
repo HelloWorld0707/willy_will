@@ -17,11 +17,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AscendingGroupByName;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.database.GroupDBController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GroupManagementActivity extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     private int noGroupId;
 
     private GroupDBController groupDBCtrl;
+    private AscendingGroupByName ascendingGroupByName;
     private InputMethodManager inputMethodManager;
 
     private ImageButton submitBtn;
@@ -53,6 +56,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         noGroupId = resources.getInteger(R.integer.no_group_id);
 
         groupDBCtrl = new GroupDBController(resources);
+        ascendingGroupByName = new AscendingGroupByName();
 
         /** Set start to remove button and submit button **/
         submitBtn = findViewById(R.id.submit_button);
@@ -76,6 +80,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         /** Set group list view **/
         groupList = groupDBCtrl.getAllGroups(groupList);
+        Collections.sort(groupList, ascendingGroupByName);
 
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.group_recycler_view, getWindow().getDecorView(),
@@ -99,18 +104,6 @@ public class GroupManagementActivity extends AppCompatActivity {
         // ~Check focusing
 
         this.finish();
-    }
-
-    public void startToRemoveGroup(View view) {
-        onSoftKeyboardDown(view);
-        if(removing) {
-            ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
-            removing = false;
-        }
-        else {
-            removing = true;
-        }
-        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public void submit(View view) {
@@ -154,6 +147,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                 groupColorBtn.getDrawable().mutate().setTint(resources.getColor(R.color.light_gray, null));
                 textInputEditText.setText("");
                 groupList = groupDBCtrl.getAllGroups(groupList);
+                Collections.sort(groupList, ascendingGroupByName);
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 onSoftKeyboardDown(view);
@@ -189,6 +183,7 @@ public class GroupManagementActivity extends AppCompatActivity {
             // Remove group
             else if(requestCode == resources.getInteger(R.integer.remove_group_code)) {
                 groupList = groupDBCtrl.getAllGroups(groupList);
+                Collections.sort(groupList, ascendingGroupByName);
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();
