@@ -1,5 +1,6 @@
 package com.willy.will.adapter;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,7 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,11 +27,14 @@ import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
+import com.willy.will.common.view.DeleteGroupPopupActivity;
+import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.ToDoItemDBController;
 
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
     private static BackgroundColorSpan inactiveColorSpan = new BackgroundColorSpan(App.getContext().getColor(R.color.colorInactive));
+    private static int NO_GROUP_ID = App.getContext().getResources().getInteger(R.integer.no_group_id);
 
     private RecyclerViewAdapter rcyclerVAdapter = null;
 
@@ -40,6 +46,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private ImageView imgRoutine;
     private TextView tvTime;
     private CheckBox cbDone;
+
+    private ImageView groupColorView;
+    private TextView groupName;
+    private ImageButton removeButton;
+    private RadioButton radioButton;
 
     private ImageView groupColorCircleView;
     private TextView taskNameView;
@@ -86,6 +97,44 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 type == RecyclerViewItemType.DONE_SEARCH ||
                 type == RecyclerViewItemType.LOOP_SEARCH) {
             textOnlyView = view.findViewById(R.id.text_recycler_item);
+        }
+        // Group Management
+        else if(type == RecyclerViewItemType.GROUP) {
+            groupColorView = view.findViewById(R.id.group_color);
+            groupName = view.findViewById(R.id.group_name);
+            removeButton = view.findViewById(R.id.remove_button);
+            radioButton = view.findViewById(R.id.radio_button);
+
+            boolean removing = GroupManagementActivity.isRemoving();
+            if(removing) {
+                removeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GroupManagementActivity activity = RecyclerViewSetter.getGroupManagementActivity();
+
+                        int position = Math.toIntExact(getItemId());
+                        Group selectedGroup = (Group) rcyclerVAdapter.getData(position);
+                        Intent intent = new Intent(activity, DeleteGroupPopupActivity.class);
+                        intent.putExtra(
+                                activity.getResources().getString(R.string.group_removal_key),
+                                selectedGroup
+                        );
+
+                        int code = activity.getResources().getInteger(R.integer.remove_group_code);
+                        activity.startActivityForResult(intent, code);
+                    }
+                });
+            }
+            else {
+                radioButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = Math.toIntExact(getItemId());
+                        rcyclerVAdapter.setSelectedPosition(position);
+                        rcyclerVAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
         }
         // Task
         else if(type == RecyclerViewItemType.TASK) {
@@ -166,7 +215,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             else {
                 imgRank.setImageDrawable(null);
             }
-            //setActivation(cbDone.isChecked(), mitem.getGroupColor);
             setActivation(id, cbDone.isChecked(), color, loop);
         }
         // Group
@@ -191,10 +239,43 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             String text = (String) data;
             textOnlyView.setText(text);
         }
+        // Group Management
+        else if(type == RecyclerViewItemType.GROUP) {
+            Group group = (Group) data;
+
+            Resources resources = App.getContext().getResources();
+
+            if(group.getGroupId() == NO_GROUP_ID) {
+                groupColorView.setActivated(false);
+                groupColorView.getDrawable().mutate().setTint(resources.getColor(R.color.dark_gray, null));
+            }
+            else {
+                groupColorView.setActivated(true);
+                groupColorView.getDrawable().mutate().setTint(Color.parseColor(group.getGroupColor()));
+            }
+
+            groupName.setText(group.getGroupName());
+
+            boolean removing = GroupManagementActivity.isRemoving();
+            if(removing) {
+                if(group.getGroupId() == NO_GROUP_ID) {
+                    removeButton.setVisibility(View.GONE);
+                }
+                else {
+                    removeButton.setVisibility(View.VISIBLE);
+                }
+                radioButton.setVisibility(View.GONE);
+            }
+            else {
+                removeButton.setVisibility(View.GONE);
+                radioButton.setVisibility(View.VISIBLE);
+                radioButton.setChecked(isSelected);
+            }
+        }
         // Task
         else if(type == RecyclerViewItemType.TASK) {
             Task task = (Task) data;
-            if(task.getGroup().getGroupId() == 0) {
+            if(task.getGroup().getGroupId() == NO_GROUP_ID) {
                 groupColorCircleView.setActivated(false);
             }
             else {
@@ -211,8 +292,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         }
 
         itemView.setSelected(isSelected);
-        if(isSelected && (type == RecyclerViewItemType.TASK)) {
-            groupColorCircleView.setSelected(false);
+        if(isSelected) {
+            if (type == RecyclerViewItemType.GROUP) {
+                groupColorView.setSelected(false);
+            }
+            else if(type == RecyclerViewItemType.TASK) {
+                groupColorCircleView.setSelected(false);
+            }
         }
     }
 

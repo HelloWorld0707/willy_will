@@ -16,6 +16,7 @@ import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
+import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.detail.view.DetailActivity;
 import com.willy.will.main.view.MainFragment;
 import com.willy.will.search.view.SearchActivity;
@@ -27,22 +28,23 @@ import java.util.ArrayList;
 public class RecyclerViewSetter {
 
     /** For Setting RecyclerView **/
-    private View parentView = null;
-    private ArrayList list = null;
-    private SelectionTracker.SelectionPredicate predicate = null;
+    private View parentView;
+    private ArrayList list;
+    private SelectionTracker.SelectionPredicate predicate;
     private RecyclerViewItemType type;
-    private int recyclerId = 0;
-    private int selectId = 0;
+    private int recyclerId;
+    private int selectId;
 
     private RecyclerViewAdapter adapter = null;
     private SelectionTracker tracker = null;
     /* ~For Setting RecyclerView */
 
-    /** For To-do Item **/
+    /** For starting Activity **/
     private MainFragment mainFragment = null;
     private SearchActivity searchActivity = null;
     private TaskManagementActivity taskManagementActivity = null;
-    /* ~For To-do Item */
+    private static GroupManagementActivity groupManagementActivity = null;
+    /* ~For starting Activity */
 
     /** For Group Search Setting **/
     private TextView selectingAllView = null;
@@ -60,11 +62,15 @@ public class RecyclerViewSetter {
         list = dataSet;
         selectId = selectionId;
         /** Set selection predicate for tracker **/
-        if(multipleSelection) {
-            predicate = SelectionPredicates.createSelectAnything();
+        if(selectionId == 0) {
+            predicate = null;
         }
         else {
-            predicate = SelectionPredicates.createSelectSingleAnything();
+            if (multipleSelection) {
+                predicate = SelectionPredicates.createSelectAnything();
+            } else {
+                predicate = SelectionPredicates.createSelectSingleAnything();
+            }
         }
         /* ~Set selection predicate for tracker */
 
@@ -90,61 +96,94 @@ public class RecyclerViewSetter {
         recyclerView.setAdapter(adapter);
         /* ~Set Adapter */
 
-        /** Set Tracker **/
-        tracker = new SelectionTracker.Builder(
-                parentView.getResources().getString(selectId),
-                recyclerView,
-                new RecyclerItemKeyProvider(recyclerView),
-                new RecyclerItemDetailsLookup(recyclerView),
-                StorageStrategy.createLongStorage()
-        ).withSelectionPredicate(
-                predicate
-        ).build();
-        adapter.setTracker(tracker);
-        tracker.addObserver(new SelectionTracker.SelectionObserver() {
-            @Override
-            public void onSelectionChanged() {
-                super.onSelectionChanged();
+        /** Set Selected Position **/
+        // Group Management
+        if (type == RecyclerViewItemType.GROUP) {
+            adapter.setSelectedPosition(parentView.getResources().getInteger(R.integer.no_group_id));
+        }
+        /* ~Set Selected Position */
+        /** Or Set Tracker **/
+        else if(selectId != 0) {
+            tracker = new SelectionTracker.Builder(
+                    parentView.getResources().getString(selectId),
+                    recyclerView,
+                    new RecyclerItemKeyProvider(recyclerView),
+                    new RecyclerItemDetailsLookup(recyclerView),
+                    StorageStrategy.createLongStorage()
+            ).withSelectionPredicate(
+                    predicate
+            ).build();
+            adapter.setTracker(tracker);
+            tracker.addObserver(new SelectionTracker.SelectionObserver() {
+                @Override
+                public void onSelectionChanged() {
+                    super.onSelectionChanged();
 
-                // To-do item (of Main or Search)
-                if(type == RecyclerViewItemType.TO_DO_MAIN ||
-                   type == RecyclerViewItemType.TO_DO_SEARCH) {
-                    if(tracker.hasSelection()) {
-                        selectToDoItem();
+                    // To-do item (of Main or Search)
+                    if (type == RecyclerViewItemType.TO_DO_MAIN ||
+                            type == RecyclerViewItemType.TO_DO_SEARCH) {
+                        if (tracker.hasSelection()) {
+                            selectToDoItem();
+                        }
+                    }
+                    // Group
+                    else if (type == RecyclerViewItemType.GROUP_SEARCH) {
+                        changeGroupItem();
+                    }
+                    // Done or Loop
+                    else if (type == RecyclerViewItemType.DONE_SEARCH ||
+                            type == RecyclerViewItemType.LOOP_SEARCH) {
+                    }
+                    // Task
+                    else if (type == RecyclerViewItemType.TASK) {
+                        if (tracker.hasSelection()) {
+                            selectTask();
+                        }
+                    }
+                    // ERROR: Wrong type
+                    else {
+                        Log.e("RecyclerViewSetter", "Setting: Wrong type");
                     }
                 }
-                // Group
-                else if(type == RecyclerViewItemType.GROUP_SEARCH) {
-                    changeGroupItem();
-                }
-                // Done or Loop
-                else if(type == RecyclerViewItemType.DONE_SEARCH ||
-                        type == RecyclerViewItemType.LOOP_SEARCH) { }
-                // Task
-                else if(type == RecyclerViewItemType.TASK) {
-                    if(tracker.hasSelection()) {
-                        selectTask();
-                    }
-                }
-                // ERROR: Wrong type
-                else {
-                    Log.e("RecyclerViewSetter", "Setting: Wrong type");
-                }
-            }
 
-        });
+            });
+        }
+        // ERROR: Wrong selection ID
+        else {
+            Log.e("RecyclerViewSetter", "Setting: Wrong selection ID");
+        }
         /* ~Set Tracker */
 
         return recyclerView;
     }
 
     // WARNING: Only one must be assigned
-    public void setFragmentAndActivities(MainFragment main,
-                                         SearchActivity search,
-                                         TaskManagementActivity taskManagement) {
+    public void setFragment(MainFragment main) {
         mainFragment = main;
+        searchActivity = null;
+        taskManagementActivity = null;
+        groupManagementActivity = null;
+    }
+    public void setActivity(SearchActivity search) {
+        mainFragment = null;
         searchActivity = search;
+        taskManagementActivity = null;
+        groupManagementActivity = null;
+    }
+    public void setActivity(TaskManagementActivity taskManagement) {
+        mainFragment = null;
+        searchActivity = null;
         taskManagementActivity = taskManagement;
+        groupManagementActivity = null;
+    }
+    public void setActivity(GroupManagementActivity groupManagement) {
+        mainFragment = null;
+        searchActivity = null;
+        taskManagementActivity = null;
+        groupManagementActivity = groupManagement;
+    }
+    public static GroupManagementActivity getGroupManagementActivity() {
+        return groupManagementActivity;
     }
 
     private void selectToDoItem() {

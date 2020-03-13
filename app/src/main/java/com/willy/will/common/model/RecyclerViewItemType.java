@@ -6,5 +6,6 @@ public enum RecyclerViewItemType {
     GROUP_SEARCH,
     DONE_SEARCH,
     LOOP_SEARCH,
+    GROUP,
     TASK
 }

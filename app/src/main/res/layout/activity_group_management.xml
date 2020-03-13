@@ -24,30 +24,15 @@
             android:layout_centerVertical="true"
             android:onClick="backToMain" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <ImageButton
+            android:id="@+id/submit_button"
+            style="@style/TopBarButtonStyle"
+            android:layout_marginLeft="@dimen/basic_margin"
+            android:foreground="@drawable/ic_rounded_check_24px"
+            android:foregroundTint="@color/colorPrimary"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/start_to_remove_button"
-                style="@style/TopBarButtonStyle"
-                android:layout_marginLeft="@dimen/basic_margin"
-                android:foreground="@drawable/ic_delete_24px"
-                android:onClick="startToRemoveGroup" />
-
-            <ImageButton
-                android:id="@+id/submit_button"
-                style="@style/TopBarButtonStyle"
-                android:layout_marginLeft="@dimen/basic_margin"
-                android:foreground="@drawable/ic_rounded_check_24px"
-                android:foregroundTint="@color/colorPrimary"
-                android:onClick="submit" />
-
-        </LinearLayout>
+            android:onClick="submit" />
 
     </RelativeLayout>
 
@@ -110,13 +95,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
-        <ListView
-            android:id="@+id/group_list_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/group_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:choiceMode="none"
-            android:divider="@null"
-            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
             app:layout_constrainedHeight="true"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintTop_toTopOf="parent"

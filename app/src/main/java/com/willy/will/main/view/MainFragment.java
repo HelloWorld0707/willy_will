@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +20,10 @@ import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.ToDoItemDBController;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class MainFragment extends Fragment {
     //Recycler View
@@ -106,8 +102,7 @@ public class MainFragment extends Fragment {
                     R.string.selection_id_main, false
             );
             recyclerView = recyclerViewSetter.setRecyclerView();
-            // WARNING: Only one must be assigned
-            recyclerViewSetter.setFragmentAndActivities(this, null, null);
+            recyclerViewSetter.setFragment(this);
             /* ~Initialization (including Item View) */
         }
         return rootView;
