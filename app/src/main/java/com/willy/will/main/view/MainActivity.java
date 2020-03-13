@@ -30,9 +30,9 @@ import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
-import com.willy.will.setting.view.AlarmActivity;
-import com.willy.will.setting.TaskManagementActivity;
+import com.willy.will.setting.view.TaskManagementActivity;
 import com.willy.will.setting.controller.AlarmSet;
+import com.willy.will.setting.view.AlarmActivity;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

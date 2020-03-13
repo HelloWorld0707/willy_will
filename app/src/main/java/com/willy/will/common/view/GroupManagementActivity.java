@@ -4,27 +4,26 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
-import com.willy.will.adapter.ListViewAdapter;
-import com.willy.will.adapter.ListViewHolder;
+import com.willy.will.adapter.RecyclerViewAdapter;
+import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AscendingGroupByName;
 import com.willy.will.common.model.Group;
+import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.database.GroupDBController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GroupManagementActivity extends AppCompatActivity {
 
@@ -34,17 +33,17 @@ public class GroupManagementActivity extends AppCompatActivity {
     private int noGroupId;
 
     private GroupDBController groupDBCtrl;
+    private AscendingGroupByName ascendingGroupByName;
     private InputMethodManager inputMethodManager;
-    private ListViewAdapter<Group> adapter;
 
-    private ImageButton startToRemoveBtn;
     private ImageButton submitBtn;
     private ImageButton groupColorBtn;
     private TextInputEditText textInputEditText;
+    private RecyclerView recyclerView;
 
     private ArrayList<Group> groupList;
     private Group newGroup;
-    private boolean removing;
+    private static boolean removing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +56,20 @@ public class GroupManagementActivity extends AppCompatActivity {
         noGroupId = resources.getInteger(R.integer.no_group_id);
 
         groupDBCtrl = new GroupDBController(resources);
+        ascendingGroupByName = new AscendingGroupByName();
 
         /** Set start to remove button and submit button **/
-        startToRemoveBtn = findViewById(R.id.start_to_remove_button);
         submitBtn = findViewById(R.id.submit_button);
         int requestCode = getIntent().getIntExtra(
                 resources.getString(R.string.request_code),
-                getResources().getInteger(R.integer.group_setting_code)
+                resources.getInteger(R.integer.group_setting_code)
         );
-        if(requestCode == getResources().getInteger(R.integer.group_setting_code)) {
-            startToRemoveBtn.setVisibility(View.GONE);
+        if(requestCode == resources.getInteger(R.integer.group_setting_code)) {
+            removing = false;
         }
-        if(requestCode == resources.getInteger(R.integer.group_management_code)) {
+        else if(requestCode == resources.getInteger(R.integer.group_management_code)) {
             submitBtn.setVisibility(View.GONE);
+            removing = true;
         }
         /* ~Set start to remove button and submit button */
 
@@ -80,22 +80,19 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         /** Set group list view **/
         groupList = groupDBCtrl.getAllGroups(groupList);
+        Collections.sort(groupList, ascendingGroupByName);
 
-        adapter = new ListViewAdapter<>(
-                groupList,
-                R.layout.item_group,
-                new GroupListViewHolder(this),
-                noGroupId
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
+                R.id.group_recycler_view, getWindow().getDecorView(),
+                RecyclerViewItemType.GROUP, groupList,
+                0, false
         );
-
-        ListView groupListView = (ListView) findViewById(R.id.group_list_view);
-        groupListView.setAdapter(adapter);
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        recyclerViewSetter.setActivity(this);
         /* ~Set group list view */
 
         groupColorBtn = findViewById(R.id.group_color_button);
         groupColorBtn.setActivated(true);
-
-        removing = false;
     }
 
     public void backToMain(View view) {
@@ -109,19 +106,6 @@ public class GroupManagementActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public void startToRemoveGroup(View view) {
-        onSoftKeyboardDown(view);
-        if(removing) {
-            removing = false;
-            adapter.setSelectedPosition(noGroupId);
-            adapter.notifyDataSetChanged();
-        }
-        else {
-            removing = true;
-            adapter.notifyDataSetChanged();
-        }
-    }
-
     public void submit(View view) {
         // Check focusing
         View focusedView = getCurrentFocus();
@@ -131,9 +115,10 @@ public class GroupManagementActivity extends AppCompatActivity {
         // ~Check focusing
 
         Intent intent = new Intent();
+        int p = ((RecyclerViewAdapter) recyclerView.getAdapter()).getSelectedPosition();
         intent.putExtra(
                 resources.getString(R.string.group_setting_key),
-                groupList.get(adapter.getSelectedPosition())
+                groupList.get(p)
         );
         setResult(RESULT_FIRST_USER, intent);
         this.finish();
@@ -162,7 +147,9 @@ public class GroupManagementActivity extends AppCompatActivity {
                 groupColorBtn.getDrawable().mutate().setTint(resources.getColor(R.color.light_gray, null));
                 textInputEditText.setText("");
                 groupList = groupDBCtrl.getAllGroups(groupList);
-                adapter.notifyDataSetChanged();
+                Collections.sort(groupList, ascendingGroupByName);
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
+                recyclerView.getAdapter().notifyDataSetChanged();
                 onSoftKeyboardDown(view);
             }
         }
@@ -196,104 +183,17 @@ public class GroupManagementActivity extends AppCompatActivity {
             // Remove group
             else if(requestCode == resources.getInteger(R.integer.remove_group_code)) {
                 groupList = groupDBCtrl.getAllGroups(groupList);
-                adapter.notifyDataSetChanged();
+                Collections.sort(groupList, ascendingGroupByName);
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
+                recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();
             }
         }
         /* ~Success to receive data */
     }
 
-    class GroupListViewHolder implements ListViewHolder<Group> {
-        private GroupManagementActivity activity;
-
-        private ImageView groupColorView;
-        private TextView groupName;
-        private RadioButton radioButton;
-        private ImageButton removeButton;
-
-        public GroupListViewHolder(GroupManagementActivity activity) {
-            this.activity = activity;
-        }
-
-        @Override
-        public void setView(int position, View convertView) {
-            groupColorView = convertView.findViewById(R.id.group_color);
-            groupName = convertView.findViewById(R.id.group_name);
-            radioButton = convertView.findViewById(R.id.radio_button);
-            if(!radioButton.hasOnClickListeners()) {
-                radioButton.setOnClickListener(new RadioButtonListener(position));
-            }
-            removeButton = convertView.findViewById(R.id.remove_button);
-            if(!removeButton.hasOnClickListeners()) {
-                removeButton.setOnClickListener(new RemoveButtonListner(position, activity));
-            }
-            if(removing) {
-                radioButton.setVisibility(View.GONE);
-                if(position != noGroupId) {
-                    removeButton.setVisibility(View.VISIBLE);
-                }
-            }
-            else {
-                radioButton.setVisibility(View.VISIBLE);
-                removeButton.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void bindData(Group data, boolean selected) {
-            /** Set the group color circle **/
-            if(data.getGroupId() == 0) {
-                groupColorView.setActivated(false);
-            }
-            else {
-                groupColorView.setActivated(true);
-                groupColorView.getDrawable().mutate().setTint(Color.parseColor(data.getGroupColor()));
-            }
-            /* ~Set the group color circle */
-
-            /** Set the group name **/
-            groupName.setText(data.getGroupName());
-            /* ~Set the group name */
-
-            /** Set the radio button **/
-            if(!removing) {
-                radioButton.setChecked(selected);
-            }
-            /* ~Set the radio button */
-        }
-    }
-
-    class RadioButtonListener implements View.OnClickListener {
-        private int itemId;
-
-        public RadioButtonListener(int itemId) {
-            this.itemId = itemId;
-        }
-
-        @Override
-        public void onClick(View v) {
-            adapter.setSelectedPosition(itemId);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    class RemoveButtonListner implements View.OnClickListener {
-        private GroupManagementActivity activity;
-        private int itemId;
-
-        public RemoveButtonListner(int itemId, GroupManagementActivity activity) {
-            this.itemId = itemId;
-            this.activity = activity;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(activity, DeleteGroupPopupActivity.class);
-            intent.putExtra(resources.getString(R.string.group_removal_key), groupList.get(itemId));
-
-            int code = resources.getInteger(R.integer.remove_group_code);
-            startActivityForResult(intent, code);
-        }
+    public static boolean isRemoving() {
+        return removing;
     }
 
 }

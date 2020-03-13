@@ -1,4 +1,4 @@
-package com.willy.will.setting;
+package com.willy.will.setting.controller;
 
 import android.content.res.Resources;
 

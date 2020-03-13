@@ -90,8 +90,7 @@ public class SearchActivity extends AppCompatActivity {
                 R.string.selection_id_search, false
         );
         recyclerView = recyclerViewSetter.setRecyclerView();
-        // WARNING: Only one must be assigned
-        recyclerViewSetter.setFragmentAndActivities(null, this, null);
+        recyclerViewSetter.setActivity(this);
         /* ~Set Views */
 
         /** Set extra names of Intent **/

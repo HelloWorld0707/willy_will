@@ -1,4 +1,4 @@
-package com.willy.will.setting;
+package com.willy.will.setting.view;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,6 +9,7 @@ import com.willy.will.R;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.PopupActivity;
 import com.willy.will.common.model.Task;
+import com.willy.will.setting.controller.TaskManagementController;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
