@@ -78,7 +78,6 @@ public class AddItemActivity extends Activity{
         setContentView(R.layout.activity_itemadd);
 
         dbHelper = DBAccess.getDbHelper();
-        //dummyCreate();
         resources = getResources();
 
         /************************* 중요도 data **************************************/
