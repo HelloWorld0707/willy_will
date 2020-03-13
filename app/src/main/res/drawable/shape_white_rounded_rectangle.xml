@@ -3,6 +3,6 @@
 
     <solid android:color="@android:color/white" />
 
-    <corners android:radius="@dimen/popup_radius" />
+    <corners android:radius="@dimen/round_corner_layout_radius" />
 
 </shape>
