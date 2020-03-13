@@ -177,8 +177,8 @@ public class AddItemActivity extends Activity{
         /* ~Set theme of Dialogs */
 
         /** set view **/
-        Button btn_start = findViewById(R.id.btn_start);
-        Button btn_end = findViewById(R.id.btn_end);
+        //Button btn_start = findViewById(R.id.btn_start);
+        //Button btn_end = findViewById(R.id.btn_end);
         Text_start = findViewById(R.id.Text_start);
         Text_end = findViewById(R.id.Text_end);
 
