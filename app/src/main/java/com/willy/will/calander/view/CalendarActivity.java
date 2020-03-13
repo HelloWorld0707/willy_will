@@ -68,7 +68,6 @@ public class CalendarActivity extends Activity {
 
         /** device display size controller */
         windowDm = getApplicationContext().getResources().getDisplayMetrics();
-
     }
 
     /** Back to MainActivity **/
@@ -124,12 +123,17 @@ public class CalendarActivity extends Activity {
         ListView calendarList = findViewById(R.id.calendarListView);
         calendarList.setAdapter(calendarBaseAdapter);
 
-        // set Visible at listView
-        if(calendarBaseAdapter.getCount() > 0)
-            calendarList.setVisibility(View.VISIBLE);
-        else
-            calendarList.setVisibility(View.INVISIBLE);
 
+        MaterialCalendarView calendar = findViewById(R.id.calendarView);
+        // set Visible at listView
+        if(calendarBaseAdapter.getCount() > 0) {
+            calendarList.setVisibility(View.VISIBLE);
+            calendar.setTileHeight((int)windowDm.ydpi/4);
+        }
+        else {
+            calendarList.setVisibility(View.INVISIBLE);
+            calendar.setTileHeight((int)windowDm.ydpi);
+        }
         // set ListView Click Listener
         calendarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
