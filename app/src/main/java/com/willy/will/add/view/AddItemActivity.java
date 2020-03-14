@@ -112,11 +112,17 @@ public class AddItemActivity extends Activity{
             longitudeNum = DEFAULT_LOCATION;
         }
         else if(code == MODIFY_CODE) {
-            //item_name = ??;
+            Item selectedItem = getIntent().getParcelableExtra(resources.getString(R.string.selected_item_key));
 
-            //important_result = ??
+            item_name = selectedItem.getItemName();
 
-            //selectedGroup = new Group(??, ??, ??);
+            important_result = selectedItem.getImportant();
+
+            selectedGroup = new Group(
+                    selectedItem.getGroupId(),
+                    selectedItem.getGroupName(),
+                    selectedItem.getGroupColor()
+            );
         }
         else {
             Log.e("AddItemActivity", "Initialization: Wrong code");
@@ -366,17 +372,17 @@ public class AddItemActivity extends Activity{
                 if (simpleDateFormat.parse(start_date).getTime() > simpleDateFormat.parse(end_date).getTime()) {
                     Toast.makeText(getApplicationContext(), "날짜를 다시 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 } else {
-                    addItemtoDB();
+                    addItemToDB();
                     finish();
                 }
             } else if (code == MODIFY_CODE) {
-                modifyItemDB();
+                modifyItemToDB();
                 finish();
             }
         }
     }
 
-    public void addItemtoDB() throws ParseException {
+    public void addItemToDB() throws ParseException {
         SQLiteDatabase db = DBAccess.getDbHelper().getWritableDatabase();
 
         int item_important = important_result; //item_important
@@ -425,7 +431,7 @@ public class AddItemActivity extends Activity{
         dateGap = Math.abs(dateGap);
         String calenderDate = null;
 
-        int toDoId = getToDoId();
+        int toDoId = getToDoId() + 1;
 
         /** ADD NOT LOOP ITEM */
         if(loopweek == null || loopweek.equals("0000000")) {
@@ -518,12 +524,12 @@ public class AddItemActivity extends Activity{
     public int getToDoId() {
         Cursor cursor = DBAccess.getDbHelper().getReadableDatabase().rawQuery("SELECT max(to_do_id) as to_do_id FROM _ITEM", null);
         cursor.moveToNext();
-        int toDoId = cursor.getInt(cursor.getColumnIndexOrThrow("to_do_id")) + 1 ;
+        int toDoId = cursor.getInt(cursor.getColumnIndexOrThrow("to_do_id")) ;
 
         return toDoId;
     }
 
-    public void modifyItemDB() {
+    public void modifyItemToDB() {
         SQLiteDatabase db = DBAccess.getDbHelper().getWritableDatabase();
         int group_id = selectedGroup.getGroupId(); //group_id
         int toDoId = getToDoId(); //to_do_id
@@ -533,11 +539,12 @@ public class AddItemActivity extends Activity{
         contentValues.put(resources.getString(R.string.item_important_column), important_result);
         contentValues.put(resources.getString(R.string.group_id_column), group_id);
 
-        db.update(
+        int updateRow = db.update(
                 resources.getString(R.string.item_table),
                 contentValues,
                 "to_do_id = " + toDoId, null
         );
+        Log.i("AddItemActivity", "Update " + updateRow + " item");
 
         Intent intent = new Intent();
         Item modifiedItem = new Item();
