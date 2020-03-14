@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -195,19 +196,16 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == R.integer.item_change_return_code){
-            finish();
-            startActivity(getIntent());
+        if (resultCode == RESULT_OK) {
+            String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
+            Log.d("receivedDateCheck", "*************REceivedDate: " + receivedDate + "**************");
+             /*
+             Date rdate = sdf.parse(receivedDate);
+             baseDate = sdf.format(rdate.getTime());
+              */
         }
-
-        else if(resultCode == 65 ){
-         String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
-         Log.d("receivedDateCheck","*************REceivedDate: "+receivedDate+"**************");
-         /*
-         Date rdate = sdf.parse(receivedDate);
-         baseDate = sdf.format(rdate.getTime());
-          */
-        }
+        finish();
+        startActivity(getIntent());
     }
     /* ~add Activity callback listner */
 
@@ -215,8 +213,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnCalendarClick(View view) {
         Intent intent = new Intent(MainActivity.this , CalendarActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
-        startActivity(intent);
+        startActivityForResult(intent,resources.getInteger(R.integer.calender_item_request_code));
     }
     /*~Move to CalendarView*/
 
