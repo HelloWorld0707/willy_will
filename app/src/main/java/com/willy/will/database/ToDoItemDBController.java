@@ -102,6 +102,9 @@ public class ToDoItemDBController {
         if(toDoItemList == null) {
             toDoItemList = new ArrayList<>();
         }
+        else if(!toDoItemList.isEmpty()) {
+            toDoItemList.clear();
+        }
 
 
         //Read DB All Item

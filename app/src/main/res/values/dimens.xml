@@ -58,6 +58,7 @@
     <dimen name="checkbox_margin_start">20dp</dimen>
     <dimen name="checkbox_margin_end">10dp</dimen>
     <dimen name="item_name_height">24dp</dimen>
+    <dimen name="item_name_right_margin">20dp</dimen>
     <!-- ~MainListItem-->
 
     <!-- NavigationDrawer -->

@@ -45,6 +45,9 @@ public class GroupManagementActivity extends AppCompatActivity {
     private Group newGroup;
     private static boolean removing;
 
+    private int requestCode;
+    private boolean groupListChanged;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         /** Set start to remove button and submit button **/
         submitBtn = findViewById(R.id.submit_button);
-        int requestCode = getIntent().getIntExtra(
+        requestCode = getIntent().getIntExtra(
                 resources.getString(R.string.request_code),
                 resources.getInteger(R.integer.group_setting_code)
         );
@@ -92,6 +95,8 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         groupColorBtn = findViewById(R.id.group_color_button);
         groupColorBtn.setActivated(true);
+
+        groupListChanged = false;
     }
 
     private void setGroupList() {
@@ -110,6 +115,16 @@ public class GroupManagementActivity extends AppCompatActivity {
         // ~Check focusing
 
         this.finish();
+    }
+
+    @Override
+    public void finish() {
+        if(requestCode == resources.getInteger(R.integer.group_management_code)) {
+            if(groupListChanged) {
+                setResult(resources.getInteger(R.integer.group_change_return_code));
+            }
+        }
+        super.finish();
     }
 
     public void submit(View view) {
@@ -156,6 +171,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 onSoftKeyboardDown(view);
+                groupListChanged = true;
             }
         }
     }
@@ -191,6 +207,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();
+                groupListChanged = true;
             }
         }
         /* ~Success to receive data */

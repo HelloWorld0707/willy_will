@@ -264,7 +264,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 else {
                     removeButton.setVisibility(View.VISIBLE);
                 }
-                radioButton.setVisibility(View.GONE);
+                radioButton.setVisibility(View.INVISIBLE);
             }
             else {
                 removeButton.setVisibility(View.GONE);
@@ -277,6 +277,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             Task task = (Task) data;
             if(task.getGroup().getGroupId() == NO_GROUP_ID) {
                 groupColorCircleView.setActivated(false);
+                groupColorCircleView.getDrawable().mutate().setTint(Color.parseColor(task.getGroup().getGroupColor()));
             }
             else {
                 groupColorCircleView.setActivated(true);

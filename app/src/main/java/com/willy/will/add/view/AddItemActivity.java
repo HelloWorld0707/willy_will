@@ -518,9 +518,7 @@ public class AddItemActivity extends Activity{
             db.insert("_LOOP_INFO", null, contentValues);
         }
         Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
-        this.setResult(R.integer.item_change_return_code);
-
-        setResult(RESULT_OK);
+        setResult(resources.getInteger(R.integer.item_change_return_code));
     }
 
     public int getToDoId() {

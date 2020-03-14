@@ -101,6 +101,7 @@
                     android:onClick="bringUpGroupSetting">
 
                     <TextView
+                        android:id="@+id/group_title"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="그룹"
@@ -110,10 +111,12 @@
                         android:id="@+id/group_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:gravity="right|center_vertical"
+                        android:singleLine="true"
                         android:text="그룹 미정"
-                        android:gravity="center_vertical"
+                        android:layout_toEndOf="@id/group_title"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginRight="25dp"/>
+                        android:layout_marginRight="25dp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -198,9 +201,10 @@
                             android:id="@+id/place_name"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:gravity="center_vertical"
+                            android:gravity="right|center_vertical"
+                            android:singleLine="true"
                             android:text="@string/no_location"
+                            android:layout_toEndOf="@id/btn_Location"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="25dp"/>
 

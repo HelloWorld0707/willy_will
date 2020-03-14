@@ -39,6 +39,8 @@
                 android:layout_height="wrap_content"
                 style="@style/LocationTitleStyle"
                 android:paddingTop="3dp"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
                 android:text="상점명 노출영역"/>
             <TextView
                 android:id="@+id/address_name"
@@ -46,6 +48,8 @@
                 android:layout_height="wrap_content"
                 style="@style/LocationTextStyle"
                 android:paddingTop="3dp"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
                 android:text="도로명 노출 영역"/>
 
         </LinearLayout>

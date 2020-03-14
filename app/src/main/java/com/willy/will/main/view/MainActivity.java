@@ -191,7 +191,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+        if(resultCode == RESULT_OK) {
+            // Return from CalendarView
             if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
                 String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
                 Log.d("receivedDateCheck", "*************REceivedDate: " + receivedDate + "**************");
@@ -201,10 +202,28 @@ public class MainActivity extends AppCompatActivity{
                 */
             }
         }
-        finish();
-        startActivity(getIntent());
+        // Return from GroupManagementActivity
+        else if(resultCode == resources.getInteger(R.integer.group_change_return_code)) {
+            refreshGroupSpinner();
+        }
+        // Return from AddItemActivity or TaskManagementActivity
+        else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            refreshGroupSpinner();
+            fragmentmain.refreshListDomain();
+        }
     }
     /* ~add Activity callback listner */
+
+    public void refreshGroupSpinner() {
+        groupList = dbController.getAllGroups(groupList);
+        spgroupList.clear();
+        spgroupList.add(0,resources.getString(R.string.all));
+        for (Group a: groupList) {
+            spgroupList.add(a.getGroupName());
+        }
+        spgroupAdapter.notifyDataSetChanged();
+        sp_group.setSelection(0,false);
+    }
 
     /** Move to CalendarView */
     public void btnCalendarClick(View view) {
@@ -223,11 +242,15 @@ public class MainActivity extends AppCompatActivity{
     /*~ Open navigation drawer */
 
     /** Move to GroupManagementActivity */
-    public void btnGrSettingClick(View view){
+    public void btnGroupSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , GroupManagementActivity.class);
-        intent.putExtra(resources.getString(R.string.request_code), resources.getInteger(R.integer.group_management_code));
+
+        int code = resources.getInteger(R.integer.group_management_code);
+        intent.putExtra(resources.getString(R.string.request_code), code);
+
         drawer.closeDrawer(drawerView);
-        startActivity(intent);
+
+        startActivityForResult(intent, code);
     }
     /* ~Move to GroupManagementActivity */
 
@@ -235,12 +258,12 @@ public class MainActivity extends AppCompatActivity{
     public void btnTaskSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , TaskManagementActivity.class);
         drawer.closeDrawer(drawerView);
-        startActivityForResult(intent,0);
+        startActivityForResult(intent, resources.getInteger(R.integer.task_management_code));
     }
     /* ~Move to GroupManagementActivity */
 
     /** Move to AlarmManagementActivity */
-    public void btnArsettingClick(View view){
+    public void btnAlarmSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , AlarmActivity.class);
         drawer.closeDrawer(drawerView);
         startActivity(intent);

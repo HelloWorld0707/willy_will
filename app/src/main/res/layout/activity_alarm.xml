@@ -9,8 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        style="@style/TopBarStyle"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +20,8 @@
         <ImageButton
             android:id="@+id/back_button"
             style="@style/BackButtonStyle"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:onClick="backToMain" />
 
     </RelativeLayout>
@@ -31,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar"
         android:text="@string/alarm_settings_title"/>
@@ -40,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alarm_title"
         android:text="@string/alarm_settings_msg"/>
@@ -51,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar" />
 
