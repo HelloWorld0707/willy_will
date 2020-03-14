@@ -3,9 +3,7 @@ package com.willy.will.detail.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
-public class Item implements Parcelable, Serializable {
+public class Item implements Parcelable {
     private int itemId;
     private String itemName;
     private int important;

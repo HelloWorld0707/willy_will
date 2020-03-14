@@ -546,7 +546,7 @@ public class AddItemActivity extends Activity{
         modifiedItem.setGroupId(selectedGroup.getGroupId());
         modifiedItem.setGroupName(selectedGroup.getGroupName());
         modifiedItem.setGroupColor(selectedGroup.getGroupColor());
-        //intent.putExtra(resources.getString(R.string.modified_item_key), modifiedItem);
+        intent.putExtra(resources.getString(R.string.modified_item_key), modifiedItem);
         setResult(RESULT_FIRST_USER, intent);
     }
 
