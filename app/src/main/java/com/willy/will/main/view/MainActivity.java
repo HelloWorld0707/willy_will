@@ -1,6 +1,5 @@
 package com.willy.will.main.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -23,7 +22,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
-import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
 import com.willy.will.common.model.Group;
@@ -191,19 +189,16 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == R.integer.item_change_return_code){
-            finish();
-            startActivity(getIntent());
+        if (resultCode == RESULT_OK) {
+            String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
+            Log.d("receivedDateCheck", "*************REceivedDate: " + receivedDate + "**************");
+             /*
+             Date rdate = sdf.parse(receivedDate);
+             baseDate = sdf.format(rdate.getTime());
+              */
         }
-
-        else if(resultCode == 65 ){
-         String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
-         Log.d("receivedDateCheck","*************REceivedDate: "+receivedDate+"**************");
-         /*
-         Date rdate = sdf.parse(receivedDate);
-         baseDate = sdf.format(rdate.getTime());
-          */
-        }
+        finish();
+        startActivity(getIntent());
     }
     /* ~add Activity callback listner */
 
@@ -211,8 +206,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnCalendarClick(View view) {
         Intent intent = new Intent(MainActivity.this , CalendarActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
-//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
-        startActivity(intent);
+        startActivityForResult(intent,resources.getInteger(R.integer.calender_item_request_code));
     }
     /*~Move to CalendarView*/
 
