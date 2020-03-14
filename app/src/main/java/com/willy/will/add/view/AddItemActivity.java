@@ -320,7 +320,7 @@ public class AddItemActivity extends Activity{
         dateGap = Math.abs(dateGap);
         String calenderDate = null;
 
-        //for _ITEM
+        //for _ITEM : LOOP OFF
         int group_id = selectedGroup.getGroupId(); //group_id
         item_name = Title_editText.getText().toString(); // item_name
         int item_important = important_result; //item_important
@@ -330,6 +330,46 @@ public class AddItemActivity extends Activity{
         String startDate = start_date;
         String endDate = end_date;
         String loopweek = check_result;
+
+        /** 루프일때 몇개들어가는지 계산 : 수정해야함
+         //for _ITEM  : LOOP ON
+        String loop_check_date=null;
+        calendar.setTime(sdate);
+        calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
+
+        for(int i=0; i<dateGap+1; i++) {
+            calendar.add(Calendar.DATE,1);
+            loop_check_date = sdf.format(calendar.getTime());
+
+            // EX.calenderDate의 요일이 (일,월,화,수,목,금,토 : 0000010) 루프 금요일이면 +1씩 해서
+            // 총 로프 갯수만큼 추가하기 (EX. 2020-03-01~ 2020-03-29 : 4개들어가면됨)
+
+        요일구하는 코드 : 함수로 만들기
+        String day = "";
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(날짜);
+        int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+        if (dayNum==1){
+            day="일";
+        }
+        else if(dayNum==2){
+            day="월";
+        }
+        else if(dayNum==3){
+            day="화";
+        }
+        else if(dayNum==4){
+            day="수";
+        }
+        else if(dayNum==5){
+            day="목";
+        }
+        else if(dayNum==6){
+            day="금";
+        }else{
+            day="토";
+        }
+         **/
 
         if(item_name == null) {
             Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
@@ -445,8 +485,6 @@ public class AddItemActivity extends Activity{
                 Location location = locationArrayList.get(0);
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
-
-
             }
         }
         /* ~Success to receive data */
