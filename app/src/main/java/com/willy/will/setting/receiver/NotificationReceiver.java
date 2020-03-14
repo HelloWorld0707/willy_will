@@ -61,7 +61,9 @@ public class NotificationReceiver extends BroadcastReceiver {
         }
 
         List<String> list = alarmToDoItems();
+        Log.d("alarmToDoItems", "alarmToDoItems: " + list.size());
         for(int i=0;i<list.size();i++){
+
             builder.setAutoCancel(true)
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())

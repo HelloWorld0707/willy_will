@@ -92,6 +92,15 @@ public class CalendarActivity extends Activity {
         this.finish();
     }
 
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(String.valueOf(R.string.current_date_key),"date");
+        setResult(65,intent);
+        super.finish();
+    }
+
     /** calendar select listner */
     private class OncalendarClickListener implements OnDateSelectedListener {
         @Override
