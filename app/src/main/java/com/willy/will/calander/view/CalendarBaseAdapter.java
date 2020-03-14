@@ -43,6 +43,7 @@ public class CalendarBaseAdapter extends BaseAdapter {
 
         ImageView colorTmp = convertView.findViewById(R.id.calendar_group_color);
         TextView itemName = convertView.findViewById(R.id.calendar_task_name);
+        TextView Dday = convertView.findViewById(R.id.calendar_d_day_or_achievement);
 
         DateDBController.ItemNGroup item = getItem(position);
 
@@ -54,6 +55,7 @@ public class CalendarBaseAdapter extends BaseAdapter {
             colorTmp.setActivated(false);
         }
         itemName.setText(item.getItem_name());
+        Dday.setText(item.getdDayOrAchievement());
 
         return convertView;
     }

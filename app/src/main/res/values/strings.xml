@@ -138,6 +138,7 @@
     <string name="start_date_key">startDate</string>
     <string name="end_date_key">endDate</string>
     <string name="location_placeholder">장소명으로 검색</string>
+    <string name="calendar_item_is_null">일정이 없습니다</string>
 
     <string name="First">중요도1</string>
     <string name="Second">중요도2</string>

@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.willy.will.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class DateDBController {
@@ -71,9 +73,11 @@ public class DateDBController {
                 "SELECT " +
                         resources.getString(R.string.item_id_column)+","+
                         resources.getString(R.string.item_table)+"."+resources.getString(R.string.group_id_column)+","+
+                        resources.getString(R.string.item_table)+"."+resources.getString(R.string.to_do_id_column)+","+
                         resources.getString(R.string.item_name_column)+","+
                         resources.getString(R.string.group_color_column)+","+
-                        resources.getString(R.string.group_name_column)+ " " +
+                        resources.getString(R.string.group_name_column)+ ", " +
+                        resources.getString(R.string.end_date_column)+ " " +
                 "FROM " + resources.getString(R.string.item_table) + " INNER JOIN " + resources.getString(R.string.group_table) + " " +
                 "ON " + resources.getString(R.string.item_table)+"."+resources.getString(R.string.group_id_column) + "=" + resources.getString(R.string.group_table) + "." + resources.getString(R.string.group_id_column) + " " +
                 "WHERE " + resources.getString(R.string.item_id_column) + " = '" + targetItemId + "';";
@@ -86,28 +90,73 @@ public class DateDBController {
         while(cursor.moveToNext()) {
             int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
             int groupId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_id_column)));
+            int todoId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.to_do_id_column)));
             String itemName = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
             String groupColor = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
             String groupName = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_name_column)));
+            String endDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.end_date_column)));
 
-            item = new ItemNGroup(itemId, groupId, itemName, groupColor, groupName);
+            int loopId = getloopIDByTodo(todoId);
+            String dDayOrAchievement = getDetail(loopId, endDate);
+
+            item = new ItemNGroup(itemId, groupId, todoId, loopId, itemName, groupColor, groupName, dDayOrAchievement);
         }
         return item;
+    }
+
+    private int getloopIDByTodo(int todoId){
+        String qry =
+                "SELECT * " +
+                "FROM " + resources.getString(R.string.loop_info_table) + " " +
+                "WHERE " + resources.getString(R.string.to_do_id_column) + "= '" + todoId + "';";
+
+        Cursor cursor = readDatabase.rawQuery(qry, null);
+        int loopId = 0;
+        if(cursor.moveToNext())
+            loopId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_id_column)));
+
+        return loopId;
+    }
+
+    private String getDetail(int loopId, String endDate){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        TaskDBController taskDBController = new TaskDBController(resources);
+        String dDayOrAchievement = "";
+        if(loopId != 0 ? true : false) {
+            dDayOrAchievement =
+                    taskDBController.getAchievementDays(
+                    loopId,
+                    simpleDateFormat.format(Calendar.getInstance().getTime())
+            );
+        }
+        else {
+            dDayOrAchievement =
+                    taskDBController.getDDay(endDate,
+                    Calendar.getInstance()
+            );
+        }
+        return dDayOrAchievement;
     }
 
     public class ItemNGroup{
         private int item_id;
         private int group_id;
+        private int todo_id;
+        private int loop_id;
         private String item_name;
         private String group_color;
         private String group_name;
+        private String dDayOrAchievement;
 
-        public ItemNGroup(int item_id, int group_id, String item_name, String group_color, String group_name) {
+        public ItemNGroup(int item_id, int group_id, int todo_id, int loop_id, String item_name, String group_color, String group_name, String dDayOrAchievement) {
             this.item_id = item_id;
             this.group_id = group_id;
+            this.todo_id = todo_id;
+            this.loop_id = loop_id;
             this.item_name = item_name;
             this.group_color = group_color;
             this.group_name = group_name;
+            this.dDayOrAchievement = dDayOrAchievement;
         }
 
         public int getItem_id() {
@@ -129,5 +178,7 @@ public class DateDBController {
         public String getGroup_name() {
             return group_name;
         }
+
+        public String getdDayOrAchievement() {return dDayOrAchievement;}
     }
 }
