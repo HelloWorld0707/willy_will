@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/basic_padding"
+                android:paddingHorizontal="21dp"
                 android:paddingTop="@dimen/basic_padding"
                 android:paddingBottom="@dimen/basic_padding">
 
@@ -92,7 +92,7 @@
                 <Spinner
                     android:id="@+id/sp_group"
                     android:layout_width="@dimen/spinner_width"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
