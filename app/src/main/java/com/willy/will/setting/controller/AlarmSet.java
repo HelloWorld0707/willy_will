@@ -17,6 +17,7 @@ public class AlarmSet {
         Intent intent = new Intent(context, NotificationReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        //alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
     }
 
 

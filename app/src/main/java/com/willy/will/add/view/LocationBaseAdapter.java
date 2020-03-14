@@ -45,7 +45,7 @@ public class LocationBaseAdapter extends BaseAdapter {
         Location location = getItem(position);
         String addressNameValue = location.getAddressName();
         placeName.setText(location.getPlaceName());
-        Log.d("addressNameValue", "addressNameValue/" + addressNameValue+"/");
+
         if(addressNameValue==null || addressNameValue.equals("")){
             addressName.setVisibility(View.GONE);
         }else{
