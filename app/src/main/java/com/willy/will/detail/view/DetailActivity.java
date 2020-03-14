@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.willy.will.R;
@@ -70,9 +72,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private MapPOIItem marker;
     private Resources resources;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,8 +106,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
         /** get intent(item_id) from mainActivity **/ //수정 필요
         Intent intent = getIntent();
-        ToDoItem item =null;
-        item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
+        ToDoItem item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
 
 
         /** access DB **/
@@ -215,6 +213,10 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 switch (item.getItemId()){
                     case R.id.btn_modify:
                         intent = new Intent(DetailActivity.this, AddItemActivity.class);
+                        intent.putExtra(resources.getString(R.string.selected_item_key), todoItem);
+                        int code = resources.getInteger(R.integer.modify_item_request_code);
+                        intent.putExtra(resources.getString(R.string.request_code), code);
+                        startActivityForResult(intent, code);
                         return true;
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
@@ -365,5 +367,36 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_FIRST_USER) {
+            if(requestCode == resources.getInteger(R.integer.modify_item_request_code)) {
+                todoItem = data.getParcelableExtra(resources.getString(R.string.modified_item_key));
+                itemName.setText(todoItem.getItemName());
+                ImportanceValue = todoItem.getImportant();
+                if(ImportanceValue==1) {
+                    important.setImageResource(R.drawable.important1);
+                }else if(ImportanceValue==2){
+                    important.setImageResource(R.drawable.important2);
+                }else if(ImportanceValue==3){
+                    important.setImageResource(R.drawable.important3);
+                }else if(ImportanceValue==4){
+                    important.setVisibility(View.GONE);
+                }
+                groupName.setText(todoItem.getGroupName());
+                int groupId = todoItem.getGroupId();
+                if(groupId == resources.getInteger(R.integer.no_group_id)) {
+                    groupColor.setActivated(false);
+                    groupColor.getDrawable().mutate().setTint(resources.getColor(R.color.dark_gray, null));
+                }
+                else {
+                    groupColor.setActivated(true);
+                    groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
+                }
+            }
+        }
     }
 }

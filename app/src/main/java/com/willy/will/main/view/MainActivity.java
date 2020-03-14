@@ -156,7 +156,9 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 // show Item add Activity
                 Intent intent = new Intent(MainActivity.this , AddItemActivity.class);
-                startActivityForResult(intent, 0);
+                int code = resources.getInteger(R.integer.add_item_request_code);
+                intent.putExtra(resources.getString(R.string.request_code), code);
+                startActivityForResult(intent, code);
             }
         });
         /* ~set fab event Listener */
@@ -190,12 +192,14 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
-            Log.d("receivedDateCheck", "*************REceivedDate: " + receivedDate + "**************");
-             /*
-             Date rdate = sdf.parse(receivedDate);
-             baseDate = sdf.format(rdate.getTime());
-              */
+            if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
+                String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
+                Log.d("receivedDateCheck", "*************REceivedDate: " + receivedDate + "**************");
+                /*
+                Date rdate = sdf.parse(receivedDate);
+                baseDate = sdf.format(rdate.getTime());
+                */
+            }
         }
         finish();
         startActivity(getIntent());
