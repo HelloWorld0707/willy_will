@@ -30,7 +30,7 @@ public class LocationSearchActivity extends Activity {
     private String searchText = "";
     private TextInputEditText textEditText = null;
     private InputMethodManager inputMethodManager = null;
-    final LocationBaseAdapter locationBaseAdapter = new LocationBaseAdapter();
+    LocationBaseAdapter locationBaseAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +108,7 @@ public class LocationSearchActivity extends Activity {
             @Override
             public void run() {
                 try {
+                    locationBaseAdapter = new LocationBaseAdapter();
                     String apiURL = "https://dapi.kakao.com/v2/local/search/keyword.json?query="+ searchText; // json
                     URL url = new URL(apiURL);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -138,6 +139,8 @@ public class LocationSearchActivity extends Activity {
 
                     JSONArray documentsObject = jsonObject.getJSONArray("documents");
 
+
+
                     for(int i=0;i<resultCnt;i++){
                         JSONObject dataObject = documentsObject.getJSONObject(i);
 
@@ -156,9 +159,10 @@ public class LocationSearchActivity extends Activity {
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
+
                         searchList.setAdapter(locationBaseAdapter);
                         ViewGroup.LayoutParams params = searchList.getLayoutParams();
-                        int height = 70;// findViewById(R.id.calendarListView).getMeasuredHeight();
+                        int height = 70;
                         int listSize = locationBaseAdapter.getCount();
                         params.height = height * listSize;
                         searchList.setLayoutParams(params);
