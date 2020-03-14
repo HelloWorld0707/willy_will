@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_activated="false">
+
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="@dimen/achieve_stroke_size"
+                android:color="@color/light_gray"/>
+            <size
+                android:height="@dimen/achievementsize"
+                android:width="@dimen/achievementsize"/>
+        </shape>
+
+    </item>
+
+    <item
+        android:state_activated="true"
+        android:state_selected="true">
+
+        <vector
+            android:width="@dimen/group_color_vector_size"
+            android:height="@dimen/group_color_vector_size"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <path
+                android:fillColor="@color/light_gray"
+                android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM9.29,16.29L5.7,12.7c-0.39,-0.39 -0.39,-1.02 0,-1.41 0.39,-0.39 1.02,-0.39 1.41,0L10,14.17l6.88,-6.88c0.39,-0.39 1.02,-0.39 1.41,0 0.39,0.39 0.39,1.02 0,1.41l-7.59,7.59c-0.38,0.39 -1.02,0.39 -1.41,0z"/>
+        </vector>
+
+    </item>
+
+    <item
+        android:state_activated="true"
+        android:state_selected="false">
+
+        <shape android:shape="oval">
+            <solid android:color="@color/colorGroup6" />
+            <size
+                android:height="@dimen/group_color_size"
+                android:width="@dimen/group_color_size" />
+        </shape>
+
+    </item>
+
+</selector>
