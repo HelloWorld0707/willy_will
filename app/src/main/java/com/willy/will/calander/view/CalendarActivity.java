@@ -1,6 +1,7 @@
 package com.willy.will.calander.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -41,13 +42,17 @@ public class CalendarActivity extends Activity {
     private TextView Textyear= null;
     private TextView TextMon = null;
     private TextView TextDay = null;
+    private DatePickerDialog datepickerdialog = null;
+    private MaterialCalendarView calendar = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calander);
 
-        Resources resources = getResources();
+        calendar = findViewById(R.id.calendarView);
+        resources = getResources();
+        
         /** Set current Date **/
         currentDate = getIntent().getStringExtra(resources.getString(R.string.current_date_key)).split("-");
         Textyear = (TextView)findViewById(R.id.calenderYear);
@@ -62,11 +67,15 @@ public class CalendarActivity extends Activity {
                 );
 
         /** set Calendar Listenser */
-        MaterialCalendarView calendar = findViewById(R.id.calendarView);
         OncalendarClickListener touchListener = new OncalendarClickListener();
         calendar.setOnDateChangedListener(touchListener);
         OnMonthChangedListener dragListener = new OnCalendarMonthOverListener();
         calendar.setOnMonthChangedListener(dragListener);
+
+        /** set Calendar Height */
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int screenHeight = (int)metrics.ydpi;
+        calendar.setTileHeightDp(screenHeight/8);
 
         /** highlight at holiday */
         calendar.setTopbarVisible(false);
@@ -149,13 +158,6 @@ public class CalendarActivity extends Activity {
         // ~setListView Height
 
         // set Visible at listView
-        // set CalendarHeight
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int screenHeight = (int)metrics.ydpi;
-
-        MaterialCalendarView calendar = findViewById(R.id.calendarView);
-        calendar.setTileHeightDp(screenHeight/8);
-
         TextView tv = findViewById(R.id.calendarIfItemNull);
         if(calendarBaseAdapter.getCount() > 0) {
             calendarList.setVisibility(View.VISIBLE);
@@ -164,21 +166,27 @@ public class CalendarActivity extends Activity {
         else {
             calendarList.setVisibility(View.GONE);
             tv.setVisibility(View.VISIBLE);
-
-
         }
 
         /** renew date */
         setDate(yyyy,mm,dd);
+
         calendar.setSelectedDate(CalendarDay.from(yyyy, mm-1, dd));
+
+        /** Set Picker */
+        datepickerdialog = new DatePickerDialog(CalendarActivity.this,
+                AlertDialog.THEME_HOLO_LIGHT,datepicker,yyyy,mm-1,dd);
     }
 
     public void showPicker(View v){
+        datepickerdialog.show();
     }
 
     DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
         @Override
-        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+        public void onDateSet(DatePicker datePicker, int yyyy, int mm, int dd) {
+            calendar.setCurrentDate(CalendarDay.from(yyyy, mm, dd));
+            setDateAtCalendar(yyyy,mm+1,dd);
         }
     };
 
@@ -191,11 +199,7 @@ public class CalendarActivity extends Activity {
 
     /** calendar custom class. set Red text on sunday */
     private class SundayDecorator implements DayViewDecorator {
-
         private final Calendar calendar = Calendar.getInstance();
-
-        public SundayDecorator() {
-        }
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
