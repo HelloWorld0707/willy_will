@@ -159,6 +159,7 @@ public class TaskManagementActivity extends AppCompatActivity {
                 selectedTasks.clear();
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();
+                setResult(R.integer.item_change_return_code);
             }
         }
         /* ~Success to receive data */

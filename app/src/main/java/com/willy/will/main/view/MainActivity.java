@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -159,11 +160,10 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
                 // show Item add Activity
                 Intent intent = new Intent(MainActivity.this , AddItemActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
         /* ~set fab event Listener */
-
 
         /** set alarm **/
         SharedPreferences sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
@@ -189,6 +189,15 @@ public class MainActivity extends AppCompatActivity{
     }
     /*~ Function: Move to SearchView */
 
+    /** add Activity callback listner */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == R.integer.item_change_return_code){
+            finish();
+            startActivity(getIntent());
+        }
+    }
 
     /** Move to CalendarView */
     public void btnCalendarClick(View view) {
@@ -220,7 +229,7 @@ public class MainActivity extends AppCompatActivity{
     public void btnTaskSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , TaskManagementActivity.class);
         drawer.closeDrawer(drawerView);
-        startActivity(intent);
+        startActivityForResult(intent,0);
     }
     /* ~Move to GroupManagementActivity */
 

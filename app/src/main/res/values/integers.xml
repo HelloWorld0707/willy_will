@@ -13,6 +13,7 @@
     <integer name="move_tasks_code">10</integer>
     <integer name="remove_tasks_code">11</integer>
     <integer name="location_search_code">12</integer>
+    <integer name="item_change_return_code">13</integer>
 
     <!-- ~Request Code for Activity Result -->
 

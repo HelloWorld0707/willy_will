@@ -464,6 +464,7 @@ public class AddItemActivity extends Activity{
 
             }
             Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
+            this.setResult(R.integer.item_change_return_code);
             finish();
         }
     }

@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -120,7 +119,6 @@ public class CalendarActivity extends Activity {
 
         /** Create List Adapter*/
         final CalendarBaseAdapter calendarBaseAdapter = new CalendarBaseAdapter();
-        //calendarBaseAdapter.initializeHeight();
 
         /** setDBController*/
         dateDBController = new DateDBController(resources);
@@ -132,21 +130,10 @@ public class CalendarActivity extends Activity {
         ListView calendarList = findViewById(R.id.calendarListView);
         calendarList.setAdapter(calendarBaseAdapter);
 
-        // set ListView Click Listener
-        calendarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int itemId = (int) calendarBaseAdapter.getItemId(position);
-                ToDoItem toDoItem = new ToDoItem();
-                toDoItem.setItemId(itemId);
-                Intent intent = new Intent(CalendarActivity.this, DetailActivity.class);
-                intent.putExtra(resources.getString(R.string.item_id), toDoItem);
-                startActivity(intent);
-            }
-        });
-        // ~set ListView Click Listener
+        /** set ListView Click Listener */
+        calendarList.setOnItemClickListener(new listViewOnClick(calendarBaseAdapter));
 
-        // setListView Height
+        /** setListView Height */
         ViewGroup.LayoutParams params = calendarList.getLayoutParams();
 
         int heightPixel = resources.getDimensionPixelSize(R.dimen.text_recycler_item_height) + calendarList.getDividerHeight();
@@ -155,9 +142,9 @@ public class CalendarActivity extends Activity {
 
         calendarList.setLayoutParams(params);
         calendarList.requestLayout();
-        // ~setListView Height
+        /* ~setListView Height */
 
-        // set Visible at listView
+        /** set Visible at listView */
         TextView tv = findViewById(R.id.calendarIfItemNull);
         if(calendarBaseAdapter.getCount() > 0) {
             calendarList.setVisibility(View.VISIBLE);
@@ -170,16 +157,36 @@ public class CalendarActivity extends Activity {
 
         /** renew date */
         setDate(yyyy,mm,dd);
-
         calendar.setSelectedDate(CalendarDay.from(yyyy, mm-1, dd));
-
-        /** Set Picker */
-        datepickerdialog = new DatePickerDialog(CalendarActivity.this,
-                AlertDialog.THEME_HOLO_LIGHT,datepicker,yyyy,mm-1,dd);
     }
 
+    private class listViewOnClick implements AdapterView.OnItemClickListener {
+        private CalendarBaseAdapter calendarBaseAdapter = null;
+        public listViewOnClick(CalendarBaseAdapter calendarBaseAdapter){
+            this.calendarBaseAdapter = calendarBaseAdapter;
+        }
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            int itemId = (int) calendarBaseAdapter.getItemId(position);
+            ToDoItem toDoItem = new ToDoItem();
+            toDoItem.setItemId(itemId);
+            Intent intent = new Intent(CalendarActivity.this, DetailActivity.class);
+            intent.putExtra(resources.getString(R.string.item_id), toDoItem);
+            startActivity(intent);
+        }
+    }
+
+
     public void showPicker(View v){
-        datepickerdialog.show();
+        CalendarDay date = calendar.getSelectedDate();
+        int yyyy = date.getYear();
+        int mm = date.getMonth();
+        int dd = date.getDay();
+
+        /** Set Picker */
+        new DatePickerDialog(CalendarActivity.this,
+                AlertDialog.THEME_HOLO_LIGHT,datepicker,yyyy,mm-1,dd).show();
     }
 
     DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
