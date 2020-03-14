@@ -244,56 +244,61 @@
                     android:id="@+id/checkBox_group"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
+                    android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day0"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/achievement_false"
-                        android:text="일" />
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/sunday" />
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="월" />
-
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/monday" />
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="화" />
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/tuesday" />
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="수" />
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/wednesday" />
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="목" />
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/thursday" />
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="금" />
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/friday" />
 
                     <CheckBox
+                        style="@style/DetailDayStyle"
                         android:id="@+id/day6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="토" />
+                        android:background="@drawable/bt_achievement"
+                        android:button="@android:color/transparent"
+                        android:text="@string/saturday" />
 
                 </LinearLayout>
 

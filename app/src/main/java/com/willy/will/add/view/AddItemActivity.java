@@ -85,6 +85,7 @@ public class AddItemActivity extends Activity{
         resources = getResources();
         place_name = (TextView)findViewById(R.id.place_name);
 
+
         /************************* 중요도 data **************************************/
         important = (Spinner)findViewById(R.id.important);
         important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

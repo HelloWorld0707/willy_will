@@ -178,8 +178,8 @@
     </style>
 
     <style name="DetailDayStyle">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">@dimen/achievementsize</item>
+        <item name="android:layout_height">@dimen/achievementsize</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:gravity">center</item>
     </style>
@@ -192,6 +192,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
 
     <!-- ActionBtnStyle by seongsik -->
     <style name="ActionBtnStyle2">
