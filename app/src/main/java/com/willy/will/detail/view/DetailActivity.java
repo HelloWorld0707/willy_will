@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.willy.will.R;
+import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
@@ -213,7 +214,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 Intent intent;
                 switch (item.getItemId()){
                     case R.id.btn_modify:
-                        //modify
+                        intent = new Intent(DetailActivity.this, AddItemActivity.class);
                         return true;
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
