@@ -86,6 +86,7 @@ public class AddItemActivity extends Activity{
         resources = getResources();
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+
         ADD_CODE = resources.getInteger(R.integer.add_item_request_code);
         MODIFY_CODE = resources.getInteger(R.integer.modify_item_request_code);
 
