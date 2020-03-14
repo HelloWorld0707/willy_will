@@ -1,9 +1,6 @@
 package com.willy.will.detail.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Item implements Parcelable {
+public class Item {
     private int itemId;
     private String itemName;
     private int important;
@@ -20,38 +17,6 @@ public class Item implements Parcelable {
     private String calenderDate;
     private int loopId;
     private String loopWeek;
-
-
-    protected Item(Parcel in) {
-        itemId = in.readInt();
-        itemName = in.readString();
-        important = in.readInt();
-        latitude = in.readString();
-        longitude = in.readString();
-        doneDate = in.readString();
-        startDate = in.readString();
-        endDate = in.readString();
-        todoId = in.readInt();
-        groupId = in.readInt();
-        groupName = in.readString();
-        groupColor = in.readString();
-        calenderId = in.readInt();
-        calenderDate = in.readString();
-        loopId = in.readInt();
-        loopWeek = in.readString();
-    }
-
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
-        @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
-        }
-
-        @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
-        }
-    };
 
     public int getItemId() {
         return itemId;
@@ -179,30 +144,5 @@ public class Item implements Parcelable {
 
     public void setLoopWeek(String loopWeek) {
         this.loopWeek = loopWeek;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(itemId);
-        dest.writeString(itemName);
-        dest.writeInt(important);
-        dest.writeString(latitude);
-        dest.writeString(longitude);
-        dest.writeString(doneDate);
-        dest.writeString(startDate);
-        dest.writeString(endDate);
-        dest.writeInt(todoId);
-        dest.writeInt(groupId);
-        dest.writeString(groupName);
-        dest.writeString(groupColor);
-        dest.writeInt(calenderId);
-        dest.writeString(calenderDate);
-        dest.writeInt(loopId);
-        dest.writeString(loopWeek);
     }
 }

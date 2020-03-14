@@ -73,6 +73,7 @@ public class AddItemActivity extends Activity{
     private TextView groupTextView;
     private Group selectedGroup;
     private CheckBox[] dayCheckBoxes;
+    private TextView place_name;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -82,6 +83,7 @@ public class AddItemActivity extends Activity{
 
         dbHelper = DBAccess.getDbHelper();
         resources = getResources();
+        place_name = (TextView)findViewById(R.id.place_name);
 
         /************************* 중요도 data **************************************/
         important = (Spinner)findViewById(R.id.important);
@@ -366,6 +368,9 @@ public class AddItemActivity extends Activity{
             Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
         }
 
+        else if(sdf.parse(start_date).getTime() > sdf.parse(end_date).getTime()) {
+            Toast.makeText(getApplicationContext(), "날짜를 다시 입력해 주세요.", Toast.LENGTH_SHORT).show();
+        }
         else {
             Cursor cursor = DBAccess.getDbHelper().getReadableDatabase().rawQuery("SELECT max(to_do_id) as to_do_id FROM _ITEM", null);
             cursor.moveToNext();
@@ -476,6 +481,7 @@ public class AddItemActivity extends Activity{
                 Location location = locationArrayList.get(0);
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
+                place_name.setText(location.getPlaceName());
             }
         }
         /* ~Success to receive data */
