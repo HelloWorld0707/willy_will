@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -29,6 +30,7 @@ import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
+import com.willy.will.detail.model.Item;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,8 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class AddItemActivity extends Activity{
+    private final double DEFAULT_LOCATION = 1000;
+
     private SimpleDateFormat simpleDateFormat = null;
     private Calendar today = null;
     private Calendar calendar = null;
@@ -56,6 +60,9 @@ public class AddItemActivity extends Activity{
     private String item_name=null;
     public static DBAccess dbHelper;
 
+    private int code;
+    private int ADD_CODE;
+    private int MODIFY_CODE;
     private String[] check_value = new String[7];
     private String check_result = null;
 
@@ -63,12 +70,6 @@ public class AddItemActivity extends Activity{
     TextView Text_start;
     TextView Text_end;
     EditText Title_editText;
-
-    long now = System.currentTimeMillis();
-    Date date = new Date(now);
-    SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy-MM-dd");
-    String formatDate = sdfNow.format(date);
-    TextView dateNow;
 
     private TextView groupTextView;
     private Group selectedGroup;
@@ -83,77 +84,47 @@ public class AddItemActivity extends Activity{
 
         dbHelper = DBAccess.getDbHelper();
         resources = getResources();
-        place_name = (TextView)findViewById(R.id.place_name);
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        /************************* 중요도 data **************************************/
-        important = (Spinner)findViewById(R.id.important);
-        important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
-                    important_result=1;
-                }
-                else if(position==1){
-                    important_result=2;
-                }
-                else if(position==2){
-                    important_result=3;
-                }else{
-                    important_result=4;
-                }
+        ADD_CODE = resources.getInteger(R.integer.add_item_request_code);
+        MODIFY_CODE = resources.getInteger(R.integer.modify_item_request_code);
 
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        /************************* 반복 data **************************************/
-        dayCheckBoxes = new CheckBox[7];
-        String dayViewName = "day";
-        String packageName = getPackageName();
-        int viewId;
-        for(int i = 0; i < 7; i++) {
-            viewId = resources.getIdentifier(dayViewName + i, "id", packageName);
-            dayCheckBoxes[i] = findViewById(viewId);
+        code = getIntent().getIntExtra(resources.getString(R.string.request_code), ADD_CODE);
+
+        if(code == ADD_CODE) {
+            item_name = "";
+
+            important_result = 1;
+
+            selectedGroup = new Group(
+                    resources.getInteger(R.integer.no_group_id),
+                    resources.getString(R.string.no_group),
+                    String.format("#%08X", (0xFFFFFFFF & resources.getColor(R.color.colorNoGroup, null)))
+            );
+
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            String formatDate = simpleDateFormat.format(date);
+            start_date = formatDate;
+            end_date = formatDate;
+
+            latitudeNum = DEFAULT_LOCATION;
+            longitudeNum = DEFAULT_LOCATION;
+        }
+        else if(code == MODIFY_CODE) {
+            //item_name = ??;
+
+            //important_result = ??
+
+            //selectedGroup = new Group(??, ??, ??);
+        }
+        else {
+            Log.e("AddItemActivity", "Initialization: Wrong code");
         }
 
-        repeat_switch = findViewById(R.id.repeat_switch);
-        checkBox_group = findViewById(R.id.checkBox_group);
-
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        today = Calendar.getInstance();
-        calendar = Calendar.getInstance();
-
-        /** Set theme of Dialogs **/
-        datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme);
-        dateListener = new DateListener();
-        datePickerDialog.setOnDateSetListener(dateListener);
-        /* ~Set theme of Dialogs */
-
-        /** set view **/
-        //Button btn_start = findViewById(R.id.btn_start);
-        //Button btn_end = findViewById(R.id.btn_end);
-        Text_start = findViewById(R.id.Text_start);
-        Text_end = findViewById(R.id.Text_end);
-
-        Text_start.setText(formatDate);
-        Text_end.setText(formatDate);
-
-        /** set value **/
-        resources = getResources();
-        start_date_key = resources.getString(R.string.start_date_key);
-        end_date_key = resources.getString(R.string.end_date_key);
-
-        start_date = simpleDateFormat.format(today.getTime());;
-        end_date = simpleDateFormat.format(today.getTime());;
-
+        /** set item name **/
         Title_editText = (EditText)findViewById(R.id.Title_editText);
-        selectedGroup = new Group(
-                resources.getInteger(R.integer.no_group_id),
-                resources.getString(R.string.no_group),
-                String.format("#%08X", (0xFFFFFFFF & resources.getColor(R.color.colorNoGroup, null)))
-        );
-
+        Title_editText.setText(item_name);
         /** edit keyboard invisible 1 **/
         Title_editText.setInputType(0);
         Title_editText.setOnClickListener(new View.OnClickListener() {
@@ -165,42 +136,102 @@ public class AddItemActivity extends Activity{
             }
         });
 
-        /** Group **/
-        groupTextView = findViewById(R.id.group_textview);
-        groupTextView.setText(selectedGroup.getGroupName());
-        /*Button bnt_group = findViewById(R.id.bnt_group);
-        bnt_group.setOnClickListener(new View.OnClickListener() {
+        /************************* 중요도 data **************************************/
+        important = findViewById(R.id.important);
+        final int[] importantArr = resources.getIntArray(R.array.important);
+        important.setSelection(important_result);
+        important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddItemActivity.this, GroupManagementActivity.class);
-                startActivity(intent);
-            }
-        });*/
-
-
-        repeat_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                // checked -> add_item_repeat
-                if (repeat_switch.isChecked() == true) {
-                    checkBox_group.setVisibility(View.VISIBLE);
-
-                    final ScrollView scrollView=findViewById(R.id.AddScrollView);
-                    scrollView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                        }
-                    });
-                }
-                else {
-                    for(CheckBox dayCheckBox : dayCheckBoxes) {
-                        dayCheckBox.setChecked(false);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                for(int imp : importantArr) {
+                    if(position == imp) {
+                        important_result = position + 1;
                     }
-                    checkBox_group.setVisibility(View.GONE);
                 }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
+        /** set group **/
+        groupTextView = findViewById(R.id.group_textview);
+        groupTextView.setText(selectedGroup.getGroupName());
+
+        if(code == ADD_CODE) {
+            /************************* 반복 data **************************************/
+            dayCheckBoxes = new CheckBox[7];
+            String dayViewName = "day";
+            String packageName = getPackageName();
+            int viewId;
+            for (int i = 0; i < 7; i++) {
+                viewId = resources.getIdentifier(dayViewName + i, "id", packageName);
+                dayCheckBoxes[i] = findViewById(viewId);
+            }
+
+            repeat_switch = findViewById(R.id.repeat_switch);
+            checkBox_group = findViewById(R.id.checkBox_group);
+
+            today = Calendar.getInstance();
+            calendar = Calendar.getInstance();
+
+            /** Set theme of Dialogs **/
+            datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme);
+            dateListener = new DateListener();
+            datePickerDialog.setOnDateSetListener(dateListener);
+            /* ~Set theme of Dialogs */
+
+            /** set view **/
+            Text_start = findViewById(R.id.Text_start);
+            Text_end = findViewById(R.id.Text_end);
+
+            Text_start.setText(start_date);
+            Text_end.setText(end_date);
+
+            /** set value **/
+            resources = getResources();
+            start_date_key = resources.getString(R.string.start_date_key);
+            end_date_key = resources.getString(R.string.end_date_key);
+
+            start_date = simpleDateFormat.format(today.getTime());;
+            end_date = simpleDateFormat.format(today.getTime());;
+
+            /** Location **/
+            place_name = (TextView)findViewById(R.id.place_name);
+
+            repeat_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                    // checked -> add_item_repeat
+                    if (repeat_switch.isChecked() == true) {
+                        checkBox_group.setVisibility(View.VISIBLE);
+
+                        final ScrollView scrollView=findViewById(R.id.AddScrollView);
+                        scrollView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            }
+                        });
+                    }
+                    else {
+                        for(CheckBox dayCheckBox : dayCheckBoxes) {
+                            dayCheckBox.setChecked(false);
+                        }
+                        checkBox_group.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+        else if(code == MODIFY_CODE) {
+            LinearLayout dateAndLocationLayout = findViewById(R.id.date_and_location_layout);
+            LinearLayout loopLayout = findViewById(R.id.loop_layout);
+            dateAndLocationLayout.setVisibility(View.GONE);
+            loopLayout.setVisibility(View.GONE);
+        }
+        else {
+            Log.e("AddItemActivity", "Initialization: Wrong code");
+        }
     }
 
     public void bringUpGroupSetting(View view) {
@@ -271,6 +302,7 @@ public class AddItemActivity extends Activity{
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
         // ~Check focusing
+        setResult(RESULT_CANCELED);
         this.finish();
     }
 
@@ -300,10 +332,9 @@ public class AddItemActivity extends Activity{
 
     public String convertDate(String checkDate) {
         String loop_check_date=null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date nDate = null;
         try {
-            nDate = dateFormat.parse(checkDate);
+            nDate = simpleDateFormat.parse(checkDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -325,6 +356,50 @@ public class AddItemActivity extends Activity{
     }
 
     public void add_insert(View view) throws ParseException {
+        item_name = Title_editText.getText().toString(); // item_name
+
+        if(item_name.equals("") || item_name == null) {
+            Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            if (code == ADD_CODE) {
+                if (simpleDateFormat.parse(start_date).getTime() > simpleDateFormat.parse(end_date).getTime()) {
+                    Toast.makeText(getApplicationContext(), "날짜를 다시 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    addItemtoDB();
+                    finish();
+                }
+            } else if (code == MODIFY_CODE) {
+                modifyItemDB();
+                finish();
+            }
+        }
+    }
+
+    public void addItemtoDB() throws ParseException {
+        SQLiteDatabase db = DBAccess.getDbHelper().getWritableDatabase();
+
+        int item_important = important_result; //item_important
+        int group_id = selectedGroup.getGroupId(); //group_id
+        String done_date = null; //done_date
+        String startDate = start_date;
+        String endDate = end_date;
+        String latitude; //latitude
+        String longitude; //longitude
+        if(latitudeNum == DEFAULT_LOCATION) {
+            latitude = null;
+        }
+        else {
+            latitude = Double.toString(latitudeNum);
+        }
+        if(longitudeNum == DEFAULT_LOCATION) {
+            longitude = null;
+        }
+        else {
+            longitude = Double.toString(longitudeNum);
+        }
+        String loopweek = check_result;
+
         ArrayList<String> checkedDays = new ArrayList<>();
         if(repeat_switch.isChecked()) {
             check_result = "";
@@ -342,126 +417,137 @@ public class AddItemActivity extends Activity{
             check_result = null;
         }
 
-        SQLiteDatabase db=DBAccess.getDbHelper().getWritableDatabase();
-
         //for _CALENDAR
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date sdate = sdf.parse(start_date);
-        Date edate = sdf.parse(end_date);
+        Date sdate = simpleDateFormat.parse(start_date);
+        Date edate = simpleDateFormat.parse(end_date);
         long calDate = edate.getTime() - sdate.getTime();
         long dateGap = calDate / (24*60*60*1000);
         dateGap = Math.abs(dateGap);
         String calenderDate = null;
 
-        //for _ITEM : LOOP OFF
-        int group_id = selectedGroup.getGroupId(); //group_id
-        item_name = Title_editText.getText().toString(); // item_name
-        int item_important = important_result; //item_important
-        String latitude = latitudeNum+""; //latitude
-        String longitude = longitudeNum+""; //longitude
-        String done_date = null; //done_date
-        String startDate = start_date;
-        String endDate = end_date;
-        String loopweek = check_result;
+        int toDoId = getToDoId();
 
-        if(item_name.equals("") || item_name == null) {
-            Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
-        }
+        /** ADD NOT LOOP ITEM */
+        if(loopweek == null || loopweek.equals("0000000")) {
+            /** Insert into _ITEM */
+            db.execSQL("" +
+                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                    "VALUES(" +
+                    group_id + ", '" +
+                    item_name + "', '" +
+                    item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                    startDate + "', '" +
+                    endDate + "', " +
+                    toDoId + ");"
+            );
+            /* ~Insert into _ITEM */
 
-        else if(sdf.parse(start_date).getTime() > sdf.parse(end_date).getTime()) {
-            Toast.makeText(getApplicationContext(), "날짜를 다시 입력해 주세요.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Cursor cursor = DBAccess.getDbHelper().getReadableDatabase().rawQuery("SELECT max(to_do_id) as to_do_id FROM _ITEM", null);
-            cursor.moveToNext();
-            int toDoId = cursor.getInt(cursor.getColumnIndexOrThrow("to_do_id")) + 1 ;
+            /** Insert into _Calandar*/
 
-            /** ADD NOT LOOP ITEM */
-            if(loopweek == null || loopweek.equals("0000000")) {
-                /** Insert into _ITEM */
-                db.execSQL("" +
-                        "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
-                        "VALUES(" +
-                        group_id + ", '" +
-                        item_name + "', '" +
-                        item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
-                        startDate + "', '" +
-                        endDate + "', " +
-                        toDoId + ");"
+            //setting startDate for DB
+            calendar.setTime(sdate);
+            calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
+
+            for(int i=0; i<dateGap+1; i++) {
+                calendar.add(Calendar.DATE,1);
+                calenderDate = simpleDateFormat.format(calendar.getTime());
+
+                db.execSQL(
+                        "INSERT INTO _CALENDAR(calendar_date, item_id)\n" +
+                                "VALUES('" + calenderDate + "'," +
+                                "(Select item_id\n" +
+                                "from _ITEM\n" +
+                                "WHERE item_id = (SELECT MAX(item_id) FROM _ITEM)));"
                 );
-                /* ~Insert into _ITEM */
-
-                /** Insert into _Calandar*/
-
-                //setting startDate for DB
-                calendar.setTime(sdate);
-                calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
-
-                for(int i=0; i<dateGap+1; i++) {
-                    calendar.add(Calendar.DATE,1);
-                    calenderDate = sdf.format(calendar.getTime());
-
-                    db.execSQL(
-                            "INSERT INTO _CALENDAR(calendar_date, item_id)\n" +
-                            "VALUES('" + calenderDate + "'," +
-                            "(Select item_id\n" +
-                            "from _ITEM\n" +
-                            "WHERE item_id = (SELECT MAX(item_id) FROM _ITEM)));"
-                    );
-                }
-                /* ~Insert into _Calandar*/
             }
-            /* ~ADD NOT LOOP ITEM */
+            /* ~Insert into _Calandar*/
+        }
+        /* ~ADD NOT LOOP ITEM */
 
-            /** ADD LOOP ITEM */
-            else {
-                calendar.setTime(sdate);
-                calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
+        /** ADD LOOP ITEM */
+        else {
+            calendar.setTime(sdate);
+            calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
 
-                Iterator<String> iterCheckedDays;
-                String curStr;
-                for (int i = 0; i < dateGap + 1; i++) {
-                    calendar.add(Calendar.DATE, 1);
-                    calenderDate = sdf.format(calendar.getTime());
+            Iterator<String> iterCheckedDays;
+            String curStr;
+            for (int i = 0; i < dateGap + 1; i++) {
+                calendar.add(Calendar.DATE, 1);
+                calenderDate = simpleDateFormat.format(calendar.getTime());
 
-                    iterCheckedDays = checkedDays.iterator(); // 월 화 수
-                    curStr = null;
-                    while(iterCheckedDays.hasNext()) {
-                        curStr = iterCheckedDays.next();
-                        if (convertDate(calenderDate).equals(curStr)) {
-                            db.execSQL(
-                                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
-                                    "VALUES(" +
-                                    group_id + ", '" +
-                                    item_name + "', '" +
-                                    item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
-                                    startDate + "', '" +
-                                    endDate + "', " +
-                                    toDoId + ");"
-                            );
+                iterCheckedDays = checkedDays.iterator(); // 월 화 수
+                curStr = null;
+                while(iterCheckedDays.hasNext()) {
+                    curStr = iterCheckedDays.next();
+                    if (convertDate(calenderDate).equals(curStr)) {
+                        db.execSQL(
+                                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                                        "VALUES(" +
+                                        group_id + ", '" +
+                                        item_name + "', '" +
+                                        item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                                        startDate + "', '" +
+                                        endDate + "', " +
+                                        toDoId + ");"
+                        );
 
-                            db.execSQL(
-                                    "INSERT INTO _CALENDAR(calendar_date, item_id)\n" +
-                                    "VALUES('" + calenderDate + "'," +
-                                    "(Select item_id\n" +
-                                    "from _ITEM\n" +
-                                    "WHERE item_id = (SELECT MAX(item_id) FROM _ITEM)));"
-                            );
+                        db.execSQL(
+                                "INSERT INTO _CALENDAR(calendar_date, item_id)\n" +
+                                        "VALUES('" + calenderDate + "'," +
+                                        "(Select item_id\n" +
+                                        "from _ITEM\n" +
+                                        "WHERE item_id = (SELECT MAX(item_id) FROM _ITEM)));"
+                        );
 
-                        }
                     }
                 }
-                /* ~Insert into _Calandar*/
-                /** Insert in to Loop*/
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("to_do_id", toDoId);
-                contentValues.put("loop_week", loopweek);
-                db.insert("_LOOP_INFO", null, contentValues);
             }
-            Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
-            this.setResult(R.integer.item_change_return_code);
-            finish();
+            /* ~Insert into _Calandar*/
+            /** Insert in to Loop*/
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("to_do_id", toDoId);
+            contentValues.put("loop_week", loopweek);
+            db.insert("_LOOP_INFO", null, contentValues);
         }
+        Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
+        this.setResult(R.integer.item_change_return_code);
+
+        setResult(RESULT_OK);
+    }
+
+    public int getToDoId() {
+        Cursor cursor = DBAccess.getDbHelper().getReadableDatabase().rawQuery("SELECT max(to_do_id) as to_do_id FROM _ITEM", null);
+        cursor.moveToNext();
+        int toDoId = cursor.getInt(cursor.getColumnIndexOrThrow("to_do_id")) + 1 ;
+
+        return toDoId;
+    }
+
+    public void modifyItemDB() {
+        SQLiteDatabase db = DBAccess.getDbHelper().getWritableDatabase();
+        int group_id = selectedGroup.getGroupId(); //group_id
+        int toDoId = getToDoId(); //to_do_id
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(resources.getString(R.string.item_name_column), item_name);
+        contentValues.put(resources.getString(R.string.item_important_column), important_result);
+        contentValues.put(resources.getString(R.string.group_id_column), group_id);
+
+        db.update(
+                resources.getString(R.string.item_table),
+                contentValues,
+                "to_do_id = " + toDoId, null
+        );
+
+        Intent intent = new Intent();
+        Item modifiedItem = new Item();
+        modifiedItem.setItemName(item_name);
+        modifiedItem.setImportant(important_result);
+        modifiedItem.setGroupId(selectedGroup.getGroupId());
+        modifiedItem.setGroupName(selectedGroup.getGroupName());
+        modifiedItem.setGroupColor(selectedGroup.getGroupColor());
+        //intent.putExtra(resources.getString(R.string.modified_item_key), modifiedItem);
+        setResult(RESULT_FIRST_USER, intent);
     }
 
     // Receive result data from other Activities
@@ -481,7 +567,7 @@ public class AddItemActivity extends Activity{
                 Location location = locationArrayList.get(0);
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
-                place_name.setText(location.getPlaceName());
+                place_name.setText(location.getAddressName());
             }
         }
         /* ~Success to receive data */
