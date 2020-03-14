@@ -14,7 +14,8 @@
     <integer name="remove_tasks_code">11</integer>
     <integer name="location_search_code">12</integer>
     <integer name="item_change_return_code">13</integer>
-
+    <integer name="add_item_request_code">14</integer>
+    <integer name="modify_item_request_code">15</integer>
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->
