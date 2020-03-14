@@ -16,6 +16,7 @@
     <integer name="item_change_return_code">13</integer>
     <integer name="add_item_request_code">14</integer>
     <integer name="modify_item_request_code">15</integer>
+    <integer name="calender_item_request_code">16</integer>
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->
