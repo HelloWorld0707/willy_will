@@ -145,13 +145,14 @@ public class AddItemActivity extends Activity{
 
         /************************* 중요도 data **************************************/
         important = findViewById(R.id.important);
-        final int[] importantArr = resources.getIntArray(R.array.important);
-        important.setSelection(important_result);
+        final String[] importantArr = resources.getStringArray(R.array.important);
+        important.setSelection(important_result - 1);
         important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                for(int imp : importantArr) {
-                    if(position == imp) {
+                final int SIZE = importantArr.length;
+                for(int i = 0; i < SIZE; i++) {
+                    if(i == position) {
                         important_result = position + 1;
                     }
                 }
@@ -405,7 +406,6 @@ public class AddItemActivity extends Activity{
         else {
             longitude = Double.toString(longitudeNum);
         }
-        String loopweek = check_result;
 
         ArrayList<String> checkedDays = new ArrayList<>();
         if(repeat_switch.isChecked()) {
@@ -423,6 +423,7 @@ public class AddItemActivity extends Activity{
         else {
             check_result = null;
         }
+        String loopweek = check_result;
 
         //for _CALENDAR
         Date sdate = simpleDateFormat.parse(start_date);
