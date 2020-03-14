@@ -92,12 +92,13 @@ public class CalendarActivity extends Activity {
         this.finish();
     }
 
-
     @Override
     public void finish() {
         Intent intent = new Intent();
+        intent.putExtra(resources.getString(R.string.request_code)
+                ,resources.getInteger(R.integer.calender_item_request_code));
         intent.putExtra(String.valueOf(R.string.current_date_key),"date");
-        setResult(65,intent);
+        setResult(Activity.RESULT_OK,intent);
         super.finish();
     }
 

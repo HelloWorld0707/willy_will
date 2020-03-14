@@ -125,7 +125,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/linearLayout4"
+                    android:id="@+id/date_and_location_layout"
                     style="@style/RoundLayout"
                     android:padding="@dimen/detail_list_padding"
                     android:layout_marginBottom="@dimen/basic_margin"
@@ -214,6 +214,7 @@
                 </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/loop_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
