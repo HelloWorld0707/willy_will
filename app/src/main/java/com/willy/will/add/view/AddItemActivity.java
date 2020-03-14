@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 public class AddItemActivity extends Activity{
     private SimpleDateFormat simpleDateFormat = null;
@@ -293,12 +294,40 @@ public class AddItemActivity extends Activity{
         }
     }
 
+    public String convertDate(String checkDate) {
+        String loop_check_date=null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date nDate = null;
+        try {
+            nDate = dateFormat.parse(checkDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(nDate);
+
+        int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+        switch (dayNum ) {
+            case 1: loop_check_date = "일"; break;
+            case 2: loop_check_date = "월"; break;
+            case 3: loop_check_date = "화"; break;
+            case 4: loop_check_date = "수"; break;
+            case 5: loop_check_date = "목"; break;
+            case 6: loop_check_date = "금"; break;
+            case 7: loop_check_date = "토"; break;
+        }
+        return loop_check_date;
+    }
+
     public void add_insert(View view) throws ParseException {
+        ArrayList<String> checkedDays = new ArrayList<>();
         if(repeat_switch.isChecked()) {
             check_result = "";
             for(CheckBox dayCheckBox : dayCheckBoxes) {
                 if(dayCheckBox.isChecked()) {
                     check_result += "1";
+                    checkedDays.add(dayCheckBox.getText().toString());
                 }
                 else {
                     check_result += "0";
@@ -330,46 +359,6 @@ public class AddItemActivity extends Activity{
         String startDate = start_date;
         String endDate = end_date;
         String loopweek = check_result;
-
-        /** 루프일때 몇개들어가는지 계산 : 수정해야함
-         //for _ITEM  : LOOP ON
-        String loop_check_date=null;
-        calendar.setTime(sdate);
-        calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
-
-        for(int i=0; i<dateGap+1; i++) {
-            calendar.add(Calendar.DATE,1);
-            loop_check_date = sdf.format(calendar.getTime());
-
-            // EX.calenderDate의 요일이 (일,월,화,수,목,금,토 : 0000010) 루프 금요일이면 +1씩 해서
-            // 총 로프 갯수만큼 추가하기 (EX. 2020-03-01~ 2020-03-29 : 4개들어가면됨)
-
-        요일구하는 코드 : 함수로 만들기
-        String day = "";
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(날짜);
-        int dayNum = cal.get(Calendar.DAY_OF_WEEK);
-        if (dayNum==1){
-            day="일";
-        }
-        else if(dayNum==2){
-            day="월";
-        }
-        else if(dayNum==3){
-            day="화";
-        }
-        else if(dayNum==4){
-            day="수";
-        }
-        else if(dayNum==5){
-            day="목";
-        }
-        else if(dayNum==6){
-            day="금";
-        }else{
-            day="토";
-        }
-         **/
 
         if(item_name == null) {
             Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
@@ -418,20 +407,35 @@ public class AddItemActivity extends Activity{
             /** ADD LOOP ITEM */
             else {
 
-                /** 수정필요 Insert into _ITEM
-                db.execSQL("" +
-                        "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
-                        "VALUES(" +
-                        group_id + ", '" +
-                        item_name + "', '" +
-                        item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
-                        startDate + "', '" +
-                        endDate + "', " +
-                        "(SELECT to_do_id \n" +
-                        "FROM _ITEM \n" +
-                        "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);" //select문 가장 마지막 to_do id 구하는 용
-                );
-                /* ~Insert into _ITEM */
+                calendar.setTime(sdate);
+                calendar.add(Calendar.DATE,-1); // for문 돌리면 startdate 안들어가서 미리 setting
+
+                Iterator<String> iterCheckedDays;
+                String curStr;
+                for (int i = 0; i < dateGap + 1; i++) {
+                    calendar.add(Calendar.DATE, 1);
+                    calenderDate = sdf.format(calendar.getTime());
+
+                    iterCheckedDays = checkedDays.iterator(); // 월 화 수
+                    curStr = null;
+                    while(iterCheckedDays.hasNext()) {
+                        curStr = iterCheckedDays.next();
+                        if (convertDate(calenderDate).equals(curStr)) {
+                            db.execSQL("" +
+                                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                                    "VALUES(" +
+                                    group_id + ", '" +
+                                    item_name + "', '" +
+                                    item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
+                                    startDate + "', '" +
+                                    endDate + "', " +
+                                    "(SELECT to_do_id \n" +
+                                    "FROM _ITEM \n" +
+                                    "WHERE to_do_id = (SELECT MAX(to_do_id) FROM _ITEM))+1);" //select문 가장 마지막 to_do id 구하는 용
+                            );
+                        }
+                    }
+                }
 
                 /** 수정필요 Insert into _Calandar
 

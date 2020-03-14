@@ -26,13 +26,13 @@
 
     <!-- detail -->
     <string name="week_achievement_rate">주간 달성</string>
-    <string name="sunday">SUN</string>
-    <string name="monday">MON</string>
-    <string name="tuesday">TUE</string>
-    <string name="wednesday">WED</string>
-    <string name="thursday">THU</string>
-    <string name="friday">FRI</string>
-    <string name="saturday">SAT</string>
+    <string name="sunday">일</string>
+    <string name="monday">월</string>
+    <string name="tuesday">화</string>
+    <string name="wednesday">수</string>
+    <string name="thursday">목</string>
+    <string name="friday">금</string>
+    <string name="saturday">토</string>
     <string name="location">위치</string>
     <string name="no_location">위치 없음</string>
     <string name="item_modify">수정</string>
