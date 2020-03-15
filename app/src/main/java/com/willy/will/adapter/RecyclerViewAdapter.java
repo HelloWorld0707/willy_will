@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +80,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
         // Task
         else if(type == RecyclerViewItemType.TASK) {
             layoutId = R.layout.item_task;
+        }
+        // Location search
+        else if(type == RecyclerViewItemType.LOCATION_SEARCH) {
+            layoutId = R.layout.item_location;
         }
         // ERROR: Wrong type
         else {

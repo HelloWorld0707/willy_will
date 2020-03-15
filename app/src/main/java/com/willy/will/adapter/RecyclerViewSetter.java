@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
+import com.willy.will.add.view.AddItemActivity;
+import com.willy.will.add.view.LocationSearchActivity;
+import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
@@ -44,6 +47,7 @@ public class RecyclerViewSetter {
     private SearchActivity searchActivity = null;
     private TaskManagementActivity taskManagementActivity = null;
     private static GroupManagementActivity groupManagementActivity = null;
+    private LocationSearchActivity locationSearchActivity = null;
     /* ~For starting Activity */
 
     /** For Group Search Setting **/
@@ -140,9 +144,14 @@ public class RecyclerViewSetter {
                             selectTask();
                         }
                     }
+                    // Location search
+                    else if (type == RecyclerViewItemType.LOCATION_SEARCH) {
+                        if (tracker.hasSelection()) {
+                            selectLocation();
+                        }
+                    }
                     // ERROR: Wrong type
                     else {
-                        Log.e("RecyclerViewSetter", "Setting: Wrong type");
                     }
                 }
 
@@ -150,7 +159,6 @@ public class RecyclerViewSetter {
         }
         // ERROR: Wrong selection ID
         else {
-            Log.e("RecyclerViewSetter", "Setting: Wrong selection ID");
         }
         /* ~Set Tracker */
 
@@ -163,24 +171,35 @@ public class RecyclerViewSetter {
         searchActivity = null;
         taskManagementActivity = null;
         groupManagementActivity = null;
+        locationSearchActivity = null;
     }
     public void setActivity(SearchActivity search) {
         mainFragment = null;
         searchActivity = search;
         taskManagementActivity = null;
         groupManagementActivity = null;
+        locationSearchActivity = null;
     }
     public void setActivity(TaskManagementActivity taskManagement) {
         mainFragment = null;
         searchActivity = null;
         taskManagementActivity = taskManagement;
         groupManagementActivity = null;
+        locationSearchActivity = null;
     }
     public void setActivity(GroupManagementActivity groupManagement) {
         mainFragment = null;
         searchActivity = null;
         taskManagementActivity = null;
         groupManagementActivity = groupManagement;
+        locationSearchActivity = null;
+    }
+    public void setActivity(LocationSearchActivity locationSearch) {
+        mainFragment = null;
+        searchActivity = null;
+        taskManagementActivity = null;
+        groupManagementActivity = null;
+        locationSearchActivity = locationSearch;
     }
     public static GroupManagementActivity getGroupManagementActivity() {
         return groupManagementActivity;
@@ -250,6 +269,32 @@ public class RecyclerViewSetter {
         }
         else {
             Log.e("RecyclerViewSetter", "Bring up Detail: Don't set up Task Management Activity");
+        }
+    }
+
+    private void selectLocation(){
+        if(locationSearchActivity != null) {
+            Context context = parentView.getContext();
+
+            String extraName = context.getResources().getString(R.string.location_search_code);
+            int code = context.getResources().getInteger(R.integer.location_search_code);
+
+            int p = tracker.getSelection().hashCode();
+            Location selectedLocation = (Location) list.get(p);
+
+            Intent intent = new Intent(locationSearchActivity, AddItemActivity.class);
+            Location location = new Location();
+            location.setLocationId(selectedLocation.getLocationId());
+            location.setAddressName(selectedLocation.getAddressName());
+            location.setPlaceName(selectedLocation.getPlaceName());
+            location.setLatitude(selectedLocation.getLongitude());
+            location.setLongitude(selectedLocation.getLongitude());
+            intent.putExtra(extraName, code);
+            intent.putExtra(parentView.getResources().getString(R.string.item_id), location);
+            locationSearchActivity.startActivityForResult(intent, code);
+        }
+        else {
+            Log.e("RecyclerViewSetter", "Bring up Detail: Don't set up Location Search Activity");
         }
     }
 
