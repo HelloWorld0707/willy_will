@@ -112,7 +112,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         day.add(5,(TextView)findViewById(R.id.friday));
         day.add(6,(TextView)findViewById(R.id.saturday));
 
-        /** get intent(item_id) from mainActivity **/ //수정 필요
+        /** get intent(item_id) from mainActivity **/
         Intent intent = getIntent();
         ToDoItem item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
 
@@ -152,7 +152,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             achievementRateArea.setVisibility(View.GONE);
             roofDay += "반복 안함";
         }else {
-            if(loopWeek.equals("1111111")){ //매일
+            if(loopWeek.equals("1111111")){
                 doneDateArea.setVisibility(View.GONE);
                 roofDay += "매일";
             }else {
@@ -164,9 +164,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
                 String doneDateValue = achievementList.get(i).getDoneDate();
                 if(doneDateValue==null || doneDateValue==""){
-                    day.get(index).setBackgroundResource(R.drawable.achievement_false);
+                    day.get(i).setActivated(true);
+                    day.get(i).setSelected(false);
                 }else{
-                    day.get(index).setBackgroundResource(R.drawable.achievement_true);
+                    day.get(i).setActivated(true);
+                    day.get(i).setSelected(true);
                     rate++;
                 }
             }
@@ -203,6 +205,16 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }
         /*~ set data */
 
+
+    }
+
+
+
+    /** convert a String to LocalDate  **/
+    public LocalDate getLocalDate(String date){
+        String[] dateArr = date.split("-");
+        LocalDate localDate = LocalDate.of(Integer.parseInt(dateArr[0]),Integer.parseInt(dateArr[1]),Integer.parseInt(dateArr[2]));
+        return localDate;
     }
 
 
@@ -270,15 +282,15 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             @Override
             public void run() {
                 try {
-                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84"; // json
+                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84";
                     URL url = new URL(apiURL);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
-                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18"); //header
+                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18");
                     int responseCode = con.getResponseCode();
                     BufferedReader br = null;
 
-                    if (responseCode == 200) { // 정상 호출
+                    if (responseCode == 200) {
                         br = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     }
 

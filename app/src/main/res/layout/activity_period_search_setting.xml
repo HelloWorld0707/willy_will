@@ -19,7 +19,8 @@
         <TextView
             android:id="@+id/start_date_text_view"
             style="@style/PopupContentsTextViewStyle"
-            android:layout_marginHorizontal="@dimen/basic_margin"
+            android:layout_marginLeft="@dimen/basic_margin"
+            android:layout_marginRight="@dimen/basic_margin"
             android:text="@string/start_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/start_of_start_button"
@@ -59,7 +60,8 @@
         <TextView
             android:id="@+id/end_date_text_view"
             style="@style/PopupContentsTextViewStyle"
-            android:layout_marginHorizontal="@dimen/basic_margin"
+            android:layout_marginLeft="@dimen/basic_margin"
+            android:layout_marginRight="@dimen/basic_margin"
             android:text="@string/end_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/start_of_end_button"
@@ -99,7 +101,8 @@
         <TextView
             android:id="@+id/done_date_text_view"
             style="@style/PopupContentsTextViewStyle"
-            android:layout_marginHorizontal="@dimen/basic_margin"
+            android:layout_marginLeft="@dimen/basic_margin"
+            android:layout_marginRight="@dimen/basic_margin"
             android:text="@string/done_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/start_of_done_button"
