@@ -14,6 +14,7 @@ import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
@@ -113,5 +114,4 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     public int getItemCount() {
         return dset.size();
     }
-
 }
