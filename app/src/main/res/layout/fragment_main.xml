@@ -19,7 +19,8 @@
             android:id="@+id/mainItemList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/basic_margin"
+            android:layout_marginLeft="@dimen/basic_margin"
+            android:layout_marginRight="@dimen/basic_margin"
             android:divider="@null"
             tools:visibility="visible" />
 </LinearLayout>
