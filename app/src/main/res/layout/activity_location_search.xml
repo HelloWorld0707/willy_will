@@ -88,28 +88,6 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--
-
-    <ScrollView
-        style="@style/BottomLayout"
-        android:id="@+id/search_result_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/match_constraint"
-        android:fillViewport="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar"
-        app:layout_constraintBottom_toBottomOf="parent">
-        <ListView
-            android:id="@+id/search_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"/>
-    </ScrollView>
-
-
--->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

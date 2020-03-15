@@ -1,6 +1,9 @@
 package com.willy.will.detail.view;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -15,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
@@ -49,7 +53,7 @@ import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 public class DetailActivity extends Activity implements MapView.MapViewEventListener{
 
-    private ImageView important, groupColor;
+    private ImageView important, groupColor, itemCopyBtn, addressCopyBtn;
     private ImageButton editButton;
     private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address;
     private RelativeLayout startDateArea, endDateArea, doneDateArea;
@@ -70,6 +74,9 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private ViewGroup mapViewContainer;
     private MapPOIItem marker;
     private Resources resources;
+    private ClipboardManager clipboard;
+    private ClipData clip;
+    private String copyText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
         scrollView = findViewById(R.id.scroll_view);
+        itemCopyBtn = findViewById(R.id.item_copy_btn);
+        addressCopyBtn = findViewById(R.id.address_copy_btn);
         day.add(0,(TextView)findViewById(R.id.sunday));
         day.add(1,(TextView)findViewById(R.id.monday));
         day.add(2,(TextView)findViewById(R.id.tuesday));
@@ -132,9 +141,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             important.setVisibility(View.GONE); }
         /*~ set importance Image */
 
+
         /** set itemName selected (for MARQUEE) **/
         itemName.setSelected(true);
         /*~ set itemName selected (for MARQUEE) */
+
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
         if(loopWeek ==null){
@@ -196,14 +207,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
 
 
-    /** convert a String to LocalDate  **/
-    public LocalDate getLocalDate(String date){
-        String[] dateArr = date.split("-");
-        LocalDate localDate = LocalDate.of(Integer.parseInt(dateArr[0]),Integer.parseInt(dateArr[1]),Integer.parseInt(dateArr[2]));
-        return localDate;
-    }
-
-
     /** open option menu -> item modify, item delete) **/
     public void openOptionMenu(View view){
         PopupMenu menu = new PopupMenu(DetailActivity.this,editButton);
@@ -221,7 +224,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                         startActivityForResult(intent, code);
                         return true;
                     case R.id.btn_delete:
-                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
+                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class);
                         intent.putExtra("todoId",todoItem.getTodoId());
                         startActivity(intent);
                         return true;
@@ -232,7 +235,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         menu.show();
     }
     /*~ open option menu -> item modify, item delete) */
-
 
 
 
@@ -314,6 +316,20 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }).start();
     }
 
+
+
+    /** item name copy **/
+    public void itemCopy(View view){
+        if(clipboard == null) clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if(view.getId() == R.id.item_copy_btn) copyText = itemName.getText().toString();
+        else if(view.getId() == R.id.address_copy_btn) copyText = address.getText().toString();
+
+        clip = ClipData.newPlainText("item", copyText);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(view.getContext(),resources.getString(R.string.copy_msg),Toast.LENGTH_LONG).show();
+    }
 
 
 
