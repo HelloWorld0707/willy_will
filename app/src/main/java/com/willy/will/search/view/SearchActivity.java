@@ -20,21 +20,14 @@ import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.search.controller.SearchController;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
     private String selectedGroupsKey = null;
     private String selectedDoneKey = null;
-    private String startOfStartDateKey = null;
-    private String endOfStartDateKey = null;
-    private String startOfEndDateKey = null;
-    private String endOfEndDateKey = null;
-    private String startOfDoneDateKey = null;
-    private String endOfDoneDateKey = null;
+    private String startOfPeriodKey = null;
+    private String endOfPeriodKey = null;
     private String selectedLoopKey = null;
 
     private String extraNameCode = null;
@@ -53,13 +46,8 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Group> selectedGroups = null;
     private String selectedDone = null;
     private String selectedLoop = null;
-    private String startOfStartDate = null;
-    private String endOfStartDate = null;
-    private String startOfEndDate = null;
-    private String endOfEndDate = null;
-    private boolean onlyDone;
-    private String startOfDoneDate = null;
-    private String endOfDoneDate = null;
+    private String startOfPeriod = null;
+    private String endOfPeriod = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,12 +85,8 @@ public class SearchActivity extends AppCompatActivity {
         selectedGroupsKey = resources.getString(R.string.selected_groups_key);
         selectedDoneKey = resources.getString(R.string.selected_done_key);
         selectedLoopKey = resources.getString(R.string.selected_loop_key);
-        startOfStartDateKey = resources.getString(R.string.start_of_start_date_key);
-        endOfStartDateKey = resources.getString(R.string.end_of_start_date_key);
-        startOfEndDateKey = resources.getString(R.string.start_of_end_date_key);
-        endOfEndDateKey = resources.getString(R.string.end_of_end_date_key);
-        startOfDoneDateKey = resources.getString(R.string.start_of_done_date_key);
-        endOfDoneDateKey = resources.getString(R.string.end_of_done_date_key);
+        startOfPeriodKey = resources.getString(R.string.start_of_period_key);
+        endOfPeriodKey = resources.getString(R.string.end_of_period_key);
         /* ~Set extra names of Intent */
     }
 
@@ -111,10 +95,9 @@ public class SearchActivity extends AppCompatActivity {
                 searchText,
                 toDoList,
                 selectedGroups,
-                selectedDone, startOfDoneDate, endOfDoneDate,
+                selectedDone,
                 selectedLoop,
-                startOfStartDate, endOfStartDate,
-                startOfEndDate, endOfEndDate);
+                startOfPeriod, endOfPeriod);
     }
 
     public void backToMain(View view) {
@@ -169,13 +152,8 @@ public class SearchActivity extends AppCompatActivity {
 
     public void bringUpPeriodSearchSetting(View view) {
         Intent intent = new Intent(this, PeriodSearchSettingActivity.class);
-        intent.putExtra(startOfStartDateKey, startOfStartDate);
-        intent.putExtra(endOfStartDateKey, endOfStartDate);
-        intent.putExtra(startOfEndDateKey, startOfEndDate);
-        intent.putExtra(endOfEndDateKey, endOfEndDate);
-        intent.putExtra(resources.getString(R.string.only_done_key), onlyDone);
-        intent.putExtra(startOfDoneDateKey, startOfDoneDate);
-        intent.putExtra(endOfDoneDateKey, endOfDoneDate);
+        intent.putExtra(startOfPeriodKey, startOfPeriod);
+        intent.putExtra(endOfPeriodKey, endOfPeriod);
 
         code = resources.getInteger(R.integer.period_search_setting_code);
         intent.putExtra(extraNameCode, code);
@@ -194,13 +172,8 @@ public class SearchActivity extends AppCompatActivity {
         }
         selectedDone = resources.getString(R.string.all);
         selectedLoop = resources.getString(R.string.all);
-        startOfStartDate = "";
-        endOfStartDate = current;
-        startOfEndDate = current;
-        endOfEndDate = "";
-        onlyDone = false;
-        startOfDoneDate = "";
-        endOfDoneDate = "";
+        startOfPeriod = current;
+        endOfPeriod = current;
     }
 
     public void onSoftKeyboardDown(View view) {
@@ -227,18 +200,6 @@ public class SearchActivity extends AppCompatActivity {
             // Done Search Setting
             else if (requestCode == getResources().getInteger(R.integer.done_search_setting_code)) {
                 selectedDone = data.getStringExtra(selectedDoneKey);
-                if(selectedDone.equals(resources.getString(R.string.done))) {
-                    if(!onlyDone) {
-                        onlyDone = true;
-                    }
-                }
-                else {
-                    if(onlyDone) {
-                        onlyDone = false;
-                        startOfDoneDate = "";
-                        endOfDoneDate = "";
-                    }
-                }
             }
             // Loop Search Setting
             else if (requestCode == getResources().getInteger(R.integer.loop_search_setting_code)) {
@@ -246,12 +207,8 @@ public class SearchActivity extends AppCompatActivity {
             }
             // Period Search Setting
             else if (requestCode == getResources().getInteger(R.integer.period_search_setting_code)) {
-                startOfStartDate = data.getStringExtra(startOfStartDateKey);
-                endOfStartDate = data.getStringExtra(endOfStartDateKey);
-                startOfEndDate = data.getStringExtra(startOfEndDateKey);
-                endOfEndDate = data.getStringExtra(endOfEndDateKey);
-                startOfDoneDate = data.getStringExtra(startOfDoneDateKey);
-                endOfDoneDate = data.getStringExtra(endOfDoneDateKey);
+                startOfPeriod = data.getStringExtra(startOfPeriodKey);
+                endOfPeriod = data.getStringExtra(endOfPeriodKey);
             }
         }
         /* ~Success to receive data */

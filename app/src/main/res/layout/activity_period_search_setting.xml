@@ -11,129 +11,46 @@
         android:text="@string/period" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/search_setting_contents_view_height"
+        style="@style/TopBarStyle"
+        android:paddingTop="@dimen/basic_padding"
+        android:paddingBottom="@dimen/basic_padding"
         android:orientation="horizontal">
 
-        <!-- First Line -->
         <TextView
-            android:id="@+id/start_date_text_view"
+            android:id="@+id/to_do_period_text_view"
             style="@style/PopupContentsTextViewStyle"
-            android:layout_marginHorizontal="@dimen/basic_margin"
-            android:text="@string/start_date"
+            android:text="@string/search_period_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/start_of_start_button"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/end_date_text_view" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/start_of_period_button" />
 
         <Button
-            android:id="@+id/start_of_start_button"
+            android:id="@+id/start_of_period_button"
             style="@style/ButtonStyle"
-            android:onClick="setStartOfStart"
-            app:layout_constraintBottom_toTopOf="@id/start_of_end_button"
-            app:layout_constraintEnd_toStartOf="@id/tilde1"
-            app:layout_constraintStart_toEndOf="@id/start_date_text_view"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tilde1"
-            style="@style/PopupContentsTextViewStyle"
-            android:text="@string/tilde"
-            app:layout_constraintStart_toEndOf="@id/start_of_start_button"
-            app:layout_constraintEnd_toStartOf="@id/end_of_start_button"
+            android:onClick="setStartOfPeriod"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tilde2" />
-
-        <Button
-            android:id="@+id/end_of_start_button"
-            style="@style/ButtonStyle"
-            android:layout_marginRight="@dimen/basic_margin"
-            android:onClick="setEndOfStart"
-            app:layout_constraintBottom_toTopOf="@id/end_of_end_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tilde1"
-            app:layout_constraintTop_toTopOf="parent" />
-        <!-- ~First Line -->
-
-        <!-- ~Second Line -->
-        <TextView
-            android:id="@+id/end_date_text_view"
-            style="@style/PopupContentsTextViewStyle"
-            android:layout_marginHorizontal="@dimen/basic_margin"
-            android:text="@string/end_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/start_of_end_button"
-            app:layout_constraintTop_toBottomOf="@id/start_date_text_view"
-            app:layout_constraintBottom_toTopOf="@id/done_date_text_view" />
-
-        <Button
-            android:id="@+id/start_of_end_button"
-            style="@style/ButtonStyle"
-            android:onClick="setStartOfEnd"
-            app:layout_constraintBottom_toTopOf="@id/start_of_done_button"
-            app:layout_constraintEnd_toStartOf="@id/tilde2"
-            app:layout_constraintStart_toEndOf="@id/end_date_text_view"
-            app:layout_constraintTop_toBottomOf="@id/start_of_start_button" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/to_do_period_text_view"
+            app:layout_constraintEnd_toStartOf="@id/tilde" />
 
         <TextView
-            android:id="@+id/tilde2"
+            android:id="@+id/tilde"
             style="@style/PopupContentsTextViewStyle"
             android:text="@string/tilde"
-            app:layout_constraintStart_toEndOf="@id/start_of_start_button"
-            app:layout_constraintEnd_toStartOf="@id/end_of_start_button"
-            app:layout_constraintTop_toBottomOf="@id/tilde1"
-            app:layout_constraintBottom_toTopOf="@id/tilde3" />
-
-        <Button
-            android:id="@+id/end_of_end_button"
-            style="@style/ButtonStyle"
-            android:layout_marginRight="@dimen/basic_margin"
-            android:onClick="setEndOfEnd"
-            app:layout_constraintBottom_toTopOf="@id/end_of_done_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tilde2"
-            app:layout_constraintTop_toBottomOf="@id/end_of_start_button" />
-        <!-- ~Second Line -->
-
-        <!-- ~Third Line -->
-        <TextView
-            android:id="@+id/done_date_text_view"
-            style="@style/PopupContentsTextViewStyle"
-            android:layout_marginHorizontal="@dimen/basic_margin"
-            android:text="@string/done_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/start_of_done_button"
-            app:layout_constraintTop_toBottomOf="@id/end_date_text_view"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <Button
-            android:id="@+id/start_of_done_button"
-            style="@style/ButtonStyle"
-            android:onClick="setStartOfDone"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tilde3"
-            app:layout_constraintStart_toEndOf="@id/done_date_text_view"
-            app:layout_constraintTop_toBottomOf="@id/start_of_end_button" />
-
-        <TextView
-            android:id="@+id/tilde3"
-            style="@style/PopupContentsTextViewStyle"
-            android:text="@string/tilde"
-            app:layout_constraintStart_toEndOf="@id/start_of_done_button"
-            app:layout_constraintEnd_toStartOf="@id/end_of_done_button"
-            app:layout_constraintTop_toBottomOf="@id/tilde2"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/start_of_period_button"
+            app:layout_constraintEnd_toStartOf="@id/end_of_period_button" />
 
         <Button
-            android:id="@+id/end_of_done_button"
+            android:id="@+id/end_of_period_button"
             style="@style/ButtonStyle"
-            android:layout_marginRight="@dimen/basic_margin"
-            android:onClick="setEndOfDone"
+            android:onClick="setEndOfPeriod"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tilde3"
-            app:layout_constraintTop_toBottomOf="@id/end_of_end_button" />
-        <!-- ~Third Line -->
+            app:layout_constraintStart_toEndOf="@id/tilde"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -51,7 +51,7 @@
     <!-- ~query for to-do item loop -->
 
     <!-- queries for Search -->
-    <string name="temporary_table_for_search_query">( SELECT * FROM _ITEM WHERE %1$s )</string>
+    <string name="temporary_table_for_search_query">( SELECT *, %1$s, %2$s FROM _ITEM INNER JOIN _CALENDAR USING (item_id) INNER JOIN _GROUP USING (group_id) WHERE %3$s )</string>
     <!-- ~queries for Search -->
 
     <!-- queries for achievement days -->

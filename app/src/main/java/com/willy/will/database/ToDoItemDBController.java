@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
+import com.willy.will.search.model.SearchType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,7 +25,11 @@ public class ToDoItemDBController {
         writeDatabase = DBAccess.getDbHelper().getWritableDatabase();
     }
 
-    public ArrayList<ToDoItem> searchToDoItems(ArrayList<ToDoItem> toDoItemList, String tempTable) {
+    public ArrayList<ToDoItem> searchToDoItems(ArrayList<ToDoItem> toDoItemList,
+                                               SearchType searchType,
+                                               String[] columns,
+                                               String tempTable,
+                                               String today) {
         /** Initialize to-do item list **/
         if(toDoItemList == null) {
             toDoItemList = new ArrayList<>();
@@ -32,59 +37,43 @@ public class ToDoItemDBController {
         /* ~Initialize to-do item list */
 
         /** Read DB **/
-        // Set columns
-        String[] columns = {
-                "*",
-                resources.getString(R.string.done_column_query),
-                resources.getString(R.string.loop_column_query)
-        };
+        // Set WHERE, HAVING
+        String where = null;
+        String having = null;
+        if(searchType == SearchType.TO_CURRENT_DATE) {
+            where = resources.getString(R.string.calendar_date_column) + " <= " + today;
+            having = "max(" + resources.getString(R.string.calendar_date_column) + ")";
+        }
+        else if(searchType == SearchType.AFTER_CURRENT_DATE) {
+            where = resources.getString(R.string.calendar_date_column) + " > " + today;
+            having = "min(" + resources.getString(R.string.calendar_date_column) + ")";
+        }
+        else {
+            Log.e("ToDoItemDBController", "Search: Wrong search type");
+        }
 
-        // Set a column for GROUP BY
+        // Set GROUP BY
         String groupBy = resources.getString(R.string.to_do_id_column);
-        // Set HAVING
-        String having = "max(" + resources.getString(R.string.item_id_column) + ")";
-
-        // Set order
-        String order = resources.getString(R.string.to_do_item_order);
 
         Cursor cursor = readDatabase.query(
                 tempTable, columns,
-                null, null,
+                where, null,
                 groupBy, having,
-                order);
+                null);
         /* ~Read DB */
 
         /** Put data in ArrayList **/
-        ToDoItem curToDoItem = null;
-        int itemId = -1;
-        int groupId = -1;
-        String doneDate = null;
-        boolean done = false;
-        String endDate = null;
-        int toDoId = -1;
-        int rank = -1;
-        String name = null;
-        String color = null;
-        int loop = -1;
-
+        ToDoItem curToDoItem;
         while(cursor.moveToNext()) {
-            itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
-            groupId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_id_column)));
-            doneDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.done_date_column)));
-            if(doneDate != null) {
-                done = true;
-            }
-            else {
-                done = false;
-            }
-            endDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.end_date_column)));
-            toDoId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.to_do_id_column)));
-            rank = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_important_column)));
-            name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
-            color = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
-            loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_column)));
-
-            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop);
+            curToDoItem = new ToDoItem();
+            curToDoItem.setToDoId(cursor.getInt(cursor.getColumnIndexOrThrow(columns[0])));
+            curToDoItem.setItemId(cursor.getInt(cursor.getColumnIndexOrThrow(columns[1])));
+            curToDoItem.setDone(cursor.getInt(cursor.getColumnIndexOrThrow(columns[2])) == 1 ? true : false);
+            curToDoItem.setRank(cursor.getInt(cursor.getColumnIndexOrThrow(columns[3])));
+            curToDoItem.setName(cursor.getString(cursor.getColumnIndexOrThrow(columns[4])));
+            curToDoItem.setColor(cursor.getString(cursor.getColumnIndexOrThrow(columns[5])));
+            curToDoItem.setLoop(cursor.getInt(cursor.getColumnIndexOrThrow(columns[6])));
+            curToDoItem.setEndDate(cursor.getString(cursor.getColumnIndexOrThrow(columns[7])));
             toDoItemList.add(curToDoItem);
         }
         /* ~Put data in ArrayList */
