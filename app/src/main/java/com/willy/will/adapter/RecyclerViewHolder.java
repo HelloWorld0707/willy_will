@@ -277,7 +277,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             Task task = (Task) data;
             if(task.getGroup().getGroupId() == NO_GROUP_ID) {
                 groupColorCircleView.setActivated(false);
-                groupColorCircleView.getDrawable().mutate().setTint(Color.parseColor(task.getGroup().getGroupColor()));
+                groupColorCircleView.getDrawable().mutate().setTint(App.getContext().getResources().getColor(R.color.dark_gray, null));
             }
             else {
                 groupColorCircleView.setActivated(true);
