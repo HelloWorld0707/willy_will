@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.willy.will.R;
-import com.willy.will.common.model.PopupActivity;
 
-public class GroupColorSetting extends PopupActivity {
+public class GroupColorSettingActivity extends PopupActivity {
 
     private Resources resources;
     private String packageName;
@@ -19,7 +18,7 @@ public class GroupColorSetting extends PopupActivity {
 
     private int selectedColorIndex;
 
-    public GroupColorSetting() {
+    public GroupColorSettingActivity() {
         super(R.layout.activity_group_color_setting);
     }
 

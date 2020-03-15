@@ -11,7 +11,7 @@ import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.willy.will.R;
-import com.willy.will.common.model.PopupActivity;
+import com.willy.will.common.view.PopupActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

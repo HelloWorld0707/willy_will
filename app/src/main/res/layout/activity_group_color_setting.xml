@@ -5,7 +5,7 @@
     style="@style/PopupStyle"
     android:layout_width="240dp"
     android:orientation="vertical"
-    tools:context=".common.view.GroupColorSetting">
+    tools:context=".common.view.GroupColorSettingActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.willy.will.common.model;
+package com.willy.will.common.view;
 
 import android.app.Activity;
 import android.content.Intent;

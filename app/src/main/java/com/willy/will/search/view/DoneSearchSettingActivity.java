@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
-import com.willy.will.common.model.PopupActivity;
+import com.willy.will.common.view.PopupActivity;
 import com.willy.will.common.model.RecyclerViewItemType;
 
 import java.util.ArrayList;

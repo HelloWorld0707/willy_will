@@ -146,7 +146,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     }
 
     public void bringUpGroupColorSetting(View view) {
-        Intent intent = new Intent(this, GroupColorSetting.class);
+        Intent intent = new Intent(this, GroupColorSettingActivity.class);
         int code = resources.getInteger(R.integer.group_color_setting_code);
         startActivityForResult(intent, code);
     }

@@ -15,7 +15,7 @@ import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.controller.AscendingGroupByName;
 import com.willy.will.common.model.Group;
-import com.willy.will.common.model.PopupActivity;
+import com.willy.will.common.view.PopupActivity;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.database.GroupDBController;
 

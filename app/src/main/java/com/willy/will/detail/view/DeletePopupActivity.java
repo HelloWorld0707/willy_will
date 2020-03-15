@@ -2,10 +2,9 @@ package com.willy.will.detail.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.willy.will.R;
-import com.willy.will.common.model.PopupActivity;
+import com.willy.will.common.view.PopupActivity;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.main.view.MainActivity;
 

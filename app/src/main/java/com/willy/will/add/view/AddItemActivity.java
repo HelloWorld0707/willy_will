@@ -146,7 +146,7 @@ public class AddItemActivity extends Activity{
 
         /************************* 중요도 data **************************************/
         important = findViewById(R.id.important);
-        final String[] importantArr = resources.getStringArray(R.array.important);
+        final String[] importantArr = resources.getStringArray(R.array.importance);
         important.setSelection(important_result - 1);
         important.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -275,7 +275,7 @@ public class AddItemActivity extends Activity{
                 e.printStackTrace();
             }
         }
-        datePickerDialog.setMessage(resources.getString(R.string.start_date_text));
+        datePickerDialog.setMessage(resources.getString(R.string.start_date));
         datePickerDialog.show();
     }
 
@@ -297,7 +297,7 @@ public class AddItemActivity extends Activity{
                 e.printStackTrace();
             }
         }
-        datePickerDialog.setMessage(resources.getString(R.string.end_date_text));
+        datePickerDialog.setMessage(resources.getString(R.string.end_date));
         datePickerDialog.show();
     }
 
@@ -518,7 +518,7 @@ public class AddItemActivity extends Activity{
             contentValues.put("loop_week", loopweek);
             db.insert("_LOOP_INFO", null, contentValues);
         }
-        Toast.makeText(getApplicationContext(), "추가 성공", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), resources.getString(R.string.successful_add), Toast.LENGTH_SHORT).show();
         setResult(resources.getInteger(R.integer.item_change_return_code));
     }
 

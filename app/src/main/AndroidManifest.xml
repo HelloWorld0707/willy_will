@@ -67,7 +67,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".add.view.AddItemActivity" />
         <activity
-            android:name=".common.view.GroupColorSetting"
+            android:name=".common.view.GroupColorSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/PopupTheme"/>
         <activity

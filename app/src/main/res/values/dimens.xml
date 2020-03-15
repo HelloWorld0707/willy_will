@@ -1,6 +1,5 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
-
+    
     <!-- Common -->
     <dimen name="match_constraint">0dp</dimen>
     <dimen name="basic_padding">16dp</dimen>
@@ -12,8 +11,6 @@
     <dimen name="text_recycler_item_height">48dp</dimen>
     <dimen name="text_recycler_item_text_size">20sp</dimen>
     <dimen name="task_recycler_item_additional_text_size">14sp</dimen>
-
-    <dimen name="main_date_text_size">50sp</dimen>
 
     <dimen name="text_input_layout_height">50dp</dimen>
     <dimen name="text_input_layout_top_margin">6dp</dimen>
@@ -38,18 +35,11 @@
     <dimen name="button_margin">2dp</dimen>
     <!-- ~Button -->
 
-    <!-- Group -->
-    <dimen name="group_color_size">20dp</dimen>
-    <dimen name="group_color_vector_size">24dp</dimen>
-    <!-- Group -->
-
-    <!-- Search Setting Recycler View -->
-    <dimen name="search_setting_contents_view_height">144dp</dimen>
-    <!-- ~Search Setting Recycler View -->
-
-    <!-- Spinner-->
+    <!-- Main -->
+    <dimen name="fab_margin">16dp</dimen>
     <dimen name="spinner_width">225dp</dimen>
-    <!-- ~Spinner-->
+    <dimen name="main_date_text_size">50sp</dimen>
+    <!-- ~Main -->
 
     <!-- MainListItem-->
     <dimen name="itembox_height">75dp</dimen>
@@ -60,6 +50,25 @@
     <dimen name="item_name_height">24dp</dimen>
     <dimen name="item_name_right_margin">20dp</dimen>
     <!-- ~MainListItem-->
+
+    <!-- detailActivity -->
+    <dimen name="detail_icon_margin">15dp</dimen>
+    <dimen name="detail_list_padding">20dp</dimen>
+    <dimen name="detail_list_thick_height">64dp</dimen>
+    <dimen name="detail_list_thin_height">58dp</dimen>
+    <dimen name="detail_title_style">17dp</dimen>
+    <dimen name="achievementsize">35dp</dimen>
+    <dimen name="achieve_stroke_size">1dp</dimen>
+    <!-- ~detailActivity -->
+
+    <!-- Group -->
+    <dimen name="group_color_size">20dp</dimen>
+    <dimen name="group_color_vector_size">24dp</dimen>
+    <!-- Group -->
+
+    <!-- Search Setting Recycler View -->
+    <dimen name="search_setting_contents_view_height">144dp</dimen>
+    <!-- ~Search Setting Recycler View -->
 
     <!-- NavigationDrawer -->
     <dimen name="nav_width">250dp</dimen>
@@ -78,13 +87,4 @@
     <dimen name="nav_menu_text">15sp</dimen>
     <!-- ~Navigation Menu-->
 
-    <!-- detailActivity -->
-    <dimen name="detail_icon_margin">15dp</dimen>
-    <dimen name="detail_list_padding">20dp</dimen>
-    <dimen name="detail_list_thick_height">64dp</dimen>
-    <dimen name="detail_list_thin_height">58dp</dimen>
-    <dimen name="detail_title_style">17dp</dimen>
-    <dimen name="achievementsize">35dp</dimen>
-    <dimen name="achieve_stroke_size">1dp</dimen>
-    <!-- ~detailActivity -->
 </resources>

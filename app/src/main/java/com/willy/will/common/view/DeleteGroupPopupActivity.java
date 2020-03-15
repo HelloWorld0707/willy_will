@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.willy.will.R;
 import com.willy.will.common.model.Group;
-import com.willy.will.common.model.PopupActivity;
 import com.willy.will.database.GroupDBController;
 import com.willy.will.setting.controller.TaskManagementController;
 
