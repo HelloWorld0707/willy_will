@@ -52,7 +52,6 @@
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 style="@style/TopLayout"
-                android:padding="@dimen/detail_list_padding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -69,7 +68,7 @@
                         android:background="@null"
                         android:hint="@string/edit_Title"
                         android:inputType="textPersonName"
-                        android:textSize="23dp" />
+                        android:textSize="20dp" />
 
                 </LinearLayout>
 
@@ -96,33 +95,34 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:onClick="bringUpGroupSetting">
 
                     <TextView
                         android:id="@+id/group_title"
+                        style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="그룹"
-                        style="@style/DetailTitleStyle"/>
+                        android:text="그룹" />
 
                     <TextView
                         android:id="@+id/group_textview"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/group_title"
                         android:gravity="right|center_vertical"
                         android:singleLine="true"
                         android:text="그룹 미정"
-                        android:layout_toEndOf="@id/group_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="25dp" />
+                        android:paddingRight="15dp"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/next_btn" />
+                        android:layout_marginEnd="-8dp"
+                        android:src="@drawable/bt_next" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -131,7 +131,6 @@
                 <LinearLayout
                     android:id="@+id/date_and_location_layout"
                     style="@style/RoundLayout"
-                    android:padding="@dimen/detail_list_padding"
                     android:layout_marginBottom="@dimen/basic_margin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -155,9 +154,7 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:gravity="center_vertical"
-                            android:hint="@string/Date"
-                            android:textColor="@color/colorPrimary"
-                            android:layout_marginRight="25dp"/>
+                            android:hint="@string/Date"/>
 
                     </RelativeLayout>
 
@@ -179,9 +176,7 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:gravity="center_vertical"
-                            android:hint="@string/Date"
-                            android:textColor="@color/colorPrimary"
-                            android:layout_marginRight="25dp"/>
+                            android:hint="@string/Date"/>
 
                     </RelativeLayout>
 
@@ -206,13 +201,14 @@
                             android:text="@string/no_location"
                             android:layout_toEndOf="@id/btn_Location"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginRight="25dp"/>
+                            android:paddingRight="15dp"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentEnd="true"
-                            android:src="@drawable/next_btn" />
+                            android:layout_marginEnd="-8dp"
+                            android:src="@drawable/bt_next" />
                     </RelativeLayout>
 
 
@@ -223,8 +219,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/detail_list_padding"
-                style="@style/RoundLayout">
+                style="@style/BottomLayout">
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
