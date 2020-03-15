@@ -119,8 +119,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
         /** access DB **/
         todoItem = detailCtrl.getToDoItemByItemId(item.getItemId());
-        LocalDate localDate = getLocalDate(todoItem.getCalenderDate());
-        achievementList = detailCtrl.getloopItem(todoItem.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
+        //LocalDate localDate = getLocalDate(todoItem.getCalenderDate());
+        //achievementList = detailCtrl.getloopItem(todoItem.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
         /*~ access DB ~*/
 
 
@@ -148,6 +148,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
+        /*
         if(loopWeek ==null){
             achievementRateArea.setVisibility(View.GONE);
             roofDay += "반복 안함";
@@ -161,17 +162,22 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; }
             }
             for(int i=0;i<achievementList.size();i++){
-                int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
+                //int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
                 String doneDateValue = achievementList.get(i).getDoneDate();
                 if(doneDateValue==null || doneDateValue==""){
-                    day.get(index).setBackgroundResource(R.drawable.achievement_false);
+                    //day.get(index).setBackgroundResource(R.drawable.achievement_false);
                 }else{
-                    day.get(index).setBackgroundResource(R.drawable.achievement_true);
+                    //day.get(index).setBackgroundResource(R.drawable.achievement_true);
                     rate++;
                 }
             }
             achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
-        }
+        }*/
+        day.get(0).setActivated(true);
+        day.get(1).setActivated(false);
+        day.get(2).setSelected(true);
+        day.get(3).setSelected(false);
+
         /*~ set achievementArea(rate, loop day) */
 
 
@@ -204,6 +210,17 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         /*~ set data */
 
     }
+
+
+
+    /** convert a String to LocalDate  **//*
+    public LocalDate getLocalDate(String date){
+        String[] dateArr = date.split("-");
+        LocalDate localDate = LocalDate.of(Integer.parseInt(dateArr[0]),Integer.parseInt(dateArr[1]),Integer.parseInt(dateArr[2]));
+        return localDate;
+    }
+    */
+
 
 
 
