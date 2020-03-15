@@ -571,8 +571,7 @@ public class AddItemActivity extends Activity{
                 selectedGroup = data.getParcelableExtra(groupSettingKey);
                 groupTextView.setText(selectedGroup.getGroupName());
             }else if(requestCode == resources.getInteger(R.integer.location_search_code)){
-                ArrayList<Location> locationArrayList = data.getParcelableArrayListExtra(resources.getString(R.string.location_search_key));
-                Location location = locationArrayList.get(0);
+                Location location = data.getParcelableExtra(resources.getString(R.string.location_search_key));
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
                 place_name.setText(location.getAddressName());

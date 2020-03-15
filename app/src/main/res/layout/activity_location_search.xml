@@ -69,16 +69,16 @@
         android:paddingTop="@dimen/round_corner_layout_padding"
         android:paddingRight="@dimen/basic_padding"
         android:paddingLeft="@dimen/basic_padding"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/action_bar">
 
         <androidx.recyclerview.widget.RecyclerView
+            style="@style/BottomLayout"
             android:id="@+id/search_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layout_constrainedHeight="true"
             app:layout_constraintVertical_bias="0"
@@ -88,28 +88,6 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--
-
-    <ScrollView
-        style="@style/BottomLayout"
-        android:id="@+id/search_result_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/match_constraint"
-        android:fillViewport="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar"
-        app:layout_constraintBottom_toBottomOf="parent">
-        <ListView
-            android:id="@+id/search_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"/>
-    </ScrollView>
-
-
--->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
