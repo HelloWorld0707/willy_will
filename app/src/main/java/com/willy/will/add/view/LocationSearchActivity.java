@@ -1,41 +1,24 @@
 package com.willy.will.add.view;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
-import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
-import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.common.model.Task;
-import com.willy.will.common.model.ToDoItem;
-import com.willy.will.setting.view.ManageTasksPopupActivity;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class LocationSearchActivity extends Activity {
@@ -49,36 +32,30 @@ public class LocationSearchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_search);
+        textEditText = findViewById(R.id.location_edit_text);
 
         getSearchAddress("");
 
-
-        /** Set Views **/
-        textEditText = findViewById(R.id.location_edit_text);
         if(textEditText.hasFocus()) {
             textEditText.clearFocus();
         }
 
-
+        locationArrayList = new ArrayList<Location>();
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.search_recycler_view, getWindow().getDecorView(),
                 RecyclerViewItemType.LOCATION_SEARCH, locationArrayList,
                 R.string.selection_id_location,false
         );
         recyclerView = recyclerViewSetter.setRecyclerView();
-        RecyclerViewAdapter test = ((RecyclerViewAdapter) recyclerView.getAdapter());
+        recyclerViewSetter.setActivity(this);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-
 
     }
 
-    public void searchLocation(View view){ // 검색 버튼 클릭시
-        onSoftKeyboardDown(view); // 키보드 다
-        String searchText = textEditText.getText().toString(); //에디트텍스트에 있는 텍스를 가져와서
-        getSearchAddress(searchText); // 검색어 쿼리로 보낸다
-        recyclerView.getAdapter().notifyDataSetChanged();
-
-
+    public void searchLocation(View view){
+        onSoftKeyboardDown(view);
+        String searchText = textEditText.getText().toString();
+        getSearchAddress(searchText);
     }
 
 
@@ -98,7 +75,11 @@ public class LocationSearchActivity extends Activity {
 
     /**  get Address (rest api) **/
     private void getSearchAddress(final String searchText) {
-        locationArrayList = new ArrayList<Location>();
+        if(locationArrayList == null){
+            locationArrayList = new ArrayList<>();
+        }else if(!locationArrayList.isEmpty()){
+            locationArrayList.clear();
+        }
 
         new Thread(new Runnable() {
             String json = null;
@@ -145,17 +126,12 @@ public class LocationSearchActivity extends Activity {
                         location.setAddressName(dataObject.getString("road_address_name"));
                         locationArrayList.add(location);
                     }
-                    recyclerView.getAdapter().notifyDataSetChanged();
-
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
-
                         recyclerView.getAdapter().notifyDataSetChanged();
                     }
                 });
@@ -163,8 +139,5 @@ public class LocationSearchActivity extends Activity {
         }).start();
     }
     /*~  get Address (rest api) ~*/
-
-
-
 
 }

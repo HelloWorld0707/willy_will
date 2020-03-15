@@ -69,18 +69,31 @@
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:gravity="center_vertical" />
+                    android:gravity="center_vertical"/>
 
                 <TextView
+                    style="@style/DetailTitleStyle"
                     android:id="@+id/item_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    style="@style/DetailTitleStyle"
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:text="프로그래머스_정렬 문제 풀기" />
+                    android:text="프로그래머스_정렬 문제 풀기"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/item_copy_btn"
+                    app:layout_constraintStart_toEndOf="@id/important"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <ImageView
+                    android:id="@+id/item_copy_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bt_copy"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="itemCopy"/>
 
             </LinearLayout> <!--end item_area-->
 
@@ -285,36 +298,43 @@
                     <TextView
                         android:id="@+id/sunday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/sunday" />
 
                     <TextView
                         android:id="@+id/monday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/monday" />
 
                     <TextView
                         android:id="@+id/tuesday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/tuesday" />
 
                     <TextView
                         android:id="@+id/wednesday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/wednesday" />
 
                     <TextView
                         android:id="@+id/thursday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/thursday" />
 
                     <TextView
                         android:id="@+id/friday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/friday" />
 
                     <TextView
                         android:id="@+id/saturday"
                         style="@style/DetailDayStyle"
+                        android:background="@drawable/bg_achievement"
                         android:text="@string/saturday" />
 
                 </LinearLayout>
@@ -338,12 +358,37 @@
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:text="@string/location" />
 
-                <TextView
-                    android:id="@+id/address"
+                <LinearLayout
+                    android:id="@+id/address_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="서울 강남구 강남대로 지하 396" />
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/group_area"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent">
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:text="서울 강남구 강남대로 지하 396"
+                        android:layout_marginRight="10dp" />
+
+                    <ImageView
+                        android:id="@+id/address_copy_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/bt_copy"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:onClick="itemCopy"/>
+
+                </LinearLayout> <!--end item_area-->
+
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -1,6 +1,9 @@
 package com.willy.will.detail.view;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -15,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
@@ -49,7 +53,7 @@ import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 public class DetailActivity extends Activity implements MapView.MapViewEventListener{
 
-    private ImageView important, groupColor;
+    private ImageView important, groupColor, itemCopyBtn, addressCopyBtn;
     private ImageButton editButton;
     private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address;
     private RelativeLayout startDateArea, endDateArea, doneDateArea;
@@ -70,6 +74,9 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private ViewGroup mapViewContainer;
     private MapPOIItem marker;
     private Resources resources;
+    private ClipboardManager clipboard;
+    private ClipData clip;
+    private String copyText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
         scrollView = findViewById(R.id.scroll_view);
+        itemCopyBtn = findViewById(R.id.item_copy_btn);
+        addressCopyBtn = findViewById(R.id.address_copy_btn);
         day.add(0,(TextView)findViewById(R.id.sunday));
         day.add(1,(TextView)findViewById(R.id.monday));
         day.add(2,(TextView)findViewById(R.id.tuesday));
@@ -103,7 +112,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         day.add(5,(TextView)findViewById(R.id.friday));
         day.add(6,(TextView)findViewById(R.id.saturday));
 
-        /** get intent(item_id) from mainActivity **/ //수정 필요
+        /** get intent(item_id) from mainActivity **/
         Intent intent = getIntent();
         ToDoItem item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
 
@@ -132,16 +141,18 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             important.setVisibility(View.GONE); }
         /*~ set importance Image */
 
+
         /** set itemName selected (for MARQUEE) **/
         itemName.setSelected(true);
         /*~ set itemName selected (for MARQUEE) */
+
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
         if(loopWeek ==null){
             achievementRateArea.setVisibility(View.GONE);
             roofDay += "반복 안함";
         }else {
-            if(loopWeek.equals("1111111")){ //매일
+            if(loopWeek.equals("1111111")){
                 doneDateArea.setVisibility(View.GONE);
                 roofDay += "매일";
             }else {
@@ -153,9 +164,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
                 String doneDateValue = achievementList.get(i).getDoneDate();
                 if(doneDateValue==null || doneDateValue==""){
-                    day.get(index).setBackgroundResource(R.drawable.achievement_false);
+                    day.get(i).setActivated(true);
+                    day.get(i).setSelected(false);
                 }else{
-                    day.get(index).setBackgroundResource(R.drawable.achievement_true);
+                    day.get(i).setActivated(true);
+                    day.get(i).setSelected(true);
                     rate++;
                 }
             }
@@ -192,6 +205,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }
         /*~ set data */
 
+
     }
 
 
@@ -202,6 +216,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         LocalDate localDate = LocalDate.of(Integer.parseInt(dateArr[0]),Integer.parseInt(dateArr[1]),Integer.parseInt(dateArr[2]));
         return localDate;
     }
+
 
 
     /** open option menu -> item modify, item delete) **/
@@ -221,7 +236,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                         startActivityForResult(intent, code);
                         return true;
                     case R.id.btn_delete:
-                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class); // 수정 필요
+                        intent = new Intent(DetailActivity.this, DeletePopupActivity.class);
                         intent.putExtra("todoId",todoItem.getTodoId());
                         startActivity(intent);
                         return true;
@@ -232,7 +247,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         menu.show();
     }
     /*~ open option menu -> item modify, item delete) */
-
 
 
 
@@ -268,15 +282,15 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             @Override
             public void run() {
                 try {
-                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84"; // json
+                    String apiURL = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ longitude + "&y=" + latitude +"&input_coord=WGS84";
                     URL url = new URL(apiURL);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
-                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18"); //header
+                    con.setRequestProperty("Authorization", "KakaoAK b5ef8f50c799f2e913df5481ce88bd18");
                     int responseCode = con.getResponseCode();
                     BufferedReader br = null;
 
-                    if (responseCode == 200) { // 정상 호출
+                    if (responseCode == 200) {
                         br = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     }
 
@@ -314,6 +328,20 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }).start();
     }
 
+
+
+    /** item name copy **/
+    public void itemCopy(View view){
+        if(clipboard == null) clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if(view.getId() == R.id.item_copy_btn) copyText = itemName.getText().toString();
+        else if(view.getId() == R.id.address_copy_btn) copyText = address.getText().toString();
+
+        clip = ClipData.newPlainText("item", copyText);
+        clipboard.setPrimaryClip(clip);
+
+        Toast.makeText(view.getContext(),resources.getString(R.string.copy_msg),Toast.LENGTH_LONG).show();
+    }
 
 
 

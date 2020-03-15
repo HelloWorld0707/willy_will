@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.willy.will.R;
+import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
 import com.willy.will.common.view.GroupManagementActivity;
@@ -365,14 +366,14 @@ public class AddItemActivity extends Activity{
 
     public void add_insert(View view) throws ParseException {
         item_name = Title_editText.getText().toString(); // item_name
-
+        Resources resources = App.getContext().getResources();
         if(item_name.equals("") || item_name == null) {
-            Toast.makeText(getApplicationContext(), "할 일 이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),resources.getString(R.string.item_name_is_null), Toast.LENGTH_SHORT).show();
         }
         else {
             if (code == ADD_CODE) {
                 if (simpleDateFormat.parse(start_date).getTime() > simpleDateFormat.parse(end_date).getTime()) {
-                    Toast.makeText(getApplicationContext(), "날짜를 다시 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),resources.getString(R.string.item_date_mismatch), Toast.LENGTH_SHORT).show();
                 } else {
                     addItemToDB();
                     finish();
@@ -570,8 +571,7 @@ public class AddItemActivity extends Activity{
                 selectedGroup = data.getParcelableExtra(groupSettingKey);
                 groupTextView.setText(selectedGroup.getGroupName());
             }else if(requestCode == resources.getInteger(R.integer.location_search_code)){
-                ArrayList<Location> locationArrayList = data.getParcelableArrayListExtra(resources.getString(R.string.location_search_key));
-                Location location = locationArrayList.get(0);
+                Location location = data.getParcelableExtra(resources.getString(R.string.location_search_key));
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
                 place_name.setText(location.getAddressName());
