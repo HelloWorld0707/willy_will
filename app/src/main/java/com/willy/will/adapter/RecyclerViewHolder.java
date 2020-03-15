@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.common.controller.App;
+import com.willy.will.common.controller.ToDoItemComparator;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
@@ -32,8 +33,11 @@ import com.willy.will.common.view.DeleteGroupPopupActivity;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.ToDoItemDBController;
 
+import java.util.Collections;
+
 public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
+    private static ToDoItemComparator toDoItemComparator = new ToDoItemComparator();
     private static BackgroundColorSpan inactiveColorSpan = new BackgroundColorSpan(App.getContext().getColor(R.color.colorInactive));
     private static int NO_GROUP_ID = App.getContext().getResources().getInteger(R.integer.no_group_id);
 
@@ -86,6 +90,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
                             toDoItem.setDone(b);
                             setActivation(toDoItem.getItemId(), b, toDoItem.getColor(), toDoItem.getLoop());
+                            Collections.sort(rcyclerVAdapter.getList(), toDoItemComparator);
                             rcyclerVAdapter.notifyItemChanged(position);
                         }
                     }

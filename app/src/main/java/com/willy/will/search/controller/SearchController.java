@@ -2,8 +2,6 @@ package com.willy.will.search.controller;
 
 import android.content.res.Resources;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.willy.will.R;
 import com.willy.will.common.controller.ToDoItemComparator;
 import com.willy.will.common.model.Group;
@@ -22,13 +20,13 @@ public class SearchController {
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private Resources resources;
-    private RecyclerView recyclerView;
     private ToDoItemDBController toDoItemDBController;
+    private ToDoItemComparator toDoItemComparator;
 
-    public SearchController(Resources resources, RecyclerView recyclerView) {
+    public SearchController(Resources resources) {
         this.resources = resources;
-        this.recyclerView = recyclerView;
         toDoItemDBController = new ToDoItemDBController(resources);
+        toDoItemComparator = new ToDoItemComparator();
     }
 
     public ArrayList<ToDoItem> getToDoItems(String searchName,
@@ -157,7 +155,7 @@ public class SearchController {
         /* ~Set the list excluding duplicates in the list until today and the list after today */
 
         /** Sort by done, importance, and name **/
-        Collections.sort(toDoItemList, new ToDoItemComparator());
+        Collections.sort(toDoItemList, toDoItemComparator);
         /* ~Sort by done, importance, and name */
 
         return toDoItemList;

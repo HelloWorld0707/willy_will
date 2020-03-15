@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
@@ -45,6 +43,9 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     // Get data when changed check box of to-do item (at holder)
     public T getData(int position) {
         return dset.get(position);
+    }
+    public ArrayList<T> getList() {
+        return dset;
     }
 
     // For no tracker

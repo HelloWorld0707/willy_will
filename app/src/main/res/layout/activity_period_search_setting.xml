@@ -12,6 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/TopBarStyle"
+        android:paddingLeft="@dimen/basic_padding"
+        android:paddingRight="@dimen/basic_padding"
         android:paddingTop="@dimen/basic_padding"
         android:paddingBottom="@dimen/basic_padding"
         android:orientation="horizontal">

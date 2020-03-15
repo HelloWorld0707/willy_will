@@ -56,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
         resources = getResources();
         extraNameCode = resources.getString(R.string.request_code);
 
-        searchCtrl = new SearchController(getResources(), recyclerView);
+        searchCtrl = new SearchController(getResources());
 
         /** Set data **/
         currentGroup = getIntent().getParcelableExtra(resources.getString(R.string.current_group_key));
