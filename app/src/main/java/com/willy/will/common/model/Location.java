@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import java.io.Serializable;
 
-public class Location implements Serializable, Parcelable {
+public class Location implements Parcelable {
 
     String locationId;
     double longitude;

@@ -112,6 +112,7 @@
     <string name="selection_id_loop_search_setting">loopSearchSettingSelection</string>
     <string name="selection_id_group_management">groupManagementSelection</string>
     <string name="selection_id_task_management">taskManagementSelection</string>
+    <string name="selection_id_location">locationSelection</string>
     <!-- ~selection id for recycler view -->
 
     <!-- startActivityForResult -->
