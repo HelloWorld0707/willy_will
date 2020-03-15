@@ -83,7 +83,7 @@
     <dimen name="detail_list_padding">20dp</dimen>
     <dimen name="detail_list_thick_height">64dp</dimen>
     <dimen name="detail_list_thin_height">58dp</dimen>
-    <dimen name="detail_title_style">18dp</dimen>
+    <dimen name="detail_title_style">17dp</dimen>
     <dimen name="achievementsize">35dp</dimen>
     <dimen name="achieve_stroke_size">1dp</dimen>
     <!-- ~detailActivity -->
