@@ -303,6 +303,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             if(location.getAddressName().equals("")){
                 addressName.setVisibility(View.GONE);
             }else{
+                addressName.setVisibility(View.VISIBLE);
                 addressName.setText(location.getAddressName());
             }
         }

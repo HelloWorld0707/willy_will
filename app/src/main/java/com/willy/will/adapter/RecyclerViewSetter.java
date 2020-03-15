@@ -28,6 +28,8 @@ import com.willy.will.setting.view.TaskManagementActivity;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_FIRST_USER;
+
 public class RecyclerViewSetter {
 
     /** For Setting RecyclerView **/
@@ -275,23 +277,13 @@ public class RecyclerViewSetter {
     private void selectLocation(){
         if(locationSearchActivity != null) {
             Context context = parentView.getContext();
-
-            String extraName = context.getResources().getString(R.string.location_search_code);
-            int code = context.getResources().getInteger(R.integer.location_search_code);
-
             int p = tracker.getSelection().hashCode();
             Location selectedLocation = (Location) list.get(p);
 
             Intent intent = new Intent(locationSearchActivity, AddItemActivity.class);
-            Location location = new Location();
-            location.setLocationId(selectedLocation.getLocationId());
-            location.setAddressName(selectedLocation.getAddressName());
-            location.setPlaceName(selectedLocation.getPlaceName());
-            location.setLatitude(selectedLocation.getLongitude());
-            location.setLongitude(selectedLocation.getLongitude());
-            intent.putExtra(extraName, code);
-            intent.putExtra(parentView.getResources().getString(R.string.item_id), location);
-            locationSearchActivity.startActivityForResult(intent, code);
+            intent.putExtra(context.getString(R.string.location_search_key), selectedLocation);
+            locationSearchActivity.setResult(RESULT_FIRST_USER,intent);
+            locationSearchActivity.finish();
         }
         else {
             Log.e("RecyclerViewSetter", "Bring up Detail: Don't set up Location Search Activity");
