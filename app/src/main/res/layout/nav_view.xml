@@ -39,7 +39,7 @@
             android:layout_marginStart="@dimen/nav_margin"
             android:layout_marginTop="@dimen/nav_menu_top_margin"
             android:src="@drawable/ic_folder"
-            android:onClick="btnGrSettingClick"></ImageView>
+            android:onClick="btnGroupSettingClick"></ImageView>
 
         <TextView
             android:id="@+id/tv_group_name"
@@ -53,7 +53,7 @@
             android:text="@string/group_setting"
             android:textSize="@dimen/nav_menu_text"
             android:textColor="@color/colorString"
-            android:onClick="btnGrSettingClick"></TextView>
+            android:onClick="btnGroupSettingClick"></TextView>
 
         <ImageView
             android:id="@+id/nav_ic_task"
@@ -88,7 +88,7 @@
             android:layout_marginStart="@dimen/nav_margin"
             android:layout_marginTop="@dimen/nav_menu_top_margin"
             android:src="@drawable/ic_alarm_24px"
-            android:onClick="btnArsettingClick"></ImageView>
+            android:onClick="btnAlarmSettingClick"></ImageView>
 
         <TextView
             android:id="@+id/tv_alarm_name"
@@ -102,7 +102,7 @@
             android:text="@string/alarm_setting"
             android:textColor="@color/colorString"
             android:textSize="@dimen/nav_menu_text"
-            android:onClick="btnArsettingClick"></TextView>
+            android:onClick="btnAlarmSettingClick"></TextView>
 
         <TextView
             android:id="@+id/app_detail"

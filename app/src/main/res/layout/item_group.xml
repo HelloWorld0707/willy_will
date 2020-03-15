@@ -24,12 +24,14 @@
         <TextView
             android:id="@+id/group_name"
             style="@style/TextRecyclerItemStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/match_constraint"
             android:background="@android:color/transparent"
+            android:singleLine="true"
             android:text="TextView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/group_color" />
+            app:layout_constraintStart_toEndOf="@id/group_color"
+            app:layout_constraintEnd_toStartOf="@id/radio_button" />
 
         <RadioButton
             android:id="@+id/radio_button"

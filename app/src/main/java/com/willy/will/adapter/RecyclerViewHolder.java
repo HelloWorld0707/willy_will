@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.willy.will.R;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
+import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
 import com.willy.will.common.model.ToDoItem;
@@ -56,6 +57,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private TextView taskNameView;
     private TextView dDayOrAchivementView;
     private CheckBox taskCheckBox;
+
+    private TextView placeName;
+    private TextView addressName;
     // ~View of Item
 
     // Initialization of THE item (Called for each item)
@@ -150,6 +154,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     task.setChecked(isChecked);
                 }
             });
+        }
+        // Location search
+        else if(type == RecyclerViewItemType.LOCATION_SEARCH) {
+            placeName = view.findViewById(R.id.place_name);
+            addressName = view.findViewById(R.id.address_name);
         }
         // ERROR: Wrong type
         else {
@@ -264,7 +273,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 else {
                     removeButton.setVisibility(View.VISIBLE);
                 }
-                radioButton.setVisibility(View.GONE);
+                radioButton.setVisibility(View.INVISIBLE);
             }
             else {
                 removeButton.setVisibility(View.GONE);
@@ -277,6 +286,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             Task task = (Task) data;
             if(task.getGroup().getGroupId() == NO_GROUP_ID) {
                 groupColorCircleView.setActivated(false);
+                groupColorCircleView.getDrawable().mutate().setTint(App.getContext().getResources().getColor(R.color.dark_gray, null));
             }
             else {
                 groupColorCircleView.setActivated(true);
@@ -285,6 +295,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             taskNameView.setText(task.getName());
             dDayOrAchivementView.setText(task.getdDayOrAchievement());
             taskCheckBox.setChecked(task.isChecked());
+        }
+        // Location search
+        else if(type == RecyclerViewItemType.LOCATION_SEARCH) {
+            Location location = (Location) data;
+            placeName.setText(location.getPlaceName());
+            if(location.getAddressName().equals("")){
+                addressName.setVisibility(View.GONE);
+            }else{
+                addressName.setText(location.getAddressName());
+            }
         }
         // ERROR: Wrong type
         else {
@@ -336,7 +356,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.getDrawable().mutate().setTint(resources.getColor(R.color.colorPrimary, null));
             }
         }
-        dbController.updateDB(id, activated);
-    }
+            dbController.updateDB(id, activated);
 
+    }
 }

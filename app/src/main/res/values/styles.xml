@@ -55,7 +55,8 @@
     <style name="RoundLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/match_constraint</item>
-        <item name="android:paddingHorizontal">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingLeft">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingRight">@dimen/round_corner_layout_padding</item>
         <item name="android:paddingTop">@dimen/round_corner_layout_padding</item>
         <item name="android:paddingBottom">@dimen/round_corner_layout_padding</item>
         <item name="android:background">@drawable/round_corner2</item>
@@ -78,7 +79,8 @@
     <style name="TopBarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/detail_list_thick_height</item>
-        <item name="android:paddingHorizontal">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingLeft">@dimen/round_corner_layout_padding</item>
+        <item name="android:paddingRight">@dimen/round_corner_layout_padding</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@color/white</item>
@@ -122,7 +124,8 @@
     <style name="TextRecyclerItemStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/text_recycler_item_height</item>
-        <item name="android:paddingHorizontal">@dimen/basic_padding</item>
+        <item name="android:paddingLeft">@dimen/basic_padding</item>
+        <item name="android:paddingRight">@dimen/basic_padding</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">@dimen/text_recycler_item_text_size</item>
         <item name="android:textColor">@color/colorString</item>

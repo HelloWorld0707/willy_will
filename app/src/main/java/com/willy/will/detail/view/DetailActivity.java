@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,6 +132,9 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             important.setVisibility(View.GONE); }
         /*~ set importance Image */
 
+        /** set itemName selected (for MARQUEE) **/
+        itemName.setSelected(true);
+        /*~ set itemName selected (for MARQUEE) */
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
         if(loopWeek ==null){
@@ -378,10 +380,13 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 itemName.setText(todoItem.getItemName());
                 ImportanceValue = todoItem.getImportant();
                 if(ImportanceValue==1) {
+                    important.setVisibility(View.VISIBLE);
                     important.setImageResource(R.drawable.important1);
                 }else if(ImportanceValue==2){
+                    important.setVisibility(View.VISIBLE);
                     important.setImageResource(R.drawable.important2);
                 }else if(ImportanceValue==3){
+                    important.setVisibility(View.VISIBLE);
                     important.setImageResource(R.drawable.important3);
                 }else if(ImportanceValue==4){
                     important.setVisibility(View.GONE);

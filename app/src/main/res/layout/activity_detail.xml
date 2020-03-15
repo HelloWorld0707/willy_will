@@ -59,7 +59,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_list_thick_height"
                 android:orientation="horizontal"
-                android:padding="@dimen/detail_list_padding"
                 app:layout_constraintBottom_toTopOf="@+id/group_area"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,10 +73,13 @@
 
                 <TextView
                     android:id="@+id/item_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     style="@style/DetailTitleStyle"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
                     android:text="프로그래머스_정렬 문제 풀기" />
 
             </LinearLayout> <!--end item_area-->
@@ -90,7 +92,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_list_thick_height"
                 android:orientation="horizontal"
-                android:padding="@dimen/detail_list_padding"
                 android:layout_marginBottom="@dimen/basic_margin"
                 app:layout_constraintBottom_toTopOf="@+id/date_area"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,31 +99,41 @@
                 app:layout_constraintTop_toBottomOf="@id/item_area">
 
                 <TextView
+                    android:id="@+id/group_title"
                     style="@style/DetailTitleStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
                     android:text="@string/group" />
+
+                <LinearLayout
+                    android:id="@+id/group_name_layout"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/basic_margin"
+                    android:layout_toEndOf="@id/group_title"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end">
 
                 <ImageView
                     android:id="@+id/group_color"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
-                    android:layout_alignLeft="@id/group_name"
                     android:layout_gravity="center_vertical"
                     android:layerType="software"
                     android:src="@drawable/group_color"
-                    android:state_activated="true"
                     android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:text="취업준비"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    android:paddingLeft="5dp"
+                    android:singleLine="true"
+                    android:text="취업준비" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -133,7 +144,6 @@
                 android:layout_marginBottom="@dimen/basic_margin"
                 android:orientation="vertical"
                 style="@style/RoundLayout"
-                android:padding="@dimen/detail_list_padding"
                 app:layout_constraintBottom_toTopOf="@+id/end_date_area"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -235,13 +245,14 @@
 
             </LinearLayout> <!--end date_area-->
 
+            <!--end achievement_rate_area-->
+
             <LinearLayout
                 android:id="@+id/achievement_rate_area"
+                style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/detail_list_padding"
-                style="@style/RoundLayout">
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -251,7 +262,7 @@
                         style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/detail_list_thick_height"
-                        android:text="@string/week_achievement_rate"/>
+                        android:text="@string/week_achievement_rate" />
 
                     <TextView
                         android:id="@+id/achievement_rate"
@@ -259,7 +270,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/detail_list_thick_height"
                         android:layout_alignParentRight="true"
-                        android:text="85%"/>
+                        android:text="85%" />
 
                 </RelativeLayout>
 
@@ -269,8 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/detail_list_padding">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/sunday"
@@ -309,14 +319,13 @@
 
                 </LinearLayout>
 
-            </LinearLayout> <!--end achievement_rate_area-->
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/location_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/detail_list_padding"
                 style="@style/BottomLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -333,6 +342,7 @@
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="서울 강남구 강남대로 지하 396" />
 
                 <RelativeLayout

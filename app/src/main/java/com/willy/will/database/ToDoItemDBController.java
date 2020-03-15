@@ -102,6 +102,9 @@ public class ToDoItemDBController {
         if(toDoItemList == null) {
             toDoItemList = new ArrayList<>();
         }
+        else if(!toDoItemList.isEmpty()) {
+            toDoItemList.clear();
+        }
 
 
         //Read DB All Item
@@ -110,7 +113,7 @@ public class ToDoItemDBController {
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
                     "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
                     "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
-                    "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
+                    "CASE WHEN done_date IS NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
                     "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
                     "WHERE i.item_id = c.item_id \n" +
                     "AND i.group_id = g.group_id \n"+
@@ -124,7 +127,7 @@ public class ToDoItemDBController {
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
                             "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
                             "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
-                            "CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
+                            "CASE WHEN done_date IS NULL OR \"\" THEN 0 ELSE 1 END AS done\n" +
                             "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
                             "WHERE i.item_id = c.item_id \n" +
                             "AND i.group_id = g.group_id \n"+

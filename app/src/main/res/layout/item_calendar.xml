@@ -25,19 +25,22 @@
         <TextView
             android:id="@+id/calendar_task_name"
             style="@style/TextRecyclerItemStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/match_constraint"
             android:background="@android:color/transparent"
+            android:singleLine="true"
             android:text="TextView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/calendar_group_color" />
+            app:layout_constraintStart_toEndOf="@id/calendar_group_color"
+            app:layout_constraintEnd_toStartOf="@id/calendar_d_day_or_achievement" />
 
 
         <TextView
             android:id="@+id/calendar_d_day_or_achievement"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/basic_padding"
+            android:paddingRight="@dimen/basic_padding"
+            android:paddingLeft="@dimen/basic_padding"
             android:gravity="center"
             android:textSize="@dimen/task_recycler_item_additional_text_size"
             android:textColor="@color/colorString"

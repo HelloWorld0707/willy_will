@@ -97,7 +97,7 @@ public class CalendarActivity extends Activity {
         Intent intent = new Intent();
         intent.putExtra(resources.getString(R.string.request_code)
                 ,resources.getInteger(R.integer.calender_item_request_code));
-        intent.putExtra(String.valueOf(R.string.current_date_key),"date");
+        intent.putExtra(resources.getString(R.string.current_date_key),"date");
         setResult(Activity.RESULT_OK,intent);
         super.finish();
     }

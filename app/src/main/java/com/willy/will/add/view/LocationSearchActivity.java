@@ -2,6 +2,7 @@ package com.willy.will.add.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,77 +12,73 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
+import com.willy.will.adapter.RecyclerViewAdapter;
+import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
+import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.model.Task;
+import com.willy.will.common.model.ToDoItem;
+import com.willy.will.setting.view.ManageTasksPopupActivity;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class LocationSearchActivity extends Activity {
 
-    private ScrollView scrollView;
-    private ListView searchList;
-    private String searchText = "";
     private TextInputEditText textEditText = null;
     private InputMethodManager inputMethodManager = null;
-    LocationBaseAdapter locationBaseAdapter = null;
+    private RecyclerView recyclerView = null;
+    private ArrayList<Location> locationArrayList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_search);
-        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
+        getSearchAddress("");
 
 
         /** Set Views **/
-        scrollView = findViewById(R.id.search_result_layout);
-        searchList = findViewById(R.id.search_list_view);
         textEditText = findViewById(R.id.location_edit_text);
         if(textEditText.hasFocus()) {
             textEditText.clearFocus();
         }
 
 
-
-        /** click listView **/
-        searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                ArrayList<Location> locationArrayList = new ArrayList<>();
-                Location location = locationBaseAdapter.getItem(position);
-                locationArrayList.add(location);
-                intent.putParcelableArrayListExtra(getResources().getString(R.string.location_search_key), locationArrayList);
-                setResult(RESULT_FIRST_USER,intent);
-                finish();
-            }
-        });
-
-
-
-        /** hide keyboard when touch scrollview **/
-        searchList.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event != null && event.getAction() == MotionEvent.ACTION_MOVE)
-                    onSoftKeyboardDown(view);
-                return false;
-            }
-        });
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
+                R.id.search_recycler_view, getWindow().getDecorView(),
+                RecyclerViewItemType.LOCATION_SEARCH, locationArrayList,
+                R.string.selection_id_location,false
+        );
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        RecyclerViewAdapter test = ((RecyclerViewAdapter) recyclerView.getAdapter());
+        inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
 
     }
 
-    public void searchLocation(View view){
-        onSoftKeyboardDown(view);
-        searchText = textEditText.getText().toString();
-        getSearchAddress(searchText);
+    public void searchLocation(View view){ // 검색 버튼 클릭시
+        onSoftKeyboardDown(view); // 키보드 다
+        String searchText = textEditText.getText().toString(); //에디트텍스트에 있는 텍스를 가져와서
+        getSearchAddress(searchText); // 검색어 쿼리로 보낸다
+        recyclerView.getAdapter().notifyDataSetChanged();
+
+
     }
 
 
@@ -101,6 +98,7 @@ public class LocationSearchActivity extends Activity {
 
     /**  get Address (rest api) **/
     private void getSearchAddress(final String searchText) {
+        locationArrayList = new ArrayList<Location>();
 
         new Thread(new Runnable() {
             String json = null;
@@ -108,7 +106,6 @@ public class LocationSearchActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    locationBaseAdapter = new LocationBaseAdapter();
                     String apiURL = "https://dapi.kakao.com/v2/local/search/keyword.json?query="+ searchText; // json
                     URL url = new URL(apiURL);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -135,23 +132,22 @@ public class LocationSearchActivity extends Activity {
 
                     JSONObject jsonObject = new JSONObject(json);
                     JSONObject metaObject = jsonObject.getJSONObject("meta");
-                    int resultCnt = metaObject.getInt("pageable_count")<15?metaObject.getInt("pageable_count"):15;
-
                     JSONArray documentsObject = jsonObject.getJSONArray("documents");
-
-
-
-                    for(int i=0;i<resultCnt;i++){
+                    int pageCount = metaObject.getInt("pageable_count");
+                    int listSize = (pageCount<15)?pageCount:15;
+                    for(int i=0;i<listSize;i++){
                         JSONObject dataObject = documentsObject.getJSONObject(i);
-
                         Location location = new Location();
                         location.setLocationId(dataObject.getString("id"));
                         location.setLongitude(Double.parseDouble(dataObject.getString("x")));
                         location.setLatitude(Double.parseDouble(dataObject.getString("y")));
                         location.setPlaceName(dataObject.getString("place_name"));
                         location.setAddressName(dataObject.getString("road_address_name"));
-                        locationBaseAdapter.addItem(location);
+                        locationArrayList.add(location);
                     }
+                    recyclerView.getAdapter().notifyDataSetChanged();
+
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -160,19 +156,14 @@ public class LocationSearchActivity extends Activity {
                     @Override
                     public void run() {
 
-                        searchList.setAdapter(locationBaseAdapter);
-                        ViewGroup.LayoutParams params = searchList.getLayoutParams();
-                        int height = 70;
-                        int listSize = locationBaseAdapter.getCount();
-                        params.height = height * listSize;
-                        searchList.setLayoutParams(params);
-                        searchList.requestLayout();
+                        recyclerView.getAdapter().notifyDataSetChanged();
                     }
                 });
             }
         }).start();
     }
     /*~  get Address (rest api) ~*/
+
 
 
 

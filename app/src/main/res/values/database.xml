@@ -41,7 +41,7 @@
 
     <!-- queries for sorting to-do item -->
     <string name="done_column">done</string>
-    <string name="done_column_query">CASE done_date WHEN NULL OR \'\' THEN 0 ELSE 1 END AS done</string>
+    <string name="done_column_query">CASE WHEN done_date IS NULL OR \'\' THEN 0 ELSE 1 END AS done</string>
     <string name="to_do_item_order">done, item_important, item_name</string>
     <!-- ~queries for sorting to-do item -->
 

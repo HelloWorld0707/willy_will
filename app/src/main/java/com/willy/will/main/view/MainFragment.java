@@ -39,6 +39,7 @@ public class MainFragment extends Fragment {
     private String currentDate;
     private int groupId;
 
+    private ViewGroup rootView;
     private TextView nullList;
 
 
@@ -67,18 +68,17 @@ public class MainFragment extends Fragment {
         currentDate = getArguments().getString(ARG_DATE);
         groupId = getArguments().getInt(ARG_GROUP_NO);
 
-        ViewGroup rootView =
-                (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
+        rootView = (ViewGroup)inflater.inflate(R.layout.fragment_main,container,false);
 
 
         /** Set TodoItem */
         resources = getActivity().getResources();
         dbController = new ToDoItemDBController(resources);
 
+        nullList = (TextView) rootView.findViewById(R.id.tv_default);
+
         list = dbController.mainToDoItems(list,currentDate,groupId);
         if(list.size() == 0){
-            nullList = (TextView) rootView.findViewById(R.id.tv_default);
-
             //get user display size
             Display display = getActivity().getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -110,6 +110,18 @@ public class MainFragment extends Fragment {
     }
     /* ~Inflate the view for the fragment based on layout XML*/
 
+    public void refreshListDomain() {
+        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+
+        list = dbController.mainToDoItems(list,currentDate,groupId);
+        if(list.size() == 0) {
+            nullList.setVisibility(rootView.VISIBLE);
+        }
+        else {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -121,11 +133,12 @@ public class MainFragment extends Fragment {
 
         /** Success to receive data **/
         if (resultCode == Activity.RESULT_FIRST_USER) {
-            // To-do Item Detail
+            // Return from detail view of to-do item
             if (requestCode == getResources().getInteger(R.integer.detail_request_code)) {
-                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-                }
+                ((MainActivity) getActivity()).refreshGroupSpinner();
+                refreshListDomain();
             }
         }
         /* ~Success to receive data */
+    }
 }
