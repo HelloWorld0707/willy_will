@@ -141,10 +141,12 @@
     <string name="end_date_key">endDate</string>
     <string name="location_placeholder">장소명으로 검색</string>
     <string name="calendar_item_is_null">일정이 없습니다</string>
-
+    <string name="item_name_is_null">할 일 이름을 입력해 주십시오</string>
+    <string name="item_date_mismatch">날짜를 다시 입력해 주십시오</string>
     <string name="First">중요도1</string>
     <string name="Second">중요도2</string>
     <string name="Third">중요도3</string>
     <string name="empty">중요도4</string>
     <!-- add text -->
+
 </resources>
