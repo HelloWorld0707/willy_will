@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -129,9 +128,6 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int i, long id) {
-                Toast.makeText(getApplicationContext(),
-                        "선택된 아이템 : "+sp_group.getItemAtPosition(i),Toast.LENGTH_SHORT).show();
-
                 getSupportFragmentManager()
                         .beginTransaction().remove(fragmentmain).commit();
 

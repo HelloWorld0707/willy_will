@@ -337,7 +337,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 imgRank.getDrawable().mutate().setTint(resources.getColor(R.color.colorPrimary, null));
             }
         }
-        dbController.updateDB(id, activated);
-    }
+            dbController.updateDB(id, activated);
 
+    }
 }
