@@ -52,7 +52,6 @@
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 style="@style/TopLayout"
-                android:padding="@dimen/detail_list_padding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -131,7 +130,6 @@
                 <LinearLayout
                     android:id="@+id/date_and_location_layout"
                     style="@style/RoundLayout"
-                    android:padding="@dimen/detail_list_padding"
                     android:layout_marginBottom="@dimen/basic_margin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -223,7 +221,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/detail_list_padding"
                 style="@style/RoundLayout">
 
                 <RelativeLayout

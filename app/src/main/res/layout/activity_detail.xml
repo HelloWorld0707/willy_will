@@ -59,7 +59,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_list_thick_height"
                 android:orientation="horizontal"
-                android:padding="@dimen/detail_list_padding"
                 app:layout_constraintBottom_toTopOf="@+id/group_area"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +92,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_list_thick_height"
                 android:orientation="horizontal"
-                android:padding="@dimen/detail_list_padding"
                 android:layout_marginBottom="@dimen/basic_margin"
                 app:layout_constraintBottom_toTopOf="@+id/date_area"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +144,6 @@
                 android:layout_marginBottom="@dimen/basic_margin"
                 android:orientation="vertical"
                 style="@style/RoundLayout"
-                android:padding="@dimen/detail_list_padding"
                 app:layout_constraintBottom_toTopOf="@+id/end_date_area"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -248,13 +245,14 @@
 
             </LinearLayout> <!--end date_area-->
 
+            <!--end achievement_rate_area-->
+
             <LinearLayout
                 android:id="@+id/achievement_rate_area"
+                style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/detail_list_padding"
-                style="@style/RoundLayout">
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -264,7 +262,7 @@
                         style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/detail_list_thick_height"
-                        android:text="@string/week_achievement_rate"/>
+                        android:text="@string/week_achievement_rate" />
 
                     <TextView
                         android:id="@+id/achievement_rate"
@@ -272,7 +270,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/detail_list_thick_height"
                         android:layout_alignParentRight="true"
-                        android:text="85%"/>
+                        android:text="85%" />
 
                 </RelativeLayout>
 
@@ -282,8 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/detail_list_padding">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/sunday"
@@ -322,14 +319,13 @@
 
                 </LinearLayout>
 
-            </LinearLayout> <!--end achievement_rate_area-->
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/location_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/detail_list_padding"
                 style="@style/BottomLayout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
