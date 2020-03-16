@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,48 +20,43 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
-
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import static java.time.DayOfWeek.SATURDAY;
-import static java.time.DayOfWeek.SUNDAY;
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
-import static java.time.temporal.TemporalAdjusters.previousOrSame;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
 
 
 
-public class DetailActivity extends Activity implements MapView.MapViewEventListener{
 
-    private ImageView important, groupColor, itemCopyBtn, addressCopyBtn;
+public class DetailActivity extends Activity implements MapView.MapViewEventListener {
+
+    private ImageView important, groupColor;
     private ImageButton editButton;
-    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address;
-    private RelativeLayout startDateArea, endDateArea, doneDateArea;
+    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress;
+    private RelativeLayout doneDateArea;
     private LinearLayout achievementRateArea, locationArea;
     private String roofDay = "";
-    private String addressName, buildingName;
+    private String addressName, roadAddressName;
     private String[] days = {"일","월","화","수","목","금","토"};
+    private String startDayOfWeek, endDayOfWeek;
     private double latitude, longitude;
     private int ImportanceValue, rate;
     private String loopWeek;
@@ -77,8 +73,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private ClipboardManager clipboard;
     private ClipData clip;
     private String copyText = null;
+    private Calendar today;
+    private SimpleDateFormat dateFormat;
+    private ConstraintLayout addressArea;
 
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
@@ -92,18 +91,15 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         doneDate = findViewById(R.id.done_date);
         achievementRate = findViewById(R.id.achievement_rate);
         achievementRateArea = findViewById(R.id.achievement_rate_area);
-        startDateArea = findViewById(R.id.start_date_area);
-        endDateArea = findViewById(R.id.end_date_area);
         doneDateArea = findViewById(R.id.done_date_area);
         locationArea = findViewById(R.id.location_area);
         roof = findViewById(R.id.loof);
         address = findViewById(R.id.address);
+        roadAddress = findViewById(R.id.road_address);
         mapViewContainer = findViewById(R.id.map_view);
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
         scrollView = findViewById(R.id.scroll_view);
-        itemCopyBtn = findViewById(R.id.item_copy_btn);
-        addressCopyBtn = findViewById(R.id.address_copy_btn);
         day.add(0,(TextView)findViewById(R.id.sunday));
         day.add(1,(TextView)findViewById(R.id.monday));
         day.add(2,(TextView)findViewById(R.id.tuesday));
@@ -111,16 +107,26 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         day.add(4,(TextView)findViewById(R.id.thursday));
         day.add(5,(TextView)findViewById(R.id.friday));
         day.add(6,(TextView)findViewById(R.id.saturday));
+        addressArea = findViewById(R.id.address_area);
 
         /** get intent(item_id) from mainActivity **/
         Intent intent = getIntent();
         ToDoItem item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
 
 
-        /** access DB **/
+        /** set start of the week, end of the week **/
+        today = Calendar.getInstance();
+        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK)-1;
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        today.add(Calendar.DATE,-dayOfWeek);
+        startDayOfWeek = dateFormat.format(today.getTime());
+        today.add(Calendar.DATE,6);
+        endDayOfWeek = dateFormat.format(today.getTime());
+
+
+         /** access DB **/
         todoItem = detailCtrl.getToDoItemByItemId(item.getItemId());
-        LocalDate localDate = getLocalDate(todoItem.getCalenderDate());
-        achievementList = detailCtrl.getloopItem(todoItem.getItemId(), localDate.with(previousOrSame(SUNDAY))+"", localDate.with(nextOrSame(SATURDAY)) + "");
+        achievementList = detailCtrl.getloopItem(todoItem.getItemId(), startDayOfWeek, endDayOfWeek + "");
         /*~ access DB ~*/
 
 
@@ -160,16 +166,21 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 for (int i = 0; i < loopWeek.length(); i++) {
                     if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; }
             }
+            double rate = 0;
             for(int i=0;i<achievementList.size();i++){
-                int index = getLocalDate(achievementList.get(i).getCalenderDate()).getDayOfWeek().getValue();
+                String[] dateArr = achievementList.get(i).getCalenderDate().split("-");
+                today.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
+                today.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
+                today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
+                int index = today.get(Calendar.DAY_OF_WEEK)-1;
                 String doneDateValue = achievementList.get(i).getDoneDate();
                 if(doneDateValue==null || doneDateValue==""){
-                    day.get(i).setActivated(true);
-                    day.get(i).setSelected(false);
+                    day.get(index).setActivated(true);
+                    day.get(index).setSelected(false);
                 }else{
-                    day.get(i).setActivated(true);
-                    day.get(i).setSelected(true);
                     rate++;
+                    day.get(index).setActivated(true);
+                    day.get(index).setSelected(true);
                 }
             }
             achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
@@ -207,16 +218,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
 
     }
-
-
-
-    /** convert a String to LocalDate  **/
-    public LocalDate getLocalDate(String date){
-        String[] dateArr = date.split("-");
-        LocalDate localDate = LocalDate.of(Integer.parseInt(dateArr[0]),Integer.parseInt(dateArr[1]),Integer.parseInt(dateArr[2]));
-        return localDate;
-    }
-
 
 
     /** open option menu -> item modify, item delete) **/
@@ -307,23 +308,33 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     }
 
                     JSONObject jsonObject = new JSONObject(json);
-                    JSONArray resultsArray = jsonObject.getJSONArray("documents");
-                    JSONObject jsonObject1 = resultsArray.getJSONObject(0);
-                    JSONObject dataObject = (JSONObject) jsonObject1.get("road_address");
+                    JSONObject dataObject = jsonObject.getJSONArray("documents").getJSONObject(0);
+                    JSONObject roadAddressInfo = (JSONObject) dataObject.get("road_address");
+                    JSONObject addressInfo = (JSONObject) dataObject.get("address");
 
-                    addressName = dataObject.getString("address_name");
-                    buildingName = dataObject.getString("building_name");
+                    roadAddressName = roadAddressInfo.getString("address_name");
+                    addressName = addressInfo.getString("address_name");
 
-                    address.setText(addressName);
-                    marker = new MapPOIItem();
-                    marker.setItemName(buildingName);
-                    marker.setMapPoint(markerPoint);
-                    marker.setShowDisclosureButtonOnCalloutBalloon(false);
-                    mapView.addPOIItem(marker);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        address.setText(addressName);
+                        if(roadAddress!=null) {
+                            roadAddress.setVisibility(View.VISIBLE);
+                            roadAddress.setText(roadAddressName);
+                        }else{
+                            address.setText(addressName);
+                            marker = new MapPOIItem();
+                            marker.setMapPoint(markerPoint);
+                            marker.setShowDisclosureButtonOnCalloutBalloon(false);
+                            mapView.addPOIItem(marker);
+                        }
+                    }
+                });
             }
         }).start();
     }
@@ -398,6 +409,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         scrollView.requestDisallowInterceptTouchEvent(true);
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

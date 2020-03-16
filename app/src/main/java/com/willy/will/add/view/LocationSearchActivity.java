@@ -123,7 +123,8 @@ public class LocationSearchActivity extends Activity {
                         location.setLongitude(Double.parseDouble(dataObject.getString("x")));
                         location.setLatitude(Double.parseDouble(dataObject.getString("y")));
                         location.setPlaceName(dataObject.getString("place_name"));
-                        location.setAddressName(dataObject.getString("road_address_name"));
+                        location.setAddressName(dataObject.getString("address_name"));
+                        location.setRoadAddressName(dataObject.getString("road_address_name"));
                         locationArrayList.add(location);
                     }
                 } catch (Exception e) {

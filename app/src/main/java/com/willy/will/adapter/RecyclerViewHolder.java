@@ -63,6 +63,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private CheckBox taskCheckBox;
 
     private TextView placeName;
+    private TextView roadAddressName;
     private TextView addressName;
     // ~View of Item
 
@@ -164,6 +165,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         else if(type == RecyclerViewItemType.LOCATION_SEARCH) {
             placeName = view.findViewById(R.id.place_name);
             addressName = view.findViewById(R.id.address_name);
+            roadAddressName = view.findViewById(R.id.road_address_name);
         }
         // ERROR: Wrong type
         else {
@@ -305,12 +307,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         else if(type == RecyclerViewItemType.LOCATION_SEARCH) {
             Location location = (Location) data;
             placeName.setText(location.getPlaceName());
-            if(location.getAddressName().equals("")){
-                addressName.setVisibility(View.GONE);
-            }else{
-                addressName.setVisibility(View.VISIBLE);
-                addressName.setText(location.getAddressName());
-            }
+            addressName.setText(location.getAddressName());
+            roadAddressName.setText(location.getRoadAddressName());
         }
         // ERROR: Wrong type
         else {

@@ -75,7 +75,7 @@ public class AddItemActivity extends Activity{
     private TextView groupTextView;
     private Group selectedGroup;
     private CheckBox[] dayCheckBoxes;
-    private TextView place_name;
+    private TextView address, roadAddress;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -207,7 +207,8 @@ public class AddItemActivity extends Activity{
             end_date = simpleDateFormat.format(today.getTime());;
 
             /** Location **/
-            place_name = (TextView)findViewById(R.id.place_name);
+            address = (TextView)findViewById(R.id.address_name);
+            roadAddress = (TextView)findViewById(R.id.road_address_name);
 
             repeat_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
@@ -574,7 +575,11 @@ public class AddItemActivity extends Activity{
                 Location location = data.getParcelableExtra(resources.getString(R.string.location_search_key));
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
-                place_name.setText(location.getAddressName());
+                address.setText(location.getAddressName());
+                if(location.getRoadAddressName()!=null){
+                    roadAddress.setVisibility(View.VISIBLE);
+                    roadAddress.setText(location.getRoadAddressName());
+                }
             }
         }
         /* ~Success to receive data */
