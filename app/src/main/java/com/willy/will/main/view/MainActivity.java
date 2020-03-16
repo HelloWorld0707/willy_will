@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity{
     private Calendar todayDate;
     private SimpleDateFormat sdf;
     private SimpleDateFormat sdf2;
-    private String baseDate;
-    private String sendDate;
+    private String baseDate; // mm.dd
+    private String sendDate; // yyyy-MM-dd
 
     MainFragment fragmentmain;
 
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity{
                 Date rdate = sdf.parse(receivedDate);
                 baseDate = sdf.format(rdate.getTime());
                 deleteFragment();
-                updateFragement(groupId,baseDate);
+                updateFragement(groupId,receivedDate);
                  */
             }
         }

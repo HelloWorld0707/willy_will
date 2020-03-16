@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -84,34 +85,28 @@ public class MainFragment extends Fragment {
             nullList.setVisibility(rootView.VISIBLE);
         }
         /* ~Set TodoItem */
-        else {
-            /** Initialization (including Item View)*/
-            RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
-                    R.id.mainItemList, rootView,
-                    RecyclerViewItemType.TO_DO_MAIN, list,
-                    R.string.selection_id_main, false
-            );
-            recyclerView = recyclerViewSetter.setRecyclerView();
-            recyclerViewSetter.setFragment(this);
-            /* ~Initialization (including Item View) */
-        }
+        else {setRecyclerView();}
         return rootView;
 
     }
     /* ~Inflate the view for the fragment based on layout XML*/
 
     public void refreshListDomain() {
+
+        list = dbController.mainToDoItems(list, currentDate, groupId);
+
+        if(recyclerView !=null) {
             ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-
-            list = dbController.mainToDoItems(list, currentDate, groupId);
-
             if (list.size() == 0) {
                 setNullListLocation();
                 nullList.setVisibility(rootView.VISIBLE);
-            } else {
-                recyclerView.getAdapter().notifyDataSetChanged();
-            }
 
+            }
+            else {recyclerView.getAdapter().notifyDataSetChanged();}
+        }
+        else{
+            setRecyclerView();
+        }
     }
 
     @Override
@@ -134,6 +129,20 @@ public class MainFragment extends Fragment {
         /* ~Success to receive data */
     }
 
+    /** Initialization (including Item View)*/
+    private void setRecyclerView(){
+
+        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
+                R.id.mainItemList, rootView,
+                RecyclerViewItemType.TO_DO_MAIN, list,
+                R.string.selection_id_main, false
+        );
+        recyclerView = recyclerViewSetter.setRecyclerView();
+        recyclerViewSetter.setFragment(this);
+    }
+    /* ~Initialization (including Item View) */
+
+    /** Setting Position of TxtView*/
     public void setNullListLocation(){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -146,4 +155,7 @@ public class MainFragment extends Fragment {
         //set nullList size
         nullList.setLayoutParams(params);
     }
+    /* ~Setting Position of TxtView*/
+
+
 }
