@@ -94,19 +94,19 @@ public class MainFragment extends Fragment {
     public void refreshListDomain() {
 
         list = dbController.mainToDoItems(list, currentDate, groupId);
+        setRecyclerView();
 
-        if(recyclerView !=null) {
-            ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-            if (list.size() == 0) {
-                setNullListLocation();
-                nullList.setVisibility(rootView.VISIBLE);
+        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+        if (list.size() == 0) {
+            setNullListLocation();
+            recyclerView.setVisibility(View.GONE);
+            nullList.setVisibility(rootView.VISIBLE);
 
-            }
-            else {recyclerView.getAdapter().notifyDataSetChanged();}
         }
-        else{
-            setRecyclerView();
-        }
+        else {
+            nullList.setVisibility(rootView.GONE);
+            recyclerView.getAdapter().notifyDataSetChanged();}
+
     }
 
     @Override
@@ -130,7 +130,7 @@ public class MainFragment extends Fragment {
     }
 
     /** Initialization (including Item View)*/
-    private void setRecyclerView(){
+    private void setRecyclerView() {
 
         RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
                 R.id.mainItemList, rootView,
@@ -142,7 +142,7 @@ public class MainFragment extends Fragment {
     }
     /* ~Initialization (including Item View) */
 
-    /** Setting Position of TxtView*/
+    /** Setting Position of TextView*/
     public void setNullListLocation(){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
