@@ -128,17 +128,13 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int i, long id) {
-                getSupportFragmentManager()
-                        .beginTransaction().remove(fragmentmain).commit();
+                deleteFragment();
 
                 groupId = i-1;
                 if(i == 0){ sendGroup = null;}
                 else{ sendGroup = groupList.get(i-1);}
 
-                fragmentmain = MainFragment.getInstance(sendDate, groupId);
-
-                getSupportFragmentManager()
-                        .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+                updateFragement(groupId,sendDate);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -172,6 +168,49 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    /** updateFragment*/
+    private void updateFragement(int groupId, String date){
+        fragmentmain = MainFragment.getInstance(date, groupId);
+
+        getSupportFragmentManager()
+                .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
+    }
+    /* ~updateFragment*/
+
+    /** deleteFragment*/
+    private void deleteFragment(){
+        getSupportFragmentManager()
+                .beginTransaction().remove(fragmentmain).commit();
+    }
+    /* ~deleteFragment*/
+
+    /** Open Date picker and deleting original fragment
+        and creating new fragment of selected date **/
+
+    DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+            todayDate.set(Calendar.YEAR, y);
+            todayDate.set(Calendar.MONTH, m);
+            todayDate.set(Calendar.DAY_OF_MONTH, d);
+            updateLabel();
+
+            deleteFragment();
+            updateFragement(groupId,sendDate);
+        }
+    };
+    /*~ Open Date picker and deleting original fragment
+     and creating new fragment of selected date */
+
+    /** Change Date Using from selected date by Date Picker **/
+    private void updateLabel(){
+        baseDate = sdf.format(todayDate.getTime());
+        sendDate = sdf2.format(todayDate.getTime());
+        tv_date.setText(baseDate);
+    }
+    /* ~ Change Date*/
+
+
     /** Function: Move to SearchView */
     public void btnSearchClick(View view){
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
@@ -189,11 +228,13 @@ public class MainActivity extends AppCompatActivity{
             // Return from CalendarView
             if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
                 String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
-                Log.d("receivedDateCheck", "*************REceivedDate: " + receivedDate + "**************");
+                Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
                 /*
                 Date rdate = sdf.parse(receivedDate);
                 baseDate = sdf.format(rdate.getTime());
-                */
+                deleteFragment();
+                updateFragement(groupId,baseDate);
+                 */
             }
         }
         // Return from GroupManagementActivity
@@ -263,40 +304,6 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
     /* ~Move to GroupManagementActivity */
-
-    /** Open Date picker and deleting original fragment
-        and creating new fragment of selected date **/
-
-    DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int y, int m, int d) {
-            todayDate.set(Calendar.YEAR, y);
-            todayDate.set(Calendar.MONTH, m);
-            todayDate.set(Calendar.DAY_OF_MONTH, d);
-            updateLabel();
-
-            //delete fragment(now using)
-            getSupportFragmentManager()
-                    .beginTransaction().remove(fragmentmain).commit();
-
-            fragmentmain = MainFragment.getInstance(sendDate,groupId);
-            //make new fragment
-            getSupportFragmentManager()
-                    .beginTransaction().add(R.id.fragmentcontainer,fragmentmain).commit();
-
-
-        }
-    };
-    /*~ Open Date picker and deleting original fragment
-     and creating new fragment of selected date */
-
-    /** Change Date Using from selected date by Date Picker **/
-    private void updateLabel(){
-        baseDate = sdf.format(todayDate.getTime());
-        sendDate = sdf2.format(todayDate.getTime());
-        tv_date.setText(baseDate);
-    }
-    /* ~ Change Date*/
 
     /** terminate application */
     @Override
