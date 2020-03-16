@@ -11,15 +11,17 @@ public class Location implements Parcelable {
     double latitude;
     String placeName;
     String addressName;
+    String roadAddressName;
 
     public Location(){ }
 
-    public Location(String locationId, double longitude, double latitude, String placeName, String addressName){
+    public Location(String locationId, double longitude, double latitude, String placeName, String addressName, String roadAddressName){
         this.locationId = locationId;
         this.longitude = longitude;
         this.latitude = latitude;
         this.placeName = placeName;
         this.addressName = addressName;
+        this.roadAddressName = roadAddressName;
     }
 
     public Location(Parcel in) {
@@ -28,6 +30,7 @@ public class Location implements Parcelable {
         latitude = in.readDouble();
         placeName = in.readString();
         addressName = in.readString();
+        roadAddressName = in.readString();
     }
 
     public static final Creator<Location> CREATOR = new Creator<Location>() {
@@ -80,6 +83,11 @@ public class Location implements Parcelable {
         this.addressName = addressName;
     }
 
+    public String getRoadAddressName() { return roadAddressName; }
+
+    public void setRoadAddressName(String roadAddressName) { this.roadAddressName = roadAddressName; }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -92,5 +100,6 @@ public class Location implements Parcelable {
         dest.writeDouble(this.latitude);
         dest.writeString(this.placeName);
         dest.writeString(this.addressName);
+        dest.writeString(this.roadAddressName);
     }
 }

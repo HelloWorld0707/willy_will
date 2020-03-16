@@ -64,7 +64,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/group_area">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/important"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -87,7 +87,7 @@
                     app:layout_constraintStart_toEndOf="@id/important"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/item_copy_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -366,7 +366,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/address_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/map_area">
@@ -374,24 +374,38 @@
                     <TextView
                         android:id="@+id/address"
                         android:layout_width="@dimen/match_constraint"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/basic_margin"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/address_copy_btn"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintBottom_toTopOf="@+id/road_address" />
 
-                    <ImageButton
+                    <TextView
+                        android:id="@+id/road_address"
+                        android:layout_width="@dimen/match_constraint"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/basic_margin"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/address"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <ImageView
                         android:id="@+id/address_copy_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:src="@drawable/bt_copy"
                         android:onClick="itemCopy"
+                        android:padding="5dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toEndOf="@id/address"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

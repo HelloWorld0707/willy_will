@@ -279,7 +279,6 @@ public class RecyclerViewSetter {
             Context context = parentView.getContext();
             int p = tracker.getSelection().hashCode();
             Location selectedLocation = (Location) list.get(p);
-
             Intent intent = new Intent(locationSearchActivity, AddItemActivity.class);
             intent.putExtra(context.getString(R.string.location_search_key), selectedLocation);
             locationSearchActivity.setResult(RESULT_FIRST_USER,intent);

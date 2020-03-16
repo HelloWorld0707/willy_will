@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.model.ToDoItem;
@@ -47,11 +50,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
     private ImageView important, groupColor;
     private ImageButton editButton;
-    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address;
+    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress;
     private RelativeLayout doneDateArea;
     private LinearLayout achievementRateArea, locationArea;
     private String roofDay = "";
-    private String addressName, buildingName;
+    private String addressName, roadAddressName;
     private String[] days = {"일","월","화","수","목","금","토"};
     private String startDayOfWeek, endDayOfWeek;
     private double latitude, longitude;
@@ -72,6 +75,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private String copyText = null;
     private Calendar today;
     private SimpleDateFormat dateFormat;
+    private ConstraintLayout addressArea;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         locationArea = findViewById(R.id.location_area);
         roof = findViewById(R.id.loof);
         address = findViewById(R.id.address);
+        roadAddress = findViewById(R.id.road_address);
         mapViewContainer = findViewById(R.id.map_view);
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
@@ -102,7 +107,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         day.add(4,(TextView)findViewById(R.id.thursday));
         day.add(5,(TextView)findViewById(R.id.friday));
         day.add(6,(TextView)findViewById(R.id.saturday));
-
+        addressArea = findViewById(R.id.address_area);
 
         /** get intent(item_id) from mainActivity **/
         Intent intent = getIntent();
@@ -303,23 +308,33 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     }
 
                     JSONObject jsonObject = new JSONObject(json);
-                    JSONArray resultsArray = jsonObject.getJSONArray("documents");
-                    JSONObject jsonObject1 = resultsArray.getJSONObject(0);
-                    JSONObject dataObject = (JSONObject) jsonObject1.get("road_address");
+                    JSONObject dataObject = jsonObject.getJSONArray("documents").getJSONObject(0);
+                    JSONObject roadAddressInfo = (JSONObject) dataObject.get("road_address");
+                    JSONObject addressInfo = (JSONObject) dataObject.get("address");
 
-                    addressName = dataObject.getString("address_name");
-                    buildingName = dataObject.getString("building_name");
+                    roadAddressName = roadAddressInfo.getString("address_name");
+                    addressName = addressInfo.getString("address_name");
 
-                    address.setText(addressName);
-                    marker = new MapPOIItem();
-                    marker.setItemName(buildingName);
-                    marker.setMapPoint(markerPoint);
-                    marker.setShowDisclosureButtonOnCalloutBalloon(false);
-                    mapView.addPOIItem(marker);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        address.setText(addressName);
+                        if(roadAddress!=null) {
+                            roadAddress.setVisibility(View.VISIBLE);
+                            roadAddress.setText(roadAddressName);
+                        }else{
+                            address.setText(addressName);
+                            marker = new MapPOIItem();
+                            marker.setMapPoint(markerPoint);
+                            marker.setShowDisclosureButtonOnCalloutBalloon(false);
+                            mapView.addPOIItem(marker);
+                        }
+                    }
+                });
             }
         }).start();
     }
