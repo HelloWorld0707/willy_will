@@ -75,7 +75,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private String copyText = null;
     private Calendar today;
     private SimpleDateFormat dateFormat;
-    private ConstraintLayout addressArea;
+    private String calendarDateStr;
+
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,26 +108,26 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         day.add(4,(TextView)findViewById(R.id.thursday));
         day.add(5,(TextView)findViewById(R.id.friday));
         day.add(6,(TextView)findViewById(R.id.saturday));
-        addressArea = findViewById(R.id.address_area);
+
 
         /** get intent(item_id) from mainActivity **/
         Intent intent = getIntent();
         ToDoItem item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
 
 
-        /** set start of the week, end of the week **/
-        today = Calendar.getInstance();
-        int dayOfWeek = today.get(Calendar.DAY_OF_WEEK)-1;
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        today.add(Calendar.DATE,-dayOfWeek);
-        startDayOfWeek = dateFormat.format(today.getTime());
-        today.add(Calendar.DATE,6);
-        endDayOfWeek = dateFormat.format(today.getTime());
-
-
          /** access DB **/
         todoItem = detailCtrl.getToDoItemByItemId(item.getItemId());
-        achievementList = detailCtrl.getloopItem(todoItem.getItemId(), startDayOfWeek, endDayOfWeek + "");
+        calendarDateStr = detailCtrl.getCalendarDateByItemId(item.getItemId());
+        today = getDate(calendarDateStr);
+
+         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+         int dayOfWeek = today.get(Calendar.DAY_OF_WEEK)-1;
+         today.add(Calendar.DATE,-dayOfWeek);
+         startDayOfWeek = dateFormat.format(today.getTime());
+         today.add(Calendar.DATE,6);
+         endDayOfWeek = dateFormat.format(today.getTime());
+
+         achievementList = detailCtrl.getloopItem(todoItem.getItemId(), startDayOfWeek, endDayOfWeek + "");
         /*~ access DB ~*/
 
 
@@ -168,10 +169,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             }
             double rate = 0;
             for(int i=0;i<achievementList.size();i++){
-                String[] dateArr = achievementList.get(i).getCalenderDate().split("-");
-                today.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
-                today.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
-                today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
+                today = getDate(achievementList.get(i).getCalenderDate());
                 int index = today.get(Calendar.DAY_OF_WEEK)-1;
                 String doneDateValue = achievementList.get(i).getDoneDate();
                 if(doneDateValue==null || doneDateValue==""){
@@ -444,5 +442,16 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 }
             }
         }
+    }
+
+    public Calendar getDate(String dateStr){
+        Calendar date = Calendar.getInstance();
+
+        String[] dateArr = dateStr.split("-");
+        date.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
+        date.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
+        date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
+
+        return date;
     }
 }
