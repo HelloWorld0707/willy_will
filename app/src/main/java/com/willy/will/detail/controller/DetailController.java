@@ -95,25 +95,5 @@ public class DetailController {
     /*~ delete item from _CALENDAR, _ITEM, _LOOP_INFO by to_do_id  */
 
 
-    /** get calendarDate by item id**/
-    public String getCalendarDateByItemId(int itemId){
-        String calendarDate = null;
-
-        String selectQuery =
-                "SELECT calendar_date " +
-                "FROM _ITEM i, _CALENDAR c\n" +
-                "WHERE i.item_id = c.item_id\n" +
-                "AND i.item_id =" + itemId + ";";
-
-        Cursor cursor = db.rawQuery(selectQuery,null);
-        if(cursor.moveToFirst()){
-            do {
-                calendarDate = cursor.getString(0);
-            }while (cursor.moveToNext());
-        }
-        return calendarDate;
-    }
-
-
 
 }
