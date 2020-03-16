@@ -154,6 +154,7 @@ public class RecyclerViewSetter {
                     }
                     // ERROR: Wrong type
                     else {
+                        Log.e("RecyclerViewSetter", "Selection: Wrong type");
                     }
                 }
 

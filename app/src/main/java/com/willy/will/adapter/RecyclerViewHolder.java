@@ -115,6 +115,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             removeButton = view.findViewById(R.id.remove_button);
             radioButton = view.findViewById(R.id.radio_button);
 
+            // For mode switching
             boolean removing = GroupManagementActivity.isRemoving();
             if(removing) {
                 removeButton.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +272,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             }
 
             groupName.setText(group.getGroupName());
+            // For marquee
+            groupName.setSelected(true);
 
             boolean removing = GroupManagementActivity.isRemoving();
             if(removing) {
