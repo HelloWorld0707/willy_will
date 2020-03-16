@@ -14,10 +14,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -37,7 +33,8 @@
     <style name="PopupTitleStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/icon_button_size</item>
-        <item name="android:layout_marginVertical">@dimen/popup_title_margin_vertical</item>
+        <item name="android:layout_marginTop">@dimen/popup_title_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/popup_title_margin_vertical</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/colorString</item>
         <item name="android:textSize">@dimen/popup_title_text_size</item>
@@ -97,9 +94,6 @@
     </style>
     <!-- ~Top Bar Style -->
 
-    <!-- Back Button Style -->
-    <!-- ~Back Button Style -->
-
     <!-- Button Style -->
     <style name="ButtonStyle">
         <item name="android:layout_width">@dimen/button_width</item>
@@ -109,16 +103,6 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
     <!-- ~Button Style -->
-
-    <!-- CheckBox Style -->
-    <style name="CheckBoxStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginStart">@dimen/checkbox_margin_start</item>
-        <item name="android:layout_marginEnd">@dimen/checkbox_margin_end</item>
-        <item name="android:buttonTint">@color/colorPrimary</item>
-    </style>
-    <!-- ~CheckBox Style -->
 
     <!-- Text Recycler Item Style -->
     <style name="TextRecyclerItemStyle">
@@ -150,19 +134,6 @@
         <item name="android:layout_margin">@dimen/detail_icon_margin</item>
     </style>
 
-    <style name="CloseBtnStyle">
-        <item name="android:layout_width">@dimen/actionbar_button_size</item>
-        <item name="android:layout_height">@dimen/actionbar_button_size</item>
-        <item name="android:background">@drawable/ic_rounded_close_24px</item>
-        <item name="android:layout_margin">@dimen/detail_icon_margin</item>
-        <item name="android:backgroundTint">@color/dark_gray</item>
-    </style>
-
-    <style name="DetailListStyle">
-        <item name="android:paddingRight">@dimen/detail_list_padding</item>
-        <item name="android:paddingLeft">@dimen/detail_list_padding</item>
-    </style>
-
     <style name="DetailTitleStyle">
         <item name="android:textSize">@dimen/detail_title_style</item>
         <item name="android:textStyle">bold</item>
@@ -187,19 +158,5 @@
         <item name="android:gravity">center</item>
     </style>
     <!-- ~[2020-02-17] Modified by Kim Mikyung -->
-
-    <!-- Base application theme. -->
-    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary2</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-
-    <!-- ActionBtnStyle by seongsik -->
-    <style name="ActionBtnStyle2">
-        <item name="android:background">?selectableItemBackgroundBorderless</item>
-    </style>
 
 </resources>
