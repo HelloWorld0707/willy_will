@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity{
         else {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle(R.string.app_name);
-            builder.setIcon(R.mipmap.ic_launcher);
+            builder.setIcon(R.mipmap.will_launcher_round);
             builder.setMessage(getResources().getString(R.string.terminate_msg))
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
