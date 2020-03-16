@@ -53,51 +53,53 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/item_area"
-                style="@style/TopLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_list_thick_height"
+                style="@style/TopLayout"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/group_area"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/group_area">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/important"
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center_vertical"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/item_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     style="@style/DetailTitleStyle"
                     android:id="@+id/item_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/match_constraint"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/basic_margin"
+                    android:layout_marginRight="@dimen/basic_margin"
                     android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:text="프로그래머스_정렬 문제 풀기"
-                    android:layout_marginRight="10dp"
+                    android:text="할일 "
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/item_copy_btn"
                     app:layout_constraintStart_toEndOf="@id/important"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/item_copy_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/bt_copy"
+                    android:onClick="itemCopy"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/item_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:onClick="itemCopy"/>
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-            </LinearLayout> <!--end item_area-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--end group_area-->
 
             <RelativeLayout
                 android:id="@+id/group_area"
@@ -354,43 +356,47 @@
 
                 <TextView
                     style="@style/DetailTitleStyle"
+                    android:id="@+id/address_title"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:text="@string/location" />
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/address_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toTopOf="@+id/group_area"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/map_area">
 
                     <TextView
                         android:id="@+id/address"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/match_constraint"
                         android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:text="서울 강남구 강남대로 지하 396"
-                        android:layout_marginRight="10dp" />
+                        android:layout_marginRight="@dimen/basic_margin"
+                        android:gravity="center_vertical"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/address_copy_btn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/address_copy_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:src="@drawable/bt_copy"
+                        android:onClick="itemCopy"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/address"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:onClick="itemCopy"/>
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
-                </LinearLayout> <!--end item_area-->
-
-
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout
+                    android:id="@+id/map_area"
                     android:layout_width="match_parent"
                     android:layout_height="400dp"
                     android:layout_marginTop="10dp"
