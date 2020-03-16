@@ -78,12 +78,14 @@ public class MainFragment extends Fragment {
 
         list = dbController.mainToDoItems(list,currentDate,groupId);
 
-        if(list.size() == 0){
-            setNullListLocation();
+        setNullListLocation();
+        setRecyclerView();
+
+        if(list.isEmpty()) {
+            recyclerView.setVisibility(rootView.GONE);
             nullList.setVisibility(rootView.VISIBLE);
         }
-        /* ~Set TodoItem */
-        else {setRecyclerView();}
+
         return rootView;
 
     }
@@ -92,20 +94,16 @@ public class MainFragment extends Fragment {
     public void refreshListDomain() {
 
         list = dbController.mainToDoItems(list, currentDate, groupId);
-        setRecyclerView();
+        recyclerView.getAdapter().notifyDataSetChanged();
 
-        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-        if (list.size() == 0) {
-            setNullListLocation();
-            recyclerView.setVisibility(View.GONE);
+        if (list.isEmpty()) {
+            recyclerView.setVisibility(rootView.GONE);
             nullList.setVisibility(rootView.VISIBLE);
-
         }
         else {
             nullList.setVisibility(rootView.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.getAdapter().notifyDataSetChanged();}
-
+            recyclerView.setVisibility(rootView.VISIBLE);
+        }
     }
 
     @Override
@@ -120,6 +118,8 @@ public class MainFragment extends Fragment {
         /** Success to receive data **/
         // Return from detail view of to-do item
         if (resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+
             ((MainActivity) getActivity()).refreshGroupSpinner();
             refreshListDomain();
         }

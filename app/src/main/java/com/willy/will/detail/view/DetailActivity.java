@@ -78,6 +78,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private SimpleDateFormat dateFormat;
     private String calendarDateStr;
 
+    private boolean itemChanged;
+
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +222,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }
         /*~ set data */
 
-
+         itemChanged = false;
     }
 
 
@@ -265,11 +267,20 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
-        setResult(RESULT_CANCELED);
         this.finish();
     }
     /*~ Back to MainActivity (Main View) */
 
+    @Override
+    public void finish() {
+        if(itemChanged) {
+            setResult(resources.getInteger(R.integer.item_change_return_code));
+        }
+        else {
+            setResult(RESULT_CANCELED);
+        }
+        super.finish();
+    }
 
     /**  get Address (rest api) **/
     private void getAddress(final double longitude, final double latitude) {
@@ -439,10 +450,10 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     groupColor.setActivated(true);
                     groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
                 }
-                setResult(resources.getInteger(R.integer.item_change_return_code));
+                itemChanged = true;
             }
             else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {
-                setResult(resources.getInteger(R.integer.item_change_return_code));
+                itemChanged = true;
                 finish();
             }
         }
