@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.willy.will.R;
 import com.willy.will.common.view.PopupActivity;
 import com.willy.will.detail.controller.DetailController;
-import com.willy.will.main.view.MainActivity;
 
 public class DeletePopupActivity extends PopupActivity {
 
@@ -28,8 +27,6 @@ public class DeletePopupActivity extends PopupActivity {
     public boolean setResults(Intent intent){
         detailCtrl = new DetailController();
         detailCtrl.deleteItemByTodoId(todoId);
-        Intent intent1 = new Intent(DeletePopupActivity.this, MainActivity.class);
-        startActivity(intent1);
         return true;
     }
 

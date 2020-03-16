@@ -66,26 +66,27 @@
 
     <integer name="add_item_request_code">3</integer>
     <integer name="modify_item_request_code">4</integer>
+    <integer name="delete_item_request_code">5</integer>
 
-    <integer name="location_search_code">5</integer>
+    <integer name="location_search_code">6</integer>
 
-    <integer name="calender_item_request_code">6</integer>
+    <integer name="calender_item_request_code">7</integer>
 
-    <integer name="group_search_setting_code">7</integer>
-    <integer name="done_search_setting_code">8</integer>
-    <integer name="loop_search_setting_code">9</integer>
-    <integer name="period_search_setting_code">10</integer>
+    <integer name="group_search_setting_code">8</integer>
+    <integer name="done_search_setting_code">9</integer>
+    <integer name="loop_search_setting_code">10</integer>
+    <integer name="period_search_setting_code">11</integer>
 
-    <integer name="group_management_code">11</integer>
-    <integer name="group_color_setting_code">12</integer>
-    <integer name="remove_group_code">13</integer>
+    <integer name="group_management_code">12</integer>
+    <integer name="group_color_setting_code">13</integer>
+    <integer name="remove_group_code">14</integer>
 
-    <integer name="task_management_code">14</integer>
-    <integer name="move_tasks_code">15</integer>
-    <integer name="remove_tasks_code">16</integer>
+    <integer name="task_management_code">15</integer>
+    <integer name="move_tasks_code">16</integer>
+    <integer name="remove_tasks_code">17</integer>
 
-    <integer name="item_change_return_code">17</integer>
-    <integer name="group_change_return_code">18</integer>
+    <integer name="item_change_return_code">18</integer>
+    <integer name="group_change_return_code">19</integer>
     <!-- ~Request Code for Activity Result -->
 
     <!-- Group -->
