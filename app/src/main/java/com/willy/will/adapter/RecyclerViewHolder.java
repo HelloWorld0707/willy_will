@@ -91,7 +91,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                             toDoItem.setDone(b);
                             setActivation(toDoItem.getItemId(), b, toDoItem.getColor(), toDoItem.getLoop());
                             Collections.sort(rcyclerVAdapter.getList(), toDoItemComparator);
-                            rcyclerVAdapter.notifyItemChanged(position);
+                            rcyclerVAdapter.notifyDataSetChanged();
                         }
                     }
                 });
