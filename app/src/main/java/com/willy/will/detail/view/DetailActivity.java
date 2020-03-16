@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +19,22 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
-import org.json.JSONArray;
+
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
+
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -39,9 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView;
 
 
 
@@ -231,18 +232,21 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Intent intent;
+                int code;
                 switch (item.getItemId()){
                     case R.id.btn_modify:
                         intent = new Intent(DetailActivity.this, AddItemActivity.class);
                         intent.putExtra(resources.getString(R.string.selected_item_key), todoItem);
-                        int code = resources.getInteger(R.integer.modify_item_request_code);
+                        code = resources.getInteger(R.integer.modify_item_request_code);
                         intent.putExtra(resources.getString(R.string.request_code), code);
                         startActivityForResult(intent, code);
                         return true;
                     case R.id.btn_delete:
                         intent = new Intent(DetailActivity.this, DeletePopupActivity.class);
                         intent.putExtra("todoId",todoItem.getTodoId());
-                        startActivity(intent);
+                        code = resources.getInteger(R.integer.delete_item_request_code);
+                        intent.putExtra(resources.getString(R.string.request_code), code);
+                        startActivityForResult(intent, code);
                         return true;
                 }
                 return false;
@@ -261,20 +265,10 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
+        setResult(RESULT_CANCELED);
         this.finish();
     }
     /*~ Back to MainActivity (Main View) */
-
-
-
-    /** Set results **/
-    @Override
-    public void finish() {
-        Intent intent = new Intent();
-        setResult(RESULT_FIRST_USER, intent);
-        super.finish();
-    }
-
 
 
     /**  get Address (rest api) **/
@@ -445,6 +439,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     groupColor.setActivated(true);
                     groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
                 }
+                setResult(resources.getInteger(R.integer.item_change_return_code));
+            }
+            else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {
+                setResult(resources.getInteger(R.integer.item_change_return_code));
+                finish();
             }
         }
     }

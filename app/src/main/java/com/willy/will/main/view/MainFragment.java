@@ -1,11 +1,9 @@
 package com.willy.will.main.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -120,12 +118,10 @@ public class MainFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         /** Success to receive data **/
-        if (resultCode == Activity.RESULT_FIRST_USER) {
-            // Return from detail view of to-do item
-            if (requestCode == getResources().getInteger(R.integer.detail_request_code)) {
-                ((MainActivity) getActivity()).refreshGroupSpinner();
-                refreshListDomain();
-            }
+        // Return from detail view of to-do item
+        if (resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            ((MainActivity) getActivity()).refreshGroupSpinner();
+            refreshListDomain();
         }
         /* ~Success to receive data */
     }
