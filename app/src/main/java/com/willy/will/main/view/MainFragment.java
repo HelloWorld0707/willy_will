@@ -105,6 +105,7 @@ public class MainFragment extends Fragment {
         }
         else {
             nullList.setVisibility(rootView.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
             recyclerView.getAdapter().notifyDataSetChanged();}
 
     }
