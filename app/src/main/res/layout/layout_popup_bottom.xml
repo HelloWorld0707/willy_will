@@ -11,7 +11,7 @@
         android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/icon_button_size"
         android:layout_weight="1"
-        android:background="@drawable/ripple_cancel_button"
+        android:background="@drawable/bt_ripple_cancel"
         android:src="@drawable/ic_rounded_close_24px"
         android:onClick="cancelSetting" />
 
@@ -20,7 +20,7 @@
         android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/icon_button_size"
         android:layout_weight="1"
-        android:background="@drawable/ripple_okay_button"
+        android:background="@drawable/bt_ripple_okay"
         android:src="@drawable/ic_rounded_check_24px"
         android:onClick="submitSetting" />
 
