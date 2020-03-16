@@ -177,8 +177,6 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
         intent.putExtra(getResources().getString(R.string.current_group_key),sendGroup);
-//        Log.d("DateChecked","**********날짜"+sendDate+"*************");
-//        Log.d("GroupIdcheck","**********그룹"+sendGroup.getGroupName()+"*************");
         startActivity(intent);
     }
     /*~ Function: Move to SearchView */
@@ -280,7 +278,6 @@ public class MainActivity extends AppCompatActivity{
             //delete fragment(now using)
             getSupportFragmentManager()
                     .beginTransaction().remove(fragmentmain).commit();
-            Log.d("Fragment deleted","***********프래그먼트 삭제*************");
 
             fragmentmain = MainFragment.getInstance(sendDate,groupId);
             //make new fragment
