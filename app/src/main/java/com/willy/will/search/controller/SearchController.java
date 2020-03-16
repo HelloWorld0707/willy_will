@@ -65,7 +65,7 @@ public class SearchController {
         String itemNameQuery = "";
         if(!searchName.isEmpty()) {
             String itemNameColumn = resources.getString(R.string.item_name_column);
-            itemNameQuery += itemNameColumn + " like " + "'%" + itemNameColumn + "%' AND ";
+            itemNameQuery += itemNameColumn + " like " + "'%" + searchName + "%' AND ";
         }
         // Set group criterion
         String groupsQuery = "";
