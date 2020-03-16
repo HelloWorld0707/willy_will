@@ -78,19 +78,9 @@ public class MainFragment extends Fragment {
         nullList = (TextView) rootView.findViewById(R.id.tv_default);
 
         list = dbController.mainToDoItems(list,currentDate,groupId);
+
         if(list.size() == 0){
-            //get user display size
-            Display display = getActivity().getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            display.getSize(size);
-            int hei = size.y;
-            params.setMargins(0,(int)hei/4,0,0);
-            nullList.setGravity(Gravity.CENTER_HORIZONTAL);
-
-            //set nullList size
-            nullList.setLayoutParams(params);
-
+            setNullListLocation();
             nullList.setVisibility(rootView.VISIBLE);
         }
         /* ~Set TodoItem */
@@ -111,15 +101,17 @@ public class MainFragment extends Fragment {
     /* ~Inflate the view for the fragment based on layout XML*/
 
     public void refreshListDomain() {
-        ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+            ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
 
-        list = dbController.mainToDoItems(list,currentDate,groupId);
-        if(list.size() == 0) {
-            nullList.setVisibility(rootView.VISIBLE);
-        }
-        else {
-            recyclerView.getAdapter().notifyDataSetChanged();
-        }
+            list = dbController.mainToDoItems(list, currentDate, groupId);
+
+            if (list.size() == 0) {
+                setNullListLocation();
+                nullList.setVisibility(rootView.VISIBLE);
+            } else {
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+
     }
 
     @Override
@@ -140,5 +132,18 @@ public class MainFragment extends Fragment {
             }
         }
         /* ~Success to receive data */
+    }
+
+    public void setNullListLocation(){
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        display.getSize(size);
+        int hei = size.y;
+        params.setMargins(0,(int)hei/4,0,0);
+        nullList.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        //set nullList size
+        nullList.setLayoutParams(params);
     }
 }
