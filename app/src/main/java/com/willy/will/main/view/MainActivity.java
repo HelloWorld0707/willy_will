@@ -32,9 +32,11 @@ import com.willy.will.setting.controller.AlarmSet;
 import com.willy.will.setting.view.AlarmActivity;
 import com.willy.will.setting.view.TaskManagementActivity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -231,12 +233,15 @@ public class MainActivity extends AppCompatActivity{
             if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
                 String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
                 Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
-                /*
-                Date rdate = sdf.parse(receivedDate);
-                baseDate = sdf.format(rdate.getTime());
+                try {
+                    Date rdate = sdf2.parse(receivedDate);
+                    baseDate = sdf.format(rdate.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                tv_date.setText(baseDate);
                 deleteFragment();
                 updateFragement(groupId,receivedDate);
-                 */
             }
         }
         // Return from GroupManagementActivity
