@@ -4,10 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<!-- alarm permission
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+-->
 
     <application
         android:name=".common.controller.App"
@@ -79,9 +81,6 @@
             android:name=".calander.view.CalendarActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".setting.view.AlarmActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
             android:name=".setting.view.TaskManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
@@ -90,6 +89,11 @@
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".add.view.LocationSearchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+<!-- alarm activity, receiver, service
+        <activity
+            android:name=".setting.view.AlarmActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <receiver android:name=".setting.receiver.DeviceBootReceiver">
@@ -101,6 +105,7 @@
         <service
             android:name=".setting.service.NotificationService"
             android:enabled="true"/>
+-->
     </application>
 
 </manifest>

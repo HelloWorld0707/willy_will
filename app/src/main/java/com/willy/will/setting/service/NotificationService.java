@@ -24,11 +24,12 @@ import java.util.Calendar;
 import java.util.List;
 
 public class NotificationService extends Service {
+/*
     private static DBAccess dbHelper = null;
     private Resources resources;
     SQLiteDatabase db;
     private Calendar today;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+*/
 
     @Nullable
     @Override
@@ -38,6 +39,7 @@ public class NotificationService extends Service {
 
     @Override
     public void onCreate() {
+/*
 
         dbHelper = DBAccess.getDbHelper();
         db = dbHelper.getReadableDatabase();
@@ -78,10 +80,13 @@ public class NotificationService extends Service {
             }
         }
         AlarmSet.setAlarm(getApplicationContext());
+        */
     }
 
 
-    /** get itemList **/
+
+/*
+
     public ArrayList<String> alarmToDoItems() {
 
         today = Calendar.getInstance();
@@ -105,8 +110,9 @@ public class NotificationService extends Service {
         }
 
         return toDoItemList;
-    }
-    /*~ get itemList **/
+    }*/
+
+
 
 
 }

@@ -13,7 +13,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AlarmSet.setAlarm(context);
+        //AlarmSet.setAlarm(context);
     }
 
 }

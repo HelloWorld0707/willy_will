@@ -12,24 +12,26 @@ import com.willy.will.R;
 import com.willy.will.setting.controller.AlarmSet;
 
 public class AlarmActivity extends Activity {
+/*
     Switch alarmSwitch;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+*/
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm);
+/*        setContentView(R.layout.activity_alarm);
         alarmSwitch = findViewById(R.id.alarm_switch);
 
 
-        /** get sharedPreferences date **/
+        //get sharedPreferences date
         sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
 
-        /** check a switch button(on, off) **/
+        // check a switch button(on, off)
         alarmSwitch.setChecked(sharedPreferences.getString("AlarmState","default").equals("off")?false:true);
 
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -41,11 +43,12 @@ public class AlarmActivity extends Activity {
                 AlarmSet.setAlarm(getApplicationContext());
             }
         });
-        /*~ check a switch button(on, off) & ~*/
+        */
     }
 
 
-    /** Back to MainActivity **/
+/*
+    //Back to MainActivity
     public void backToMain(View view) {
         View focusedView = getCurrentFocus();
         if(focusedView != null) {
@@ -54,5 +57,7 @@ public class AlarmActivity extends Activity {
         }
         this.finish();
     }
-    /*~ Back to MainActivity (Main View) */
+*/
+
 }
+
