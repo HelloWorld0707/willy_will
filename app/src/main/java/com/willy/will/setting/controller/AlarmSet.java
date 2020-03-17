@@ -32,6 +32,8 @@ public class AlarmSet {
 
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE); //create AlarmManager
         alarmIntent = new Intent(context, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(context,ALARM_REQUEST_CODE, alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
 
         if(alarmState.equals("on")){
             onAlarm(mContext);
@@ -47,16 +49,14 @@ public class AlarmSet {
     public static void  onAlarm(Context context){
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 18);
-        calendar.set(Calendar.MINUTE,6);
+        calendar.set(Calendar.HOUR_OF_DAY, 20);
+        //calendar.set(Calendar.MINUTE,42);
 
         alarmIntent.putExtra("AlarmState","on");
-        pendingIntent = PendingIntent.getBroadcast(context,ALARM_REQUEST_CODE, alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 1);
         }
-
 
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
