@@ -216,9 +216,13 @@ public class CalendarActivity extends Activity {
 
     /** set CalendarDate on top */
     private void setDate(int yyyy, int mm, int dd){
+
+        String month = (mm < 10)? "0"+mm : ""+mm;
+        String day = (dd < 10)? "0"+dd : ""+dd;
+
         Textyear.setText(yyyy + "년");
-        TextMon.setText(mm + "월 ");
-        TextDay.setText(dd+"일");
+        TextMon.setText(month + "월 ");
+        TextDay.setText(day+"일");
     }
 
     /** only number string convert to String */
