@@ -54,7 +54,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="@dimen/basic_margin"
-                    android:layout_marginRight="10dp"
                     android:textColor="@color/colorString"
                     android:textStyle="bold"
                     android:textSize="30sp"
