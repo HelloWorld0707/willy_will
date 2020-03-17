@@ -16,6 +16,8 @@ import androidx.core.app.NotificationCompat;
 import com.willy.will.R;
 import com.willy.will.database.DBAccess;
 import com.willy.will.main.view.MainActivity;
+import com.willy.will.setting.controller.AlarmSet;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,6 +77,7 @@ public class NotificationService extends Service {
                 notificationManager.notify(i, builder.build());
             }
         }
+        AlarmSet.setAlarm(getApplicationContext());
     }
 
 
