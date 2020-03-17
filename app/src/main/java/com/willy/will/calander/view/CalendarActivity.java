@@ -94,10 +94,14 @@ public class CalendarActivity extends Activity {
 
     @Override
     public void finish() {
+        String thisDate = convertStrtoStrOnlyNum(Textyear.getText().toString()) + "-" +
+                convertStrtoStrOnlyNum(TextMon.getText().toString()) + "-" +
+                convertStrtoStrOnlyNum(TextDay.getText().toString());
+
         Intent intent = new Intent();
         intent.putExtra(resources.getString(R.string.request_code)
                 ,resources.getInteger(R.integer.calender_item_request_code));
-        intent.putExtra(resources.getString(R.string.current_date_key),"date");
+        intent.putExtra(resources.getString(R.string.current_date_key),thisDate);
         setResult(Activity.RESULT_OK,intent);
         super.finish();
     }
@@ -212,6 +216,17 @@ public class CalendarActivity extends Activity {
         Textyear.setText(yyyy + "년");
         TextMon.setText(mm + "월 ");
         TextDay.setText(dd+"일");
+    }
+
+    /** only number string convert to String */
+    private String convertStrtoStrOnlyNum(String str){
+        String value = "";
+        for(int i = 0 ; i < str.length(); i ++)
+        {
+            if(48 <= str.charAt(i) && str.charAt(i) <= 57)
+                value += str.charAt(i);
+        }
+        return value;
     }
 
     /** calendar custom class. set Red text on sunday */

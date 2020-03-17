@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity{
         if(resultCode == RESULT_OK) {
             // Return from CalendarView
             if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
-                String receivedDate = data.getStringExtra(String.valueOf(R.string.current_date_key));
+                String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
                 Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
                 /*
                 Date rdate = sdf.parse(receivedDate);
