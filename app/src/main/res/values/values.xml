@@ -89,6 +89,10 @@
     <integer name="group_change_return_code">19</integer>
     <!-- ~Request Code for Activity Result -->
 
+    <!-- Add & Modify item -->
+    <integer name="max_to_do_id_request">-1</integer>
+    <!-- Add & Modify item -->
+
     <!-- Group -->
     <integer name="no_group_id">0</integer>
     <integer name="number_of_group_colors">9</integer>

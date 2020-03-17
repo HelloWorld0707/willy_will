@@ -59,12 +59,12 @@ public class AddItemActivity extends Activity{
     private double latitudeNum;
     private double longitudeNum;
     private String item_name=null;
+    private int itemId;
     public static DBAccess dbHelper;
 
     private int code;
     private int ADD_CODE;
     private int MODIFY_CODE;
-    private String[] check_value = new String[7];
     private String check_result = null;
 
     Switch repeat_switch;
@@ -115,6 +115,8 @@ public class AddItemActivity extends Activity{
         }
         else if(code == MODIFY_CODE) {
             Item selectedItem = getIntent().getParcelableExtra(resources.getString(R.string.selected_item_key));
+
+            itemId = selectedItem.getItemId();
 
             item_name = selectedItem.getItemName();
 
@@ -435,7 +437,7 @@ public class AddItemActivity extends Activity{
         dateGap = Math.abs(dateGap);
         String calenderDate = null;
 
-        int toDoId = getToDoId() + 1;
+        int toDoId = getToDoId(resources.getInteger(R.integer.max_to_do_id_request)) + 1;
 
         /** ADD NOT LOOP ITEM */
         if(loopweek == null || loopweek.equals("0000000")) {
@@ -523,10 +525,20 @@ public class AddItemActivity extends Activity{
         setResult(resources.getInteger(R.integer.item_change_return_code));
     }
 
-    public int getToDoId() {
-        Cursor cursor = DBAccess.getDbHelper().getReadableDatabase().rawQuery("SELECT max(to_do_id) as to_do_id FROM _ITEM", null);
+    public int getToDoId(int itemId) {
+        int toDoId;
+
+        String sql;
+        if(itemId == resources.getInteger(R.integer.max_to_do_id_request)) {
+            sql = "SELECT max(to_do_id) as to_do_id FROM _ITEM";
+        }
+        else {
+            sql = "SELECT to_do_id FROM _ITEM WHERE item_id IS " + itemId;
+        }
+
+        Cursor cursor = DBAccess.getDbHelper().getReadableDatabase().rawQuery(sql, null);
         cursor.moveToNext();
-        int toDoId = cursor.getInt(cursor.getColumnIndexOrThrow("to_do_id")) ;
+        toDoId = cursor.getInt(cursor.getColumnIndexOrThrow("to_do_id"));
 
         return toDoId;
     }
@@ -534,7 +546,7 @@ public class AddItemActivity extends Activity{
     public void modifyItemToDB() {
         SQLiteDatabase db = DBAccess.getDbHelper().getWritableDatabase();
         int group_id = selectedGroup.getGroupId(); //group_id
-        int toDoId = getToDoId(); //to_do_id
+        int toDoId = getToDoId(itemId); //to_do_id
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(resources.getString(R.string.item_name_column), item_name);
