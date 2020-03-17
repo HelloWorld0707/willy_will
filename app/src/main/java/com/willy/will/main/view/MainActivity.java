@@ -155,7 +155,8 @@ public class MainActivity extends AppCompatActivity{
         });
         /* ~set fab event Listener */
 
-        /** set alarm **/
+/*
+        //set alarm
         SharedPreferences sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String alarmState = sharedPreferences.getString("AlarmState", "default");
@@ -164,7 +165,8 @@ public class MainActivity extends AppCompatActivity{
             editor.commit();
             AlarmSet.setAlarm(getApplicationContext());
         }
-        /*~ set alarm ~*/
+*/
+
 
     }
 
@@ -297,7 +299,7 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~Move to GroupManagementActivity */
 
-    /** Move to AlarmManagementActivity */
+    /** Move to AlarmManagementActivity
     public void btnAlarmSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , AlarmActivity.class);
         drawer.closeDrawer(drawerView);

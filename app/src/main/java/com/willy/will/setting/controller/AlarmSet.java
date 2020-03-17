@@ -5,23 +5,18 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
-
 import com.willy.will.setting.receiver.AlarmReceiver;
-
 import java.util.Calendar;
-
 import static android.content.Context.MODE_PRIVATE;
-
 public class AlarmSet {
+
+/*
     private static final int ALARM_REQUEST_CODE = 1111;
     private static AlarmManager alarmManager = null;
     private static PendingIntent pendingIntent = null;
     private static Intent alarmIntent = null;
     private static Context mContext;
     private static Calendar calendar;
-
-
 
 
     public static void setAlarm(Context context){
@@ -40,10 +35,7 @@ public class AlarmSet {
         } else{
             offAlarm(mContext);
         }
-
     }
-
-
 
 
     public static void  onAlarm(Context context){
@@ -57,14 +49,16 @@ public class AlarmSet {
         if (calendar.before(Calendar.getInstance())) {
             calendar.add(Calendar.DATE, 1);
         }
-
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
     }
+
+
 
     public static void  offAlarm(Context context){
         alarmManager.cancel(pendingIntent);
         alarmIntent.putExtra("AlarmState","off");
         context.sendBroadcast(alarmIntent);
     }
+ */
 }

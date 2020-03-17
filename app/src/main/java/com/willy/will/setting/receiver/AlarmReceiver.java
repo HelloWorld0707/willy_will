@@ -7,31 +7,33 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.PowerManager;
 import android.util.Log;
-
 import com.willy.will.setting.service.NotificationService;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
+/*
     PowerManager powerManager;
     private static PowerManager.WakeLock wakeLock;
     SharedPreferences sharedPreferences;
     String alarmState;
     private static final String TAG = AlarmReceiver.class.getSimpleName();
     Context context;
-
+*/
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
+/*
         this.context = context;
         sharedPreferences = context.getSharedPreferences("ALARM", MODE_PRIVATE);
         alarmState = sharedPreferences.getString("AlarmState", "default");
         alarmReceiverCheck(context, intent);
+*/
 
     }
 
+/*
     private void alarmReceiverCheck(Context context, Intent intent){
         switch (alarmState){
             case "on":
@@ -55,6 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
                 break;
         }
+
     }
 
 
@@ -76,5 +79,5 @@ public class AlarmReceiver extends BroadcastReceiver {
             wakeLock = null;
         }
     }
-
+*/
 }

@@ -88,7 +88,8 @@
             android:layout_marginStart="@dimen/nav_margin"
             android:layout_marginTop="@dimen/nav_menu_top_margin"
             android:src="@drawable/ic_alarm_24px"
-            android:onClick="btnAlarmSettingClick"></ImageView>
+            android:onClick="btnAlarmSettingClick"
+            android:visibility="gone"></ImageView>
 
         <TextView
             android:id="@+id/tv_alarm_name"
@@ -102,7 +103,8 @@
             android:text="@string/alarm_setting"
             android:textColor="@color/colorString"
             android:textSize="@dimen/nav_menu_text"
-            android:onClick="btnAlarmSettingClick"></TextView>
+            android:onClick="btnAlarmSettingClick"
+            android:visibility="gone"></TextView>
 
         <TextView
             android:id="@+id/app_detail"
