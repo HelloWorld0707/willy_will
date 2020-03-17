@@ -94,9 +94,12 @@ public class CalendarActivity extends Activity {
 
     @Override
     public void finish() {
-        String thisDate = convertStrtoStrOnlyNum(Textyear.getText().toString()) + "-" +
-                convertStrtoStrOnlyNum(TextMon.getText().toString()) + "-" +
-                convertStrtoStrOnlyNum(TextDay.getText().toString());
+        String yyyy = convertStrtoStrOnlyNum(Textyear.getText().toString());
+        String mm = convertStrtoStrOnlyNum(TextMon.getText().toString());
+        mm = mm.length()<2? ("0"+mm) : mm;
+        String dd = convertStrtoStrOnlyNum(TextDay.getText().toString());
+        dd = dd.length()<2? ("0"+dd) : dd;
+        String thisDate = (yyyy) + "-" + (mm) + "-" + (dd);
 
         Intent intent = new Intent();
         intent.putExtra(resources.getString(R.string.request_code)
