@@ -4,25 +4,67 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import com.willy.will.setting.receiver.NotificationReceiver;
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.willy.will.setting.receiver.AlarmReceiver;
+
 import java.util.Calendar;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class AlarmSet {
-    public static void onAlarm(Context context){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 9);
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, NotificationReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
-        //alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmIntent);
+    private static final int ALARM_REQUEST_CODE = 1111;
+    private static AlarmManager alarmManager = null;
+    private static PendingIntent pendingIntent = null;
+    private static Intent alarmIntent = null;
+    private static Context mContext;
+    private static Calendar calendar;
+
+
+
+
+    public static void setAlarm(Context context){
+
+        mContext = context;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("ALARM", MODE_PRIVATE);
+        String alarmState = sharedPreferences.getString("AlarmState", "default");
+
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE); //create AlarmManager
+        alarmIntent = new Intent(context, AlarmReceiver.class);
+
+        if(alarmState.equals("on")){
+            onAlarm(mContext);
+        } else{
+            offAlarm(mContext);
+        }
+
     }
 
-    public static void offAlarm(Context context){
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, NotificationReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmMgr.cancel(alarmIntent);
+
+
+
+    public static void  onAlarm(Context context){
+        calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE,6);
+
+        alarmIntent.putExtra("AlarmState","on");
+        pendingIntent = PendingIntent.getBroadcast(context,ALARM_REQUEST_CODE, alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (calendar.before(Calendar.getInstance())) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+    }
+
+    public static void  offAlarm(Context context){
+        alarmManager.cancel(pendingIntent);
+        alarmIntent.putExtra("AlarmState","off");
+        context.sendBroadcast(alarmIntent);
     }
 }

@@ -160,9 +160,9 @@ public class MainActivity extends AppCompatActivity{
         SharedPreferences.Editor editor = sharedPreferences.edit();
         String alarmState = sharedPreferences.getString("AlarmState", "default");
         if(alarmState.equals("default")){
-            AlarmSet.onAlarm(this);
             editor.putString("AlarmState", "on");
             editor.commit();
+            AlarmSet.setAlarm(getApplicationContext());
         }
         /*~ set alarm ~*/
 
