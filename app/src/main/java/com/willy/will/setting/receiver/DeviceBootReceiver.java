@@ -13,16 +13,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences("ALARM", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        String alarmState = sharedPreferences.getString("AlarmState", "default");
-        if (alarmState.equals("on")) {
-            AlarmSet.onAlarm(context);
-        } else if (alarmState.equals("off")) {
-            AlarmSet.offAlarm(context);
-        }
+        AlarmSet.setAlarm(context);
     }
 
 }

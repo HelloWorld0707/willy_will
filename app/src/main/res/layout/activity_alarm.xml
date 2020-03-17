@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00FFFFFF"
+    android:background="@color/colorPrimaryBackground"
     tools:context=".detail.view.DetailActivity">
 
     <RelativeLayout
@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/alarm_title">
+        app:layout_constraintEnd_toStartOf="@+id/alarm_area">
 
         <ImageButton
             android:id="@+id/back_button"
@@ -25,35 +25,49 @@
 
     </RelativeLayout>
 
-    <TextView
-        style="@style/DetailTitleStyle"
-        android:id="@+id/alarm_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingLeft="24dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/BottomLayout"
+        android:id="@+id/alarm_area"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/match_constraint"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar"
-        android:text="@string/alarm_settings_title"/>
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingLeft="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarm_title"
-        android:text="@string/alarm_settings_msg"/>
+        <TextView
+            style="@style/DetailTitleStyle"
+            android:padding="@dimen/basic_padding"
+            android:id="@+id/alarm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alarm_settings_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/alarm_msg"/>
 
-    <Switch
-        android:id="@+id/alarm_switch"
-        android:checked="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_marginRight="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar" />
+        <TextView
+            android:id="@+id/alarm_msg"
+            android:paddingLeft="@dimen/basic_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alarm_settings_msg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/alarm_title"/>
+
+        <Switch
+            android:id="@+id/alarm_switch"
+            android:padding="@dimen/basic_padding"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
