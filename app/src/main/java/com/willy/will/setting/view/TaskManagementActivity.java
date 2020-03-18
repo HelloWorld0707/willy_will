@@ -137,14 +137,24 @@ public class TaskManagementActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        /** Success to receive data **/
-        if(resultCode == Activity.RESULT_FIRST_USER) {
+        if(resultCode == Activity.RESULT_CANCELED) {
             // To-do Item Detail
             if(requestCode == resources.getInteger(R.integer.detail_request_code)) {
                 ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
             }
+        }
+        // To-do Item Detail
+        else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            taskList = taskDBCtrl.getAllTasks(taskList);
+            selectedTasks.clear();
+            recyclerView.getAdapter().notifyDataSetChanged();
+            ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
+            itemListChanged = true;
+        }
+        /** Success to receive data **/
+        else if(resultCode == Activity.RESULT_FIRST_USER) {
             // Group setting (to move tasks to this group)
-            else if(requestCode == resources.getInteger(R.integer.group_setting_code)) {
+            if(requestCode == resources.getInteger(R.integer.group_setting_code)) {
                 String groupSettingKey = resources.getString(R.string.group_setting_key);
                 Group selectedGroup = data.getParcelableExtra(groupSettingKey);
 
