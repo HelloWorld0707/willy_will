@@ -168,6 +168,9 @@ public class TaskDBController {
         if (end_date != null && !end_date.equals("")) {
             final long ONE_DAY = 24 * 60 * 60 * 1000;
             try {
+                today.set(Calendar.HOUR_OF_DAY, 0);
+                today.set(Calendar.MINUTE, 0);
+                today.set(Calendar.SECOND, 0);
                 // Must be divided SEPARATELY
                 long days = today.getTime().getTime() / ONE_DAY - simpleDateFormat.parse(end_date).getTime() / ONE_DAY;
                 dDay = "D";
