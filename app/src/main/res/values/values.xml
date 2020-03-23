@@ -63,6 +63,8 @@
 
     <integer name="location_search_code">6</integer>
 
+    <integer name="search_item_request_code">18</integer>
+
     <integer name="calender_item_request_code">7</integer>
 
     <integer name="group_search_setting_code">8</integer>
@@ -77,10 +79,12 @@
     <integer name="task_management_code">15</integer>
     <integer name="move_tasks_code">16</integer>
     <integer name="remove_tasks_code">17</integer>
-
-    <integer name="item_change_return_code">18</integer>
-    <integer name="group_change_return_code">19</integer>
     <!-- ~Request Code for Activity Result -->
+
+    <!-- Result Code for Activity Result -->
+    <integer name="item_change_return_code">19</integer>
+    <integer name="group_change_return_code">20</integer>
+    <!-- ~Result Code for Activity Result -->
 
     <!-- Add & Modify item -->
     <integer name="max_to_do_id_request">-1</integer>

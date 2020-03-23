@@ -217,53 +217,9 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(MainActivity.this , SearchActivity.class);
         intent.putExtra(getResources().getString(R.string.current_date_key),sendDate);
         intent.putExtra(getResources().getString(R.string.current_group_key),sendGroup);
-        startActivity(intent);
+        startActivityForResult(intent, resources.getInteger(R.integer.search_item_request_code));
     }
     /*~ Function: Move to SearchView */
-
-    /** add Activity callback listner */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            // Return from CalendarView
-            if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
-                String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
-                Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
-                try {
-                    Date rdate = sdf2.parse(receivedDate);
-                    baseDate = sdf.format(rdate.getTime());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                tv_date.setText(baseDate);
-                deleteFragment();
-                updateFragement(groupId,receivedDate);
-            }
-        }
-        // Return from GroupManagementActivity
-        else if(resultCode == resources.getInteger(R.integer.group_change_return_code)) {
-            refreshGroupSpinner();
-            fragmentmain.refreshListDomain();
-        }
-        // Return from DetailActivity, AddItemActivity, or TaskManagementActivity
-        else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
-            refreshGroupSpinner();
-            fragmentmain.refreshListDomain();
-        }
-    }
-    /* ~add Activity callback listner */
-
-    public void refreshGroupSpinner() {
-        groupList = dbController.getAllGroups(groupList);
-        spgroupList.clear();
-        spgroupList.add(0,resources.getString(R.string.all));
-        for (Group a: groupList) {
-            spgroupList.add(a.getGroupName());
-        }
-        spgroupAdapter.notifyDataSetChanged();
-        sp_group.setSelection(0,false);
-    }
 
     /** Move to CalendarView */
     public void btnCalendarClick(View view) {
@@ -310,6 +266,50 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~Move to GroupManagementActivity */
 
+    /** add Activity callback listner */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            // Return from CalendarView
+            if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
+                String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
+                Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
+                try {
+                    Date rdate = sdf2.parse(receivedDate);
+                    baseDate = sdf.format(rdate.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                tv_date.setText(baseDate);
+                deleteFragment();
+                updateFragement(groupId,receivedDate);
+            }
+        }
+        // Return from GroupManagementActivity
+        else if(resultCode == resources.getInteger(R.integer.group_change_return_code)) {
+            refreshGroupSpinner();
+            fragmentmain.refreshListDomain();
+        }
+        // Return from DetailActivity, AddItemActivity, or TaskManagementActivity
+        else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            refreshGroupSpinner();
+            fragmentmain.refreshListDomain();
+        }
+    }
+    /* ~add Activity callback listner */
+
+    public void refreshGroupSpinner() {
+        groupList = dbController.getAllGroups(groupList);
+        spgroupList.clear();
+        spgroupList.add(0,resources.getString(R.string.all));
+        for (Group a: groupList) {
+            spgroupList.add(a.getGroupName());
+        }
+        spgroupAdapter.notifyDataSetChanged();
+        sp_group.setSelection(0,false);
+    }
+
     /** terminate application */
     @Override
     public void onBackPressed() {
@@ -338,7 +338,6 @@ public class MainActivity extends AppCompatActivity{
             alert.show();
         }
     }
-
     /* ~terminate application */
 
 }

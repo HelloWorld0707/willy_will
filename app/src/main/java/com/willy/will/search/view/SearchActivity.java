@@ -49,6 +49,8 @@ public class SearchActivity extends AppCompatActivity {
     private String startOfPeriod = null;
     private String endOfPeriod = null;
 
+    private boolean itemChanged;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,8 @@ public class SearchActivity extends AppCompatActivity {
         startOfPeriodKey = resources.getString(R.string.start_of_period_key);
         endOfPeriodKey = resources.getString(R.string.end_of_period_key);
         /* ~Set extra names of Intent */
+
+        itemChanged = false;
     }
 
     private void setToDoList(String searchText) {
@@ -109,6 +113,18 @@ public class SearchActivity extends AppCompatActivity {
         /* ~Check focusing */
 
         this.finish();
+    }
+
+    @Override
+    public void finish() {
+        if(itemChanged) {
+            setResult(resources.getInteger(R.integer.item_change_return_code));
+        }
+        else {
+            setResult(RESULT_CANCELED);
+        }
+
+        super.finish();
     }
 
     public void search(View view) {
@@ -207,6 +223,7 @@ public class SearchActivity extends AppCompatActivity {
         else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
             setToDoList(searchText);
             recyclerView.getAdapter().notifyDataSetChanged();
+            itemChanged = true;
         }
         /* ~Success to receive data */
     }
