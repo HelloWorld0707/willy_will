@@ -1,5 +1,6 @@
 package com.willy.will.adapter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -22,6 +23,7 @@ import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
+import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.controller.ToDoItemComparator;
 import com.willy.will.common.model.Group;
@@ -32,6 +34,7 @@ import com.willy.will.common.model.ToDoItem;
 import com.willy.will.common.view.DeleteGroupPopupActivity;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.ToDoItemDBController;
+import com.willy.will.detail.view.DetailActivity;
 
 import java.util.Collections;
 
@@ -40,8 +43,6 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     private static ToDoItemComparator toDoItemComparator = new ToDoItemComparator();
     private static BackgroundColorSpan inactiveColorSpan = new BackgroundColorSpan(App.getContext().getColor(R.color.colorInactive));
     private static int NO_GROUP_ID = App.getContext().getResources().getInteger(R.integer.no_group_id);
-
-    private RecyclerViewAdapter rcyclerVAdapter = null;
 
     // View of Item
     private TextView textOnlyView;
@@ -68,9 +69,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
     // ~View of Item
 
     // Initialization of THE item (Called for each item)
-    public <T> RecyclerViewHolder(RecyclerViewAdapter adapter, RecyclerViewItemType type, View view) {
+    public <T> RecyclerViewHolder(final RecyclerViewAdapter adapter, RecyclerViewItemType type, View view) {
         super(view);
-        rcyclerVAdapter = adapter;
 
         // To-do item (of Main or Search)
         if(type == RecyclerViewItemType.TO_DO_MAIN ||
@@ -88,13 +88,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                         if (cbDone.isPressed()) {
                             int position = Math.toIntExact(getItemId());
-                            ToDoItem toDoItem = (ToDoItem) rcyclerVAdapter.getData(position);
+                            ToDoItem toDoItem = (ToDoItem) adapter.getData(position);
                             toDoItem.setDone(b);
                             setActivation(toDoItem.getItemId(), b, toDoItem.getColor(), toDoItem.getLoop());
-                            Collections.sort(rcyclerVAdapter.getList(), toDoItemComparator);
+                            Collections.sort(adapter.getList(), toDoItemComparator);
                             /** WARNING: The OREDER is important! **/
                             cbDone.setPressed(false);
-                            rcyclerVAdapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
                             /* ~WARNING: The OREDER is important! */
                         }
                     }
@@ -104,6 +104,26 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             else if(type == RecyclerViewItemType.TO_DO_SEARCH) {
                 cbDone.setEnabled(false);
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Activity activity = adapter.getActivity();
+                    Resources resources = activity.getResources();
+
+                    Intent intent = new Intent(activity, DetailActivity.class);
+
+                    String extraName = resources.getString(R.string.request_code);
+                    int code = resources.getInteger(R.integer.detail_request_code);
+                    intent.putExtra(extraName, code);
+
+                    int p = Math.toIntExact(getItemId());
+                    ToDoItem toDoItem = (ToDoItem) adapter.getData(p);
+                    intent.putExtra(resources.getString(R.string.item_id), toDoItem);
+
+                    activity.startActivityForResult(intent, code);
+                }
+            });
         }
         // Text-only (Group, Done, or Loop)
         else if(type == RecyclerViewItemType.GROUP_SEARCH ||
@@ -124,10 +144,10 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 removeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        GroupManagementActivity activity = RecyclerViewSetter.getGroupManagementActivity();
+                        Activity activity = adapter.getActivity();
 
                         int position = Math.toIntExact(getItemId());
-                        Group selectedGroup = (Group) rcyclerVAdapter.getData(position);
+                        Group selectedGroup = (Group) adapter.getData(position);
                         Intent intent = new Intent(activity, DeleteGroupPopupActivity.class);
                         intent.putExtra(
                                 activity.getResources().getString(R.string.group_removal_key),
@@ -144,8 +164,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                     @Override
                     public void onClick(View v) {
                         int position = Math.toIntExact(getItemId());
-                        rcyclerVAdapter.setSelectedPosition(position);
-                        rcyclerVAdapter.notifyDataSetChanged();
+                        adapter.setSelectedPosition(position);
+                        adapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -160,8 +180,30 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     int position = Math.toIntExact(getItemId());
-                    Task task = (Task) rcyclerVAdapter.getData(position);
+                    Task task = (Task) adapter.getData(position);
                     task.setChecked(isChecked);
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Activity activity = adapter.getActivity();
+                    Resources resources = activity.getResources();
+
+                    String extraName = resources.getString(R.string.request_code);
+                    int code = resources.getInteger(R.integer.detail_request_code);
+
+                    int p = Math.toIntExact(getItemId());
+                    Task selectedTask = (Task) adapter.getData(p);
+                    ToDoItem toDoItem = new ToDoItem();
+                    toDoItem.setItemId(selectedTask.getItemId());
+
+                    Intent intent = new Intent(activity, DetailActivity.class);
+                    intent.putExtra(extraName, code);
+                    intent.putExtra(resources.getString(R.string.item_id), toDoItem);
+
+                    activity.startActivityForResult(intent, code);
                 }
             });
         }
@@ -170,6 +212,25 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
             placeName = view.findViewById(R.id.place_name);
             addressName = view.findViewById(R.id.address_name);
             roadAddressName = view.findViewById(R.id.road_address_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Activity activity = adapter.getActivity();
+
+                    Intent intent = new Intent(activity, AddItemActivity.class);
+
+                    int p = Math.toIntExact(getItemId());
+                    Location selectedLocation = (Location) adapter.getData(p);
+                    intent.putExtra(
+                            activity.getResources().getString(R.string.location_search_key),
+                            selectedLocation
+                    );
+
+                    activity.setResult(Activity.RESULT_FIRST_USER, intent);
+                    activity.finish();
+                }
+            });
         }
         // ERROR: Wrong type
         else {

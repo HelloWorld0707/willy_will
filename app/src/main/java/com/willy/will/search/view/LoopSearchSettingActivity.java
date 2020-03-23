@@ -42,8 +42,9 @@ public class LoopSearchSettingActivity extends PopupActivity {
 
         /** Set RecyclerView **/
         recyclerView = new RecyclerViewSetter(
-                R.id.loop_search_setting_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.LOOP_SEARCH, loopList,
+                this, R.id.loop_search_setting_recycler_view,
+                RecyclerViewItemType.LOOP_SEARCH, R.layout.item_text_only,
+                loopList,
                 R.string.selection_id_loop_search_setting, false
         ).setRecyclerView();
         /* ~Set RecyclerView */

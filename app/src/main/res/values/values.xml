@@ -29,18 +29,11 @@
     <!-- ~extra names of Intent -->
 
     <!-- selection id for recycler view -->
-    <string name="selection_id_main">selectionIdMain</string>
-
-    <string name="selection_id_location">locationSelection</string>
-
-    <string name="selection_id_search">SearchSelection</string>
+    <string name="no_selection_id">noSelection</string>
 
     <string name="selection_id_group_search_setting">groupSearchSettingSelection</string>
     <string name="selection_id_done_search_setting">doneSearchSettingSelection</string>
     <string name="selection_id_loop_search_setting">loopSearchSettingSelection</string>
-    <string name="selection_id_group_management">groupManagementSelection</string>
-
-    <string name="selection_id_task_management">taskManagementSelection</string>
     <!-- ~selection id for recycler view -->
 
     <!-- startActivityForResult -->

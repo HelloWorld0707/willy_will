@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
-import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
@@ -54,24 +53,18 @@ public class TaskManagementActivity extends AppCompatActivity {
         /* ~Set data of item */
 
         /** Set Views **/
-        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
-                R.id.task_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.TASK, taskList,
-                R.string.selection_id_task_management, false
-        );
-        recyclerView = recyclerViewSetter.setRecyclerView();
-        recyclerViewSetter.setActivity(this);
+        recyclerView = new RecyclerViewSetter(
+                this, R.id.task_recycler_view,
+                RecyclerViewItemType.TASK, R.layout.item_task,
+                taskList
+        ).setRecyclerView();
         /* ~Set Views */
 
         itemListChanged = false;
     }
 
     public void backToMain(View view) {
-        if(recyclerView != null) {
-            if(!((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().hasSelection()) {
-                this.finish();
-            }
-        }
+        this.finish();
     }
 
     @Override
@@ -137,18 +130,11 @@ public class TaskManagementActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_CANCELED) {
-            // To-do Item Detail
-            if(requestCode == resources.getInteger(R.integer.detail_request_code)) {
-                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-            }
-        }
         // To-do Item Detail
-        else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+        if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
             taskList = taskDBCtrl.getAllTasks(taskList);
             selectedTasks.clear();
             recyclerView.getAdapter().notifyDataSetChanged();
-            ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
             itemListChanged = true;
         }
         /** Success to receive data **/

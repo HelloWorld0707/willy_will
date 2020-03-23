@@ -8,6 +8,12 @@ android {
             keyAlias = 'release0'
             keyPassword 'willy2020'
         }
+        debug {
+            storeFile file('upload_key.jks')
+            storePassword 'willy2020'
+            keyAlias = 'release0'
+            keyPassword 'willy2020'
+        }
     }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -18,6 +24,7 @@ android {
         versionCode 1
         versionName "0.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {

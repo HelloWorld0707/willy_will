@@ -27,6 +27,12 @@ public class DeleteGroupPopupActivity extends PopupActivity {
 
         Group group = getIntent().getParcelableExtra(getResources().getString(R.string.group_removal_key));
         groupId = group.getGroupId();
+
+        /** Set the notice text **/
+        noticeView = findViewById(R.id.notice_text_view);
+        String msg = getResources().getString(R.string.group_removal_warning) + "\n" + noticeView.getText().toString();
+        noticeView.setText(msg);
+        /* ~Set the notice text */
     }
 
     @Override

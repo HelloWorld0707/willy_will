@@ -1,6 +1,5 @@
 package com.willy.will.main.view;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
-import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.ToDoItem;
@@ -91,6 +89,10 @@ public class MainFragment extends Fragment {
     }
     /* ~Inflate the view for the fragment based on layout XML*/
 
+    public ViewGroup getRootView() {
+        return rootView;
+    }
+
     public void refreshListDomain() {
 
         list = dbController.mainToDoItems(list, currentDate, groupId);
@@ -111,31 +113,14 @@ public class MainFragment extends Fragment {
         super.onResume();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        /** Success to receive data **/
-        // Return from detail view of to-do item
-        if (resultCode == resources.getInteger(R.integer.item_change_return_code)) {
-            ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-
-            ((MainActivity) getActivity()).refreshGroupSpinner();
-            refreshListDomain();
-        }
-        /* ~Success to receive data */
-    }
-
     /** Initialization (including Item View)*/
     private void setRecyclerView() {
 
-        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
-                R.id.mainItemList, rootView,
-                RecyclerViewItemType.TO_DO_MAIN, list,
-                R.string.selection_id_main, false
-        );
-        recyclerView = recyclerViewSetter.setRecyclerView();
-        recyclerViewSetter.setFragment(this);
+        recyclerView = new RecyclerViewSetter(
+                this, R.id.mainItemList,
+                RecyclerViewItemType.TO_DO_MAIN, R.layout.item_main,
+                list
+        ).setRecyclerView();
     }
     /* ~Initialization (including Item View) */
 

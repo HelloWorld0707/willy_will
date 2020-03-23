@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
-import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
@@ -35,6 +34,7 @@ public class SearchActivity extends AppCompatActivity {
     private int code = 0;
     private Group currentGroup = null;
     private String current = null;
+    private String searchText = null;
 
     private SearchController searchCtrl = null;
     private InputMethodManager inputMethodManager = null;
@@ -58,12 +58,11 @@ public class SearchActivity extends AppCompatActivity {
 
         searchCtrl = new SearchController(getResources());
 
-        /** Set data **/
+        /** Initialize data **/
         currentGroup = getIntent().getParcelableExtra(resources.getString(R.string.current_group_key));
         current = getIntent().getStringExtra(resources.getString(R.string.current_date_key));
         initSearchSetting(getWindow().getDecorView());
-        setToDoList("");
-        /* ~Set data */
+        /* ~Initialize data */
 
         /** Set Views **/
         textInputEditText = findViewById(R.id.search_edit_text);
@@ -72,13 +71,14 @@ public class SearchActivity extends AppCompatActivity {
         }
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
-        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
-                R.id.search_results_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.TO_DO_SEARCH, toDoList,
-                R.string.selection_id_search, false
-        );
-        recyclerView = recyclerViewSetter.setRecyclerView();
-        recyclerViewSetter.setActivity(this);
+        searchText = textInputEditText.getText().toString();
+        setToDoList(searchText);
+
+        recyclerView = new RecyclerViewSetter(
+                this, R.id.search_results_recycler_view,
+                RecyclerViewItemType.TO_DO_SEARCH, R.layout.item_main,
+                toDoList
+        ).setRecyclerView();
         /* ~Set Views */
 
         /** Set extra names of Intent **/
@@ -101,24 +101,20 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void backToMain(View view) {
-        if(recyclerView != null) {
-            if(!((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().hasSelection()) {
-                /** Check focusing **/
-                View focusedView = getCurrentFocus();
-                if (focusedView != null) {
-                    onSoftKeyboardDown(view);
-                }
-                /* ~Check focusing */
-
-                this.finish();
-            }
+        /** Check focusing **/
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            onSoftKeyboardDown(view);
         }
+        /* ~Check focusing */
+
+        this.finish();
     }
 
     public void search(View view) {
         onSoftKeyboardDown(view);
 
-        String searchText = textInputEditText.getText().toString();
+        searchText = textInputEditText.getText().toString();
         setToDoList(searchText);
         recyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -189,10 +185,6 @@ public class SearchActivity extends AppCompatActivity {
 
         /** Success to receive data **/
         if(resultCode == Activity.RESULT_FIRST_USER) {
-            // To-do Item Detail
-            if(requestCode == resources.getInteger(R.integer.detail_request_code)) {
-                ((RecyclerViewAdapter) recyclerView.getAdapter()).getTracker().clearSelection();
-            }
             // Group Search Setting
             if (requestCode == resources.getInteger(R.integer.group_search_setting_code)) {
                 selectedGroups = data.getParcelableArrayListExtra(selectedGroupsKey);
@@ -210,6 +202,11 @@ public class SearchActivity extends AppCompatActivity {
                 startOfPeriod = data.getStringExtra(startOfPeriodKey);
                 endOfPeriod = data.getStringExtra(endOfPeriodKey);
             }
+        }
+        // Return from DetailActivity
+        else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            setToDoList(searchText);
+            recyclerView.getAdapter().notifyDataSetChanged();
         }
         /* ~Success to receive data */
     }

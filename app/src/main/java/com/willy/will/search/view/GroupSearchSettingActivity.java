@@ -51,8 +51,9 @@ public class GroupSearchSettingActivity extends PopupActivity {
         selectingAllView = findViewById(R.id.selecting_all);
 
         recyclerView = new RecyclerViewSetter(
-                R.id.group_search_setting_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.GROUP_SEARCH, groupList,
+                this, R.id.group_search_setting_recycler_view,
+                RecyclerViewItemType.GROUP_SEARCH, R.layout.item_text_only,
+                groupList,
                 R.string.selection_id_group_search_setting, true
         ).setRecyclerView();
         /* ~Set Views */

@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -41,13 +43,12 @@ public class LocationSearchActivity extends Activity {
         }
 
         locationArrayList = new ArrayList<Location>();
-        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
-                R.id.search_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.LOCATION_SEARCH, locationArrayList,
-                R.string.selection_id_location,false
-        );
-        recyclerView = recyclerViewSetter.setRecyclerView();
-        recyclerViewSetter.setActivity(this);
+        recyclerView = new RecyclerViewSetter(
+                this, R.id.search_recycler_view,
+                RecyclerViewItemType.LOCATION_SEARCH, R.layout.item_location,
+                locationArrayList
+        ).setRecyclerView();
+
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
     }

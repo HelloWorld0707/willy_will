@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,8 +27,6 @@ import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
 import com.willy.will.database.GroupDBController;
 import com.willy.will.search.view.SearchActivity;
-import com.willy.will.setting.controller.AlarmSet;
-import com.willy.will.setting.view.AlarmActivity;
 import com.willy.will.setting.view.TaskManagementActivity;
 
 import java.text.ParseException;
@@ -247,8 +244,9 @@ public class MainActivity extends AppCompatActivity{
         // Return from GroupManagementActivity
         else if(resultCode == resources.getInteger(R.integer.group_change_return_code)) {
             refreshGroupSpinner();
+            fragmentmain.refreshListDomain();
         }
-        // Return from AddItemActivity or TaskManagementActivity
+        // Return from DetailActivity, AddItemActivity, or TaskManagementActivity
         else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
             refreshGroupSpinner();
             fragmentmain.refreshListDomain();

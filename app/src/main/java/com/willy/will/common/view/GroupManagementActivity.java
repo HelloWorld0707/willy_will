@@ -84,13 +84,11 @@ public class GroupManagementActivity extends AppCompatActivity {
         /** Set group list view **/
         setGroupList();
 
-        RecyclerViewSetter recyclerViewSetter = new RecyclerViewSetter(
-                R.id.group_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.GROUP, groupList,
-                0, false
-        );
-        recyclerView = recyclerViewSetter.setRecyclerView();
-        recyclerViewSetter.setActivity(this);
+        recyclerView = new RecyclerViewSetter(
+                this, R.id.group_recycler_view,
+                RecyclerViewItemType.GROUP, R.layout.item_group,
+                groupList
+        ).setRecyclerView();
         /* ~Set group list view */
 
         groupColorBtn = findViewById(R.id.group_color_button);

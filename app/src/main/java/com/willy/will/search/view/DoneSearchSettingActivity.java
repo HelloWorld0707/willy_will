@@ -42,8 +42,9 @@ public class DoneSearchSettingActivity extends PopupActivity {
 
         /** Set Views **/
         recyclerView = new RecyclerViewSetter(
-                R.id.done_search_setting_recycler_view, getWindow().getDecorView(),
-                RecyclerViewItemType.DONE_SEARCH, doneList,
+                this, R.id.done_search_setting_recycler_view,
+                RecyclerViewItemType.DONE_SEARCH, R.layout.item_text_only,
+                doneList,
                 R.string.selection_id_done_search_setting, false
         ).setRecyclerView();
         /* ~Set Views */

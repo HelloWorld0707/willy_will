@@ -1,9 +1,8 @@
 package com.willy.will.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.selection.SelectionPredicates;
@@ -13,62 +12,81 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
-import com.willy.will.add.view.AddItemActivity;
-import com.willy.will.add.view.LocationSearchActivity;
-import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
-import com.willy.will.common.model.Task;
-import com.willy.will.common.model.ToDoItem;
-import com.willy.will.common.view.GroupManagementActivity;
-import com.willy.will.detail.view.DetailActivity;
 import com.willy.will.main.view.MainFragment;
-import com.willy.will.search.view.SearchActivity;
-import com.willy.will.setting.view.TaskManagementActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_FIRST_USER;
 
 public class RecyclerViewSetter {
 
     /** For Setting RecyclerView **/
-    private View parentView;
+    private Activity activity;
+    private MainFragment mainFragment;
     private ArrayList list;
     private SelectionTracker.SelectionPredicate predicate;
     private RecyclerViewItemType type;
-    private int recyclerId;
-    private int selectId;
+    private int recyclerViewId;
+    private int layoutId;
+    private int selectionId;
 
-    private RecyclerViewAdapter adapter = null;
     private SelectionTracker tracker = null;
     /* ~For Setting RecyclerView */
-
-    /** For starting Activity **/
-    private MainFragment mainFragment = null;
-    private SearchActivity searchActivity = null;
-    private TaskManagementActivity taskManagementActivity = null;
-    private static GroupManagementActivity groupManagementActivity = null;
-    private LocationSearchActivity locationSearchActivity = null;
-    /* ~For starting Activity */
 
     /** For Group Search Setting **/
     private TextView selectingAllView = null;
     /* ~For Group Search Setting */
 
-    public RecyclerViewSetter(int recyclerViewId,
-                              View view,
-                              RecyclerViewItemType itemType,
-                              ArrayList dataSet,
+    private RecyclerViewSetter() {
+        selectionId = R.string.no_selection_id;
+    }
+
+    // For Activity
+    public RecyclerViewSetter(Activity activity,
+                              int recyclerViewId,
+                              RecyclerViewItemType type,
+                              int layoutId,
+                              ArrayList list) {
+        this();
+        this.activity = activity;
+        mainFragment = null;
+        this.recyclerViewId = recyclerViewId;
+        this.type = type;
+        this.layoutId = layoutId;
+        this.list = list;
+    }
+
+    // For Fragment
+    public RecyclerViewSetter(MainFragment mainFragment,
+                              int recyclerViewId,
+                              RecyclerViewItemType type,
+                              int layoutId,
+                              ArrayList list) {
+        this();
+        this.mainFragment = mainFragment;
+        activity = mainFragment.getActivity();
+        this.recyclerViewId = recyclerViewId;
+        this.type = type;
+        this.layoutId = layoutId;
+        this.list = list;
+    }
+
+    // For Activity with selection
+    public RecyclerViewSetter(Activity activity,
+                              int recyclerViewId,
+                              RecyclerViewItemType type,
+                              int layoutId,
+                              ArrayList list,
                               int selectionId,
                               boolean multipleSelection) {
-        recyclerId = recyclerViewId;
-        parentView = view;
-        type = itemType;
-        list = dataSet;
-        selectId = selectionId;
+        this.activity = activity;
+        this.recyclerViewId = recyclerViewId;
+        this.type = type;
+        this.layoutId = layoutId;
+        this.list = list;
+        this.selectionId = selectionId;
+
         /** Set selection predicate for tracker **/
-        if(selectionId == 0) {
+        if(selectionId == R.string.no_selection_id) {
             predicate = null;
         }
         else {
@@ -79,39 +97,42 @@ public class RecyclerViewSetter {
             }
         }
         /* ~Set selection predicate for tracker */
-
-        /** Set Selecting All Text View of Group Search Setting **/
-        if(itemType == RecyclerViewItemType.GROUP_SEARCH) {
-            selectingAllView = view.findViewById(R.id.selecting_all);
-        }
-        /* ~Set Selecting All Text View of Group Search Setting */
     }
 
     // Set RecyclerView, LayoutManager, Adapter, and Tracker
     public RecyclerView setRecyclerView() {
-        RecyclerView recyclerView = parentView.findViewById(recyclerId);
+        RecyclerView recyclerView;
+        Context context;
+        if(mainFragment != null) {
+            recyclerView = mainFragment.getRootView().findViewById(recyclerViewId);
+            context = mainFragment.getContext();
+        }
+        else {
+            recyclerView = activity.findViewById(recyclerViewId);
+            context = activity;
+        }
         recyclerView.setHasFixedSize(true);
 
         /** Set LayoutManager **/
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(parentView.getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
         /* ~Set LayoutManager */
 
         /** Set Adapter **/
-        adapter = new RecyclerViewAdapter(type, list);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(layoutId, type, list, activity);
         recyclerView.setAdapter(adapter);
         /* ~Set Adapter */
 
         /** Set Selected Position **/
         // Group Management
         if (type == RecyclerViewItemType.GROUP) {
-            adapter.setSelectedPosition(parentView.getResources().getInteger(R.integer.no_group_id));
+            adapter.setSelectedPosition(activity.getResources().getInteger(R.integer.no_group_id));
         }
         /* ~Set Selected Position */
         /** Or Set Tracker **/
-        else if(selectId != 0) {
+        else if(selectionId != R.string.no_selection_id) {
             tracker = new SelectionTracker.Builder(
-                    parentView.getResources().getString(selectId),
+                    activity.getResources().getString(selectionId),
                     recyclerView,
                     new RecyclerItemKeyProvider(recyclerView),
                     new RecyclerItemDetailsLookup(recyclerView),
@@ -125,32 +146,14 @@ public class RecyclerViewSetter {
                 public void onSelectionChanged() {
                     super.onSelectionChanged();
 
-                    // To-do item (of Main or Search)
-                    if (type == RecyclerViewItemType.TO_DO_MAIN ||
-                            type == RecyclerViewItemType.TO_DO_SEARCH) {
-                        if (tracker.hasSelection()) {
-                            selectToDoItem();
-                        }
-                    }
                     // Group
-                    else if (type == RecyclerViewItemType.GROUP_SEARCH) {
+                    if (type == RecyclerViewItemType.GROUP_SEARCH) {
                         changeGroupItem();
                     }
                     // Done or Loop
                     else if (type == RecyclerViewItemType.DONE_SEARCH ||
                             type == RecyclerViewItemType.LOOP_SEARCH) {
-                    }
-                    // Task
-                    else if (type == RecyclerViewItemType.TASK) {
-                        if (tracker.hasSelection()) {
-                            selectTask();
-                        }
-                    }
-                    // Location search
-                    else if (type == RecyclerViewItemType.LOCATION_SEARCH) {
-                        if (tracker.hasSelection()) {
-                            selectLocation();
-                        }
+                        // Nothing
                     }
                     // ERROR: Wrong type
                     else {
@@ -165,81 +168,18 @@ public class RecyclerViewSetter {
         }
         /* ~Set Tracker */
 
+        /** Set Selecting All Text View of Group Search Setting **/
+        if(type == RecyclerViewItemType.GROUP_SEARCH) {
+            selectingAllView = activity.findViewById(R.id.selecting_all);
+        }
+        /* ~Set Selecting All Text View of Group Search Setting */
+
         return recyclerView;
-    }
-
-    // WARNING: Only one must be assigned
-    public void setFragment(MainFragment main) {
-        mainFragment = main;
-        searchActivity = null;
-        taskManagementActivity = null;
-        groupManagementActivity = null;
-        locationSearchActivity = null;
-    }
-    public void setActivity(SearchActivity search) {
-        mainFragment = null;
-        searchActivity = search;
-        taskManagementActivity = null;
-        groupManagementActivity = null;
-        locationSearchActivity = null;
-    }
-    public void setActivity(TaskManagementActivity taskManagement) {
-        mainFragment = null;
-        searchActivity = null;
-        taskManagementActivity = taskManagement;
-        groupManagementActivity = null;
-        locationSearchActivity = null;
-    }
-    public void setActivity(GroupManagementActivity groupManagement) {
-        mainFragment = null;
-        searchActivity = null;
-        taskManagementActivity = null;
-        groupManagementActivity = groupManagement;
-        locationSearchActivity = null;
-    }
-    public void setActivity(LocationSearchActivity locationSearch) {
-        mainFragment = null;
-        searchActivity = null;
-        taskManagementActivity = null;
-        groupManagementActivity = null;
-        locationSearchActivity = locationSearch;
-    }
-    public static GroupManagementActivity getGroupManagementActivity() {
-        return groupManagementActivity;
-    }
-
-    private void selectToDoItem() {
-        Context context = parentView.getContext();
-        String extraName = context.getResources().getString(R.string.request_code);
-        int code = context.getResources().getInteger(R.integer.detail_request_code);
-
-        int p = tracker.getSelection().hashCode();
-
-        // To-do item of Main
-        if((type == RecyclerViewItemType.TO_DO_MAIN) && (mainFragment != null)) {
-            Intent intent = new Intent(mainFragment.getContext(), DetailActivity.class);
-            intent.putExtra(extraName, code);
-            intent.putExtra(parentView.getResources().getString(R.string.item_id)
-                    , (Serializable) list.get(p));
-
-            mainFragment.startActivityForResult(intent, code);
-        }
-        // To-do item of Search
-        else if((type == RecyclerViewItemType.TO_DO_SEARCH) && (searchActivity != null)) {
-            Intent intent = new Intent(searchActivity, DetailActivity.class);
-            intent.putExtra(extraName, code);
-            intent.putExtra(parentView.getResources().getString(R.string.item_id)
-                    , (Serializable) list.get(p));
-
-            searchActivity.startActivityForResult(intent, code);
-        }
-        else {
-            Log.e("RecyclerViewSetter", "Bring up Detail: Don't set up Main Fragment or Search Activity");
-        }
     }
 
     private void changeGroupItem() {
         if(tracker.getSelection().size() > 1) {
+            selectingAllView = activity.findViewById(R.id.selecting_all);
             if(selectingAllView.isSelected()) {
                 selectingAllView.setSelected(false);
             }
@@ -248,45 +188,6 @@ public class RecyclerViewSetter {
             if(!selectingAllView.isSelected()) {
                 selectingAllView.setSelected(true);
             }
-        }
-    }
-
-    private void selectTask() {
-        if(taskManagementActivity != null) {
-            Context context = parentView.getContext();
-
-            String extraName = context.getResources().getString(R.string.request_code);
-            int code = context.getResources().getInteger(R.integer.detail_request_code);
-
-            int p = tracker.getSelection().hashCode();
-            Task selectedTask = (Task) list.get(p);
-            ToDoItem toDoItem = new ToDoItem();
-            toDoItem.setItemId(selectedTask.getItemId());
-
-            Intent intent = new Intent(taskManagementActivity, DetailActivity.class);
-            intent.putExtra(extraName, code);
-            intent.putExtra(parentView.getResources().getString(R.string.item_id)
-                    , (Serializable) toDoItem);
-
-            taskManagementActivity.startActivityForResult(intent, code);
-        }
-        else {
-            Log.e("RecyclerViewSetter", "Bring up Detail: Don't set up Task Management Activity");
-        }
-    }
-
-    private void selectLocation(){
-        if(locationSearchActivity != null) {
-            Context context = parentView.getContext();
-            int p = tracker.getSelection().hashCode();
-            Location selectedLocation = (Location) list.get(p);
-            Intent intent = new Intent(locationSearchActivity, AddItemActivity.class);
-            intent.putExtra(context.getString(R.string.location_search_key), selectedLocation);
-            locationSearchActivity.setResult(RESULT_FIRST_USER,intent);
-            locationSearchActivity.finish();
-        }
-        else {
-            Log.e("RecyclerViewSetter", "Bring up Detail: Don't set up Location Search Activity");
         }
     }
 
