@@ -219,6 +219,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             mapView = new MapView(this);
             mapView.setMapViewEventListener(this);
             mapViewContainer.addView(mapView);
+
         }
         /*~ set data */
 
@@ -314,7 +315,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     if (json == null) {
                         return;
                     }
-
                     JSONObject jsonObject = new JSONObject(json);
                     JSONObject dataObject = jsonObject.getJSONArray("documents").getJSONObject(0);
 
@@ -333,6 +333,15 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                         JSONObject addressInfo = dataObject.getJSONObject("address");
                         addressName = addressInfo.getString("address_name");
                     }
+
+                    marker = new MapPOIItem();
+                    marker.setItemName("");
+                    marker.setTag(0);
+                    marker.setMapPoint(markerPoint);
+                    marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                    marker.setShowCalloutBalloonOnTouch(false);
+                    mapView.addPOIItem(marker);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -355,10 +364,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                             roadAddress.setVisibility(View.VISIBLE);
                         }
 
-                        marker = new MapPOIItem();
-                        marker.setMapPoint(markerPoint);
-                        marker.setShowDisclosureButtonOnCalloutBalloon(false);
-                        mapView.addPOIItem(marker);
                     }
                 });
             }
