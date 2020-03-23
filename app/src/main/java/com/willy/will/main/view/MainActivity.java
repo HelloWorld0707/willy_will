@@ -340,4 +340,5 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~terminate application */
 
+    public void onBackClick(View v){ }
 }
