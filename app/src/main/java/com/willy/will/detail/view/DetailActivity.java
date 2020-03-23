@@ -211,8 +211,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
             locationArea.setVisibility(View.GONE);
         }else{
-            latitude = Float.parseFloat(todoItem.getLatitude());
-            longitude = Float.parseFloat(todoItem.getLongitude());
+            latitude = Double.parseDouble(todoItem.getLatitude());
+            longitude = Double.parseDouble(todoItem.getLongitude());
             markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
 
             getAddress(longitude, latitude);
@@ -317,12 +317,22 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
                     JSONObject jsonObject = new JSONObject(json);
                     JSONObject dataObject = jsonObject.getJSONArray("documents").getJSONObject(0);
-                    JSONObject roadAddressInfo = (JSONObject) dataObject.get("road_address");
-                    JSONObject addressInfo = (JSONObject) dataObject.get("address");
 
-                    roadAddressName = roadAddressInfo.getString("address_name");
-                    addressName = addressInfo.getString("address_name");
+                    if(dataObject.isNull("road_address")) {
+                        roadAddressName = "";
+                    }
+                    else {
+                        JSONObject roadAddressInfo = dataObject.getJSONObject("road_address");
+                        roadAddressName = roadAddressInfo.getString("address_name");
+                    }
 
+                    if(dataObject.isNull("address")) {
+                        addressName = "";
+                    }
+                    else {
+                        JSONObject addressInfo = dataObject.getJSONObject("address");
+                        addressName = addressInfo.getString("address_name");
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -330,17 +340,25 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
-                        address.setText(addressName);
-                        if(roadAddress!=null) {
-                            roadAddress.setVisibility(View.VISIBLE);
-                            roadAddress.setText(roadAddressName);
-                        }else{
-                            address.setText(addressName);
-                            marker = new MapPOIItem();
-                            marker.setMapPoint(markerPoint);
-                            marker.setShowDisclosureButtonOnCalloutBalloon(false);
-                            mapView.addPOIItem(marker);
+                        if(addressName.isEmpty()) {
+                            address.setVisibility(View.GONE);
                         }
+                        else {
+                            address.setText(addressName);
+                            address.setVisibility(View.VISIBLE);
+                        }
+
+                        if(roadAddressName.isEmpty()) {
+                            roadAddress.setVisibility(View.GONE);
+                        }else{
+                            roadAddress.setText(roadAddressName);
+                            roadAddress.setVisibility(View.VISIBLE);
+                        }
+
+                        marker = new MapPOIItem();
+                        marker.setMapPoint(markerPoint);
+                        marker.setShowDisclosureButtonOnCalloutBalloon(false);
+                        mapView.addPOIItem(marker);
                     }
                 });
             }
