@@ -203,7 +203,7 @@ public class CalendarActivity extends Activity {
 
         /** Set Picker */
         new DatePickerDialog(CalendarActivity.this,
-                AlertDialog.THEME_HOLO_LIGHT,datepicker,yyyy,mm-1,dd).show();
+                AlertDialog.THEME_HOLO_LIGHT,datepicker,yyyy,mm,dd).show();
     }
 
     DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
