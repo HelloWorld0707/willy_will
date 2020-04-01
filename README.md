@@ -1,13 +1,13 @@
 # WILL
 > 할 일을 쉽고 빠르게 관리할 수 있으며, 목표 달성률을 확인하며 습관 형성에 도움을 주는 앱입니다.
 
-
 #### WILL Created by Willy
 
 
 ## 구글 스토어
 
 WILL BETA 를 다운받을 수 있습니다.
+
 https://play.google.com/store/apps/details?id=com.willy.will
 
 
