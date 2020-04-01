@@ -9,6 +9,7 @@
 ## 구글 스토어
 
 WILL BETA 를 다운받을 수 있습니다
+
 https://play.google.com/store/apps/details?id=com.willy.will
 
 
@@ -32,9 +33,9 @@ https://play.google.com/store/apps/details?id=com.willy.will
 
 ## 멤버 정보
 
-김미경 : davinchi0928@gmail.com
-서성식 : sungsik9831@gmail.com
-신민용 : smy11go@gmail.com
-윤송우 : woon_12@naver.com
-이재은 : je028770@gmail.com
+* 김미경 : davinchi0928@gmail.com
+* 서성식 : sungsik9831@gmail.com
+* 신민용 : smy11go@gmail.com
+* 윤송우 : woon_12@naver.com
+* 이재은 : je028770@gmail.com
 
