@@ -4,11 +4,14 @@
 #### WILL Created by Willy
 
 
+
+
 ## 구글 스토어
 
 WILL BETA 를 다운받을 수 있습니다.
-
 https://play.google.com/store/apps/details?id=com.willy.will
+
+
 
 
 ## 앱 설명
@@ -23,6 +26,8 @@ https://play.google.com/store/apps/details?id=com.willy.will
 * 할일의 위치를 지정할 수 있고 상세 페이지에서 지도로 위치를 확인할 수 있습니다.
 * 할일 이름, 그룹, 완료 여부, 반복 여부, 기간으로 할일을 검색할 수 있습니다.
 * 내부 저장소를 사용하므로, 로그인이 필요 없습니다.
+
+
 
 
 ## 멤버 정보
