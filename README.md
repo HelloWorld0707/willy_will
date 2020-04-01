@@ -8,7 +8,7 @@
 
 ## 구글 스토어
 
-WILL BETA 를 다운받을 수 있습니다.
+WILL BETA 를 다운받을 수 있습니다
 https://play.google.com/store/apps/details?id=com.willy.will
 
 
