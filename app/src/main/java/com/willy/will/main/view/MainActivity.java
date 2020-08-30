@@ -42,9 +42,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity{
-
+    public static AdRequest adRequest;
     public static DBAccess dbHelper;
     private Resources resources;
+    private AdMobController adMobController = new AdMobController(this);
 
     private GroupDBController dbController;
     private Spinner sp_group;
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity{
     private SimpleDateFormat sdf2;
     private String baseDate; // mm.dd
     private String sendDate; // yyyy-MM-dd
-    private AdMobController adMobController;
 
     MainFragment fragmentmain;
 
@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         dbHelper = DBAccess.getDbHelper();
         resources = getResources();
+        adRequest = new AdRequest.Builder().build();
 
         /**load ad**/
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -81,9 +81,8 @@ public class MainActivity extends AppCompatActivity{
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-
-        adMobController = new AdMobController(this);
         adMobController.callingAdmob();
+        /*~load ad*/
 
         /**set navigation Drawer**/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

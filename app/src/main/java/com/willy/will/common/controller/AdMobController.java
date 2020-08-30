@@ -3,9 +3,10 @@ package com.willy.will.common.controller;
 
 import android.app.Activity;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.willy.will.R;
+
+import static com.willy.will.main.view.MainActivity.adRequest;
 
 public class AdMobController {
     private AdView adView;
@@ -17,8 +18,6 @@ public class AdMobController {
 
     public void callingAdmob () {
         adView = activity.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().
-                build();
         adView.loadAd(adRequest);
     }
 }
