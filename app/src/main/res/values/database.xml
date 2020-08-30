@@ -23,6 +23,7 @@
     <string name="item_id_column">item_id</string>
     <string name="item_name_column">item_name</string>
     <string name="item_important_column">item_important</string>
+    <string name="item_memo_column">item_memo</string>
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
     <string name="done_date_column">done_date</string>

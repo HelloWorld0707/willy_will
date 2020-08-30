@@ -65,6 +65,7 @@ public class DBAccess extends SQLiteOpenHelper {
                     resources.getString(R.string.group_id_column) + " INTEGER, " +
                     resources.getString(R.string.item_name_column) + " TEXT NOT NULL, " +
                     resources.getString(R.string.item_important_column) + " INTEGER, " +
+                    resources.getString(R.string.item_memo_column) + " TEXT, " +
                     resources.getString(R.string.latitude) + " TEXT, " +
                     resources.getString(R.string.longitude) + " TEXT, " +
                     resources.getString(R.string.done_date_column) + " TEXT, " +

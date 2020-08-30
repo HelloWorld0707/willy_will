@@ -58,7 +58,8 @@ public class AddItemActivity extends Activity{
     private int important_result;
     private double latitudeNum;
     private double longitudeNum;
-    private String item_name=null;
+    private String item_name = null;
+    private String item_memo = null;
     private int itemId;
     public static DBAccess dbHelper;
 
@@ -71,6 +72,7 @@ public class AddItemActivity extends Activity{
     TextView Text_start;
     TextView Text_end;
     EditText Title_editText;
+    EditText memo_editText;
 
     private TextView groupTextView;
     private Group selectedGroup;
@@ -95,6 +97,8 @@ public class AddItemActivity extends Activity{
 
         if(code == ADD_CODE) {
             item_name = "";
+
+            item_memo = "";
 
             important_result = 1;
 
@@ -135,6 +139,9 @@ public class AddItemActivity extends Activity{
         /** set item name **/
         Title_editText = (EditText)findViewById(R.id.Title_editText);
         Title_editText.setText(item_name);
+        memo_editText = (EditText)findViewById(R.id.memo_editText);
+        memo_editText.setText(item_memo);
+
         /** edit keyboard invisible 1 **/
         Title_editText.setInputType(0);
         Title_editText.setOnClickListener(new View.OnClickListener() {
@@ -398,6 +405,7 @@ public class AddItemActivity extends Activity{
         String endDate = end_date;
         String latitude; //latitude
         String longitude; //longitude
+        item_memo = memo_editText.getText().toString();
         if(latitudeNum == DEFAULT_LOCATION) {
             latitude = null;
         }
@@ -441,16 +449,18 @@ public class AddItemActivity extends Activity{
 
         /** ADD NOT LOOP ITEM */
         if(loopweek == null || loopweek.equals("0000000")) {
+
             /** Insert into _ITEM */
             db.execSQL("" +
-                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                    "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id, item_memo)" +
                     "VALUES(" +
                     group_id + ", '" +
                     item_name + "', '" +
                     item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
                     startDate + "', '" +
                     endDate + "', " +
-                    toDoId + ");"
+                    toDoId + ", '" +
+                    item_memo + "');"
             );
             /* ~Insert into _ITEM */
 
@@ -493,14 +503,15 @@ public class AddItemActivity extends Activity{
                     curStr = iterCheckedDays.next();
                     if (convertDate(calenderDate).equals(curStr)) {
                         db.execSQL(
-                                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id)" +
+                                "INSERT INTO _ITEM(group_id, item_name,item_important,latitude,longitude,done_date,start_date,end_date,to_do_id,item_memo)" +
                                         "VALUES(" +
                                         group_id + ", '" +
                                         item_name + "', '" +
                                         item_important + "', " + latitude + ", " + longitude + ", " + done_date + ", '" +
                                         startDate + "', '" +
                                         endDate + "', " +
-                                        toDoId + ");"
+                                        toDoId + ", '" +
+                                        item_memo + "');"
                         );
 
                         db.execSQL(

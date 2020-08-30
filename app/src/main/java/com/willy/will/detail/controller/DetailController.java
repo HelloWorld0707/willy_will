@@ -2,6 +2,8 @@ package com.willy.will.detail.controller;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.willy.will.detail.model.Item;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public class DetailController {
     /** get Item by itemId from DB **/
     public Item getToDoItemByItemId(int itemId){
         String selectQuery =
-                "SELECT item_name, longitude, latitude, done_date, start_date, end_date, group_name, group_color, calendar_date, loop_week, item_id, item.to_do_id, item.item_important, item.group_id " +
+                "SELECT item_name, longitude, latitude, done_date, start_date, end_date, group_name, group_color, calendar_date, loop_week, item_id, item.to_do_id, item.item_important, item.group_id, item.item_memo " +
                 "FROM " +
                     "(SELECT * " +
                     "FROM _ITEM i, _CALENDAR c, _GROUP g " +
@@ -48,6 +50,7 @@ public class DetailController {
                 item.setTodoId(cursor.getInt(11));
                 item.setImportant(cursor.getInt(12));
                 item.setGroupId(cursor.getInt(13));
+                item.setItemMemo(cursor.getString(14));
             }while (cursor.moveToNext());
         }
         return item;
