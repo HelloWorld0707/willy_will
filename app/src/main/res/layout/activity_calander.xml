@@ -23,101 +23,106 @@
             android:onClick="backToMain" />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <ScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryBackground">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryBackground"
-        >
+                    <RelativeLayout
+                        android:id="@+id/dateLayout"
+                        style="@style/TopLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/detail_list_thick_height"
+                        android:gravity="center_vertical"
+                        android:onClick="showPicker"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/match_constraint">
+
+                        <TextView
+                            android:id="@+id/calenderMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="@dimen/basic_margin"
+                            android:text="MM"
+                            android:textColor="@color/colorString"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/calenderDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/calenderMonth"
+                            android:layout_marginRight="10dp"
+                            android:layout_toEndOf="@id/calenderMonth"
+                            android:text="DD"
+                            android:textColor="@color/colorString"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/calenderYear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/calenderDay"
+                            android:layout_toEndOf="@id/calenderDay"
+                            android:text="YEAR"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        android:id="@+id/calendarView"
+                        style="@style/RoundLayout"
+                        android:layout_height="wrap_content"
+                        app:mcv_selectionColor="@color/colorPrimary"
+                        app:mcv_showOtherDates="all" />
+
+                    <TextView
+                        android:id="@+id/calendarIfItemNull"
+                        style="@style/RoundLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin"
+                        android:layout_marginBottom="@dimen/basic_margin"
+                        android:gravity="center_horizontal"
+                        android:text="@string/calendar_item_is_null"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ListView
+                        android:id="@+id/calendarListView"
+                        style="@style/RoundLayout"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/basic_margin"
+                        android:layout_marginBottom="@dimen/basic_margin"
+                        android:divider="@null"
+                        android:listSelector="@android:color/transparent"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:descendantFocusability="blocksDescendants"
-            >
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <RelativeLayout
-                style="@style/TopLayout"
-                android:id="@+id/dateLayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/detail_list_thick_height"
-                android:paddingBottom="@dimen/match_constraint"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:onClick="showPicker"
-                >
-
-                <TextView
-                    android:id="@+id/calenderMonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="@dimen/basic_margin"
-                    android:textColor="@color/colorString"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:text="MM"
-                    />
-
-                <TextView
-                    android:id="@+id/calenderDay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/calenderMonth"
-                    android:layout_toEndOf="@id/calenderMonth"
-                    android:layout_marginRight="10dp"
-                    android:textColor="@color/colorString"
-                    android:textStyle="bold"
-                    android:textSize="30sp"
-                    android:text="DD"
-                    />
-
-                <TextView
-                    android:id="@+id/calenderYear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/calenderDay"
-                    android:layout_toEndOf="@id/calenderDay"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="YEAR"/>
-
-            </RelativeLayout>
-
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarView"
-                style="@style/RoundLayout"
-                android:layout_height="wrap_content"
-                app:mcv_selectionColor="@color/colorPrimary"
-                app:mcv_showOtherDates="all"
-                />
-
-            <TextView
-                android:id="@+id/calendarIfItemNull"
-                style="@style/RoundLayout"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:gravity="center_horizontal"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="@string/calendar_item_is_null"/>
-
-            <ListView
-                android:id="@+id/calendarListView"
-                style="@style/RoundLayout"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/basic_margin"
-                android:layout_marginBottom="@dimen/basic_margin"
-                android:listSelector="@android:color/transparent"
-                android:divider="@null"
-                android:visibility="gone" />
-
+            <include layout="@layout/item_admob"></include>
         </LinearLayout>
-
-    </ScrollView>
-
+    </RelativeLayout>
 </LinearLayout>

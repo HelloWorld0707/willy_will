@@ -11,9 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.ToDoItem;
@@ -50,6 +54,7 @@ public class SearchActivity extends AppCompatActivity {
     private String endOfPeriod = null;
 
     private boolean itemChanged;
+    private AdMobController adMobController = new AdMobController(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +97,10 @@ public class SearchActivity extends AppCompatActivity {
         /* ~Set extra names of Intent */
 
         itemChanged = false;
+
+        /**load ad**/
+        adMobController.callingAdmob();
+        /*~load ad*/
     }
 
     private void setToDoList(String searchText) {
