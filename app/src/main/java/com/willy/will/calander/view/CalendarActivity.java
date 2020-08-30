@@ -20,6 +20,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -27,6 +30,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.willy.will.R;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DateDBController;
 import com.willy.will.detail.view.DetailActivity;
@@ -43,6 +47,7 @@ public class CalendarActivity extends Activity {
     private TextView TextDay = null;
     private DatePickerDialog datepickerdialog = null;
     private MaterialCalendarView calendar = null;
+    private AdMobController adMobController = new AdMobController(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +85,10 @@ public class CalendarActivity extends Activity {
         calendar.setTopbarVisible(false);
         calendar.addDecorators( new SundayDecorator(),
                 new SaturdayDecorator());
+
+        /**load ad**/
+        adMobController.callingAdmob();
+        /*~load ad*/
     }
 
     /** Back to MainActivity **/
