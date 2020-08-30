@@ -95,6 +95,30 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detail_list_thick_height">
+
+                    <TextView
+                        android:id="@+id/memo_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/DetailTitleStyle"
+                        android:text="메모" />
+
+                    <EditText
+                        android:id="@+id/memo_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:hint="@string/edit_memo"
+                        android:inputType="textPersonName"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/memo_title"
+                        android:paddingLeft="10dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:onClick="bringUpGroupSetting">

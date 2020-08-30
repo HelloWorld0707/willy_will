@@ -131,7 +131,7 @@ public class MainFragment extends Fragment {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         display.getSize(size);
         int hei = size.y;
-        params.setMargins(0,(int)hei/4,0,0);
+        params.setMargins(0,(int)hei/3,0,0);
         nullList.setGravity(Gravity.CENTER_HORIZONTAL);
 
         //set nullList size
