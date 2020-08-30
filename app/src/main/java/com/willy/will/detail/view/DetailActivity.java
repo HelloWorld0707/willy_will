@@ -51,7 +51,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
     private ImageView important, groupColor;
     private ImageButton editButton;
-    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress;
+    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress, itemMemo;
     private RelativeLayout doneDateArea;
     private LinearLayout achievementRateArea, locationArea;
     private String roofDay = "";
@@ -89,6 +89,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         resources = getResources();
         important = findViewById(R.id.important);
         itemName = findViewById(R.id.item_name);
+        itemMemo = findViewById(R.id.item_memo);
         groupName = findViewById(R.id.group_name);
         startDate = findViewById(R.id.start_date);
         endDate = findViewById(R.id.end_date);
@@ -197,6 +198,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
         /** set data **/
         itemName.setText(todoItem.getItemName());
+        itemMemo.setText(todoItem.getItemMemo());
         if(todoItem.getGroupId() == 0){
             groupColor.setActivated(false);
         }else{
@@ -450,6 +452,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             if(requestCode == resources.getInteger(R.integer.modify_item_request_code)) {
                 todoItem = data.getParcelableExtra(resources.getString(R.string.modified_item_key));
                 itemName.setText(todoItem.getItemName());
+                itemMemo.setText(todoItem.getItemMemo());
                 ImportanceValue = todoItem.getImportant();
                 if(ImportanceValue==1) {
                     important.setVisibility(View.VISIBLE);

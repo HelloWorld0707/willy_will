@@ -7,6 +7,7 @@ public class Item implements Parcelable {
     private int itemId;
     private String itemName;
     private int important;
+    private String itemMemo;
     private String latitude;
     private String longitude;
     private String doneDate;
@@ -28,6 +29,7 @@ public class Item implements Parcelable {
         itemId = in.readInt();
         itemName = in.readString();
         important = in.readInt();
+        itemMemo = in.readString();
         latitude = in.readString();
         longitude = in.readString();
         doneDate = in.readString();
@@ -79,6 +81,10 @@ public class Item implements Parcelable {
     public void setImportant(int important) {
         this.important = important;
     }
+
+    public String getItemMemo() { return itemMemo; }
+
+    public void setItemMemo(String itemMemo) { this.itemMemo = itemMemo; }
 
     public String getLatitude() {
         return latitude;
