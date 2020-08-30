@@ -25,6 +25,10 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="02bcc5ccac3144389ff97078106a8721" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1654983914122261~3692759505"/>
+
         <activity
             android:name=".main.view.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

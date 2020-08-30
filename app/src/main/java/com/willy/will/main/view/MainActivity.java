@@ -18,10 +18,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.calander.view.CalendarActivity;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.DBAccess;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
     private SimpleDateFormat sdf2;
     private String baseDate; // mm.dd
     private String sendDate; // yyyy-MM-dd
+    private AdMobController adMobController;
 
     MainFragment fragmentmain;
 
@@ -67,6 +74,16 @@ public class MainActivity extends AppCompatActivity{
 
         dbHelper = DBAccess.getDbHelper();
         resources = getResources();
+
+        /**load ad**/
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        adMobController = new AdMobController(this);
+        adMobController.callingAdmob();
 
         /**set navigation Drawer**/
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -166,7 +183,6 @@ public class MainActivity extends AppCompatActivity{
         }
 */
 
-
     }
 
     /** updateFragment*/
@@ -258,7 +274,7 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~Move to GroupManagementActivity */
 
-    /** Move to AlarmManagementActivity
+    /* Move to AlarmManagementActivity
     public void btnAlarmSettingClick(View view){
         Intent intent = new Intent(MainActivity.this , AlarmActivity.class);
         drawer.closeDrawer(drawerView);

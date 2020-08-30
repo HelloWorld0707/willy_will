@@ -96,25 +96,45 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
-
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/fragmentcontainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:baselineAligned="false"></FrameLayout>
+                android:baselineAligned="false">
+
+                <!-- Fab -->
+                <!-- ~Fab -->
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabItemAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/admobLayout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/ic_add_24px"
+                    app:backgroundTint="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:id="@+id/admobLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="0dp"
+                    android:background="@color/colorPrimary">
+
+                    <include layout="@layout/item_admob"></include>
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
-        <!-- Fab -->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabItemAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_add_24px"
-            app:backgroundTint="@color/colorPrimary"/>
-        <!-- ~Fab -->
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include layout="@layout/nav_view"/>
