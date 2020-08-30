@@ -13,6 +13,8 @@
     <!-- ~table names -->
 
     <!-- columns -->
+    <string name="row_num_column">row_num</string>
+
     <string name="calendar_id_column">calendar_id</string>
     <string name="calendar_date_column">calendar_date</string>
 
@@ -36,9 +38,8 @@
     <string name="loop_t_n">lp</string>
     <!-- ~columns -->
 
-    <!-- functions -->
-    <string name="strftime_function">strftime(\'%%Y%%m%%d\', %1$s)</string>
-    <!-- ~functions -->
+    <!-- query for creating row numbers -->
+    <string name="row_num_query">row_number () OVER ( ORDER BY %1$s %2$s ) row_num</string>
 
     <!-- queries for sorting to-do item -->
     <string name="done_column">done</string>
@@ -56,6 +57,7 @@
     <!-- ~queries for Search -->
 
     <!-- queries for achievement days -->
-    <string name="item_join_calendar_query">( SELECT * FROM _ITEM INNER JOIN _CALENDAR USING (item_id) WHERE strftime(\'%%Y%%m%%d\', calendar_date) &lt;= strftime(\'%%Y%%m%%d\', %1$s) AND to_do_id = %2$d )</string>
+    <string name="item_join_calendar_query">SELECT %1$s, * FROM _ITEM INNER JOIN _CALENDAR USING (item_id) WHERE to_do_id = %2$d</string>
+    <string name="before_today_query">strftime(\'%%Y%%m%%d\', calendar_date) &lt;= strftime(\'%%Y%%m%%d\', %1$s)</string>
     <!-- ~queries for achievement days -->
 </resources>

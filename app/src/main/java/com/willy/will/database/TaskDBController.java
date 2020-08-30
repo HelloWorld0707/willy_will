@@ -114,38 +114,40 @@ public class TaskDBController {
     public String getAchievementDays(int toDoId, String today) {
         String achievementDays = null;
 
-        String itemIdColumn = resources.getString(R.string.item_id_column);
-        String doneDateColumn = resources.getString(R.string.done_date_column);
+        String rowNumColumn = resources.getString(R.string.row_num_column);
+        String calendarDateColumn = resources.getString(R.string.calendar_date_column);
 
-        String itemJoinCalendar = String.format(resources.getString(R.string.item_join_calendar_query), "'" + today + "'", toDoId);
-
-        String calendarDate = String.format(resources.getString(R.string.strftime_function), resources.getString(R.string.calendar_date_column));
+        String rowNumbQuery = String.format(resources.getString(R.string.row_num_query), calendarDateColumn, "ASC");
+        String itemJoinCalendar = String.format(resources.getString(R.string.item_join_calendar_query), rowNumbQuery, toDoId);
+        String beforeTodayQuery = String.format(resources.getString(R.string.before_today_query), "'" + today + "'");
 
         String columnName = "con";
 
         String query =
-                "SELECT ( " +
-                    "( SELECT max(" + itemIdColumn + ") " +
-                    "FROM " + itemJoinCalendar + " )" +
-                " - " +
-                    "( SELECT" +
-                        " CASE WHEN c = 0" +
-                            " THEN " +
-                                "( SELECT " + itemIdColumn +
-                                " FROM " + itemJoinCalendar +
-                                " ORDER BY " + calendarDate + " ASC LIMIT 1 )" +
-                                " - 1" +
-                            " ELSE " + itemIdColumn +
-                        " END " +
-                    "FROM ( " +
-                        "SELECT " + itemIdColumn + ", " + "count(" + itemIdColumn + ") AS c " +
-                        "FROM " +
-                            itemJoinCalendar +
-                        " WHERE ( " + doneDateColumn + " IS NULL OR " + doneDateColumn + " = '' ) " +
-                            "ORDER BY " + calendarDate + " DESC " +
-                            "LIMIT 1 )" +
+                "SELECT" +
+                        " ( SELECT max(" + rowNumColumn + ")" +
+                            " FROM (" + itemJoinCalendar + ")" +
+                            " WHERE " + beforeTodayQuery +
                         " )" +
-                " ) AS " + columnName;
+                " -" +
+                        " ( SELECT CASE WHEN c = 0" +
+                                        " THEN ( SELECT min(" + rowNumColumn + ")" +
+                                                " FROM (" + itemJoinCalendar +
+                                                            " AND " + beforeTodayQuery + ")" +
+                                                " ) - 1" +
+                                        " ELSE " + rowNumColumn + " END" +
+                            " FROM ( SELECT " + rowNumColumn + "," +
+                                            " count() AS c" +
+                                    " FROM ( SELECT " + rowNumColumn +
+                                            " FROM ( " + itemJoinCalendar + ")" +
+                                            " WHERE " + beforeTodayQuery +
+                                                " AND (done_date IS NULL OR done_date = '')" +
+                                            " ORDER BY " + rowNumColumn + " DESC" +
+                                            " LIMIT 1" +
+                                            " )" +
+                            " )" +
+                        " )" +
+                " AS " + columnName;
 
         /** Read DB **/
         Cursor cursor = readDatabase.rawQuery(query, null);

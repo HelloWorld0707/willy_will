@@ -97,7 +97,13 @@ public class DateDBController {
             String endDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.end_date_column)));
 
             int loopId = getloopIDByTodo(todoId);
-            String dDayOrAchievement = getDetail(loopId, endDate);
+            String dDayOrAchievement = "";
+            if(loopId != 0 ? true : false) {
+                dDayOrAchievement = getDetail(todoId);
+            }
+            else {
+                dDayOrAchievement = getDetail(endDate);
+            }
 
             item = new ItemNGroup(itemId, groupId, todoId, loopId, itemName, groupColor, groupName, dDayOrAchievement);
         }
@@ -118,23 +124,24 @@ public class DateDBController {
         return loopId;
     }
 
-    private String getDetail(int loopId, String endDate){
+    private String getDetail(int todoId){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         TaskDBController taskDBController = new TaskDBController(resources);
-        String dDayOrAchievement = "";
-        if(loopId != 0 ? true : false) {
-            dDayOrAchievement =
-                    taskDBController.getAchievementDays(
-                    loopId,
-                    simpleDateFormat.format(Calendar.getInstance().getTime())
-            );
-        }
-        else {
-            dDayOrAchievement =
-                    taskDBController.getDDay(endDate,
-                    Calendar.getInstance()
-            );
-        }
+        String dDayOrAchievement =
+                taskDBController.getAchievementDays(
+                        todoId,
+                        simpleDateFormat.format(Calendar.getInstance().getTime())
+                );
+        return dDayOrAchievement;
+    }
+
+    private String getDetail(String endDate){
+        TaskDBController taskDBController = new TaskDBController(resources);
+        String dDayOrAchievement =
+                taskDBController.getDDay(
+                        endDate,
+                        Calendar.getInstance()
+                );
         return dDayOrAchievement;
     }
 
