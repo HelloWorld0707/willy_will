@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity{
 
     MainFragment fragmentmain;
 
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,10 +159,12 @@ public class MainActivity extends AppCompatActivity{
 
 
         /** set fab event Listener **/
-        FloatingActionButton fab = findViewById(R.id.fabItemAdd);
+        fab = findViewById(R.id.fabItemAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // set fab(Add button) disabled
+                view.setEnabled(false);
                 // show Item add Activity
                 Intent intent = new Intent(MainActivity.this , AddItemActivity.class);
                 int code = resources.getInteger(R.integer.add_item_request_code);
@@ -310,6 +314,11 @@ public class MainActivity extends AppCompatActivity{
         else if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
             refreshGroupSpinner();
             fragmentmain.refreshListDomain();
+        }
+
+        // If fab(add button) disabled, set enabled
+        if(!fab.isEnabled()) {
+            fab.setEnabled(true);
         }
     }
     /* ~add Activity callback listner */

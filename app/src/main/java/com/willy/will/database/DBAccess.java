@@ -88,6 +88,19 @@ public class DBAccess extends SQLiteOpenHelper {
 
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Resources resources = App.getContext().getResources();
+
+        switch(oldVersion) {
+            case 1:
+                // DB 삭제하고 새로 만드는 소스 필요함
+                break;
+            case 2:
+                db.execSQL(
+                        "ALTER TABLE " + resources.getString(R.string.item_table) +
+                        " ADD COLUMN " + resources.getString(R.string.item_memo_column) + " TEXT;"
+                );
+        }
+    }
 }
 
