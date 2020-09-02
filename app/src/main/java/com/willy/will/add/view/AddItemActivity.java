@@ -68,7 +68,7 @@ public class AddItemActivity extends Activity{
     private int MODIFY_CODE;
     private String check_result = null;
 
-    Switch repeat_switch;
+    Switch repeat_switch, memoSwitchBtn;
     TextView Text_start;
     TextView Text_end;
     EditText Title_editText;
@@ -89,11 +89,12 @@ public class AddItemActivity extends Activity{
         resources = getResources();
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-
         ADD_CODE = resources.getInteger(R.integer.add_item_request_code);
         MODIFY_CODE = resources.getInteger(R.integer.modify_item_request_code);
-
         code = getIntent().getIntExtra(resources.getString(R.string.request_code), ADD_CODE);
+
+        memo_editText = (EditText)findViewById(R.id.memo_editText);
+        memoSwitchBtn = findViewById(R.id.memo_switch);
 
         if(code == ADD_CODE) {
             item_name = "";
@@ -126,6 +127,13 @@ public class AddItemActivity extends Activity{
 
             important_result = selectedItem.getImportant();
 
+            item_memo = selectedItem.getItemMemo();
+
+            if(item_memo!=null && !(item_memo.equals(""))){
+                memo_editText.setVisibility(View.VISIBLE);
+                memoSwitchBtn.setChecked(true);
+            }
+
             selectedGroup = new Group(
                     selectedItem.getGroupId(),
                     selectedItem.getGroupName(),
@@ -139,7 +147,6 @@ public class AddItemActivity extends Activity{
         /** set item name **/
         Title_editText = (EditText)findViewById(R.id.Title_editText);
         Title_editText.setText(item_name);
-        memo_editText = (EditText)findViewById(R.id.memo_editText);
         memo_editText.setText(item_memo);
 
         /** edit keyboard invisible 1 **/
@@ -241,6 +248,8 @@ public class AddItemActivity extends Activity{
                     }
                 }
             });
+
+
         }
         else if(code == MODIFY_CODE) {
             LinearLayout dateAndLocationLayout = findViewById(R.id.date_and_location_layout);
@@ -251,6 +260,27 @@ public class AddItemActivity extends Activity{
         else {
             Log.e("AddItemActivity", "Initialization: Wrong code");
         }
+
+        /** memo switch button  **/
+        memoSwitchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+                // checked -> add_item_repeat
+                if (memoSwitchBtn.isChecked() == true) {
+                    memo_editText.setVisibility(View.VISIBLE);
+
+                    final ScrollView scrollView=findViewById(R.id.AddScrollView);
+                    scrollView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    });
+                }
+                else {
+                    memo_editText.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void bringUpGroupSetting(View view) {
@@ -381,6 +411,11 @@ public class AddItemActivity extends Activity{
             Toast.makeText(getApplicationContext(),resources.getString(R.string.item_name_is_null), Toast.LENGTH_SHORT).show();
         }
         else {
+            if(!memoSwitchBtn.isChecked()){
+                item_memo = "";
+            }else{
+                item_memo = memo_editText.getText().toString();
+            }
             if (code == ADD_CODE) {
                 if (simpleDateFormat.parse(start_date).getTime() > simpleDateFormat.parse(end_date).getTime()) {
                     Toast.makeText(getApplicationContext(),resources.getString(R.string.item_date_mismatch), Toast.LENGTH_SHORT).show();
@@ -405,7 +440,7 @@ public class AddItemActivity extends Activity{
         String endDate = end_date;
         String latitude; //latitude
         String longitude; //longitude
-        item_memo = memo_editText.getText().toString();
+        
         if(latitudeNum == DEFAULT_LOCATION) {
             latitude = null;
         }
@@ -575,6 +610,7 @@ public class AddItemActivity extends Activity{
         Item modifiedItem = new Item();
         modifiedItem.setItemName(item_name);
         modifiedItem.setImportant(important_result);
+        modifiedItem.setItemMemo(item_memo);
         modifiedItem.setGroupId(selectedGroup.getGroupId());
         modifiedItem.setGroupName(selectedGroup.getGroupName());
         modifiedItem.setGroupColor(selectedGroup.getGroupColor());

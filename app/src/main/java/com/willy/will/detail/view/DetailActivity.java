@@ -456,10 +456,11 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_FIRST_USER) {
             if(requestCode == resources.getInteger(R.integer.modify_item_request_code)) {
+
                 todoItem = data.getParcelableExtra(resources.getString(R.string.modified_item_key));
                 itemName.setText(todoItem.getItemName());
 
-                if (todoItem.getItemMemo().equals("")) {
+                if (todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
                     memoArea.setVisibility(View.GONE);
                 }else{
                     itemMemo.setText(todoItem.getItemMemo()); }

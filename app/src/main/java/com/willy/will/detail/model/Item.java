@@ -204,6 +204,7 @@ public class Item implements Parcelable {
         dest.writeInt(itemId);
         dest.writeString(itemName);
         dest.writeInt(important);
+        dest.writeString(itemMemo);
         dest.writeString(latitude);
         dest.writeString(longitude);
         dest.writeString(doneDate);

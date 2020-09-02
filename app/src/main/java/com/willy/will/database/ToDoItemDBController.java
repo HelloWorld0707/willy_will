@@ -100,7 +100,7 @@ public class ToDoItemDBController {
         if(selectedGroup == -1){
             selectQuery =
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
-                    "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
+                    "i.start_date,i.end_date,i.to_do_id,i.item_memo,c.calendar_date,g.group_color, \n"+
                     "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
                     "CASE WHEN done_date IS NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
                     "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
@@ -114,7 +114,7 @@ public class ToDoItemDBController {
         else {
             selectQuery =
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
-                            "i.start_date,i.end_date,i.to_do_id,c.calendar_date,g.group_color, \n"+
+                            "i.start_date,i.end_date,i.to_do_id,i.item_memo,c.calendar_date,g.group_color, \n"+
                             "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
                             "CASE WHEN done_date IS NULL OR \"\" THEN 0 ELSE 1 END AS done\n" +
                             "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
@@ -140,6 +140,7 @@ public class ToDoItemDBController {
         int loop = -1;
         String name = null;
         String color = null;
+        String itemMemo = null;
 
 
         while(cursor.moveToNext()) {
@@ -158,10 +159,11 @@ public class ToDoItemDBController {
             name = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
             color = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
             loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_t_n)));
+            itemMemo = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_memo_column)));
             Log.d("checkQuery","******"+loop+"********");
 
 
-            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop);
+            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop, itemMemo);
             toDoItemList.add(curToDoItem);
         }
         /* ~Put data in ArrayList */
