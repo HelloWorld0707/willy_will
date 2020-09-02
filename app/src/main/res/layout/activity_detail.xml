@@ -53,10 +53,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent">
 
+            <!--item_area-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/item_area"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/detail_list_thick_height"
                 style="@style/TopLayout"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toTopOf="parent"
@@ -98,16 +99,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <TextView
-                    android:id = "@+id/item_memo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/important"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+            <!--group_area-->
             <RelativeLayout
                 android:id="@+id/group_area"
                 style="@style/RoundLayout"
@@ -159,6 +153,7 @@
 
             </RelativeLayout>
 
+            <!--date_area-->
             <LinearLayout
                 android:id="@+id/date_area"
                 android:layout_width="match_parent"
@@ -265,10 +260,9 @@
 
                 </RelativeLayout>
 
-            </LinearLayout> <!--end date_area-->
+            </LinearLayout>
 
-            <!--end achievement_rate_area-->
-
+            <!--achievement_rate_area-->
             <LinearLayout
                 android:id="@+id/achievement_rate_area"
                 style="@style/RoundLayout"
@@ -350,12 +344,14 @@
 
             </LinearLayout>
 
+            <!--location_area-->
             <LinearLayout
                 android:id="@+id/location_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 style="@style/BottomLayout"
+                android:layout_marginBottom="@dimen/basic_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -431,7 +427,32 @@
 
                 </RelativeLayout>
 
-            </LinearLayout> <!-- end locationArea-->
+            </LinearLayout>
+
+            <!--memo_area-->
+            <LinearLayout
+                android:id="@+id/memo_area"
+                style="@style/BottomLayout"
+                android:paddingBottom="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/DetailTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/detail_list_thick_height"
+                    android:text="@string/memo" />
+
+                <TextView
+                    android:id = "@+id/item_memo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/important"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </LinearLayout>
 
         </LinearLayout> <!--scrollview direct child -->
 

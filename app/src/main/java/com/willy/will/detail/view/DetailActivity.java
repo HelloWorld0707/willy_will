@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private ImageButton editButton;
     private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress, itemMemo;
     private RelativeLayout doneDateArea;
-    private LinearLayout achievementRateArea, locationArea;
+    private LinearLayout achievementRateArea, locationArea, memoArea;
     private String roofDay = "";
     private String addressName, roadAddressName;
     private String[] days = {"일","월","화","수","목","금","토"};
@@ -77,7 +78,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private Calendar today;
     private SimpleDateFormat dateFormat;
     private String calendarDateStr;
-
     private boolean itemChanged;
 
 
@@ -98,6 +98,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         achievementRateArea = findViewById(R.id.achievement_rate_area);
         doneDateArea = findViewById(R.id.done_date_area);
         locationArea = findViewById(R.id.location_area);
+        memoArea = findViewById(R.id.memo_area);
         roof = findViewById(R.id.loof);
         address = findViewById(R.id.address);
         roadAddress = findViewById(R.id.road_address);
@@ -198,7 +199,12 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
         /** set data **/
         itemName.setText(todoItem.getItemName());
-        itemMemo.setText(todoItem.getItemMemo());
+
+         if(todoItem.getItemMemo().equals("")) {
+            memoArea.setVisibility(View.GONE);
+         }else{
+             itemMemo.setText(todoItem.getItemMemo()); }
+
         if(todoItem.getGroupId() == 0){
             groupColor.setActivated(false);
         }else{
@@ -452,7 +458,12 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             if(requestCode == resources.getInteger(R.integer.modify_item_request_code)) {
                 todoItem = data.getParcelableExtra(resources.getString(R.string.modified_item_key));
                 itemName.setText(todoItem.getItemName());
-                itemMemo.setText(todoItem.getItemMemo());
+
+                if (todoItem.getItemMemo().equals("")) {
+                    memoArea.setVisibility(View.GONE);
+                }else{
+                    itemMemo.setText(todoItem.getItemMemo()); }
+
                 ImportanceValue = todoItem.getImportant();
                 if(ImportanceValue==1) {
                     important.setVisibility(View.VISIBLE);

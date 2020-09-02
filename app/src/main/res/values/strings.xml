@@ -33,6 +33,8 @@
     <string name="thursday">목</string>
     <string name="friday">금</string>
     <string name="saturday">토</string>
+    <string name="memo">메모</string>
+    <string name="memo_hint">메모를 입력해주세요.</string>
     <string name="location">위치</string>
     <string name="no_location">위치 없음</string>
     <string name="item_modify">수정</string>
