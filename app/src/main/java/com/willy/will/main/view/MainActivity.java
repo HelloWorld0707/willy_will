@@ -236,9 +236,10 @@ public class MainActivity extends AppCompatActivity{
     /** go to Today Fragment*/
     public void todayFragment(View view){
         String todayDate = sdf.format(Calendar.getInstance().getTime());
+        String DBDate = sdf2.format(Calendar.getInstance().getTime());
         tv_date.setText(todayDate);
         deleteFragment();
-        updateFragement(groupId,todayDate);
+        updateFragement(groupId,DBDate);
     }
 
     /** Function: Move to SearchView */
