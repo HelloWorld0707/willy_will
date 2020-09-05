@@ -130,7 +130,7 @@ public class AddItemActivity extends Activity {
             startDate = selectedItem.getStartDate();
             endDate = selectedItem.getEndDate();
 
-            address = ""; // NO ADDRESS 😥
+            address = selectedItem.getAddressName();
             roadAddress = selectedItem.getRoadAddressName();
             latitudeNum = Double.parseDouble(selectedItem.getLatitude());
             longitudeNum = Double.parseDouble(selectedItem.getLongitude());
