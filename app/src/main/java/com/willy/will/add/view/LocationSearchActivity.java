@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.Location;
 import com.willy.will.common.model.RecyclerViewItemType;
 
@@ -29,6 +30,7 @@ public class LocationSearchActivity extends Activity {
     private InputMethodManager inputMethodManager = null;
     private RecyclerView recyclerView = null;
     private ArrayList<Location> locationArrayList = null;
+    private AdMobController adMobController = new AdMobController(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class LocationSearchActivity extends Activity {
         ).setRecyclerView();
 
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
+        /** loading Ad*/
+        adMobController.callingAdmob();
 
     }
 
