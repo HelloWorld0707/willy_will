@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
     public static AdRequest adRequest;
@@ -101,6 +102,8 @@ public class MainActivity extends AppCompatActivity{
         tv_date.setText(baseDate);
         /*~setDate*/
 
+        /** language setting**/
+        Locale.setDefault(Locale.KOREAN);
         /**open picker & change txt**/
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
