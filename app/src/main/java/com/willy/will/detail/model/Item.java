@@ -22,6 +22,7 @@ public class Item implements Parcelable {
     private int loopId;
     private String loopWeek;
     private String roadAddressName;
+    private String addressName;
 
     public Item(){}
 
@@ -44,6 +45,7 @@ public class Item implements Parcelable {
         loopId = in.readInt();
         loopWeek = in.readString();
         roadAddressName = in.readString();
+        addressName = in.readString();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -194,6 +196,10 @@ public class Item implements Parcelable {
 
     public void setRoadAddressName(String roadAddressName) { this.roadAddressName = roadAddressName; }
 
+    public String getAddressName() { return addressName; }
+
+    public void setAddressName(String addressName) { this.addressName = addressName; }
+
     @Override
     public int describeContents() {
         return 0;
@@ -219,5 +225,6 @@ public class Item implements Parcelable {
         dest.writeInt(loopId);
         dest.writeString(loopWeek);
         dest.writeString(roadAddressName);
+        dest.writeString(addressName);
     }
 }
