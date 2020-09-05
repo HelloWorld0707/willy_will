@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.controller.AscendingGroupByName;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
@@ -47,6 +48,7 @@ public class GroupManagementActivity extends AppCompatActivity {
 
     private int requestCode;
     private boolean groupListChanged;
+    private AdMobController adMobController = new AdMobController(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,9 @@ public class GroupManagementActivity extends AppCompatActivity {
         groupColorBtn.setActivated(true);
 
         groupListChanged = false;
+
+        /** loading Ad*/
+        adMobController.callingAdmob();
     }
 
     private void setGroupList() {

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.willy.will.R;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
@@ -78,6 +79,7 @@ public class AddItemActivity extends Activity{
     private Group selectedGroup;
     private CheckBox[] dayCheckBoxes;
     private TextView address, roadAddress;
+    private AdMobController adMobController = new AdMobController(this);
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -281,6 +283,9 @@ public class AddItemActivity extends Activity{
                 }
             }
         });
+
+        /** loading Ad*/
+        adMobController.callingAdmob();
     }
 
     public void bringUpGroupSetting(View view) {

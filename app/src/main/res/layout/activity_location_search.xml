@@ -63,33 +63,45 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_result_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
+        android:paddingLeft="@dimen/basic_padding"
         android:paddingTop="@dimen/round_corner_layout_padding"
         android:paddingRight="@dimen/basic_padding"
-        android:paddingLeft="@dimen/basic_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/admobLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/action_bar">
 
         <androidx.recyclerview.widget.RecyclerView
-            style="@style/BottomLayout"
             android:id="@+id/search_recycler_view"
+            style="@style/BottomLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layout_constrainedHeight="true"
-            app:layout_constraintVertical_bias="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:id="@+id/admobLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include layout="@layout/item_admob"></include>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

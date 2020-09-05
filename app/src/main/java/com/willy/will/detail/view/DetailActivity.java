@@ -26,6 +26,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
@@ -79,6 +80,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private SimpleDateFormat dateFormat;
     private String calendarDateStr;
     private boolean itemChanged;
+    private AdMobController adMobController = new AdMobController(this);
 
 
      @Override
@@ -232,6 +234,9 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         /*~ set data */
 
          itemChanged = false;
+
+         /** loading Ad*/
+         adMobController.callingAdmob();
     }
 
 
