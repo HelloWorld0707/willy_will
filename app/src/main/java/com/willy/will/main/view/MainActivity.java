@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity{
     public static AdRequest adRequest;
@@ -101,6 +102,8 @@ public class MainActivity extends AppCompatActivity{
         tv_date.setText(baseDate);
         /*~setDate*/
 
+        /** language setting**/
+        Locale.setDefault(Locale.KOREAN);
         /**open picker & change txt**/
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +176,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         /* ~set fab event Listener */
-
 /*
         //set alarm
         SharedPreferences sharedPreferences = getSharedPreferences("ALARM", MODE_PRIVATE);
@@ -187,6 +189,7 @@ public class MainActivity extends AppCompatActivity{
 */
 
     }
+
 
     /** updateFragment*/
     private void updateFragement(int groupId, String date){
@@ -230,6 +233,13 @@ public class MainActivity extends AppCompatActivity{
     }
     /* ~ Change Date*/
 
+    /** go to Today Fragment*/
+    public void todayFragment(View view){
+        String todayDate = sdf.format(Calendar.getInstance().getTime());
+        tv_date.setText(todayDate);
+        deleteFragment();
+        updateFragement(groupId,todayDate);
+    }
 
     /** Function: Move to SearchView */
     public void btnSearchClick(View view){
@@ -293,7 +303,7 @@ public class MainActivity extends AppCompatActivity{
             // Return from CalendarView
             if(requestCode == resources.getInteger(R.integer.calender_item_request_code)) {
                 String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
-                Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
+                //Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
                 try {
                     Date rdate = sdf2.parse(receivedDate);
                     baseDate = sdf.format(rdate.getTime());

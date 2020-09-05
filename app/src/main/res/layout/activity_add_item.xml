@@ -357,10 +357,20 @@
                     android:padding="20dp"/>
 
             </LinearLayout>
-
         </LinearLayout>
-
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/admobLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/AddScrollView">
+
+        <include layout="@layout/item_admob"></include>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

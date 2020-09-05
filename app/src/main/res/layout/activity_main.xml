@@ -45,6 +45,23 @@
                         android:textSize="@dimen/main_date_text_size"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/tv_go_today"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="107dp"
+                        android:layout_marginRight="107dp"
+                        android:layout_toEndOf="@+id/tv_date"
+                        android:onClick="todayFragment"
+                        android:text="오늘"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="@dimen/main_today_text_size" />
+
                     <ImageButton
                         android:id="@+id/btnSearch"
                         android:layout_width="@dimen/actionbar_button_size"
