@@ -9,19 +9,19 @@
     tools:context=".add.view.AddItemActivity">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout2"
+        android:id="@+id/top_bar"
         style="@style/TopBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/AddScrollView">
+        app:layout_constraintBottom_toTopOf="@+id/add_scroll_view">
 
         <ImageButton
             android:id="@+id/back_button"
             style="@style/BackButtonStyle"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:onClick="Tomain" />
+            android:onClick="backToMain" />
 
         <ImageButton
             android:id="@+id/submit_button"
@@ -30,27 +30,25 @@
             android:layout_centerVertical="true"
             android:foreground="@drawable/ic_rounded_check_24px"
             android:foregroundTint="@color/colorPrimary"
-            android:onClick="add_insert" />
+            android:onClick="submit" />
 
     </RelativeLayout>
 
     <ScrollView
-        android:id="@+id/AddScrollView"
+        android:id="@+id/add_scroll_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
                 style="@style/TopLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -63,7 +61,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/Title_editText"
+                        android:id="@+id/title_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
@@ -80,14 +78,13 @@
                     android:layout_height="@dimen/detail_list_thick_height">
 
                     <TextView
-                        android:id="@+id/important_Vire"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         style="@style/DetailTitleStyle"
                         android:text="중요도" />
 
                     <Spinner
-                        android:id="@+id/important"
+                        android:id="@+id/important_spinner"
                         android:layout_width="120dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
@@ -111,7 +108,7 @@
                         android:text="그룹" />
 
                     <TextView
-                        android:id="@+id/group_textview"
+                        android:id="@+id/group_name"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
@@ -132,7 +129,6 @@
             </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/date_and_location_layout"
                     style="@style/RoundLayout"
                     android:layout_marginBottom="@dimen/basic_margin"
                     android:layout_width="match_parent"
@@ -146,14 +142,13 @@
                         android:onClick="setStart">
 
                         <TextView
-                            android:id="@+id/btn_start"
                             style="@style/DetailTitleStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="@string/start_date"/>
 
                         <TextView
-                            android:id="@+id/Text_start"
+                            android:id="@+id/start_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
@@ -169,14 +164,13 @@
                         android:onClick="setEnd">
 
                         <TextView
-                            android:id="@+id/btn_end"
                             style="@style/DetailTitleStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="@string/end_date"/>
 
                         <TextView
-                            android:id="@+id/Text_end"
+                            android:id="@+id/end_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
@@ -189,10 +183,9 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="bringUplocationSearch">
+                        android:onClick="bringUpLocationSearch">
 
                         <TextView
-                            android:id="@+id/location_title"
                             style="@style/DetailTitleStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/detail_list_thick_height"
@@ -238,14 +231,13 @@
 
             <!--loop area-->
             <LinearLayout
-                android:id="@+id/loop_layout"
+                android:id="@+id/repeat_layout"
+                style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                style="@style/RoundLayout">
+                android:orientation="vertical" >
 
                 <RelativeLayout
-                    android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height">
 
@@ -265,7 +257,7 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/checkBox_group"
+                    android:id="@+id/repeat_check_boxes_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -277,50 +269,50 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day0"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/sunday" />
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day1"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/monday" />
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day2"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/tuesday" />
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day3"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/wednesday" />
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day4"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/thursday" />
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day5"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/friday" />
 
                     <CheckBox
-                        style="@style/DetailDayStyle"
                         android:id="@+id/day6"
+                        style="@style/DetailDayStyle"
                         android:background="@drawable/bt_achievement"
                         android:button="@android:color/transparent"
                         android:text="@string/saturday" />
@@ -332,10 +324,10 @@
             <!-- memo area-->
             <LinearLayout
                 android:id="@+id/memo_layout"
+                style="@style/BottomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                style="@style/BottomLayout">
+                android:orientation="vertical" >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -357,7 +349,7 @@
                 </RelativeLayout>
 
                 <EditText
-                    android:id="@+id/memo_editText"
+                    android:id="@+id/memo_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/memo_hint"

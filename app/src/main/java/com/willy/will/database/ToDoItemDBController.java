@@ -1,5 +1,6 @@
 package com.willy.will.database;
 
+import android.content.ContentValues;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,11 +10,15 @@ import com.willy.will.R;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.search.model.SearchType;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ToDoItemDBController {
+
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private Resources resources;
     private SQLiteDatabase readDatabase;
@@ -23,6 +28,278 @@ public class ToDoItemDBController {
         this.resources = resources;
         readDatabase = DBAccess.getDbHelper().getReadableDatabase();
         writeDatabase = DBAccess.getDbHelper().getWritableDatabase();
+    }
+
+    public void insertDatesIntoCalendar(int itemId, String startDate, String endDate) throws ParseException {
+        /** Set queries for inserting into _CALENDAR **/
+        String calendarTableSql = "INSERT INTO " + resources.getString(R.string.calendar_table) + "(" +
+                resources.getString(R.string.calendar_date_column) + ", " +
+                resources.getString(R.string.item_id_column) +
+                ") VALUES";
+
+        String calendarDateStr;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(simpleDateFormat.parse(startDate));
+        final int days = getDays(startDate, endDate);
+        for(int i = 0; i < days; i++) {
+            calendarDateStr = simpleDateFormat.format(calendar.getTime());
+
+            calendarTableSql += "('" + calendarDateStr + "', " + itemId + "), ";
+
+            calendar.add(Calendar.DATE, 1);
+        }
+        calendarTableSql = calendarTableSql.substring(0, calendarTableSql.lastIndexOf(", ")) + ";";
+        /* ~Set queries for inserting into _CALENDAR */
+
+        /** Write DB (INSERT) **/
+        writeDatabase.execSQL(calendarTableSql);
+        /* ~Write DB (INSERT) */
+    }
+
+    public void insertOneItem(int toDoId, int groupId, String itemName, int important,
+                              String latitude, String longitude,
+                              String startDate, String endDate,
+                              String itemMemo) throws ParseException {
+        String doneDate = null;
+
+        /** Set column names and values for inserting into _ITEM **/
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(resources.getString(R.string.group_id_column), groupId);
+        contentValues.put(resources.getString(R.string.item_name_column), itemName);
+        contentValues.put(resources.getString(R.string.item_important_column), important);
+        contentValues.put(resources.getString(R.string.latitude_column), latitude);
+        contentValues.put(resources.getString(R.string.longitude_column), longitude);
+        contentValues.put(resources.getString(R.string.done_date_column), doneDate);
+        contentValues.put(resources.getString(R.string.start_date_column), startDate);
+        contentValues.put(resources.getString(R.string.end_date_column), endDate);
+        contentValues.put(resources.getString(R.string.to_do_id_column), toDoId);
+        contentValues.put(resources.getString(R.string.item_memo_column), itemMemo);
+        /* Set column names and values for inserting into _ITEM */
+
+        /** Write DB (INSERT) **/
+        long rowId = writeDatabase.insert(
+                resources.getString(R.string.item_table),
+                null,
+                contentValues
+        );
+        Log.i("ToDoItemDBController", "Adding: Add item " + rowId + " to item table");
+        /* ~Write DB (INSERT) */
+
+        /** Set queries and write DB (INSERT) for inserting into _CALENDAR **/
+        insertDatesIntoCalendar(getMaxItemId(), startDate, endDate);
+        /* ~Set queries and write DB (INSERT) for inserting into _CALENDAR */
+    }
+
+    private int getDays(String startDate, String endDate) throws ParseException {
+        // startDate, endDate 둘 다 0시 0분 0초 기준으로 계산하므로 그냥 차이를 구해도 오차 없음
+        final long ONE_DAY = 24 * 60 * 60 * 1000;
+        Date sdate = simpleDateFormat.parse(startDate);
+        Date edate = simpleDateFormat.parse(endDate);
+        int days = (int) (Math.abs(edate.getTime() - sdate.getTime()) / ONE_DAY + 1);
+        return days;
+    }
+
+    public void insertItemsIntoItemAndCalendar(int toDoId, int groupId, String itemName,
+                                              int important, String latitude, String longitude,
+                                              String startDate, String endDate,
+                                              ArrayList<String> checkedDays,
+                                              String itemMemo) throws ParseException {
+        String itemTableSql = "INSERT INTO " + resources.getString(R.string.item_table) + "(" +
+                resources.getString(R.string.group_id_column) + ", " +
+                resources.getString(R.string.item_name_column) + ", " +
+                resources.getString(R.string.item_important_column) + ", " +
+                resources.getString(R.string.latitude_column) + ", " +
+                resources.getString(R.string.longitude_column) + ", " +
+                resources.getString(R.string.done_date_column) + ", " +
+                resources.getString(R.string.start_date_column) + ", " +
+                resources.getString(R.string.end_date_column) + ", " +
+                resources.getString(R.string.to_do_id_column) + ", " +
+                resources.getString(R.string.item_memo_column) +
+                ") VALUES";
+
+        String calendarTableSql = "INSERT INTO " + resources.getString(R.string.calendar_table) + "(" +
+                resources.getString(R.string.calendar_date_column) + ", " +
+                resources.getString(R.string.item_id_column) +
+                ") VALUES";
+
+        String calendarDateStr;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(simpleDateFormat.parse(startDate));
+        int itemId = getMaxItemId();
+        final int days = getDays(startDate, endDate);
+        for (int i = 0; i < days; i++) {
+            calendarDateStr = simpleDateFormat.format(calendar.getTime());
+
+            if (checkedDays.indexOf(convertDateToDay(calendarDateStr)) != -1) {
+                itemTableSql += "(" +
+                        groupId + ", " +
+                        "'" + itemName + "', " +
+                        "'" + important + "', " +
+                        latitude + ", " +
+                        longitude + ", " +
+                        null + ", " +
+                        "'" + startDate + "', " +
+                        "'" + endDate + "', " +
+                        toDoId + ", " +
+                        "'" + itemMemo + "'" +
+                        "), ";
+
+                calendarTableSql += "('" + calendarDateStr + "', " + ++itemId + "), ";
+            }
+
+            calendar.add(Calendar.DATE, 1);
+        }
+        itemTableSql = itemTableSql.substring(0, itemTableSql.lastIndexOf(", ")) + ";";
+        calendarTableSql = calendarTableSql.substring(0, calendarTableSql.lastIndexOf(", ")) + ";";
+
+        /** Write DB (INSERT) **/
+        writeDatabase.execSQL(itemTableSql);
+        writeDatabase.execSQL(calendarTableSql);
+        /* ~Write DB (INSERT) */
+    }
+
+    public void insertItems(int toDoId, int groupId, String itemName, int important,
+                            String latitude, String longitude,
+                            String startDate, String endDate,
+                            String loopWeek, ArrayList<String> checkedDays,
+                            String itemMemo) throws ParseException {
+        /** Set queries and write DB (INSERT) for inserting into _ITEM and _CALENDAR **/
+        insertItemsIntoItemAndCalendar(
+                toDoId, groupId, itemName, important, latitude, longitude,
+                startDate, endDate, checkedDays, itemMemo
+        );
+        /* ~Set queries and write DB (INSERT) for inserting into _ITEM and _CALENDAR */
+
+        /** Set column names and values for inserting into _LOOP_INFO **/
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(resources.getString(R.string.to_do_id_column), toDoId);
+        contentValues.put(resources.getString(R.string.loop_week_column), loopWeek);
+        /* ~Set column names and values for inserting into _LOOP_INFO */
+
+        /** Write DB (INSERT) **/
+        long rowId = writeDatabase.insert(
+                resources.getString(R.string.loop_info_table),
+                null,
+                contentValues
+        );
+        Log.i("ToDoItemDBController", "Adding: Add loop information " + rowId);
+        /* ~Write DB (INSERT) */
+    }
+
+    private String convertDateToDay(String checkDate) {
+        String loop_check_date=null;
+        Date nDate = null;
+        try {
+            nDate = simpleDateFormat.parse(checkDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(nDate);
+
+        int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+        switch (dayNum ) {
+            case 1: loop_check_date = "일"; break;
+            case 2: loop_check_date = "월"; break;
+            case 3: loop_check_date = "화"; break;
+            case 4: loop_check_date = "수"; break;
+            case 5: loop_check_date = "목"; break;
+            case 6: loop_check_date = "금"; break;
+            case 7: loop_check_date = "토"; break;
+        }
+        return loop_check_date;
+    }
+
+    public void updateItems(int toDoId, int groupId, String itemName, int important,
+                            String latitude, String longitude, String startDate, String endDate,
+                            String itemMemo) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(resources.getString(R.string.group_id_column), groupId);
+        contentValues.put(resources.getString(R.string.item_name_column), itemName);
+        contentValues.put(resources.getString(R.string.item_important_column), important);
+        contentValues.put(resources.getString(R.string.latitude_column), latitude);
+        contentValues.put(resources.getString(R.string.longitude_column), longitude);
+        contentValues.put(resources.getString(R.string.start_date_column), startDate);
+        contentValues.put(resources.getString(R.string.end_date_column), endDate);
+        contentValues.put(resources.getString(R.string.item_memo_column), itemMemo);
+
+        int updatedRow = writeDatabase.update(
+                resources.getString(R.string.item_table),
+                contentValues,
+                resources.getString(R.string.to_do_id_column) + " = " + toDoId, null
+        );
+        Log.i("ToDoItemDBController", "Update " + updatedRow + " items");
+    }
+
+    public void deleteDatesConditionally(int toDoId, String startDate, String endDate) {
+        String calendarTable = resources.getString(R.string.calendar_table);
+        String itemIdColumn = resources.getString(R.string.item_id_column);
+        String where = itemIdColumn + " IN (" +
+                                            " SELECT " + itemIdColumn +
+                                            " FROM " + resources.getString(R.string.item_table) +
+                                            " WHERE " + resources.getString(R.string.to_do_id_column) + " = " + toDoId + " )" +
+                                            " AND " + String.format(resources.getString(R.string.deletion_condition_for_modification), startDate, endDate);
+
+        /** Write DB (DELETE) **/
+        int deletedRows = writeDatabase.delete(
+                calendarTable,
+                where,
+                null
+        );
+        Log.i("ToDoItemDBController", "Delete " + deletedRows + " calendar dates");
+        /* ~Write DB (DELETE) */
+    }
+
+    public void deleteItemsConditionally(int toDoId, String startDate, String endDate) {
+        String itemTable = resources.getString(R.string.item_table);
+        String itemIdColumn = resources.getString(R.string.item_id_column);
+
+        /** Write DB (DELETE) **/
+        int deletedRows = writeDatabase.delete(
+                itemTable,
+                itemIdColumn + " IN (" +
+                        " SELECT " + itemIdColumn +
+                        " FROM " + itemTable + " INNER JOIN " + resources.getString(R.string.calendar_table) + " USING (" + itemIdColumn + ")" +
+                        " WHERE " + resources.getString(R.string.to_do_id_column) + " = " + toDoId +
+                        " AND " + String.format(resources.getString(R.string.deletion_condition_for_modification), startDate, endDate) +
+                " )",
+                null
+        );
+        Log.i("ToDoItemDBController", "Delete " + deletedRows + " items");
+
+        deleteDatesConditionally(toDoId, startDate, endDate);
+        /* ~Write DB (DELETE) */
+    }
+
+    public DateRange getDateRange(int toDoId) throws ParseException {
+        String calendarDateColumn = resources.getString(R.string.calendar_date_column);
+
+        String from = resources.getString(R.string.item_table) +
+                        " INNER JOIN " + resources.getString(R.string.calendar_table) +
+                        " USING (" + resources.getString(R.string.item_id_column) + ")";
+        String[] columns = {
+                "min(" + calendarDateColumn + ") AS MIN",
+                "max(" + calendarDateColumn + ") AS MAX"
+        };
+
+        /** Read DB **/
+        Cursor cursor = readDatabase.query(
+                from,
+                columns,
+                resources.getString(R.string.to_do_id_column) + " = " + toDoId,
+                null, null, null, null
+        );
+        /* ~Read DB */
+
+        /** Put data **/
+        DateRange dateRange = new DateRange();
+        cursor.moveToNext();
+        dateRange.setMinValue(cursor.getString(cursor.getColumnIndexOrThrow(DateRange.MIN)));
+        dateRange.setMaxValue(cursor.getString(cursor.getColumnIndexOrThrow(DateRange.MAX)));
+        /* ~Put data */
+
+        return dateRange;
     }
 
     public ArrayList<ToDoItem> searchToDoItems(ArrayList<ToDoItem> toDoItemList,
@@ -191,4 +468,55 @@ public class ToDoItemDBController {
         }
     }
     /* ~Update DoneDate */
+
+    public int getToDoId(int itemId) {
+        String toDoIdColumn = resources.getString(R.string.to_do_id_column);
+        String itemTable = resources.getString(R.string.item_table);
+
+        String sql;
+        if(itemId == resources.getInteger(R.integer.max_to_do_id_request)) {
+            sql = "SELECT max(" + resources.getString(R.string.to_do_id_column) + ") as " + toDoIdColumn +
+                    " FROM " + itemTable;
+        }
+        else {
+            sql = "SELECT " + toDoIdColumn +
+                    " FROM " + itemTable +
+                    " WHERE " + resources.getString(R.string.item_id_column) + " IS " + itemId;
+        }
+
+        /** Read DB **/
+        Cursor cursor = readDatabase.rawQuery(sql, null);
+        /* ~Read DB */
+
+        /** Put data **/
+        cursor.moveToNext();
+        int toDoId = cursor.getInt(cursor.getColumnIndexOrThrow(toDoIdColumn));
+        /* ~Put data */
+
+        return toDoId;
+    }
+
+    public int getMaxItemId() {
+        /** Set Column item_id **/
+        String itemIdColumn = resources.getString(R.string.item_id_column);
+        String[] columns = {
+                "max(" + itemIdColumn + ") AS " + itemIdColumn
+        };
+        /* ~Set Column item_id */
+
+        /** Read DB **/
+        Cursor cursor = readDatabase.query(
+                resources.getString(R.string.item_table),
+                columns,
+                null, null, null, null, null);
+        /* ~Read DB */
+
+        /** Put data **/
+        cursor.moveToNext();
+        int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(itemIdColumn));
+        /* ~Put data */
+
+        return itemId;
+    }
+
 }
