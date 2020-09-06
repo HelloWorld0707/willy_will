@@ -396,6 +396,7 @@ public class AddItemActivity extends Activity {
                     Intent intent = new Intent();
                     intent.putExtra(resources.getString(R.string.modified_item_key), setModifiedItem());
                     setResult(RESULT_FIRST_USER, intent);
+                    this.finish();
                 }
             }
         }
