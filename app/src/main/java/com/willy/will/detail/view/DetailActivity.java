@@ -468,6 +468,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 if (todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
                     memoArea.setVisibility(View.GONE);
                 }else{
+                    memoArea.setVisibility(View.VISIBLE);
                     itemMemo.setText(todoItem.getItemMemo()); }
 
                 ImportanceValue = todoItem.getImportant();
@@ -493,6 +494,8 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     groupColor.setActivated(true);
                     groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
                 }
+                startDate.setText(todoItem.getStartDate());
+                endDate.setText(todoItem.getEndDate());
                 itemChanged = true;
             }
             else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {
