@@ -236,9 +236,10 @@ public class MainActivity extends AppCompatActivity{
     /** go to Today Fragment*/
     public void todayFragment(View view){
         String todayDate = sdf.format(Calendar.getInstance().getTime());
+        String DBDate = sdf2.format(Calendar.getInstance().getTime());
         tv_date.setText(todayDate);
         deleteFragment();
-        updateFragement(groupId,todayDate);
+        updateFragement(groupId,DBDate);
     }
 
     /** Function: Move to SearchView */
@@ -305,8 +306,9 @@ public class MainActivity extends AppCompatActivity{
                 String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
                 //Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
                 try {
-                    Date rdate = sdf2.parse(receivedDate);
+                    Date rdate = sdf2.parse(receivedDate); //"YYYY-mm-DD"
                     baseDate = sdf.format(rdate.getTime());
+                    todayDate.setTime(rdate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
