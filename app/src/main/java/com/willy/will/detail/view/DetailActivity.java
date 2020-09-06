@@ -468,6 +468,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 if (todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
                     memoArea.setVisibility(View.GONE);
                 }else{
+                    memoArea.setVisibility(View.VISIBLE);
                     itemMemo.setText(todoItem.getItemMemo()); }
 
                 ImportanceValue = todoItem.getImportant();
