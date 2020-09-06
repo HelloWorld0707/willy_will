@@ -306,8 +306,9 @@ public class MainActivity extends AppCompatActivity{
                 String receivedDate = data.getStringExtra(resources.getString(R.string.current_date_key));
                 //Log.d("receivedDateCheck", "*************receivedDate: " + receivedDate + "**************");
                 try {
-                    Date rdate = sdf2.parse(receivedDate);
+                    Date rdate = sdf2.parse(receivedDate); //"YYYY-mm-DD"
                     baseDate = sdf.format(rdate.getTime());
+                    todayDate.setTime(rdate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
