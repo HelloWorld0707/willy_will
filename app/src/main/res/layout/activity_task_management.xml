@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_layout"
-        style="@style/TopLayout"
+        style="@style/TopBarStyle"
         android:layout_height="@dimen/detail_list_thick_height"
         android:paddingBottom="@dimen/match_constraint"
         app:layout_constraintTop_toTopOf="parent"
