@@ -386,7 +386,10 @@ public class AddItemActivity extends Activity {
                     longitude = Double.toString(longitudeNum);
                 }
 
-                if(!memoSwitch.isChecked()) {
+                if(memoSwitch.isChecked()) {
+                    itemMemo = memoEditText.getText().toString();
+                }
+                else {
                     itemMemo = null;
                 }
 
