@@ -60,7 +60,7 @@ public class ToDoItemDBController {
                               String latitude, String longitude,
                               String startDate, String endDate,
                               String itemMemo) throws ParseException {
-        String doneDate = null;
+        String itemMemoColumn = resources.getString(R.string.item_memo_column);
 
         /** Set column names and values for inserting into _ITEM **/
         ContentValues contentValues = new ContentValues();
@@ -69,11 +69,16 @@ public class ToDoItemDBController {
         contentValues.put(resources.getString(R.string.item_important_column), important);
         contentValues.put(resources.getString(R.string.latitude_column), latitude);
         contentValues.put(resources.getString(R.string.longitude_column), longitude);
-        contentValues.put(resources.getString(R.string.done_date_column), doneDate);
+        contentValues.putNull(resources.getString(R.string.done_date_column));
         contentValues.put(resources.getString(R.string.start_date_column), startDate);
         contentValues.put(resources.getString(R.string.end_date_column), endDate);
         contentValues.put(resources.getString(R.string.to_do_id_column), toDoId);
-        contentValues.put(resources.getString(R.string.item_memo_column), itemMemo);
+        if(itemMemo == null) {
+            contentValues.putNull(itemMemoColumn);
+        }
+        else {
+            contentValues.put(itemMemoColumn, itemMemo);
+        }
         /* Set column names and values for inserting into _ITEM */
 
         /** Write DB (INSERT) **/
@@ -102,8 +107,13 @@ public class ToDoItemDBController {
     public void insertItemsIntoItemAndCalendar(int toDoId, int groupId, String itemName,
                                               int important, String latitude, String longitude,
                                               String startDate, String endDate,
+                                              String startCount, String endCount,
                                               ArrayList<String> checkedDays,
                                               String itemMemo) throws ParseException {
+        if(itemMemo != null) {
+            itemMemo = "'" + itemMemo + "'";
+        }
+
         String itemTableSql = "INSERT INTO " + resources.getString(R.string.item_table) + "(" +
                 resources.getString(R.string.group_id_column) + ", " +
                 resources.getString(R.string.item_name_column) + ", " +
@@ -124,9 +134,10 @@ public class ToDoItemDBController {
 
         String calendarDateStr;
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(simpleDateFormat.parse(startDate));
-        int itemId = getMaxItemId();
-        final int days = getDays(startDate, endDate);
+        calendar.setTime(simpleDateFormat.parse(startCount));
+        final int firstItemId = getMaxItemId();
+        int itemId = firstItemId;
+        final int days = getDays(startCount, endCount);
         for (int i = 0; i < days; i++) {
             calendarDateStr = simpleDateFormat.format(calendar.getTime());
 
@@ -141,7 +152,7 @@ public class ToDoItemDBController {
                         "'" + startDate + "', " +
                         "'" + endDate + "', " +
                         toDoId + ", " +
-                        "'" + itemMemo + "'" +
+                        itemMemo +
                         "), ";
 
                 calendarTableSql += "('" + calendarDateStr + "', " + ++itemId + "), ";
@@ -149,13 +160,15 @@ public class ToDoItemDBController {
 
             calendar.add(Calendar.DATE, 1);
         }
-        itemTableSql = itemTableSql.substring(0, itemTableSql.lastIndexOf(", ")) + ";";
-        calendarTableSql = calendarTableSql.substring(0, calendarTableSql.lastIndexOf(", ")) + ";";
+        if(itemId > firstItemId) {
+            itemTableSql = itemTableSql.substring(0, itemTableSql.lastIndexOf(", ")) + ";";
+            calendarTableSql = calendarTableSql.substring(0, calendarTableSql.lastIndexOf(", ")) + ";";
 
-        /** Write DB (INSERT) **/
-        writeDatabase.execSQL(itemTableSql);
-        writeDatabase.execSQL(calendarTableSql);
-        /* ~Write DB (INSERT) */
+            /** Write DB (INSERT) **/
+            writeDatabase.execSQL(itemTableSql);
+            writeDatabase.execSQL(calendarTableSql);
+            /* ~Write DB (INSERT) */
+        }
     }
 
     public void insertItems(int toDoId, int groupId, String itemName, int important,
@@ -166,7 +179,7 @@ public class ToDoItemDBController {
         /** Set queries and write DB (INSERT) for inserting into _ITEM and _CALENDAR **/
         insertItemsIntoItemAndCalendar(
                 toDoId, groupId, itemName, important, latitude, longitude,
-                startDate, endDate, checkedDays, itemMemo
+                startDate, endDate, startDate, endDate, checkedDays, itemMemo
         );
         /* ~Set queries and write DB (INSERT) for inserting into _ITEM and _CALENDAR */
 
@@ -214,6 +227,8 @@ public class ToDoItemDBController {
     public void updateItems(int toDoId, int groupId, String itemName, int important,
                             String latitude, String longitude, String startDate, String endDate,
                             String itemMemo) {
+        String itemMemoColumn = resources.getString(R.string.item_memo_column);
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(resources.getString(R.string.group_id_column), groupId);
         contentValues.put(resources.getString(R.string.item_name_column), itemName);
@@ -222,7 +237,12 @@ public class ToDoItemDBController {
         contentValues.put(resources.getString(R.string.longitude_column), longitude);
         contentValues.put(resources.getString(R.string.start_date_column), startDate);
         contentValues.put(resources.getString(R.string.end_date_column), endDate);
-        contentValues.put(resources.getString(R.string.item_memo_column), itemMemo);
+        if(itemMemo == null) {
+            contentValues.putNull(itemMemoColumn);
+        }
+        else {
+            contentValues.put(itemMemoColumn, itemMemo);
+        }
 
         int updatedRow = writeDatabase.update(
                 resources.getString(R.string.item_table),
@@ -232,19 +252,22 @@ public class ToDoItemDBController {
         Log.i("ToDoItemDBController", "Update " + updatedRow + " items");
     }
 
-    public void deleteDatesConditionally(int toDoId, String startDate, String endDate) {
-        String calendarTable = resources.getString(R.string.calendar_table);
-        String itemIdColumn = resources.getString(R.string.item_id_column);
-        String where = itemIdColumn + " IN (" +
-                                            " SELECT " + itemIdColumn +
-                                            " FROM " + resources.getString(R.string.item_table) +
-                                            " WHERE " + resources.getString(R.string.to_do_id_column) + " = " + toDoId + " )" +
-                                            " AND " + String.format(resources.getString(R.string.deletion_condition_for_modification), startDate, endDate);
-
+    public void deleteDatesConditionally(String itemIdsStr, String startDate, String endDate) {
         /** Write DB (DELETE) **/
         int deletedRows = writeDatabase.delete(
-                calendarTable,
-                where,
+                resources.getString(R.string.calendar_table),
+                resources.getString(R.string.item_id_column) + " IN ( " + itemIdsStr + " ) AND " + String.format(resources.getString(R.string.deletion_condition_for_modification), startDate, endDate),
+                null
+        );
+        Log.i("ToDoItemDBController", "Delete " + deletedRows + " calendar dates");
+        /* ~Write DB (DELETE) */
+    }
+
+    public void deleteDatesConditionally(String itemIdsStr) {
+        /** Write DB (DELETE) **/
+        int deletedRows = writeDatabase.delete(
+                resources.getString(R.string.calendar_table),
+                resources.getString(R.string.item_id_column) + " IN ( " + itemIdsStr + " )",
                 null
         );
         Log.i("ToDoItemDBController", "Delete " + deletedRows + " calendar dates");
@@ -252,24 +275,19 @@ public class ToDoItemDBController {
     }
 
     public void deleteItemsConditionally(int toDoId, String startDate, String endDate) {
-        String itemTable = resources.getString(R.string.item_table);
-        String itemIdColumn = resources.getString(R.string.item_id_column);
+        String itemIdsStr = getItemIdsStr(toDoId, startDate, endDate);
+        if(itemIdsStr != null) {
+            /** Write DB (DELETE) **/
+            deleteDatesConditionally(itemIdsStr);
 
-        /** Write DB (DELETE) **/
-        int deletedRows = writeDatabase.delete(
-                itemTable,
-                itemIdColumn + " IN (" +
-                        " SELECT " + itemIdColumn +
-                        " FROM " + itemTable + " INNER JOIN " + resources.getString(R.string.calendar_table) + " USING (" + itemIdColumn + ")" +
-                        " WHERE " + resources.getString(R.string.to_do_id_column) + " = " + toDoId +
-                        " AND " + String.format(resources.getString(R.string.deletion_condition_for_modification), startDate, endDate) +
-                " )",
-                null
-        );
-        Log.i("ToDoItemDBController", "Delete " + deletedRows + " items");
-
-        deleteDatesConditionally(toDoId, startDate, endDate);
-        /* ~Write DB (DELETE) */
+            int deletedRows = writeDatabase.delete(
+                    resources.getString(R.string.item_table),
+                    resources.getString(R.string.item_id_column) + " IN ( " + itemIdsStr + " )",
+                    null
+            );
+            Log.i("ToDoItemDBController", "Delete " + deletedRows + " items");
+            /* ~Write DB (DELETE) */
+        }
     }
 
     public DateRange getDateRange(int toDoId) throws ParseException {
@@ -517,6 +535,41 @@ public class ToDoItemDBController {
         /* ~Put data */
 
         return itemId;
+    }
+
+    public String getItemIdsStr(int toDoId, String startDate, String endDate) {
+        /** Set Column item_id **/
+        String itemIdColumn = resources.getString(R.string.item_id_column);
+        String[] columns = {
+                itemIdColumn
+        };
+        /* ~Set Column item_id */
+
+        /** Read DB **/
+        Cursor cursor = readDatabase.query(
+                resources.getString(R.string.item_table) + " INNER JOIN " + resources.getString(R.string.calendar_table) + " USING (" + itemIdColumn + ")",
+                columns,
+                resources.getString(R.string.to_do_id_column) + " = " + toDoId + " AND " + String.format(resources.getString(R.string.deletion_condition_for_modification), startDate, endDate),
+                null, null, null, null);
+        /* ~Read DB */
+
+        /** Put data **/
+        int[] itemIds = new int[cursor.getCount()];
+        while(cursor.moveToNext()) {
+            itemIds[cursor.getPosition()] = cursor.getInt(cursor.getColumnIndexOrThrow(itemIdColumn));
+        }
+
+        String itemIdsStr = null;
+        if((itemIds != null) && (itemIds.length > 0)) {
+            itemIdsStr = "";
+            for (int itemId : itemIds) {
+                itemIdsStr += (itemId + ", ");
+            }
+            itemIdsStr = itemIdsStr.substring(0, itemIdsStr.lastIndexOf(", "));
+        }
+        /* ~Put data */
+
+        return itemIdsStr;
     }
 
 }

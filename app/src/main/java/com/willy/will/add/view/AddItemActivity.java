@@ -132,8 +132,20 @@ public class AddItemActivity extends Activity {
 
             address = selectedItem.getAddressName();
             roadAddress = selectedItem.getRoadAddressName();
-            latitudeNum = Double.parseDouble(selectedItem.getLatitude());
-            longitudeNum = Double.parseDouble(selectedItem.getLongitude());
+            String latitude = selectedItem.getLatitude();
+            String longitude = selectedItem.getLongitude();
+            if(latitude == null) {
+                latitudeNum = resources.getInteger(R.integer.default_location);
+            }
+            else {
+                latitudeNum = Double.parseDouble(latitude);
+            }
+            if(longitude == null) {
+                longitudeNum = resources.getInteger(R.integer.default_location);
+            }
+            else {
+                longitudeNum = Double.parseDouble(longitude);
+            }
 
             loopWeek = selectedItem.getLoopWeek();
 
@@ -218,18 +230,18 @@ public class AddItemActivity extends Activity {
                 }
             });
             repeatCheckBoxesLayout = findViewById(R.id.repeat_check_boxes_layout);
-            dayCheckBoxes = new CheckBox[7];
-            String dayViewName = "day";
-            String packageName = getPackageName();
-            int viewId;
-            for (int i = 0; i < 7; i++) {
-                viewId = resources.getIdentifier(dayViewName + i, "id", packageName);
-                dayCheckBoxes[i] = findViewById(viewId);
-            }
         }
         else {
             repeatLayout = findViewById(R.id.repeat_layout);
             repeatLayout.setVisibility(View.GONE);
+        }
+        dayCheckBoxes = new CheckBox[7];
+        String dayViewName = "day";
+        String packageName = getPackageName();
+        int viewId;
+        for (int i = 0; i < 7; i++) {
+            viewId = resources.getIdentifier(dayViewName + i, "id", packageName);
+            dayCheckBoxes[i] = findViewById(viewId);
         }
 
         memoSwitch = findViewById(R.id.memo_switch);

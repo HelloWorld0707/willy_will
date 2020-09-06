@@ -43,7 +43,7 @@
     <!-- ~query for creating row numbers -->
 
     <!-- queries for Modify -->
-    <string name="deletion_condition_for_modification">calendar_date &lt; %1$s OR calendar_date &gt; %2$s</string>
+    <string name="deletion_condition_for_modification">( calendar_date &lt; \'%1$s\' OR calendar_date &gt; \'%2$s\' )</string>
     <!-- ~queries for Modify -->
 
     <!-- queries for sorting to-do item -->

@@ -75,32 +75,40 @@ public class AddItemController {
             boolean addBefore = false;
             boolean addAfter = false;
 
-            if(startValue < dateRange.getMinValue()) {
+            if(dateRange.getMinValue() < startValue) {
                 delete = true;
             }
-            else if(startValue > dateRange.getMinValue()) {
+            else if(dateRange.getMinValue() > startValue) {
                 addBefore = true;
             }
 
-            if(endValue > dateRange.getMaxValue()) {
+            if(dateRange.getMaxValue() > endValue) {
                 delete = true;
             }
-            else if(endValue < dateRange.getMaxValue()) {
+            else if(dateRange.getMaxValue() < endValue) {
                 addAfter = true;
             }
 
             /** Update one item **/
             if(loopWeek == null || loopWeek.equals("0000000")) {
                 if(delete) {
-                    toDoItemDBController.deleteDatesConditionally(toDoId, startDate, endDate);
+                    toDoItemDBController.deleteDatesConditionally(
+                            toDoItemDBController.getItemIdsStr(toDoId, startDate, endDate),
+                            startDate,
+                            endDate
+                    );
                 }
 
                 if(addBefore) {
-                    toDoItemDBController.insertDatesIntoCalendar(itemId, startDate, endDate);
+                    toDoItemDBController.insertDatesIntoCalendar(
+                            itemId, startDate, dateRange.getBeforeMin()
+                    );
                 }
 
                 if(addAfter) {
-                    toDoItemDBController.insertDatesIntoCalendar(itemId, startDate, endDate);
+                    toDoItemDBController.insertDatesIntoCalendar(
+                            itemId, dateRange.getAfterMax(), endDate
+                    );
                 }
             }
             /* ~Update one item */
@@ -113,14 +121,16 @@ public class AddItemController {
                 if(addBefore) {
                     toDoItemDBController.insertItemsIntoItemAndCalendar(
                             toDoId, groupId, itemName, important, latitude, longitude,
-                            startDate, dateRange.getBeforeMin(), checkedDays, itemMemo
+                            startDate, endDate, startDate, dateRange.getBeforeMin(), checkedDays,
+                            itemMemo
                     );
                 }
 
                 if(addAfter) {
                     toDoItemDBController.insertItemsIntoItemAndCalendar(
                             toDoId, groupId, itemName, important, latitude, longitude,
-                            dateRange.getAfterMax(), endDate, checkedDays, itemMemo
+                            startDate, endDate, dateRange.getAfterMax(), endDate, checkedDays,
+                            itemMemo
                     );
                 }
             }
