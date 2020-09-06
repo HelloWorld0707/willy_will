@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -42,23 +43,8 @@ public class AddItemActivity extends Activity {
     private final int ADD_CODE = App.getContext().getResources().getInteger(R.integer.add_item_request_code);
     private final int MODIFY_CODE = App.getContext().getResources().getInteger(R.integer.modify_item_request_code);
 
-    private Resources resources;
-    private AddItemController addCtrl;
-    private Calendar today;
-    private String startDateKey;
-    private String endDateKey;
-    private int code;
-
-    private int itemId;
-    private String itemName;
-    private int important;
-    private Group selectedGroup;
-    private String startDate;
-    private String endDate;
-    private double latitudeNum;
-    private double longitudeNum;
-    private String loopWeek;
-    private String itemMemo;
+    private DatePickerDialog datePickerDialog = null;
+    private DateListener dateListener = null;
 
     private EditText titleEditText;
     private Spinner importantSpinner;
@@ -74,8 +60,27 @@ public class AddItemActivity extends Activity {
     private Switch memoSwitch;
     private EditText memoEditText;
 
-    private DatePickerDialog datePickerDialog = null;
-    private DateListener dateListener = null;
+    private Resources resources;
+    private AddItemController addCtrl;
+    private InputMethodManager inputMethodManager;
+    private Calendar today;
+    private String startDateKey;
+    private String endDateKey;
+    private int code;
+    boolean onStartingActivity;
+
+    private int itemId;
+    private String itemName;
+    private int important;
+    private Group selectedGroup;
+    private String startDate;
+    private String endDate;
+    private double latitudeNum;
+    private double longitudeNum;
+    String address;
+    String roadAddress;
+    private String loopWeek;
+    private String itemMemo;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -89,8 +94,6 @@ public class AddItemActivity extends Activity {
         today = Calendar.getInstance();
 
         /** Set data **/
-        String address;
-        String roadAddress;
         if(code == ADD_CODE) {
             itemName = "";
 
@@ -160,20 +163,26 @@ public class AddItemActivity extends Activity {
         /* ~Set data */
 
         addCtrl = new AddItemController(resources);
+        inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         /** Set views **/
-        titleEditText = (EditText)findViewById(R.id.title_edit_text);
-        titleEditText.setText(itemName);
-        // edit keyboard invisible 1
-        titleEditText.setInputType(0);
-        titleEditText.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                titleEditText.setInputType(1);
-                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                mgr.showSoftInput(titleEditText, InputMethodManager.SHOW_IMPLICIT);
+        onStartingActivity = true;
+        final ScrollView scrollView = findViewById(R.id.add_scroll_view);
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if(onStartingActivity) {
+                    if (titleEditText.hasFocus()) {
+                        titleEditText.clearFocus();
+                    }
+                    scrollView.scrollTo(0, 0);
+                    onStartingActivity = false;
+                }
             }
         });
+
+        titleEditText = findViewById(R.id.title_edit_text);
+        titleEditText.setText(itemName);
 
         importantSpinner = findViewById(R.id.important_spinner);
         final String[] importantArr = resources.getStringArray(R.array.importance);
@@ -189,8 +198,7 @@ public class AddItemActivity extends Activity {
                 }
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
 
         groupTextView = findViewById(R.id.group_name);
@@ -201,27 +209,28 @@ public class AddItemActivity extends Activity {
         endTextView = findViewById(R.id.end_text_view);
         endTextView.setText(endDate);
 
-        addressTextView = (TextView) findViewById(R.id.address_name);
+        addressTextView = findViewById(R.id.address_name);
         addressTextView.setText(address);
-        roadAddressTextView = (TextView) findViewById(R.id.road_address_name);
-        roadAddressTextView.setText(roadAddress);
+        roadAddressTextView = findViewById(R.id.road_address_name);
+        if(roadAddress == null || roadAddress.equals("")) {
+            roadAddressTextView.setVisibility(View.GONE);
+        }
+        else {
+            roadAddressTextView.setText(roadAddress);
+        }
 
         if (code == ADD_CODE) {
             repeatSwitch = findViewById(R.id.repeat_switch);
             repeatSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                     // checked -> add_item_repeat
-                    if (repeatSwitch.isChecked() == true) {
+                    if (repeatSwitch.isChecked()) {
+                        for (CheckBox dayCheckBox : dayCheckBoxes) {
+                            dayCheckBox.setChecked(true);
+                        }
                         repeatCheckBoxesLayout.setVisibility(View.VISIBLE);
-
-                        final ScrollView scrollView = findViewById(R.id.add_scroll_view);
-                        scrollView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            }
-                        });
-                    } else {
+                    }
+                    else {
                         for (CheckBox dayCheckBox : dayCheckBoxes) {
                             dayCheckBox.setChecked(false);
                         }
@@ -230,6 +239,7 @@ public class AddItemActivity extends Activity {
                 }
             });
             repeatCheckBoxesLayout = findViewById(R.id.repeat_check_boxes_layout);
+            repeatCheckBoxesLayout.setVisibility(View.GONE);
         }
         else {
             repeatLayout = findViewById(R.id.repeat_layout);
@@ -248,28 +258,32 @@ public class AddItemActivity extends Activity {
         memoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
                 // checked -> add_item_repeat
-                if (memoSwitch.isChecked() == true) {
+                if (memoSwitch.isChecked()) {
+                    memoEditText.setText(itemMemo);
                     memoEditText.setVisibility(View.VISIBLE);
-
-                    final ScrollView scrollView=findViewById(R.id.add_scroll_view);
-                    scrollView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                        }
-                    });
+                    memoEditText.requestFocus();
+                    inputMethodManager.showSoftInput(memoEditText, InputMethodManager.SHOW_IMPLICIT);
                 }
                 else {
+                    itemMemo = memoEditText.getText().toString();
+                    if(memoEditText.hasFocus()) {
+                        memoEditText.clearFocus();
+                    }
+                    inputMethodManager.hideSoftInputFromWindow(memoEditText.getWindowToken(), 0);
                     memoEditText.setVisibility(View.GONE);
                 }
             }
         });
-        memoEditText = (EditText)findViewById(R.id.memo_edit_text);
+        memoEditText = findViewById(R.id.memo_edit_text);
         memoEditText.setText(itemMemo);
-        if (itemMemo != null && !(itemMemo.equals(""))) {
-            memoEditText.setVisibility(View.VISIBLE);
+        if(itemMemo == null || itemMemo.equals("")) {
+            memoSwitch.setChecked(false);
+            memoEditText.setVisibility(View.GONE);
+        }
+        else {
             memoSwitch.setChecked(true);
         }
+        titleEditText.requestFocus();
         /* ~Set views */
 
         /** Set theme of Dialogs **/
@@ -307,6 +321,24 @@ public class AddItemActivity extends Activity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //inputMethodManager.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
+    }
+
+    @Override
+    public void finish() {
+        /** Check focusing **/
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            inputMethodManager.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
+            inputMethodManager.hideSoftInputFromWindow(memoEditText.getWindowToken(), 0);
+        }
+        /* ~Check focusing */
+        super.finish();
+    }
+
     public void backToMain(View view) {
         // Check focusing
         View focusedView = getCurrentFocus();
@@ -320,6 +352,8 @@ public class AddItemActivity extends Activity {
     }
 
     public void submit(View view) {
+        findViewById(R.id.submit_button).setEnabled(false);
+
         itemName = titleEditText.getText().toString();
         if(itemName.equals("") || (itemName == null)) {
             Toast.makeText(getApplicationContext(), resources.getString(R.string.item_name_is_null), Toast.LENGTH_SHORT).show();
@@ -354,9 +388,6 @@ public class AddItemActivity extends Activity {
 
                 if(!memoSwitch.isChecked()) {
                     itemMemo = null;
-                }
-                else {
-                    itemMemo = memoEditText.getText().toString();
                 }
 
                 ArrayList<String> checkedDays;
@@ -506,9 +537,14 @@ public class AddItemActivity extends Activity {
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
                 addressTextView.setText(location.getAddressName());
-                if(location.getRoadAddressName()!=null){
+                roadAddress = location.getRoadAddressName();
+                if(roadAddress == null || roadAddress.equals("")) {
+                    roadAddressTextView.setVisibility(View.GONE);
+                    roadAddressTextView.setText(roadAddress);
+                }
+                else {
+                    roadAddressTextView.setText(roadAddress);
                     roadAddressTextView.setVisibility(View.VISIBLE);
-                    roadAddressTextView.setText(location.getRoadAddressName());
                 }
             }
         }

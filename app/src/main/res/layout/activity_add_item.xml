@@ -13,8 +13,7 @@
         style="@style/TopBarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/add_scroll_view">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/back_button"
@@ -38,10 +37,10 @@
         android:id="@+id/add_scroll_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/admobLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_bar">
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +51,7 @@
                 style="@style/TopLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
                 <!-- item title -->
                 <LinearLayout
@@ -67,8 +66,8 @@
                         android:background="@null"
                         android:hint="@string/edit_Title"
                         android:inputType="textPersonName"
-                        android:textSize="20dp"
-                        android:maxLength="@integer/item_title_max" />
+                        android:maxLength="@integer/item_title_max"
+                        android:textSize="20dp" />
 
                 </LinearLayout>
 
@@ -78,9 +77,9 @@
                     android:layout_height="@dimen/detail_list_thick_height">
 
                     <TextView
+                        style="@style/DetailTitleStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        style="@style/DetailTitleStyle"
                         android:text="중요도" />
 
                     <Spinner
@@ -114,9 +113,9 @@
                         android:layout_alignParentEnd="true"
                         android:layout_toEndOf="@id/group_title"
                         android:gravity="right|center_vertical"
+                        android:paddingRight="23dp"
                         android:singleLine="true"
-                        android:text="그룹 미정"
-                        android:paddingRight="23dp"/>
+                        android:text="그룹 미정" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -128,106 +127,106 @@
 
             </LinearLayout>
 
-                <LinearLayout
-                    style="@style/RoundLayout"
-                    android:layout_marginBottom="@dimen/basic_margin"
+            <LinearLayout
+                style="@style/RoundLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/basic_margin"
+                android:orientation="vertical">
+
+                <!-- start date -->
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="@dimen/detail_list_thick_height"
+                    android:onClick="setStart">
 
-                    <!-- start date -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/start_date" />
+
+                    <TextView
+                        android:id="@+id/start_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:hint="@string/date" />
+
+                </RelativeLayout>
+
+                <!-- end date -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/detail_list_thick_height"
+                    android:onClick="setEnd">
+
+                    <TextView
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/end_date" />
+
+                    <TextView
+                        android:id="@+id/end_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:hint="@string/date" />
+
+                </RelativeLayout>
+
+                <!-- location -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="bringUpLocationSearch">
+
+                    <TextView
+                        style="@style/DetailTitleStyle"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/detail_list_thick_height"
-                        android:onClick="setStart">
+                        android:text="@string/location"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            style="@style/DetailTitleStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/start_date"/>
-
-                        <TextView
-                            android:id="@+id/start_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:gravity="center_vertical"
-                            android:hint="@string/date"/>
-
-                    </RelativeLayout>
-
-                    <!-- end date -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/detail_list_thick_height"
-                        android:onClick="setEnd">
-
-                        <TextView
-                            style="@style/DetailTitleStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="@string/end_date"/>
-
-                        <TextView
-                            android:id="@+id/end_text_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:gravity="center_vertical"
-                            android:hint="@string/date"/>
-
-                    </RelativeLayout>
-
-                    <!-- location -->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/address_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="bringUpLocationSearch">
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:text="@string/no_location"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/location_btn"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            style="@style/DetailTitleStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/detail_list_thick_height"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:text="@string/location"/>
+                    <TextView
+                        android:id="@+id/road_address_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:text="@string/no_location"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/location_btn"
+                        app:layout_constraintTop_toBottomOf="@+id/address_name" />
 
-                        <TextView
-                            android:id="@+id/address_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/no_location"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/location_btn"
-                            android:padding="5dp"/>
-                        <TextView
-                            android:id="@+id/road_address_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/no_location"
-                            app:layout_constraintTop_toBottomOf="@+id/address_name"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/location_btn"
-                            android:padding="5dp"
-                            android:visibility="gone"/>
+                    <ImageView
+                        android:id="@+id/location_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="3dp"
+                        android:src="@drawable/bt_next"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <ImageView
-                            android:id="@+id/location_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:src="@drawable/bt_next"
-                            android:paddingTop="3dp"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </LinearLayout>
+            </LinearLayout>
 
             <!--loop area-->
             <LinearLayout
@@ -235,7 +234,7 @@
                 style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -246,7 +245,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
-                        android:text="반복"/>
+                        android:text="반복" />
 
                     <Switch
                         android:id="@+id/repeat_switch"
@@ -260,9 +259,8 @@
                     android:id="@+id/repeat_check_boxes_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:gravity="center"
-                    android:visibility="gone"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -327,7 +325,7 @@
                 style="@style/BottomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -338,7 +336,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
-                        android:text="@string/memo"/>
+                        android:text="@string/memo" />
 
                     <Switch
                         android:id="@+id/memo_switch"
@@ -353,8 +351,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/memo_hint"
-                    android:visibility="gone"
-                    android:padding="20dp"/>
+                    android:padding="20dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -367,7 +364,9 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/AddScrollView">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <include layout="@layout/item_admob"></include>
     </LinearLayout>
