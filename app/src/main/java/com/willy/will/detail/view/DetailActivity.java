@@ -202,7 +202,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         /** set data **/
         itemName.setText(todoItem.getItemName());
 
-         if(todoItem.getItemMemo().equals("")) {
+         if(todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
             memoArea.setVisibility(View.GONE);
          }else{
              itemMemo.setText(todoItem.getItemMemo()); }
