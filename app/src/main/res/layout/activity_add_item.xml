@@ -95,6 +95,7 @@
 
                 <!-- item group-->
                 <RelativeLayout
+                    android:id="@+id/group_setting_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:onClick="bringUpGroupSetting">

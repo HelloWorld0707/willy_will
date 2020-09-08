@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -20,9 +21,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -35,6 +33,7 @@ import com.willy.will.common.model.ToDoItem;
 import com.willy.will.database.DateDBController;
 import com.willy.will.detail.view.DetailActivity;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -149,9 +148,14 @@ public class CalendarActivity extends Activity {
         /** setDBController*/
         dateDBController = new DateDBController(resources);
         List<DateDBController.calendarItem> itemIdList = dateDBController.getMonthItemByDate(yyyy,mm,dd);
-        for (DateDBController.calendarItem item:itemIdList) {
-            DateDBController.ItemNGroup itemNGroup = dateDBController.getItemNGroupByItemId(item.getItemId());
-            calendarBaseAdapter.addItem(itemNGroup);
+        try {
+            for(DateDBController.calendarItem item : itemIdList) {
+                DateDBController.ItemNGroup itemNGroup = null;
+                itemNGroup = dateDBController.getItemNGroupByItemId(item.getItemId());
+                calendarBaseAdapter.addItem(itemNGroup);
+            }
+        } catch (ParseException e) {
+            Log.e("CalendarActivity", e.toString());
         }
         ListView calendarList = findViewById(R.id.calendarListView);
         calendarList.setAdapter(calendarBaseAdapter);

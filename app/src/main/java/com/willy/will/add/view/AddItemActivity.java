@@ -16,7 +16,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -48,6 +50,7 @@ public class AddItemActivity extends Activity {
 
     private EditText titleEditText;
     private Spinner importantSpinner;
+    private RelativeLayout groupSettingLayout;
     private TextView groupTextView;
     private TextView startTextView;
     private TextView endTextView;
@@ -201,6 +204,7 @@ public class AddItemActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
+        groupSettingLayout = findViewById(R.id.group_setting_layout);
         groupTextView = findViewById(R.id.group_name);
         groupTextView.setText(selectedGroup.getGroupName());
 
@@ -352,11 +356,13 @@ public class AddItemActivity extends Activity {
     }
 
     public void submit(View view) {
-        findViewById(R.id.submit_button).setEnabled(false);
+        ImageButton submitButton = findViewById(R.id.submit_button);
+        submitButton.setEnabled(false);
 
         itemName = titleEditText.getText().toString();
         if(itemName.equals("") || (itemName == null)) {
             Toast.makeText(getApplicationContext(), resources.getString(R.string.item_name_is_null), Toast.LENGTH_SHORT).show();
+            submitButton.setEnabled(true);
         }
         else {
             long startTime;
@@ -366,10 +372,12 @@ public class AddItemActivity extends Activity {
                 endTime = simpleDateFormat.parse(endDate).getTime();
             } catch (ParseException e) {
                 Log.e("AddItemActivity", e.toString());
+                submitButton.setEnabled(true);
                 return;
             }
             if (startTime > endTime) {
                 Toast.makeText(getApplicationContext(),resources.getString(R.string.item_date_mismatch), Toast.LENGTH_SHORT).show();
+                submitButton.setEnabled(true);
             }
             else {
                 String latitude, longitude;
@@ -464,6 +472,7 @@ public class AddItemActivity extends Activity {
     }
 
     public void bringUpGroupSetting(View view) {
+        groupSettingLayout.setEnabled(false);
         Intent intent = new Intent(this, GroupManagementActivity.class);
 
         int code = resources.getInteger(R.integer.group_setting_code);
@@ -552,6 +561,10 @@ public class AddItemActivity extends Activity {
             }
         }
         /* ~Success to receive data */
+
+        if(!groupSettingLayout.isEnabled()) {
+            groupSettingLayout.setEnabled(true);
+        }
     }
 
 }

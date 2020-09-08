@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.willy.will.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,7 +69,7 @@ public class DateDBController {
     }
 
     /** get item n grroup info */
-    public ItemNGroup getItemNGroupByItemId(int targetItemId){
+    public ItemNGroup getItemNGroupByItemId(int targetItemId) throws ParseException {
         String qry =
                 "SELECT " +
                         resources.getString(R.string.item_id_column)+","+
@@ -124,7 +125,7 @@ public class DateDBController {
         return loopId;
     }
 
-    private String getDetail(int todoId){
+    private String getDetail(int todoId) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         TaskDBController taskDBController = new TaskDBController(resources);
         String dDayOrAchievement =

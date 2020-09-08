@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.willy.will.common.model.Task;
 import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.database.TaskDBController;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -48,7 +50,12 @@ public class TaskManagementActivity extends AppCompatActivity {
         noCheckedTask = Toast.makeText(this, resources.getString(R.string.no_checked_task), Toast.LENGTH_SHORT);
 
         /** Set data of item **/
-        taskList = taskDBCtrl.getAllTasks(taskList);
+        try {
+            taskList = taskDBCtrl.getAllTasks(taskList);
+        } catch (ParseException e) {
+            Log.e("TaskManagementActivity", e.toString());
+            return;
+        }
         selectedTasks = new ArrayList<>();
         /* ~Set data of item */
 
@@ -132,7 +139,11 @@ public class TaskManagementActivity extends AppCompatActivity {
 
         // To-do Item Detail
         if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
-            taskList = taskDBCtrl.getAllTasks(taskList);
+            try {
+                taskList = taskDBCtrl.getAllTasks(taskList);
+            } catch (ParseException e) {
+                Log.e("TaskManagementActivity", e.toString());
+            }
             selectedTasks.clear();
             recyclerView.getAdapter().notifyDataSetChanged();
             itemListChanged = true;
@@ -154,7 +165,11 @@ public class TaskManagementActivity extends AppCompatActivity {
             }
             // Move tasks (to other group)
             else if(requestCode == resources.getInteger(R.integer.move_tasks_code)) {
-                taskList = taskDBCtrl.getAllTasks(taskList);
+                try {
+                    taskList = taskDBCtrl.getAllTasks(taskList);
+                } catch (ParseException e) {
+                    Log.e("TaskManagementActivity", e.toString());
+                }
                 selectedTasks.clear();
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_movement), Toast.LENGTH_SHORT).show();

@@ -30,7 +30,7 @@ public class TaskDBController {
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
-    public ArrayList<Task> getAllTasks(ArrayList<Task> taskList) {
+    public ArrayList<Task> getAllTasks(ArrayList<Task> taskList) throws ParseException {
         if(taskList == null) {
             taskList = new ArrayList<>();
         }
@@ -111,54 +111,52 @@ public class TaskDBController {
         return taskList;
     }
 
-    public String getAchievementDays(int toDoId, String today) {
-        String achievementDays = null;
-
-        String rowNumColumn = resources.getString(R.string.row_num_column);
+    public String getAchievementDays(int toDoId, String today) throws ParseException {
+        String itemIdColumn = resources.getString(R.string.item_id_column);
         String calendarDateColumn = resources.getString(R.string.calendar_date_column);
 
-        String rowNumbQuery = String.format(resources.getString(R.string.row_num_query), calendarDateColumn, "ASC");
-        String itemJoinCalendar = String.format(resources.getString(R.string.item_join_calendar_query), rowNumbQuery, toDoId);
         String beforeTodayQuery = String.format(resources.getString(R.string.before_today_query), "'" + today + "'");
 
-        String columnName = "con";
-
         String query =
-                "SELECT" +
-                        " ( SELECT max(" + rowNumColumn + ")" +
-                            " FROM (" + itemJoinCalendar + ")" +
-                            " WHERE " + beforeTodayQuery +
-                        " )" +
-                " -" +
-                        " ( SELECT CASE WHEN c = 0" +
-                                        " THEN ( SELECT min(" + rowNumColumn + ")" +
-                                                " FROM (" + itemJoinCalendar +
-                                                            " AND " + beforeTodayQuery + ")" +
-                                                " ) - 1" +
-                                        " ELSE " + rowNumColumn + " END" +
-                            " FROM ( SELECT " + rowNumColumn + "," +
-                                            " count() AS c" +
-                                    " FROM ( SELECT " + rowNumColumn +
-                                            " FROM ( " + itemJoinCalendar + ")" +
-                                            " WHERE " + beforeTodayQuery +
-                                                " AND (done_date IS NULL OR done_date = '')" +
-                                            " ORDER BY " + rowNumColumn + " DESC" +
-                                            " LIMIT 1" +
-                                            " )" +
-                            " )" +
-                        " )" +
-                " AS " + columnName;
+                "SELECT " +
+                        itemIdColumn + ", " +
+                        resources.getString(R.string.done_date_column) + ", " +
+                        calendarDateColumn +
+                " FROM " + resources.getString(R.string.item_table) +
+                        " INNER JOIN " + resources.getString(R.string.calendar_table) +
+                        " USING (" + itemIdColumn + ")" +
+                " WHERE to_do_id = " + toDoId +
+                        " AND " + beforeTodayQuery +
+                " ORDER BY " + calendarDateColumn;
 
         /** Read DB **/
         Cursor cursor = readDatabase.rawQuery(query, null);
         /* ~Read DB */
 
         /** Put data **/
-        int continuous = -1;
-        if(cursor.moveToNext()) {
-            continuous = cursor.getInt(cursor.getColumnIndexOrThrow(columnName));
+        int daysBeforeToday = cursor.getCount();
+        String achievementDays;
+        if(daysBeforeToday > 0) {
+            String tmpDonDate;
+            int maxIndexOfNotDone = -1;
+            while (cursor.moveToNext()) {
+                tmpDonDate = cursor.getString(cursor.getColumnIndexOrThrow("done_date"));
+                if ((tmpDonDate == null) || (tmpDonDate == "")) {
+                    maxIndexOfNotDone = cursor.getPosition();
+                }
+            }
+
+            int continuous;
+            if (maxIndexOfNotDone == -1) {
+                continuous = daysBeforeToday;
+            } else {
+                continuous = daysBeforeToday - (maxIndexOfNotDone + 1);
+            }
+            achievementDays = String.format(resources.getString(R.string.achievement_days), continuous);
         }
-        achievementDays = String.format(resources.getString(R.string.achievement_days), continuous);
+        else {
+            achievementDays = String.format(resources.getString(R.string.achievement_days), 0);
+        }
         /* ~Put data */
 
         return achievementDays;

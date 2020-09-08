@@ -39,7 +39,7 @@
     <!-- ~columns -->
 
     <!-- query for creating row numbers -->
-    <string name="row_num_query">row_number () OVER ( ORDER BY %1$s %2$s ) row_num</string>
+    <string name="row_num_query">row_number() OVER (ORDER BY %1$s %2$s) row_num</string>
     <!-- ~query for creating row numbers -->
 
     <!-- queries for Modify -->
