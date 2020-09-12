@@ -51,7 +51,6 @@ public class GroupManagementActivity extends AppCompatActivity {
 
     private int requestCode;
     private boolean groupListChanged;
-    private AdMobController adMobController = new AdMobController(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +105,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         groupListChanged = false;
 
         /** Loading Ad **/
+        AdMobController adMobController = new AdMobController(this);
         adMobController.callingAdmob();
         /* ~Loading Ad */
     }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewSetter;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 import com.willy.will.common.model.Task;
@@ -68,6 +69,11 @@ public class TaskManagementActivity extends AppCompatActivity {
         /* ~Set Views */
 
         itemListChanged = false;
+
+        /** Loading Ad **/
+        AdMobController adMobController = new AdMobController(this);
+        adMobController.callingAdmob();
+        /* ~Loading Ad */
     }
 
     public void backToMain(View view) {

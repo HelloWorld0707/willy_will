@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.willy.will.R;
 import com.willy.will.add.controller.AddItemController;
+import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.controller.App;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.Location;
@@ -300,6 +301,11 @@ public class AddItemActivity extends Activity {
         startDateKey = resources.getString(R.string.start_date_key);
         endDateKey = resources.getString(R.string.end_date_key);
         /* ~Set values */
+
+        /** Loading Ad **/
+        AdMobController adMobController = new AdMobController(this);
+        adMobController.callingAdmob();
+        /* ~Loading Ad */
     }
 
     class DateListener implements DatePickerDialog.OnDateSetListener {
