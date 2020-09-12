@@ -47,9 +47,10 @@ public class CalendarBaseAdapter extends BaseAdapter {
 
         DateDBController.ItemNGroup item = getItem(position);
 
-        if(item.getGroup_id() != 0) {
+        int colorId = Color.parseColor(item.getGroup_color());
+        if((item.getGroup_id() != 0) && (colorId != Color.TRANSPARENT)) {
             colorTmp.setActivated(true);
-            colorTmp.getDrawable().mutate().setTint(Color.parseColor(item.getGroup_color()));
+            colorTmp.getDrawable().mutate().setTint(colorId);
         }
         else{
             colorTmp.setActivated(false);

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +19,7 @@ import com.willy.will.R;
 import com.willy.will.adapter.RecyclerViewAdapter;
 import com.willy.will.adapter.RecyclerViewSetter;
 import com.willy.will.common.controller.AdMobController;
+import com.willy.will.common.controller.App;
 import com.willy.will.common.controller.AscendingGroupByName;
 import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
@@ -29,8 +31,9 @@ import java.util.Collections;
 public class GroupManagementActivity extends AppCompatActivity {
 
     private Resources resources;
-    private Toast noColorToast;
     private Toast noNameToast;
+    private String packageName;
+    private String groupColorName;
     private int noGroupId;
 
     private GroupDBController groupDBCtrl;
@@ -43,7 +46,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private ArrayList<Group> groupList;
-    private Group newGroup;
+    private int selectedColorIndex;
     private static boolean removing;
 
     private int requestCode;
@@ -56,8 +59,9 @@ public class GroupManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_management);
 
         resources = getResources();
-        noColorToast = Toast.makeText(this, resources.getString(R.string.no_group_color_text), Toast.LENGTH_SHORT);
         noNameToast = Toast.makeText(this, resources.getString(R.string.group_name_hint), Toast.LENGTH_SHORT);
+        packageName = getPackageName();
+        groupColorName = resources.getString(R.string.group_color_name);
         noGroupId = resources.getInteger(R.integer.no_group_id);
 
         groupDBCtrl = new GroupDBController(resources);
@@ -78,6 +82,12 @@ public class GroupManagementActivity extends AppCompatActivity {
         }
         /* ~Set start to remove button and submit button */
 
+        /** Set Group Color Button **/
+        groupColorBtn = findViewById(R.id.group_color_button);
+        selectedColorIndex = 0;
+        setColor();
+        /* ~Set Group Color Button */
+
         /** Set Text Input Edit **/
         textInputEditText = findViewById(R.id.group_name_edit_text);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -93,13 +103,25 @@ public class GroupManagementActivity extends AppCompatActivity {
         ).setRecyclerView();
         /* ~Set group list view */
 
-        groupColorBtn = findViewById(R.id.group_color_button);
-        groupColorBtn.setActivated(true);
-
         groupListChanged = false;
 
-        /** loading Ad*/
+        /** Loading Ad **/
         adMobController.callingAdmob();
+        /* ~Loading Ad */
+    }
+
+    private void setColor() {
+        int colorId = resources.getIdentifier(groupColorName + selectedColorIndex, "color", packageName);
+        int colorInt = resources.getColor(colorId, null);
+        if(Color.alpha(colorInt) > 0) {
+            groupColorBtn.setActivated(true);
+            groupColorBtn.getDrawable().mutate().setTint(colorInt);
+        }
+        else {
+            groupColorBtn.setActivated(false);
+            colorId = App.getContext().getResources().getColor(R.color.dark_gray, null);
+            groupColorBtn.getDrawable().mutate().setTint(colorId);
+        }
     }
 
     private void setGroupList() {
@@ -113,7 +135,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         // Check focusing
         View focusedView = getCurrentFocus();
         if (focusedView != null) {
-            onSoftKeyboardDown(view);
+            onSoftKeyboardDown(textInputEditText);
         }
         // ~Check focusing
 
@@ -134,7 +156,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         // Check focusing
         View focusedView = getCurrentFocus();
         if (focusedView != null) {
-            onSoftKeyboardDown(view);
+            onSoftKeyboardDown(textInputEditText);
         }
         // ~Check focusing
 
@@ -150,37 +172,46 @@ public class GroupManagementActivity extends AppCompatActivity {
 
     public void bringUpGroupColorSetting(View view) {
         Intent intent = new Intent(this, GroupColorSettingActivity.class);
+        intent.putExtra(resources.getString(R.string.group_color_setting_key), selectedColorIndex);
+
         int code = resources.getInteger(R.integer.group_color_setting_code);
         startActivityForResult(intent, code);
     }
 
     public void addGroup(View view) {
-        if(newGroup == null) {
-            noColorToast.show();
+        String newGroupName = textInputEditText.getText().toString();
+        if(newGroupName == null || newGroupName.isEmpty()) {
+            noNameToast.show();
         }
         else {
-            String newGroupName = textInputEditText.getText().toString();
-            if(newGroupName == null || newGroupName.isEmpty()) {
-                noNameToast.show();
-            }
-            else {
-                newGroup.setGroupName(newGroupName);
-                groupDBCtrl.insertGroup(newGroup);
+            /** Create new group **/
+            Group newGroup = new Group();
+            int colorId = resources.getIdentifier(groupColorName + selectedColorIndex, "color", packageName);
+            int colorInt = resources.getColor(colorId, null);
+            newGroup.setGroupColor(String.format("#%08X", (0xFFFFFFFF & colorInt)));
+            newGroup.setGroupName(newGroupName);
+            groupDBCtrl.insertGroup(newGroup);
+            /* ~Create new Group */
 
-                newGroup = null;
-                groupColorBtn.getDrawable().mutate().setTint(resources.getColor(R.color.light_gray, null));
-                textInputEditText.setText("");
-                setGroupList();
-                ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
-                recyclerView.getAdapter().notifyDataSetChanged();
-                onSoftKeyboardDown(view);
-                groupListChanged = true;
-            }
+            /** Initialize setting **/
+            // Set Group Color Button
+            selectedColorIndex = 0;
+            setColor();
+            // Set Text Input Edit
+            textInputEditText.setText("");
+            onSoftKeyboardDown(textInputEditText);
+            // Set group list veiw
+            setGroupList();
+            ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
+            recyclerView.getAdapter().notifyDataSetChanged();
+            /** Initialize setting **/
+
+            groupListChanged = true;
         }
     }
 
     public void onSoftKeyboardDown(View view) {
-        inputMethodManager.hideSoftInputFromWindow(textInputEditText.getWindowToken(), 0);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -191,18 +222,11 @@ public class GroupManagementActivity extends AppCompatActivity {
         if(resultCode == Activity.RESULT_FIRST_USER) {
             // Set group color (to add new group)
             if (requestCode == resources.getInteger(R.integer.group_color_setting_code)) {
-                int colorInt = data.getIntExtra(
+                selectedColorIndex = data.getIntExtra(
                         resources.getString(R.string.group_color_setting_key),
-                        resources.getColor(R.color.light_gray, null)
+                        0
                 );
-
-                if(newGroup == null) {
-                    newGroup = new Group();
-                }
-                String selectedColor = String.format("#%08X", (0xFFFFFFFF & colorInt));
-                newGroup.setGroupColor(selectedColor);
-
-                groupColorBtn.getDrawable().mutate().setTint(colorInt);
+                setColor();
             }
             // Remove group
             else if(requestCode == resources.getInteger(R.integer.remove_group_code)) {

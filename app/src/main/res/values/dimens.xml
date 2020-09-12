@@ -64,7 +64,8 @@
 
     <!-- Group -->
     <dimen name="group_color_size">20dp</dimen>
-    <dimen name="group_color_vector_size">24dp</dimen>
+    <dimen name="long_group_color_width">150dp</dimen>
+    <dimen name="long_group_color_radius">10dp</dimen>
     <!-- Group -->
 
     <!-- Search Setting Recycler View -->

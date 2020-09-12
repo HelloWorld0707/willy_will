@@ -13,76 +13,95 @@
         android:padding="@dimen/basic_padding">
 
         <ImageView
-            android:id="@+id/color1"
-            style="@style/GroupColorStyle"
+            android:id="@+id/color0"
+            style="@style/LongGroupColorStyle"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/color2"
-            app:layout_constraintBottom_toTopOf="@id/color4" />
-
-        <ImageView
-            android:id="@+id/color2"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/color1"
-            app:layout_constraintEnd_toStartOf="@id/color3"
-            app:layout_constraintBottom_toTopOf="@id/color5" />
-
-        <ImageView
-            android:id="@+id/color3"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/color2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/color6" />
-
-        <ImageView
-            android:id="@+id/color4"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toBottomOf="@id/color1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/color5"
-            app:layout_constraintBottom_toTopOf="@id/color7" />
+            app:layout_constraintBottom_toTopOf="@id/palette_layout"/>
 
-        <ImageView
-            android:id="@+id/color5"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toBottomOf="@id/color2"
-            app:layout_constraintStart_toEndOf="@id/color4"
-            app:layout_constraintEnd_toStartOf="@id/color6"
-            app:layout_constraintBottom_toTopOf="@id/color8" />
-
-        <ImageView
-            android:id="@+id/color6"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toBottomOf="@id/color3"
-            app:layout_constraintStart_toEndOf="@id/color5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/color9" />
-
-        <ImageView
-            android:id="@+id/color7"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toBottomOf="@id/color4"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/palette_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/color0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/color8"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <ImageView
-            android:id="@+id/color8"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toBottomOf="@id/color5"
-            app:layout_constraintStart_toEndOf="@id/color7"
-            app:layout_constraintEnd_toStartOf="@id/color9"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <ImageView
-            android:id="@+id/color9"
-            style="@style/GroupColorStyle"
-            app:layout_constraintTop_toBottomOf="@id/color6"
-            app:layout_constraintStart_toEndOf="@id/color8"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/color1"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toTopOf="@id/color4"
+                app:layout_constraintEnd_toStartOf="@id/color2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/color2"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toTopOf="@id/color5"
+                app:layout_constraintEnd_toStartOf="@id/color3"
+                app:layout_constraintStart_toEndOf="@id/color1"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/color3"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toTopOf="@id/color6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/color2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/color4"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toTopOf="@id/color7"
+                app:layout_constraintEnd_toStartOf="@id/color5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/color1" />
+
+            <ImageView
+                android:id="@+id/color5"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toTopOf="@id/color8"
+                app:layout_constraintEnd_toStartOf="@id/color6"
+                app:layout_constraintStart_toEndOf="@id/color4"
+                app:layout_constraintTop_toBottomOf="@id/color2" />
+
+            <ImageView
+                android:id="@+id/color6"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toTopOf="@id/color9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/color5"
+                app:layout_constraintTop_toBottomOf="@id/color3" />
+
+            <ImageView
+                android:id="@+id/color7"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/color8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/color4" />
+
+            <ImageView
+                android:id="@+id/color8"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/color9"
+                app:layout_constraintStart_toEndOf="@id/color7"
+                app:layout_constraintTop_toBottomOf="@id/color5" />
+
+            <ImageView
+                android:id="@+id/color9"
+                style="@style/GroupColorStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/color8"
+                app:layout_constraintTop_toBottomOf="@id/color6" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

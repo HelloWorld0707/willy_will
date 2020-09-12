@@ -13,6 +13,7 @@ public class GroupColorSettingActivity extends PopupActivity {
     private Resources resources;
     private String packageName;
     private String groupColorName;
+    private String groupColorSettingKey;
 
     private ImageView[] colorViews;
 
@@ -29,32 +30,39 @@ public class GroupColorSettingActivity extends PopupActivity {
         resources = getResources();
         packageName = getPackageName();
         groupColorName = resources.getString(R.string.group_color_name);
-        String groupColorViewName = resources.getString(R.string.group_color_view_name);
+        groupColorSettingKey = resources.getString(R.string.group_color_setting_key);
 
+        /** Set Color Views **/
         final int SIZE = resources.getInteger(R.integer.number_of_group_colors);
         colorViews = new ImageView[SIZE];
+        // Set the transparent option
+        colorViews[0] = findViewById(R.id.color0);
+        colorViews[0].setOnClickListener(new GroupColorClickListener(0));
+        // Set the others
+        final String groupColorViewName = resources.getString(R.string.group_color_view_name);
         int viewId, colorId, colorInt;
-        for(int i = 0; i < SIZE; i++) {
-            viewId = resources.getIdentifier(groupColorViewName + (i + 1), "id", packageName);
+        for(int i = 1; i < SIZE; i++) {
+            viewId = resources.getIdentifier(groupColorViewName + i, "id", packageName);
             colorViews[i] = findViewById(viewId);
 
             colorViews[i].setActivated(true);
-            colorId = resources.getIdentifier(groupColorName + (i + 1), "color", packageName);
+            colorId = resources.getIdentifier(groupColorName + i, "color", packageName);
             colorInt = resources.getColor(colorId, null);
             colorViews[i].getDrawable().mutate().setTint(colorInt);
 
             colorViews[i].setOnClickListener(new GroupColorClickListener(i));
         }
+        /* ~Set Color Views */
 
-        selectedColorIndex = 0;
+        /** Set selected color **/
+        selectedColorIndex = getIntent().getIntExtra(groupColorSettingKey, 0);
         colorViews[selectedColorIndex].setSelected(true);
+        /* ~Set selected color */
     }
 
     @Override
     protected boolean setResults(Intent intent) {
-        int colorId = resources.getIdentifier(groupColorName + (selectedColorIndex + 1), "color", packageName);
-        int colorInt = resources.getColor(colorId, null);
-        intent.putExtra(resources.getString(R.string.group_color_setting_key), colorInt);
+        intent.putExtra(resources.getString(R.string.group_color_setting_key), selectedColorIndex);
         return true;
     }
 

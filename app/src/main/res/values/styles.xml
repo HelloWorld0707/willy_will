@@ -118,11 +118,14 @@
     <!-- ~Text Recycler Item Style -->
 
     <!-- Group Color Style for Group Color Setting -->
-    <style name = "GroupColorStyle">
-        <item name="android:layout_width">@dimen/group_color_vector_size</item>
-        <item name="android:layout_height">@dimen/group_color_vector_size</item>
-        <item name="android:layout_margin">@dimen/basic_margin</item>
+    <style name="GroupColorStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/basic_padding</item>
         <item name="android:src">@drawable/group_color</item>
+    </style>
+    <style name="LongGroupColorStyle" parent="GroupColorStyle">
+        <item name="android:src">@drawable/transparent_group_color</item>
     </style>
     <!-- ~Group Color Style for Group Color Setting -->
 

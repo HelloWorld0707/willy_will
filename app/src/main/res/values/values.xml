@@ -94,7 +94,7 @@
 
     <!-- Group -->
     <integer name="no_group_id">0</integer>
-    <integer name="number_of_group_colors">9</integer>
+    <integer name="number_of_group_colors">10</integer>
     <!-- ~Group -->
 
     <!-- Group Search Setting -->

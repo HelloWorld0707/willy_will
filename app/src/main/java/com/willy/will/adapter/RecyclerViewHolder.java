@@ -326,13 +326,14 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
             Resources resources = App.getContext().getResources();
 
-            if(group.getGroupId() == NO_GROUP_ID) {
+            int colorId = Color.parseColor(group.getGroupColor());
+            if((group.getGroupId() == NO_GROUP_ID) || (colorId == Color.TRANSPARENT)) {
                 groupColorView.setActivated(false);
                 groupColorView.getDrawable().mutate().setTint(resources.getColor(R.color.dark_gray, null));
             }
             else {
                 groupColorView.setActivated(true);
-                groupColorView.getDrawable().mutate().setTint(Color.parseColor(group.getGroupColor()));
+                groupColorView.getDrawable().mutate().setTint(colorId);
             }
 
             groupName.setText(group.getGroupName());
@@ -358,13 +359,14 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         // Task
         else if(type == RecyclerViewItemType.TASK) {
             Task task = (Task) data;
-            if(task.getGroup().getGroupId() == NO_GROUP_ID) {
+            int colorId = Color.parseColor(task.getGroup().getGroupColor());
+            if((task.getGroup().getGroupId() == NO_GROUP_ID) || (colorId == Color.TRANSPARENT)) {
                 groupColorCircleView.setActivated(false);
                 groupColorCircleView.getDrawable().mutate().setTint(App.getContext().getResources().getColor(R.color.dark_gray, null));
             }
             else {
                 groupColorCircleView.setActivated(true);
-                groupColorCircleView.getDrawable().mutate().setTint(Color.parseColor(task.getGroup().getGroupColor()));
+                groupColorCircleView.getDrawable().mutate().setTint(colorId);
             }
             taskNameView.setText(task.getName());
             dDayOrAchivementView.setText(task.getdDayOrAchievement());
