@@ -113,26 +113,36 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
+
             <RelativeLayout
-                android:id="@+id/fragmentcontainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:baselineAligned="false">
+                android:layout_height="match_parent">
 
-                <!-- Fab -->
-                <!-- ~Fab -->
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabItemAdd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/fragmentcontainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_above="@+id/admobLayout"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/ic_add_24px"
-                    app:backgroundTint="@color/colorPrimary" />
+                    android:layout_marginBottom="0dp"
+                    android:baselineAligned="true">
+
+                    <!-- Fab -->
+                    <!-- ~Fab -->
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fabItemAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginBottom="30dp"
+                        android:src="@drawable/ic_add_24px"
+                        app:backgroundTint="@color/colorPrimary" />
+
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/admobLayout"
@@ -145,7 +155,6 @@
 
                     <include layout="@layout/item_admob"></include>
                 </LinearLayout>
-
             </RelativeLayout>
 
         </LinearLayout>
