@@ -23,89 +23,105 @@
             android:text="@string/app_name"
             android:textColor="@color/colorString"
             android:textStyle="bold"
-            android:textSize="@dimen/nav_app_name_text"></TextView>
+            android:textSize="@dimen/nav_app_name_text" />
 
         <LinearLayout
             android:id="@+id/nav_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/app_name"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"></LinearLayout>
+            android:layout_below="@id/app_name"
+            android:layout_marginTop="@dimen/nav_margin"
+            android:layout_marginBottom="@dimen/nav_line_bottom_margin"
+            android:orientation="horizontal" />
 
         <ImageView
             android:id="@+id/nav_ic_group"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_menu_height"
-            android:layout_below="@+id/nav_line"
-            android:layout_marginStart="@dimen/nav_margin"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/nav_padding"
+            android:paddingTop="@dimen/nav_menu_vertical_padding"
+            android:paddingBottom="@dimen/nav_menu_vertical_padding"
+            android:layout_below="@id/nav_line"
+            android:layout_alignParentStart="true"
             android:src="@drawable/ic_folder"
-            android:onClick="btnGroupSettingClick"></ImageView>
+            android:onClick="btnGroupSettingClick" />
 
         <TextView
             android:id="@+id/tv_group_name"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_menu_height"
-            android:layout_below="@+id/nav_line"
-            android:layout_marginStart="@dimen/nav_menu_start_margin"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"
-            android:layout_toEndOf="@+id/nav_ic_group"
-            android:gravity="center"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:paddingLeft="@dimen/nav_menu_left_padding"
+            android:paddingTop="@dimen/nav_menu_vertical_padding"
+            android:paddingBottom="@dimen/nav_menu_vertical_padding"
+            android:layout_toEndOf="@id/nav_ic_group"
+            android:layout_alignTop="@id/nav_ic_group"
+            android:layout_alignBottom="@id/nav_ic_group"
+            android:layout_alignParentEnd="true"
+            android:gravity="left"
             android:text="@string/group_setting"
             android:textSize="@dimen/nav_menu_text"
             android:textColor="@color/colorString"
-            android:onClick="btnGroupSettingClick"></TextView>
+            android:onClick="btnGroupSettingClick" />
 
         <ImageView
             android:id="@+id/nav_ic_task"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_menu_height"
-            android:layout_below="@+id/nav_ic_group"
-            android:layout_marginStart="@dimen/nav_margin"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/nav_padding"
+            android:paddingTop="@dimen/nav_menu_vertical_padding"
+            android:paddingBottom="@dimen/nav_menu_vertical_padding"
+            android:layout_below="@id/nav_ic_group"
+            android:layout_alignParentStart="true"
             android:src="@drawable/ic_task_24px"
-            android:onClick="btnTaskSettingClick"></ImageView>
+            android:onClick="btnTaskSettingClick" />
 
         <TextView
             android:id="@+id/tv_task_name"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_menu_height"
-            android:layout_below="@+id/tv_group_name"
-            android:layout_marginStart="11dp"
-            android:layout_marginLeft="@dimen/nav_menu_start_margin"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"
-            android:layout_toEndOf="@+id/nav_ic_task"
-            android:gravity="center"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:paddingLeft="@dimen/nav_menu_left_padding"
+            android:paddingTop="@dimen/nav_menu_vertical_padding"
+            android:paddingBottom="@dimen/nav_menu_vertical_padding"
+            android:layout_toEndOf="@id/nav_ic_task"
+            android:layout_alignTop="@id/nav_ic_task"
+            android:layout_alignBottom="@id/nav_ic_task"
+            android:layout_alignParentEnd="true"
+            android:gravity="left"
             android:text="@string/task_setting"
             android:textSize="@dimen/nav_menu_text"
             android:textColor="@color/colorString"
-            android:onClick="btnTaskSettingClick"></TextView>
+            android:onClick="btnTaskSettingClick" />
 
         <ImageView
             android:id="@+id/nav_ic_alarm"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_menu_height"
-            android:layout_below="@+id/nav_ic_task"
-            android:layout_marginStart="@dimen/nav_margin"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/nav_padding"
+            android:paddingTop="@dimen/nav_menu_vertical_padding"
+            android:paddingBottom="@dimen/nav_menu_vertical_padding"
+            android:layout_below="@id/nav_ic_task"
+            android:layout_alignParentStart="true"
             android:src="@drawable/ic_alarm_24px"
             android:onClick="btnAlarmSettingClick"
-            android:visibility="gone"></ImageView>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_alarm_name"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_menu_height"
-            android:layout_below="@+id/tv_task_name"
-            android:layout_marginStart="@dimen/nav_menu_start_margin"
-            android:layout_marginTop="@dimen/nav_menu_top_margin"
-            android:layout_toEndOf="@+id/nav_ic_alarm"
-            android:gravity="center"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:paddingLeft="@dimen/nav_menu_left_padding"
+            android:paddingTop="@dimen/nav_menu_vertical_padding"
+            android:paddingBottom="@dimen/nav_menu_vertical_padding"
+            android:layout_toEndOf="@id/nav_ic_alarm"
+            android:layout_alignTop="@id/nav_ic_alarm"
+            android:layout_alignBottom="@id/nav_ic_alarm"
+            android:layout_alignParentEnd="true"
+            android:gravity="left"
             android:text="@string/alarm_setting"
             android:textColor="@color/colorString"
             android:textSize="@dimen/nav_menu_text"
             android:onClick="btnAlarmSettingClick"
-            android:visibility="gone"></TextView>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/app_detail"
@@ -114,7 +130,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/nav_menu_top_margin"
+            android:layout_marginBottom="@dimen/nav_margin"
             android:gravity="center"
             android:text="@string/copyright" />
 

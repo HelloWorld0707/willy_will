@@ -37,8 +37,8 @@
             android:id="@+id/d_day_or_achievement"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/basic_padding"
             android:paddingRight="@dimen/basic_padding"
+            android:paddingLeft="@dimen/basic_padding"
             android:gravity="center"
             android:textSize="@dimen/task_recycler_item_additional_text_size"
             android:textColor="@color/colorString"
@@ -51,13 +51,15 @@
         <CheckBox
             android:id="@+id/check_box"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/checkbox_margin_start"
-            android:layout_marginEnd="@dimen/checkbox_margin_end"
+            android:layout_height="match_parent"
+            android:paddingRight="@dimen/checkbox_padding_right"
+            android:paddingTop="@dimen/checkbox_padding_vertical"
+            android:paddingBottom="@dimen/checkbox_padding_vertical"
             android:buttonTint="@color/colorPrimary"
             android:checked="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/d_day_or_achievement"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

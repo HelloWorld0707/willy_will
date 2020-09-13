@@ -53,9 +53,10 @@
         <CheckBox
             android:id="@+id/calendar_check_box"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/checkbox_margin_start"
-            android:layout_marginEnd="@dimen/checkbox_margin_end"
+            android:layout_height="match_parent"
+            android:paddingRight="@dimen/checkbox_padding_right"
+            android:paddingTop="@dimen/checkbox_padding_vertical"
+            android:paddingBottom="@dimen/checkbox_padding_vertical"
             android:buttonTint="@color/colorPrimary"
             android:checked="false"
             android:visibility="invisible"

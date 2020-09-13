@@ -42,7 +42,7 @@
     <dimen name="main_today_text_size">20dp</dimen>
     <!-- ~Main -->
 
-    <!-- MainListItem-->
+    <!-- MainListItem -->
     <dimen name="itembox_height">75dp</dimen>
     <dimen name="itembox_half_height">32dp</dimen>
     <dimen name="number_text_width">50dp</dimen>
@@ -50,7 +50,12 @@
     <dimen name="checkbox_margin_end">10dp</dimen>
     <dimen name="item_name_height">24dp</dimen>
     <dimen name="item_name_right_margin">20dp</dimen>
-    <!-- ~MainListItem-->
+    <!-- ~MainListItem -->
+
+    <!-- TaskListItem -->
+    <dimen name="checkbox_padding_right">10dp</dimen>
+    <dimen name="checkbox_padding_vertical">14dp</dimen>
+    <!-- ~TaskListItem -->
 
     <!-- detailActivity -->
     <dimen name="detail_icon_margin">15dp</dimen>
@@ -75,6 +80,7 @@
     <!-- NavigationDrawer -->
     <dimen name="nav_width">250dp</dimen>
     <dimen name="nav_margin">30dp</dimen>
+    <dimen name="nav_padding">30dp</dimen>
     <!-- ~NavigationDrawer -->
 
     <!-- Navigation Header-->
@@ -83,9 +89,9 @@
     <!-- ~Navigation Header-->
 
     <!-- Navigation Menu-->
-    <dimen name="nav_menu_height">24dp</dimen>
-    <dimen name="nav_menu_top_margin">30dp</dimen>
-    <dimen name="nav_menu_start_margin">10dp</dimen>
+    <dimen name="nav_line_bottom_margin">15dp</dimen>
+    <dimen name="nav_menu_vertical_padding">15dp</dimen>
+    <dimen name="nav_menu_left_padding">10dp</dimen>
     <dimen name="nav_menu_text">15sp</dimen>
     <!-- ~Navigation Menu-->
 
