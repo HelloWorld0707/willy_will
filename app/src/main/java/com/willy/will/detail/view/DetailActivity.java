@@ -494,8 +494,24 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     groupColor.setActivated(true);
                     groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
                 }
+
                 startDate.setText(todoItem.getStartDate());
                 endDate.setText(todoItem.getEndDate());
+
+                if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
+                    locationArea.setVisibility(View.GONE);
+                }else{
+                    locationArea.setVisibility(View.VISIBLE);
+                    latitude = Double.parseDouble(todoItem.getLatitude());
+                    longitude = Double.parseDouble(todoItem.getLongitude());
+                    markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+
+                    getAddress(longitude, latitude);
+                    mapView = new MapView(this);
+                    mapView.setMapViewEventListener(this);
+                    mapViewContainer.addView(mapView);
+                }
+
                 itemChanged = true;
             }
             else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {
