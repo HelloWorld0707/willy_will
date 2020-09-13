@@ -454,7 +454,7 @@ public class AddItemActivity extends Activity {
                             latitude, longitude, startDate, endDate, loopWeek, checkedDays, itemMemo);
 
                     Intent intent = new Intent();
-                    intent.putExtra(resources.getString(R.string.modified_item_key), setModifiedItem());
+                    intent.putExtra(resources.getString(R.string.modified_item_key), setModifiedItem(latitude, longitude));
                     setResult(RESULT_FIRST_USER, intent);
                     this.finish();
                 }
@@ -462,7 +462,7 @@ public class AddItemActivity extends Activity {
         }
     }
 
-    private Item setModifiedItem() {
+    private Item setModifiedItem(String latitude, String longitude) {
         Item modifiedItem = new Item();
 
         modifiedItem.setItemName(itemName);
@@ -472,6 +472,10 @@ public class AddItemActivity extends Activity {
         modifiedItem.setGroupColor(selectedGroup.getGroupColor());
         modifiedItem.setStartDate(startDate);
         modifiedItem.setEndDate(endDate);
+        modifiedItem.setLatitude(latitude);
+        modifiedItem.setLongitude(longitude);
+        modifiedItem.setAddressName(address);
+        modifiedItem.setRoadAddressName(roadAddress);
         modifiedItem.setItemMemo(itemMemo);
 
         return modifiedItem;

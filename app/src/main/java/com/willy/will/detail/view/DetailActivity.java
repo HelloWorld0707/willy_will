@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -366,6 +365,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                             address.setVisibility(View.GONE);
                         }
                         else {
+                            todoItem.setAddressName(addressName);
                             address.setText(addressName);
                             address.setVisibility(View.VISIBLE);
                         }
@@ -373,6 +373,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                         if(roadAddressName.isEmpty()) {
                             roadAddress.setVisibility(View.GONE);
                         }else{
+                            todoItem.setRoadAddressName(roadAddressName);
                             roadAddress.setText(roadAddressName);
                             roadAddress.setVisibility(View.VISIBLE);
                         }
