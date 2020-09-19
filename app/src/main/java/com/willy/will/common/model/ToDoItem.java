@@ -17,6 +17,7 @@ public class ToDoItem implements Serializable {
     private String color;
     private int loop;
     private String itemMemo;
+    private String userPlaceName;
 
     public ToDoItem() {
         itemId = -1;
@@ -33,10 +34,11 @@ public class ToDoItem implements Serializable {
         color = null;
         loop = -1;
         itemMemo = null;
+        userPlaceName = null;
     }
 
     public ToDoItem(int itemId, int groupId, String doneDate, boolean done, String endDate,
-                    int toDoId, int rank, String name, String color, int loop, String itemMemo) {
+                    int toDoId, int rank, String name, String color, int loop, String itemMemo, String userPlaceName) {
         this.itemId = itemId;
         this.groupId = groupId;
         this.doneDate = doneDate;
@@ -48,6 +50,7 @@ public class ToDoItem implements Serializable {
         this.color =color;
         this.loop = loop;
         this.itemMemo = itemMemo;
+        this.userPlaceName = userPlaceName;
     }
 
     public int getItemId() {
@@ -149,6 +152,10 @@ public class ToDoItem implements Serializable {
     public String getItemMemo(){return itemMemo;}
 
     public void setItemMemo(String itemMemo) {this.itemMemo = itemMemo;}
+
+    public String getUserPlaceName(){return userPlaceName;}
+
+    public void setUserPlaceName(String userPlaceName) {this.userPlaceName = userPlaceName;}
 
 }
 

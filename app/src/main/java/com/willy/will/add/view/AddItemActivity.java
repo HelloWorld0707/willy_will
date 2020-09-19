@@ -57,6 +57,7 @@ public class AddItemActivity extends Activity {
     private TextView endTextView;
     private TextView addressTextView;
     private TextView roadAddressTextView;
+    private TextView userPlaceNameTextView;
     private LinearLayout repeatLayout;
     private Switch repeatSwitch;
     private View repeatCheckBoxesLayout;
@@ -81,8 +82,9 @@ public class AddItemActivity extends Activity {
     private String endDate;
     private double latitudeNum;
     private double longitudeNum;
-    String address;
-    String roadAddress;
+    private String address;
+    private String roadAddress;
+    private String userPlaceName;
     private String loopWeek;
     private String itemMemo;
 
@@ -114,6 +116,7 @@ public class AddItemActivity extends Activity {
 
             address = resources.getString(R.string.no_location);
             roadAddress = "";
+            userPlaceName = "";
             latitudeNum = resources.getInteger(R.integer.default_location);
             longitudeNum = resources.getInteger(R.integer.default_location);
 
@@ -139,6 +142,8 @@ public class AddItemActivity extends Activity {
 
             address = selectedItem.getAddressName();
             roadAddress = selectedItem.getRoadAddressName();
+            userPlaceName = selectedItem.getUserPlaceName();
+
             String latitude = selectedItem.getLatitude();
             String longitude = selectedItem.getLongitude();
             if(latitude == null) {
@@ -222,6 +227,13 @@ public class AddItemActivity extends Activity {
         }
         else {
             roadAddressTextView.setText(roadAddress);
+        }
+        userPlaceNameTextView = findViewById(R.id.user_place_name);
+        if(userPlaceName == null || userPlaceName.equals("")){
+            userPlaceNameTextView.setVisibility(View.GONE);
+        }
+        else {
+            userPlaceNameTextView.setText(userPlaceName);
         }
 
         if (code == ADD_CODE) {
@@ -429,7 +441,7 @@ public class AddItemActivity extends Activity {
 
                     addCtrl.addItem(
                             selectedGroup.getGroupId(), itemName, important, startDate, endDate,
-                            latitude, longitude, loopWeek, checkedDays, itemMemo
+                            latitude, longitude, loopWeek, checkedDays, itemMemo, userPlaceName
                     );
                     Toast.makeText(getApplicationContext(), resources.getString(R.string.successful_add), Toast.LENGTH_SHORT).show();
                     setResult(resources.getInteger(R.integer.item_change_return_code));
@@ -451,7 +463,7 @@ public class AddItemActivity extends Activity {
 
                     addCtrl.modifyItem(
                             itemId, selectedGroup.getGroupId(), itemName, important,
-                            latitude, longitude, startDate, endDate, loopWeek, checkedDays, itemMemo);
+                            latitude, longitude, startDate, endDate, loopWeek, checkedDays, itemMemo, userPlaceName);
 
                     Intent intent = new Intent();
                     intent.putExtra(resources.getString(R.string.modified_item_key), setModifiedItem(latitude, longitude));
@@ -477,6 +489,7 @@ public class AddItemActivity extends Activity {
         modifiedItem.setLongitude(longitude);
         modifiedItem.setAddressName(address);
         modifiedItem.setRoadAddressName(roadAddress);
+        modifiedItem.setUserPlaceName(userPlaceName);
         modifiedItem.setItemMemo(itemMemo);
 
         return modifiedItem;
@@ -559,15 +572,36 @@ public class AddItemActivity extends Activity {
                 Location location = data.getParcelableExtra(resources.getString(R.string.location_search_key));
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
-                addressTextView.setText(location.getAddressName());
-                roadAddress = location.getRoadAddressName();
-                if(roadAddress == null || roadAddress.equals("")) {
-                    roadAddressTextView.setVisibility(View.GONE);
-                    roadAddressTextView.setText(roadAddress);
-                }
-                else {
-                    roadAddressTextView.setText(roadAddress);
-                    roadAddressTextView.setVisibility(View.VISIBLE);
+
+                address = location.getAddressName();
+                if(address==null || address.equals("")){
+                    addressTextView.setVisibility(View.VISIBLE);
+                    addressTextView.setText("위치없음");
+
+                    userPlaceName = location.getUserPlaceName();
+                    if(userPlaceName == null || userPlaceName.equals("")){
+                        userPlaceNameTextView.setVisibility(View.GONE);
+                        userPlaceNameTextView.setText("");
+                    }else{
+                        addressTextView.setVisibility(View.GONE);
+                        addressTextView.setText("");
+                        roadAddressTextView.setVisibility(View.GONE);
+                        roadAddressTextView.setText("");
+                        userPlaceNameTextView.setVisibility(View.VISIBLE);
+                        userPlaceNameTextView.setText(userPlaceName); }
+                }else{
+                    addressTextView.setVisibility(View.VISIBLE);
+                    addressTextView.setText(address);
+                    userPlaceNameTextView.setVisibility(View.GONE);
+                    userPlaceNameTextView.setText("");
+
+                    roadAddress = location.getRoadAddressName();
+                    if(roadAddress == null || roadAddress.equals("")){
+                        roadAddressTextView.setVisibility(View.GONE);
+                        roadAddressTextView.setText("");
+                    }else{
+                        roadAddressTextView.setVisibility(View.VISIBLE);
+                        roadAddressTextView.setText(roadAddress); }
                 }
             }
         }

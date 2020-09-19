@@ -71,7 +71,8 @@ public class DBAccess extends SQLiteOpenHelper {
                     resources.getString(R.string.done_date_column) + " TEXT, " +
                     resources.getString(R.string.start_date_column) + " TEXT NOT NULL, " +
                     resources.getString(R.string.end_date_column) + " TEXT NOT NULL, " +
-                    resources.getString(R.string.to_do_id_column) + " INTEGER" +
+                    resources.getString(R.string.to_do_id_column) + " INTEGER," +
+                resources.getString(R.string.user_place_name_column) + " TEXT" +
                 " );"
         );
 
@@ -98,7 +99,9 @@ public class DBAccess extends SQLiteOpenHelper {
             case 2:
                 db.execSQL(
                         "ALTER TABLE " + resources.getString(R.string.item_table) +
-                        " ADD COLUMN " + resources.getString(R.string.item_memo_column) + " TEXT;"
+                        " ADD COLUMN ("
+                                + resources.getString(R.string.user_place_name_column) + " TEXT,"
+                                + resources.getString(R.string.item_memo_column) + " TEXT);"
                 );
         }
     }

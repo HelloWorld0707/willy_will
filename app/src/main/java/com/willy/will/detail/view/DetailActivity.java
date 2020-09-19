@@ -48,7 +48,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private ImageView important, groupColor;
     private ImageButton editButton;
     private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress, itemMemo;
-    private RelativeLayout doneDateArea;
+    private RelativeLayout doneDateArea, mapArea;
     private LinearLayout achievementRateArea, locationArea, memoArea;
     private String roofDay = "";
     private String addressName, roadAddressName;
@@ -74,6 +74,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     private SimpleDateFormat dateFormat;
     private String calendarDateStr;
     private boolean itemChanged;
+    private String userPlaceNameVal;
     private AdMobController adMobController = new AdMobController(this);
 
 
@@ -102,6 +103,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
         scrollView = findViewById(R.id.scroll_view);
+        mapArea = findViewById(R.id.map_area);
         day.add(0,(TextView)findViewById(R.id.sunday));
         day.add(1,(TextView)findViewById(R.id.monday));
         day.add(2,(TextView)findViewById(R.id.tuesday));
@@ -186,7 +188,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
     /** set Data **/
     public void setData(){
-
         itemName.setText(todoItem.getItemName());
 
         ImportanceValue = todoItem.getImportant();
@@ -216,16 +217,25 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             memoArea.setVisibility(View.VISIBLE);
             itemMemo.setText(todoItem.getItemMemo()); }
 
-        if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
-            locationArea.setVisibility(View.GONE);
+
+        userPlaceNameVal = todoItem.getUserPlaceName();
+        if(userPlaceNameVal == null || userPlaceNameVal.equals("")){
+            if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
+                locationArea.setVisibility(View.GONE);
+            }else{
+                mapArea.setVisibility(View.VISIBLE);
+                latitude = Double.parseDouble(todoItem.getLatitude());
+                longitude = Double.parseDouble(todoItem.getLongitude());
+                markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+                getAddress(longitude, latitude);
+                mapView = new MapView(this);
+                mapView.setMapViewEventListener(this);
+                mapViewContainer.addView(mapView); }
         }else{
-            latitude = Double.parseDouble(todoItem.getLatitude());
-            longitude = Double.parseDouble(todoItem.getLongitude());
-            markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-            getAddress(longitude, latitude);
-            mapView = new MapView(this);
-            mapView.setMapViewEventListener(this);
-            mapViewContainer.addView(mapView); }
+            address.setVisibility(View.VISIBLE);
+            address.setText(userPlaceNameVal);
+            mapArea.setVisibility(View.GONE);
+        }
 
         loopWeek = todoItem.getLoopWeek();
     }

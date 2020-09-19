@@ -344,21 +344,23 @@
             </LinearLayout>
 
             <!--location_area-->
+
+            <!--memo_area-->
             <LinearLayout
                 android:id="@+id/location_area"
+                style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                style="@style/BottomLayout"
                 android:layout_marginBottom="@dimen/basic_margin"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/achievement_rate_area">
 
                 <TextView
-                    style="@style/DetailTitleStyle"
                     android:id="@+id/address_title"
+                    style="@style/DetailTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_list_thick_height"
                     android:text="@string/location" />
@@ -368,10 +370,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/address_title"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/map_area"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/map_area">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/address_title">
 
                     <TextView
                         android:id="@+id/address"
@@ -380,10 +382,10 @@
                         android:layout_marginRight="@dimen/basic_margin"
                         android:gravity="center_vertical"
                         android:padding="5dp"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/road_address"
                         app:layout_constraintEnd_toStartOf="@id/address_copy_btn"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/road_address" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/road_address"
@@ -393,21 +395,21 @@
                         android:gravity="center_vertical"
                         android:padding="5dp"
                         android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@+id/address"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/address" />
 
                     <ImageView
                         android:id="@+id/address_copy_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/bt_copy"
                         android:onClick="itemCopy"
                         android:padding="5dp"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:src="@drawable/bt_copy"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/address"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -428,7 +430,6 @@
 
             </LinearLayout>
 
-            <!--memo_area-->
             <LinearLayout
                 android:id="@+id/memo_area"
                 style="@style/BottomLayout"

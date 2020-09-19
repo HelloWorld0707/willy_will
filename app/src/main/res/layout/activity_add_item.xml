@@ -182,7 +182,7 @@
                 <!-- location -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/detail_list_thick_height"
                     android:onClick="bringUpLocationSearch">
 
                     <TextView
@@ -195,26 +195,37 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/user_place_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:singleLine="true"
+                        android:text="@string/no_location"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/location_btn"/>
+
+                    <TextView
                         android:id="@+id/address_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="3dp"
                         android:singleLine="true"
                         android:text="@string/no_location"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/location_btn"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toStartOf="@+id/location_btn" />
 
                     <TextView
                         android:id="@+id/road_address_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
+                        android:padding="3dp"
                         android:singleLine="true"
                         android:text="@string/no_location"
+                        app:layout_constraintTop_toBottomOf="@+id/address_name"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/location_btn"
-                        app:layout_constraintTop_toBottomOf="@+id/address_name" />
+                        app:layout_constraintEnd_toStartOf="@+id/location_btn"/>
 
                     <ImageView
                         android:id="@+id/location_btn"

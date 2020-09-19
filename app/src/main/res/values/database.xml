@@ -28,6 +28,7 @@
     <string name="item_memo_column">item_memo</string>
     <string name="latitude_column">latitude</string>
     <string name="longitude_column">longitude</string>
+    <string name="user_place_name_column">user_place_name</string>
     <string name="done_date_column">done_date</string>
     <string name="start_date_column">start_date</string>
     <string name="end_date_column">end_date</string>

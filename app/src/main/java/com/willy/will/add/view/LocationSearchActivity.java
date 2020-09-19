@@ -122,9 +122,13 @@ public class LocationSearchActivity extends Activity {
                     JSONArray documentsObject = jsonObject.getJSONArray("documents");
                     int pageCount = metaObject.getInt("pageable_count");
                     int listSize = (pageCount<15)?pageCount:15;
+                    Location location = new Location();
+                    location.setPlaceName(searchText);
+                    location.setUserPlaceName(searchText);
+                    locationArrayList.add(location);
                     for(int i=0;i<listSize;i++){
                         JSONObject dataObject = documentsObject.getJSONObject(i);
-                        Location location = new Location();
+                        location = new Location();
                         location.setLocationId(dataObject.getString("id"));
                         location.setLongitude(Double.parseDouble(dataObject.getString("x")));
                         location.setLatitude(Double.parseDouble(dataObject.getString("y")));

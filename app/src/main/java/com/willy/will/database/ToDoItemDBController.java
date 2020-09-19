@@ -59,7 +59,7 @@ public class ToDoItemDBController {
     public void insertOneItem(int toDoId, int groupId, String itemName, int important,
                               String latitude, String longitude,
                               String startDate, String endDate,
-                              String itemMemo) throws ParseException {
+                              String itemMemo, String userPlaceName) throws ParseException {
         String itemMemoColumn = resources.getString(R.string.item_memo_column);
 
         /** Set column names and values for inserting into _ITEM **/
@@ -73,6 +73,7 @@ public class ToDoItemDBController {
         contentValues.put(resources.getString(R.string.start_date_column), startDate);
         contentValues.put(resources.getString(R.string.end_date_column), endDate);
         contentValues.put(resources.getString(R.string.to_do_id_column), toDoId);
+        contentValues.put(resources.getString(R.string.user_place_name_column), userPlaceName);
         if(itemMemo == null) {
             contentValues.putNull(itemMemoColumn);
         }
@@ -109,7 +110,7 @@ public class ToDoItemDBController {
                                               String startDate, String endDate,
                                               String startCount, String endCount,
                                               ArrayList<String> checkedDays,
-                                              String itemMemo) throws ParseException {
+                                              String itemMemo, String userPlaceName) throws ParseException {
         if(itemMemo != null) {
             itemMemo = "'" + itemMemo + "'";
         }
@@ -124,7 +125,8 @@ public class ToDoItemDBController {
                 resources.getString(R.string.start_date_column) + ", " +
                 resources.getString(R.string.end_date_column) + ", " +
                 resources.getString(R.string.to_do_id_column) + ", " +
-                resources.getString(R.string.item_memo_column) +
+                resources.getString(R.string.item_memo_column) + ", " +
+                resources.getString(R.string.user_place_name_column) +
                 ") VALUES";
 
         String calendarTableSql = "INSERT INTO " + resources.getString(R.string.calendar_table) + "(" +
@@ -152,7 +154,8 @@ public class ToDoItemDBController {
                         "'" + startDate + "', " +
                         "'" + endDate + "', " +
                         toDoId + ", " +
-                        itemMemo +
+                        itemMemo + ", " +
+                        userPlaceName +
                         "), ";
 
                 calendarTableSql += "('" + calendarDateStr + "', " + ++itemId + "), ";
@@ -175,11 +178,11 @@ public class ToDoItemDBController {
                             String latitude, String longitude,
                             String startDate, String endDate,
                             String loopWeek, ArrayList<String> checkedDays,
-                            String itemMemo) throws ParseException {
+                            String itemMemo, String userPlaceName) throws ParseException {
         /** Set queries and write DB (INSERT) for inserting into _ITEM and _CALENDAR **/
         insertItemsIntoItemAndCalendar(
                 toDoId, groupId, itemName, important, latitude, longitude,
-                startDate, endDate, startDate, endDate, checkedDays, itemMemo
+                startDate, endDate, startDate, endDate, checkedDays, itemMemo, userPlaceName
         );
         /* ~Set queries and write DB (INSERT) for inserting into _ITEM and _CALENDAR */
 
@@ -395,7 +398,7 @@ public class ToDoItemDBController {
         if(selectedGroup == -1){
             selectQuery =
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
-                    "i.start_date,i.end_date,i.to_do_id,i.item_memo,c.calendar_date,g.group_color, \n"+
+                    "i.start_date,i.end_date,i.to_do_id,i.item_memo,c.calendar_date,g.group_color,i.user_place_name, \n"+
                     "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
                     "CASE WHEN done_date IS NULL OR \'\' THEN 0 ELSE 1 END AS done\n" +
                     "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
@@ -409,7 +412,7 @@ public class ToDoItemDBController {
         else {
             selectQuery =
                     "SELECT i.item_id, i.group_id, i.item_name, i.item_important, i.done_date," +
-                            "i.start_date,i.end_date,i.to_do_id,i.item_memo,c.calendar_date,g.group_color, \n"+
+                            "i.start_date,i.end_date,i.to_do_id,i.item_memo,c.calendar_date,g.group_color,i.user_place_name, \n"+
                             "CASE WHEN to_do_id IN ( SELECT to_do_id FROM _LOOP_INFO ) THEN 1 ELSE 0 END AS lp," +
                             "CASE WHEN done_date IS NULL OR \"\" THEN 0 ELSE 1 END AS done\n" +
                             "FROM _ITEM i, _CALENDAR c,_GROUP g \n" +
@@ -436,6 +439,7 @@ public class ToDoItemDBController {
         String name = null;
         String color = null;
         String itemMemo = null;
+        String userPlaceName = null;
 
 
         while(cursor.moveToNext()) {
@@ -455,10 +459,10 @@ public class ToDoItemDBController {
             color = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
             loop = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.loop_t_n)));
             itemMemo = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_memo_column)));
+            userPlaceName = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.user_place_name_column)));
             Log.d("checkQuery","******"+loop+"********");
 
-
-            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop, itemMemo);
+            curToDoItem = new ToDoItem(itemId, groupId, doneDate, done, endDate, toDoId, rank, name, color, loop, itemMemo, userPlaceName);
             toDoItemList.add(curToDoItem);
         }
         /* ~Put data in ArrayList */

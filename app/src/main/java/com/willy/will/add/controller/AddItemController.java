@@ -25,7 +25,7 @@ public class AddItemController {
 
     public void addItem(int groupId, String itemName, int important,
                         String startDate, String endDate, String latitude, String longitude,
-                        String loopWeek, ArrayList<String> checkedDays, String itemMemo) {
+                        String loopWeek, ArrayList<String> checkedDays, String itemMemo, String userPlaceName) {
         final int toDoId = toDoItemDBController.getToDoId(resources.getInteger(R.integer.max_to_do_id_request)) + 1;
 
         /** Add one item **/
@@ -33,7 +33,7 @@ public class AddItemController {
             try {
                 toDoItemDBController.insertOneItem(
                         toDoId, groupId, itemName, important, latitude, longitude,
-                        startDate, endDate, itemMemo
+                        startDate, endDate, itemMemo, userPlaceName
                 );
             } catch (ParseException e) {
                 Log.e("AddItemController", e.toString());
@@ -46,7 +46,7 @@ public class AddItemController {
             try {
                 toDoItemDBController.insertItems(
                         toDoId, groupId, itemName, important, latitude, longitude,
-                        startDate, endDate, loopWeek, checkedDays, itemMemo);
+                        startDate, endDate, loopWeek, checkedDays, itemMemo, userPlaceName);
             } catch (ParseException e) {
                 Log.e("AddItemController", e.toString());
                 // 롤백(앞에서 추가한 데이터 삭제) 코드 추가
@@ -57,7 +57,7 @@ public class AddItemController {
 
     public void modifyItem(int itemId, int groupId, String itemName, int important,
                            String latitude, String longitude, String startDate, String endDate,
-                           String loopWeek, ArrayList<String> checkedDays, String itemMemo) {
+                           String loopWeek, ArrayList<String> checkedDays, String itemMemo, String userPlaceName) {
         /** Update  **/
         final int toDoId = toDoItemDBController.getToDoId(itemId);
         toDoItemDBController.updateItems(
@@ -122,7 +122,7 @@ public class AddItemController {
                     toDoItemDBController.insertItemsIntoItemAndCalendar(
                             toDoId, groupId, itemName, important, latitude, longitude,
                             startDate, endDate, startDate, dateRange.getBeforeMin(), checkedDays,
-                            itemMemo
+                            itemMemo, userPlaceName
                     );
                 }
 
@@ -130,7 +130,7 @@ public class AddItemController {
                     toDoItemDBController.insertItemsIntoItemAndCalendar(
                             toDoId, groupId, itemName, important, latitude, longitude,
                             startDate, endDate, dateRange.getAfterMax(), endDate, checkedDays,
-                            itemMemo
+                            itemMemo, userPlaceName
                     );
                 }
             }
