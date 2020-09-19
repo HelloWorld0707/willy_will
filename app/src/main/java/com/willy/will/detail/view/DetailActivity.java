@@ -513,6 +513,34 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     mapViewContainer.addView(mapView);
                 }
 
+                achievementList = detailCtrl.getloopItem(todoItem.getItemId(), todoItem.getStartDate(), todoItem.getEndDate() + "");
+
+
+                for(int i=0;i<day.size();i++){
+                    day.get(i).setActivated(false);
+                    day.get(i).setSelected(false);
+
+                }
+
+                double rate = 0;
+                for(int i=0;i<achievementList.size();i++){
+                    String[] dateArr = achievementList.get(i).getCalenderDate().split("-");
+                    today.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
+                    today.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
+                    today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
+                    int index = today.get(Calendar.DAY_OF_WEEK)-1;
+                    String doneDateValue = achievementList.get(i).getDoneDate();
+                    if(doneDateValue==null || doneDateValue==""){
+                        day.get(index).setActivated(true);
+                        day.get(index).setSelected(false);
+                    }else{
+                        rate++;
+                        day.get(index).setActivated(true);
+                        day.get(index).setSelected(true);
+                    }
+                }
+                achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
+
                 itemChanged = true;
             }
             else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {

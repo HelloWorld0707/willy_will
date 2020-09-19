@@ -465,6 +465,7 @@ public class AddItemActivity extends Activity {
     private Item setModifiedItem(String latitude, String longitude) {
         Item modifiedItem = new Item();
 
+        modifiedItem.setItemId(itemId);
         modifiedItem.setItemName(itemName);
         modifiedItem.setImportant(important);
         modifiedItem.setGroupId(selectedGroup.getGroupId());
