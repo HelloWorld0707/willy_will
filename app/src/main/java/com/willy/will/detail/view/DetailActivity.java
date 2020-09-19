@@ -19,23 +19,18 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
-
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
-
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -44,9 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-
-
 
 public class DetailActivity extends Activity implements MapView.MapViewEventListener {
 
@@ -116,46 +108,24 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         day.add(6,(TextView)findViewById(R.id.saturday));
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-
-
          /** get intent(item_id) from mainActivity **/
         Intent intent = getIntent();
         ToDoItem item = (ToDoItem) intent.getSerializableExtra(getResources().getString(R.string.item_id));
-
 
          /** access DB **/
          todoItem = detailCtrl.getToDoItemByItemId(item.getItemId());
          calendarDateStr = detailCtrl.getCalendarDateByItemId(item.getItemId());
 
          //set start of the week, end of the week
-         today = getDate(calendarDateStr);
+         today = getCalendarDate(calendarDateStr);
          int dayOfWeek = today.get(Calendar.DAY_OF_WEEK)-1;
          today.add(Calendar.DATE,-dayOfWeek);
          startDayOfWeek = dateFormat.format(today.getTime());
          today.add(Calendar.DATE,6);
          endDayOfWeek = dateFormat.format(today.getTime());
-
-         achievementList = detailCtrl.getloopItem(todoItem.getItemId(), startDayOfWeek, endDayOfWeek + "");
         /*~ access DB ~*/
 
-
-        /** set DB data **/
-        ImportanceValue = todoItem.getImportant();
-        loopWeek = todoItem.getLoopWeek();
-        /*~ set DB data */
-
-
-        /** set importance Image **/
-        if(ImportanceValue==1) {
-            important.setImageResource(R.drawable.important1);
-        }else if(ImportanceValue==2){
-            important.setImageResource(R.drawable.important2);
-        }else if(ImportanceValue==3){
-            important.setImageResource(R.drawable.important3);
-        }else if(ImportanceValue==4){
-            important.setVisibility(View.GONE); }
-        /*~ set importance Image */
-
+        setData();
 
         /** set itemName selected (for MARQUEE) **/
         itemName.setSelected(true);
@@ -163,6 +133,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
 
         /** set loopWeek (ex : 안함, 매일, 월 수 금) **/
+        loopWeek = todoItem.getLoopWeek();
         if(loopWeek ==null){
             achievementRateArea.setVisibility(View.GONE);
             roofDay += "반복 안함";
@@ -175,67 +146,119 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 for (int i = 0; i < loopWeek.length(); i++) {
                     if (loopWeek.charAt(i)-'0'==1) roofDay += days[i] + " "; }
             }
-            double rate = 0;
-            for(int i=0;i<achievementList.size();i++){
-                String[] dateArr = achievementList.get(i).getCalenderDate().split("-");
-                today.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
-                today.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
-                today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
-                int index = today.get(Calendar.DAY_OF_WEEK)-1;
-                String doneDateValue = achievementList.get(i).getDoneDate();
-                if(doneDateValue==null || doneDateValue==""){
-                    day.get(index).setActivated(true);
-                    day.get(index).setSelected(false);
-                }else{
-                    rate++;
-                    day.get(index).setActivated(true);
-                    day.get(index).setSelected(true);
-                }
-            }
-            achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
+            setAchievement();
         }
         /*~ set achievementArea(rate, loop day) */
 
-
-
-        /** set data **/
-        itemName.setText(todoItem.getItemName());
-
-         if(todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
-            memoArea.setVisibility(View.GONE);
-         }else{
-             itemMemo.setText(todoItem.getItemMemo()); }
-
-        if(todoItem.getGroupId() == 0){
-            groupColor.setActivated(false);
-        }else{
-            groupColor.setActivated(true);
-            groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
-        }
-        groupName.setText((todoItem.getGroupName()==null)?resources.getString(R.string.no_group):todoItem.getGroupName());
-        startDate.setText(todoItem.getStartDate());
-        endDate.setText(todoItem.getEndDate());
         doneDate.setText((todoItem.getDoneDate()==null)?resources.getString(R.string.not_done):todoItem.getDoneDate());
         roof.setText(roofDay);
+
+        itemChanged = false;
+
+         /** loading Ad **/
+         adMobController.callingAdmob();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_FIRST_USER) {
+            if(requestCode == resources.getInteger(R.integer.modify_item_request_code)) {
+                todoItem = data.getParcelableExtra(resources.getString(R.string.modified_item_key));
+
+                for(int i=0;i<day.size();i++){
+                    day.get(i).setActivated(false);
+                    day.get(i).setSelected(false); }
+
+                setData();
+                setAchievement();
+                itemChanged = true;
+            }
+            else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {
+                itemChanged = true;
+                finish();
+            }
+        }
+    }
+
+    /** set Data **/
+    public void setData(){
+
+        itemName.setText(todoItem.getItemName());
+
+        ImportanceValue = todoItem.getImportant();
+        if(ImportanceValue==1) {
+            important.setImageResource(R.drawable.important1);
+        }else if(ImportanceValue==2){
+            important.setImageResource(R.drawable.important2);
+        }else if(ImportanceValue==3){
+            important.setImageResource(R.drawable.important3);
+        }else if(ImportanceValue==4){
+            important.setVisibility(View.GONE); }
+
+        groupName.setText((todoItem.getGroupName()==null)?resources.getString(R.string.no_group):todoItem.getGroupName());
+        if(todoItem.getGroupId() == resources.getInteger(R.integer.no_group_id)){
+            groupColor.setActivated(false);
+            groupColor.getDrawable().mutate().setTint(resources.getColor(R.color.dark_gray, null));
+        }else{
+            groupColor.setActivated(true);
+            groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor())); }
+
+        startDate.setText(todoItem.getStartDate());
+        endDate.setText(todoItem.getEndDate());
+
+        if (todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
+            memoArea.setVisibility(View.GONE);
+        }else{
+            memoArea.setVisibility(View.VISIBLE);
+            itemMemo.setText(todoItem.getItemMemo()); }
+
         if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
             locationArea.setVisibility(View.GONE);
         }else{
             latitude = Double.parseDouble(todoItem.getLatitude());
             longitude = Double.parseDouble(todoItem.getLongitude());
             markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-
             getAddress(longitude, latitude);
             mapView = new MapView(this);
             mapView.setMapViewEventListener(this);
-            mapViewContainer.addView(mapView);
+            mapViewContainer.addView(mapView); }
 
+        loopWeek = todoItem.getLoopWeek();
+
+    }
+
+    /** set Achievement **/
+    public void setAchievement(){
+        double rate = 0;
+        achievementList = detailCtrl.getloopItem(todoItem.getItemId(), startDayOfWeek, endDayOfWeek + "");
+        for(int i=0;i<achievementList.size();i++){
+            String[] dateArr = achievementList.get(i).getCalenderDate().split("-");
+            today.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
+            today.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
+            today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
+            int index = today.get(Calendar.DAY_OF_WEEK)-1;
+            String doneDateValue = achievementList.get(i).getDoneDate();
+            if(doneDateValue==null || doneDateValue==""){
+                day.get(index).setActivated(true);
+                day.get(index).setSelected(false);
+            }else{
+                rate++;
+                day.get(index).setActivated(true);
+                day.get(index).setSelected(true);
+            }
         }
-        /*~ set data */
+        achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
+    }
 
-         itemChanged = false;
-
-         /** loading Ad*/
-         adMobController.callingAdmob();
+    /** convert String("yyyy-MM-dd") to Calendar **/
+    public Calendar getCalendarDate(String dateStr){
+        Calendar date = Calendar.getInstance();
+        String[] dateArr = dateStr.split("-");
+        date.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
+        date.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
+        date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
+        return date;
     }
 
 
@@ -272,7 +295,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     /*~ open option menu -> item modify, item delete) */
 
 
-
     /** Back to MainActivity **/
     public void backToMain(View view) {
         View focusedView = getCurrentFocus();
@@ -284,16 +306,16 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     }
     /*~ Back to MainActivity (Main View) */
 
+
     @Override
     public void finish() {
         if(itemChanged) {
             setResult(resources.getInteger(R.integer.item_change_return_code));
-        }
-        else {
-            setResult(RESULT_CANCELED);
-        }
+        } else {
+            setResult(RESULT_CANCELED); }
         super.finish();
     }
+
 
     /**  get Address (rest api) **/
     private void getAddress(final double longitude, final double latitude) {
@@ -354,7 +376,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                     marker.setShowCalloutBalloonOnTouch(false);
                     mapView.addPOIItem(marker);
 
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -377,7 +398,6 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                             roadAddress.setText(roadAddressName);
                             roadAddress.setVisibility(View.VISIBLE);
                         }
-
                     }
                 });
             }
@@ -385,20 +405,15 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     }
 
 
-
     /** item name copy **/
     public void itemCopy(View view){
         if(clipboard == null) clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-
         if(view.getId() == R.id.item_copy_btn) copyText = itemName.getText().toString();
         else if(view.getId() == R.id.address_copy_btn) copyText = address.getText().toString();
-
         clip = ClipData.newPlainText("item", copyText);
         clipboard.setPrimaryClip(clip);
-
         Toast.makeText(view.getContext(),resources.getString(R.string.copy_msg),Toast.LENGTH_LONG).show();
     }
-
 
 
     /** kakaomap EventListener **/
@@ -410,155 +425,41 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     @Override
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int i) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewLongPressed(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         scrollView.requestDisallowInterceptTouchEvent(true);
-
     }
 
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_FIRST_USER) {
-            if(requestCode == resources.getInteger(R.integer.modify_item_request_code)) {
-
-                todoItem = data.getParcelableExtra(resources.getString(R.string.modified_item_key));
-                itemName.setText(todoItem.getItemName());
-
-                if (todoItem.getItemMemo()==null || todoItem.getItemMemo().equals("")) {
-                    memoArea.setVisibility(View.GONE);
-                }else{
-                    memoArea.setVisibility(View.VISIBLE);
-                    itemMemo.setText(todoItem.getItemMemo()); }
-
-                ImportanceValue = todoItem.getImportant();
-                if(ImportanceValue==1) {
-                    important.setVisibility(View.VISIBLE);
-                    important.setImageResource(R.drawable.important1);
-                }else if(ImportanceValue==2){
-                    important.setVisibility(View.VISIBLE);
-                    important.setImageResource(R.drawable.important2);
-                }else if(ImportanceValue==3){
-                    important.setVisibility(View.VISIBLE);
-                    important.setImageResource(R.drawable.important3);
-                }else if(ImportanceValue==4){
-                    important.setVisibility(View.GONE);
-                }
-                groupName.setText(todoItem.getGroupName());
-                int groupId = todoItem.getGroupId();
-                if(groupId == resources.getInteger(R.integer.no_group_id)) {
-                    groupColor.setActivated(false);
-                    groupColor.getDrawable().mutate().setTint(resources.getColor(R.color.dark_gray, null));
-                }
-                else {
-                    groupColor.setActivated(true);
-                    groupColor.getDrawable().mutate().setTint(Color.parseColor(todoItem.getGroupColor()));
-                }
-
-                startDate.setText(todoItem.getStartDate());
-                endDate.setText(todoItem.getEndDate());
-
-                if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
-                    locationArea.setVisibility(View.GONE);
-                }else{
-                    locationArea.setVisibility(View.VISIBLE);
-                    latitude = Double.parseDouble(todoItem.getLatitude());
-                    longitude = Double.parseDouble(todoItem.getLongitude());
-                    markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-
-                    getAddress(longitude, latitude);
-                    mapView = new MapView(this);
-                    mapView.setMapViewEventListener(this);
-                    mapViewContainer.addView(mapView);
-                }
-
-                achievementList = detailCtrl.getloopItem(todoItem.getItemId(), todoItem.getStartDate(), todoItem.getEndDate() + "");
-
-
-                for(int i=0;i<day.size();i++){
-                    day.get(i).setActivated(false);
-                    day.get(i).setSelected(false);
-
-                }
-
-                double rate = 0;
-                for(int i=0;i<achievementList.size();i++){
-                    String[] dateArr = achievementList.get(i).getCalenderDate().split("-");
-                    today.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
-                    today.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
-                    today.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
-                    int index = today.get(Calendar.DAY_OF_WEEK)-1;
-                    String doneDateValue = achievementList.get(i).getDoneDate();
-                    if(doneDateValue==null || doneDateValue==""){
-                        day.get(index).setActivated(true);
-                        day.get(index).setSelected(false);
-                    }else{
-                        rate++;
-                        day.get(index).setActivated(true);
-                        day.get(index).setSelected(true);
-                    }
-                }
-                achievementRate.setText(Math.round((rate/achievementList.size())*100) +"%");
-
-                itemChanged = true;
-            }
-            else if(requestCode == resources.getInteger(R.integer.delete_item_request_code)) {
-                itemChanged = true;
-                finish();
-            }
-        }
-    }
-
-    /** convert String("yyyy-MM-dd") to Calendar **/
-    public Calendar getDate(String dateStr){
-        Calendar date = Calendar.getInstance();
-
-        String[] dateArr = dateStr.split("-");
-        date.set(Calendar.YEAR, Integer.parseInt(dateArr[0]));
-        date.set(Calendar.MONTH, Integer.parseInt(dateArr[1])-1);
-        date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateArr[2]));
-
-        return date;
-    }
 }
