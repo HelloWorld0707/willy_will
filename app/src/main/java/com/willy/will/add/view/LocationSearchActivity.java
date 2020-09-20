@@ -31,7 +31,6 @@ public class LocationSearchActivity extends Activity {
     private RecyclerView recyclerView = null;
     private ArrayList<Location> locationArrayList = null;
     private AdMobController adMobController = new AdMobController(this);
-    private Location location = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +87,6 @@ public class LocationSearchActivity extends Activity {
             locationArrayList.clear();
         }
 
-        location = new Location();
-        location.setPlaceName(searchText);
-        location.setUserPlaceName(searchText);
-        locationArrayList.add(location);
-
         new Thread(new Runnable() {
             String json = null;
 
@@ -128,7 +122,10 @@ public class LocationSearchActivity extends Activity {
                     JSONArray documentsObject = jsonObject.getJSONArray("documents");
                     int pageCount = metaObject.getInt("pageable_count");
                     int listSize = (pageCount<15)?pageCount:15;
-
+                    Location location = new Location();
+                    location.setPlaceName(searchText);
+                    location.setUserPlaceName(searchText);
+                    locationArrayList.add(location);
                     for(int i=0;i<listSize;i++){
                         JSONObject dataObject = documentsObject.getJSONObject(i);
                         location = new Location();
