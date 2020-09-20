@@ -229,8 +229,9 @@ public class ToDoItemDBController {
 
     public void updateItems(int toDoId, int groupId, String itemName, int important,
                             String latitude, String longitude, String startDate, String endDate,
-                            String itemMemo) {
+                            String itemMemo, String userPlaceName) {
         String itemMemoColumn = resources.getString(R.string.item_memo_column);
+        String userPlaceNameColumn = resources.getString(R.string.user_place_name_column);
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(resources.getString(R.string.group_id_column), groupId);
@@ -245,6 +246,12 @@ public class ToDoItemDBController {
         }
         else {
             contentValues.put(itemMemoColumn, itemMemo);
+        }
+        if(contentValues == null) {
+            contentValues.putNull(userPlaceNameColumn);
+        }
+        else {
+            contentValues.put(userPlaceNameColumn, userPlaceName);
         }
 
         int updatedRow = writeDatabase.update(

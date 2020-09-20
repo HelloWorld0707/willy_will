@@ -63,7 +63,7 @@ public class AddItemController {
         toDoItemDBController.updateItems(
                 toDoId, groupId, itemName, important,
                 latitude, longitude, startDate, endDate,
-                itemMemo
+                itemMemo, userPlaceName
         );
 
         try {
