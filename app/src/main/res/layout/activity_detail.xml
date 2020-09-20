@@ -267,6 +267,7 @@
                 style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/basic_margin"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -351,7 +352,6 @@
                 style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/basic_margin"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
