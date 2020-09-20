@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 // set fab(Add button) disabled
-                view.setEnabled(false);
+                view.setClickable(false);
                 // show Item add Activity
                 Intent intent = new Intent(MainActivity.this , AddItemActivity.class);
                 int code = resources.getInteger(R.integer.add_item_request_code);
@@ -329,8 +327,8 @@ public class MainActivity extends AppCompatActivity{
         }
 
         // If fab(add button) disabled, set enabled
-        if(!fab.isEnabled()) {
-            fab.setEnabled(true);
+        if(!fab.isClickable()) {
+            fab.setClickable(true);
         }
     }
     /* ~add Activity callback listner */
