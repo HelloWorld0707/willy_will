@@ -362,66 +362,68 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                         return;
                     }
                     JSONObject jsonObject = new JSONObject(json);
-                    JSONObject dataObject = jsonObject.getJSONArray("documents").getJSONObject(0);
 
-                    if(dataObject.isNull("road_address")) {
-                        roadAddressName = "";
-                    }
-                    else {
-                        JSONObject roadAddressInfo = dataObject.getJSONObject("road_address");
-                        roadAddressName = roadAddressInfo.getString("address_name");
-                    }
+                    //jsonObject.getJSONArray("documents") 변수 하나로
+                    if(jsonObject.getJSONArray("documents").length()>0){
+                        JSONObject dataObject = jsonObject.getJSONArray("documents").getJSONObject(0);
 
-                    if(dataObject.isNull("address")) {
-                        addressName = "";
-                    }
-                    else {
-                        JSONObject addressInfo = dataObject.getJSONObject("address");
-                        addressName = addressInfo.getString("address_name");
-                    }
+                        if(dataObject.isNull("road_address")) {
+                            roadAddressName = "";
+                        }
+                        else {
+                            JSONObject roadAddressInfo = dataObject.getJSONObject("road_address");
+                            roadAddressName = roadAddressInfo.getString("address_name");
+                        }
 
-                    marker = new MapPOIItem();
-                    marker.setItemName("");
-                    marker.setTag(0);
-                    marker.setMapPoint(markerPoint);
-                    marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-                    marker.setShowCalloutBalloonOnTouch(false);
-                    mapView.addPOIItem(marker);
+                        if(dataObject.isNull("address")) {
+                            addressName = "";
+                        }
+                        else {
+                            JSONObject addressInfo = dataObject.getJSONObject("address");
+                            addressName = addressInfo.getString("address_name");
+                        }
+
+                        marker = new MapPOIItem();
+                        marker.setItemName("");
+                        marker.setTag(0);
+                        marker.setMapPoint(markerPoint);
+                        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                        marker.setShowCalloutBalloonOnTouch(false);
+                        mapView.addPOIItem(marker);
+
+                        runOnUiThread(new Runnable(){
+                            @Override
+                            public void run() {
+                                if(addressName.isEmpty()) {
+                                    address.setVisibility(View.GONE);
+                                }
+                                else {
+                                    todoItem.setAddressName(addressName);
+                                    address.setText(addressName);
+                                    address.setVisibility(View.VISIBLE);
+                                }
+
+                                if(roadAddressName.isEmpty()) {
+                                    roadAddress.setVisibility(View.GONE);
+                                }else{
+                                    todoItem.setRoadAddressName(roadAddressName);
+                                    roadAddress.setText(roadAddressName);
+                                    roadAddress.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
+
+                    }else{
+                        mapArea.setVisibility(View.GONE);
+                    }
 
                 } catch (UnknownHostException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                            builder.setTitle("네트워크 에러");
-                            builder.setMessage("네트워크 연결을 확인하세요.");
-                            builder.create().show();
-                        }
-                    });
+                    mapArea.setVisibility(View.GONE);
+                    address.setText("네트워크에 연결할 수 없습니다.");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(new Runnable(){
-                    @Override
-                    public void run() {
-                        if(addressName.isEmpty()) {
-                            address.setVisibility(View.GONE);
-                        }
-                        else {
-                            todoItem.setAddressName(addressName);
-                            address.setText(addressName);
-                            address.setVisibility(View.VISIBLE);
-                        }
 
-                        if(roadAddressName.isEmpty()) {
-                            roadAddress.setVisibility(View.GONE);
-                        }else{
-                            todoItem.setRoadAddressName(roadAddressName);
-                            roadAddress.setText(roadAddressName);
-                            roadAddress.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
             }
         }).start();
     }
