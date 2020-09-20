@@ -2,7 +2,7 @@
 <resources>
     <!-- database information -->
     <string name="database_file_name">will.db</string>
-    <integer name="database_version">3</integer>
+    <integer name="database_version">4</integer>
     <!-- ~database information -->
 
     <!-- table names -->

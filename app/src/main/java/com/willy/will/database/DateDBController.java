@@ -78,6 +78,7 @@ public class DateDBController {
                         resources.getString(R.string.item_name_column)+","+
                         resources.getString(R.string.group_color_column)+","+
                         resources.getString(R.string.group_name_column)+ ", " +
+                        resources.getString(R.string.done_date_column) + ", " +
                         resources.getString(R.string.end_date_column)+ " " +
                 "FROM " + resources.getString(R.string.item_table) + " INNER JOIN " + resources.getString(R.string.group_table) + " " +
                 "ON " + resources.getString(R.string.item_table)+"."+resources.getString(R.string.group_id_column) + "=" + resources.getString(R.string.group_table) + "." + resources.getString(R.string.group_id_column) + " " +
@@ -88,6 +89,8 @@ public class DateDBController {
         Log.d("checkQuery",qry);
 
         ItemNGroup item = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar now = Calendar.getInstance();
         while(cursor.moveToNext()) {
             int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_id_column)));
             int groupId = cursor.getInt(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_id_column)));
@@ -95,15 +98,16 @@ public class DateDBController {
             String itemName = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.item_name_column)));
             String groupColor = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_color_column)));
             String groupName = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.group_name_column)));
+            String doneDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.done_date_column)));
             String endDate = cursor.getString(cursor.getColumnIndexOrThrow(resources.getString(R.string.end_date_column)));
 
             int loopId = getloopIDByTodo(todoId);
             String dDayOrAchievement = "";
             if(loopId != 0 ? true : false) {
-                dDayOrAchievement = getDetail(todoId);
+                dDayOrAchievement = getDetail(todoId, endDate, simpleDateFormat.format(now.getTime()));
             }
             else {
-                dDayOrAchievement = getDetail(endDate);
+                dDayOrAchievement = getDetail(doneDate, endDate, now);
             }
 
             item = new ItemNGroup(itemId, groupId, todoId, loopId, itemName, groupColor, groupName, dDayOrAchievement);
@@ -125,23 +129,29 @@ public class DateDBController {
         return loopId;
     }
 
-    private String getDetail(int todoId) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private String getDetail(int todoId, String endDate, String now) {
         TaskDBController taskDBController = new TaskDBController(resources);
-        String dDayOrAchievement =
-                taskDBController.getAchievementDays(
-                        todoId,
-                        simpleDateFormat.format(Calendar.getInstance().getTime())
-                );
+        String dDayOrAchievement;
+        try {
+            dDayOrAchievement = taskDBController.getAchievement(
+                    todoId,
+                    endDate,
+                    now
+            );
+        } catch (ParseException e) {
+            Log.e("DateDBController", e.toString());
+            dDayOrAchievement = "";
+        }
         return dDayOrAchievement;
     }
 
-    private String getDetail(String endDate){
+    private String getDetail(String doneDate, String endDate, Calendar now){
         TaskDBController taskDBController = new TaskDBController(resources);
         String dDayOrAchievement =
                 taskDBController.getDDay(
+                        doneDate,
                         endDate,
-                        Calendar.getInstance()
+                        now
                 );
         return dDayOrAchievement;
     }

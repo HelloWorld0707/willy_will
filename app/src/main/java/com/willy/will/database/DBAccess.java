@@ -2,6 +2,7 @@ package com.willy.will.database;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -94,15 +95,33 @@ public class DBAccess extends SQLiteOpenHelper {
 
         switch(oldVersion) {
             case 1:
-                // DB 삭제하고 새로 만드는 소스 필요함
+                // DB 삭제하고 새로 만드는 소스 필요함 (사용자에게 허락 받기도 필요)
                 break;
             case 2:
                 db.execSQL(
                         "ALTER TABLE " + resources.getString(R.string.item_table) +
-                        " ADD COLUMN ("
-                                + resources.getString(R.string.user_place_name_column) + " TEXT,"
-                                + resources.getString(R.string.item_memo_column) + " TEXT);"
+                        " ADD COLUMN " +
+                                "(" +
+                                    resources.getString(R.string.user_place_name_column) + " TEXT, " +
+                                    resources.getString(R.string.item_memo_column) + " TEXT" +
+                                ")"
                 );
+                break;
+            case 3:
+                Cursor cursor = db.rawQuery(
+                        "SELECT * " +
+                                "FROM pragma_table_info('" + resources.getString(R.string.item_table) + "') " +
+                                "WHERE name = '" + resources.getString(R.string.user_place_name_column) + "'",
+                        null
+                );
+                if(cursor.getCount() == 0) {
+                    db.execSQL(
+                            "ALTER TABLE " + resources.getString(R.string.item_table) +
+                                    " ADD COLUMN "
+                                    + resources.getString(R.string.user_place_name_column) + " TEXT"
+                    );
+                }
+                break;
         }
     }
 }
