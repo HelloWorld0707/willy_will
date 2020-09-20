@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -72,7 +71,7 @@ public class AddItemActivity extends Activity {
     private String startDateKey;
     private String endDateKey;
     private int code;
-    boolean onStartingActivity;
+    boolean firstTouchTitle;
 
     private int itemId;
     private String itemName;
@@ -111,8 +110,8 @@ public class AddItemActivity extends Activity {
                     String.format("#%08X", (0xFFFFFFFF & resources.getColor(R.color.colorNoGroup, null)))
             );
 
-            startDate = simpleDateFormat.format(today.getTime());;
-            endDate = simpleDateFormat.format(today.getTime());;
+            startDate = simpleDateFormat.format(today.getTime());
+            endDate = simpleDateFormat.format(today.getTime());
 
             address = resources.getString(R.string.no_location);
             roadAddress = "";
@@ -175,23 +174,10 @@ public class AddItemActivity extends Activity {
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         /** Set views **/
-        onStartingActivity = true;
-        final ScrollView scrollView = findViewById(R.id.add_scroll_view);
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if(onStartingActivity) {
-                    if (titleEditText.hasFocus()) {
-                        titleEditText.clearFocus();
-                    }
-                    scrollView.scrollTo(0, 0);
-                    onStartingActivity = false;
-                }
-            }
-        });
-
         titleEditText = findViewById(R.id.title_edit_text);
         titleEditText.setText(itemName);
+        titleEditText.setInputType(InputType.TYPE_NULL);
+        firstTouchTitle = true;
 
         importantSpinner = findViewById(R.id.important_spinner);
         final String[] importantArr = resources.getStringArray(R.array.importance);
@@ -272,25 +258,6 @@ public class AddItemActivity extends Activity {
         }
 
         memoSwitch = findViewById(R.id.memo_switch);
-        memoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                // checked -> add_item_repeat
-                if (memoSwitch.isChecked()) {
-                    memoEditText.setText(itemMemo);
-                    memoEditText.setVisibility(View.VISIBLE);
-                    memoEditText.requestFocus();
-                    inputMethodManager.showSoftInput(memoEditText, InputMethodManager.SHOW_IMPLICIT);
-                }
-                else {
-                    itemMemo = memoEditText.getText().toString();
-                    if(memoEditText.hasFocus()) {
-                        memoEditText.clearFocus();
-                    }
-                    inputMethodManager.hideSoftInputFromWindow(memoEditText.getWindowToken(), 0);
-                    memoEditText.setVisibility(View.GONE);
-                }
-            }
-        });
         memoEditText = findViewById(R.id.memo_edit_text);
         memoEditText.setText(itemMemo);
         if(itemMemo == null || itemMemo.equals("")) {
@@ -300,7 +267,6 @@ public class AddItemActivity extends Activity {
         else {
             memoSwitch.setChecked(true);
         }
-        titleEditText.requestFocus();
         /* ~Set views */
 
         /** Set theme of Dialogs **/
@@ -318,6 +284,16 @@ public class AddItemActivity extends Activity {
         AdMobController adMobController = new AdMobController(this);
         adMobController.callingAdmob();
         /* ~Loading Ad */
+    }
+
+    public void onEditTitle(View view) {
+        if(firstTouchTitle) {
+            titleEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+            titleEditText.requestFocus();
+            titleEditText.setSelection(titleEditText.length());
+            inputMethodManager.showSoftInput(titleEditText, InputMethodManager.SHOW_IMPLICIT);
+            firstTouchTitle = false;
+        }
     }
 
     class DateListener implements DatePickerDialog.OnDateSetListener {
@@ -341,12 +317,6 @@ public class AddItemActivity extends Activity {
                 Log.e("DateListener", "Invalid Key");
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //inputMethodManager.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
     }
 
     @Override
@@ -554,6 +524,24 @@ public class AddItemActivity extends Activity {
         int code = resources.getInteger(R.integer.location_search_code);
         intent.putExtra(resources.getString(R.string.location_search_code),code);
         startActivityForResult(intent, code);
+    }
+
+    public void clickMemoSwitch(View view) {
+        if (memoSwitch.isChecked()) {
+            memoEditText.setText(itemMemo);
+            memoEditText.setVisibility(View.VISIBLE);
+            memoEditText.requestFocus();
+            memoEditText.setSelection(memoEditText.length());
+            inputMethodManager.showSoftInput(memoEditText, InputMethodManager.SHOW_IMPLICIT);
+        }
+        else {
+            itemMemo = memoEditText.getText().toString();
+            if(memoEditText.hasFocus()) {
+                memoEditText.clearFocus();
+            }
+            inputMethodManager.hideSoftInputFromWindow(memoEditText.getWindowToken(), 0);
+            memoEditText.setVisibility(View.GONE);
+        }
     }
 
     // Receive result data from other Activities

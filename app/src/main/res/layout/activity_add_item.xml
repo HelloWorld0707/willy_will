@@ -54,22 +54,15 @@
                 android:orientation="vertical" >
 
                 <!-- item title -->
-                <LinearLayout
+                <EditText
+                    android:id="@+id/title_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/title_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:hint="@string/edit_Title"
-                        android:inputType="textPersonName"
-                        android:maxLength="@integer/item_title_max"
-                        android:textSize="20dp" />
-
-                </LinearLayout>
+                    android:background="@null"
+                    android:hint="@string/edit_Title"
+                    android:maxLength="@integer/item_title_max"
+                    android:onClick="onEditTitle"
+                    android:textSize="20dp" />
 
                 <!-- item important -->
                 <RelativeLayout
@@ -355,7 +348,8 @@
                         style="@style/DetailTitleStyle"
                         android:layout_width="100dp"
                         android:layout_height="@dimen/detail_list_thick_height"
-                        android:layout_alignParentEnd="true" />
+                        android:layout_alignParentEnd="true"
+                        android:onClick="clickMemoSwitch" />
                 </RelativeLayout>
 
                 <EditText
