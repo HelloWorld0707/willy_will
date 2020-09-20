@@ -9,7 +9,7 @@
     <string name="done_date">완료 날짜</string>
     <string name="loop">반복</string>
     <string name="achievement_rate">%1$d%% 달성</string>
-    <string name="achievement_days">연속 %1$d일 달성</string>
+    <string name="achievement_days">연속 %1$d일</string>
     <string name="delete_msg">삭제하시겠습니까?</string>
     <string name="successful_delete">삭제되었습니다.</string>
     <string name="move_msg">변경하시겠습니까?</string>
