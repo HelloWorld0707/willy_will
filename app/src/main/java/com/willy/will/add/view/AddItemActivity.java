@@ -389,6 +389,12 @@ public class AddItemActivity extends Activity {
                     itemMemo = null;
                 }
 
+                String addressVal = addressTextView.getText().toString();
+                if(addressVal == null || addressVal == ""){
+                    latitude = null;
+                    longitude = null;
+                }
+
                 ArrayList<String> checkedDays;
                 if (code == ADD_CODE) {
                     if (repeatSwitch.isChecked()) {
