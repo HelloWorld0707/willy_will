@@ -113,11 +113,11 @@ public class AddItemActivity extends Activity {
             startDate = simpleDateFormat.format(today.getTime());
             endDate = simpleDateFormat.format(today.getTime());
 
+            latitudeNum = resources.getInteger(R.integer.default_location);
+            longitudeNum = resources.getInteger(R.integer.default_location);
             address = "";
             roadAddress = "";
             userPlaceName = "";
-            latitudeNum = resources.getInteger(R.integer.default_location);
-            longitudeNum = resources.getInteger(R.integer.default_location);
 
             itemMemo = "";
         }
@@ -139,23 +139,22 @@ public class AddItemActivity extends Activity {
             startDate = selectedItem.getStartDate();
             endDate = selectedItem.getEndDate();
 
-            address = selectedItem.getAddressName();
-            roadAddress = selectedItem.getRoadAddressName();
-            userPlaceName = selectedItem.getUserPlaceName();
-
             String latitude = selectedItem.getLatitude();
             String longitude = selectedItem.getLongitude();
-            if(latitude == null) {
-                latitudeNum = resources.getInteger(R.integer.default_location);
+            int defaultLocationNum = resources.getInteger(R.integer.default_location);
+            if(latitude == null || longitude == null) {
+                latitudeNum = defaultLocationNum;
+                longitudeNum = defaultLocationNum;
+                address = "";
+                roadAddress = "";
+                userPlaceName = selectedItem.getUserPlaceName();
             }
             else {
                 latitudeNum = Double.parseDouble(latitude);
-            }
-            if(longitude == null) {
-                longitudeNum = resources.getInteger(R.integer.default_location);
-            }
-            else {
                 longitudeNum = Double.parseDouble(longitude);
+                address = selectedItem.getAddressName();
+                roadAddress = selectedItem.getRoadAddressName();
+                userPlaceName = "";
             }
 
             loopWeek = selectedItem.getLoopWeek();
@@ -369,16 +368,13 @@ public class AddItemActivity extends Activity {
             }
             else {
                 String latitude, longitude;
-                if(latitudeNum == resources.getInteger(R.integer.default_location)) {
+                final int defaultLocationNum = resources.getInteger(R.integer.default_location);
+                if(latitudeNum == defaultLocationNum || longitudeNum == defaultLocationNum) {
                     latitude = null;
-                }
-                else {
-                    latitude = Double.toString(latitudeNum);
-                }
-                if(longitudeNum == resources.getInteger(R.integer.default_location)) {
                     longitude = null;
                 }
                 else {
+                    latitude = Double.toString(latitudeNum);
                     longitude = Double.toString(longitudeNum);
                 }
 
@@ -568,7 +564,7 @@ public class AddItemActivity extends Activity {
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
 
-                int defaultLocationNum = resources.getInteger(R.integer.default_location);
+                final int defaultLocationNum = resources.getInteger(R.integer.default_location);
 
                 if(latitudeNum == 0.0  && longitudeNum == 0.0){
                     latitudeNum = defaultLocationNum;
