@@ -261,10 +261,13 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
                 getAddress(longitude, latitude);
                 if(mapView == null){
-                    mapView = new MapView(this);
-                }
+                    mapView = new MapView(this); }
                 mapView.setMapViewEventListener(this);
-                mapViewContainer.addView(mapView); }
+
+                if(mapViewContainer!=null){
+                    mapViewContainer.removeView(mapView); }
+                mapViewContainer.addView(mapView);
+            }
         }else{
             address.setVisibility(View.VISIBLE);
             address.setText(userPlaceNameVal);
