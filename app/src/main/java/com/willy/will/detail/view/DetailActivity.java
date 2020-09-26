@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +19,23 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
+
 import com.willy.will.R;
 import com.willy.will.add.view.AddItemActivity;
 import com.willy.will.common.controller.AdMobController;
 import com.willy.will.common.model.ToDoItem;
 import com.willy.will.detail.controller.DetailController;
 import com.willy.will.detail.model.Item;
+
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -217,61 +221,39 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
             memoArea.setVisibility(View.VISIBLE);
             itemMemo.setText(todoItem.getItemMemo()); }
 
-
-       if(todoItem.getLatitude()==null && todoItem.getLongitude()==null){
-           addressName = "";
-           address.setText(addressName);
-           address.setVisibility(View.GONE);
-           roadAddressName = "";
-           roadAddress.setText(roadAddressName);
-           roadAddress.setVisibility(View.GONE);
-
-
-           userPlaceNameVal = todoItem.getUserPlaceName();
-           if(userPlaceNameVal == null || userPlaceNameVal.equals("")){
-               userPlaceNameVal = "";
-               userPlaceName.setText(userPlaceNameVal);
-               userPlaceName.setVisibility(View.GONE);
-               locationArea.setVisibility(View.GONE);
-           }else{
-               userPlaceName.setText(userPlaceNameVal);
-               userPlaceName.setVisibility(View.VISIBLE);
-               locationArea.setVisibility(View.VISIBLE);
-           }
-       }else{
-           mapArea.setVisibility(View.VISIBLE);
-           latitude = Double.parseDouble(todoItem.getLatitude());
-           longitude = Double.parseDouble(todoItem.getLongitude());
-           markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-           getAddress(longitude, latitude);
-           mapView = new MapView(this);
-           mapView.setMapViewEventListener(this);
-           mapViewContainer.addView(mapView);
-       }
-
-
-        userPlaceNameVal = todoItem.getUserPlaceName();
-        if(userPlaceNameVal == null || userPlaceNameVal.equals("")){
-            if(todoItem.getLongitude()==null||todoItem.getLatitude()==null){
-                locationArea.setVisibility(View.GONE);
-            }else{
-                mapArea.setVisibility(View.VISIBLE);
-                latitude = Double.parseDouble(todoItem.getLatitude());
-                longitude = Double.parseDouble(todoItem.getLongitude());
-                markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-                getAddress(longitude, latitude);
-                if(mapView == null){
-                    mapView = new MapView(this); }
-                mapView.setMapViewEventListener(this);
-
-                if(mapViewContainer!=null){
-                    mapViewContainer.removeView(mapView); }
-                mapViewContainer.addView(mapView);
-            }
-        }else{
-            address.setVisibility(View.VISIBLE);
-            address.setText(userPlaceNameVal);
+        if (todoItem.getLatitude() == null || todoItem.getLongitude() == null) {
+            addressName = "";
+            address.setText(addressName);
+            address.setVisibility(View.GONE);
+            roadAddressName = "";
+            roadAddress.setText(roadAddressName);
+            roadAddress.setVisibility(View.GONE);
             mapArea.setVisibility(View.GONE);
+
+            userPlaceNameVal = todoItem.getUserPlaceName();
+            if (userPlaceNameVal == null || userPlaceNameVal.equals("")) {
+                userPlaceNameVal = "";
+                userPlaceName.setText(userPlaceNameVal);
+                userPlaceName.setVisibility(View.GONE);
+                locationArea.setVisibility(View.GONE);
+            } else {
+                userPlaceName.setText(userPlaceNameVal);
+                userPlaceName.setVisibility(View.VISIBLE);
+                locationArea.setVisibility(View.VISIBLE);
+            }
+        } else {
+            latitude = Double.parseDouble(todoItem.getLatitude());
+            longitude = Double.parseDouble(todoItem.getLongitude());
+            markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+            getAddress(longitude, latitude);
+            mapView = new MapView(this);
+            mapView.setMapViewEventListener(this);
+            mapViewContainer.addView(mapView);
+            mapArea.setVisibility(View.VISIBLE);
+
+            userPlaceNameVal = "";
+            userPlaceName.setText(userPlaceNameVal);
+            userPlaceName.setVisibility(View.GONE);
         }
 
         loopWeek = todoItem.getLoopWeek();
@@ -472,8 +454,20 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
     /** item name copy **/
     public void itemCopy(View view){
         if(clipboard == null) clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        if(view.getId() == R.id.item_copy_btn) copyText = itemName.getText().toString();
-        else if(view.getId() == R.id.address_copy_btn) copyText = address.getText().toString();
+        if(view.getId() == R.id.item_copy_btn) {
+            copyText = itemName.getText().toString();
+        }
+        else if(view.getId() == R.id.address_copy_btn) {
+            if(userPlaceName.getVisibility() == View.VISIBLE) {
+                copyText = userPlaceName.getText().toString();
+            }
+            else {
+                copyText = address.getText().toString();
+            }
+        }
+        else {
+            copyText = "";
+        }
         clip = ClipData.newPlainText("item", copyText);
         clipboard.setPrimaryClip(clip);
         Toast.makeText(view.getContext(),resources.getString(R.string.copy_msg),Toast.LENGTH_LONG).show();
