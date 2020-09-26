@@ -1,7 +1,6 @@
 package com.willy.will.detail.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -47,7 +46,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
 
     private ImageView important, groupColor;
     private ImageButton editButton;
-    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress, itemMemo;
+    private TextView itemName, groupName, startDate, endDate, doneDate, roof,achievementRate, address, roadAddress, userPlaceName, itemMemo;
     private RelativeLayout doneDateArea, mapArea;
     private LinearLayout achievementRateArea, locationArea, memoArea;
     private String roofDay = "";
@@ -99,6 +98,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         roof = findViewById(R.id.loof);
         address = findViewById(R.id.address);
         roadAddress = findViewById(R.id.road_address);
+        userPlaceName = findViewById(R.id.user_place_name);
         mapViewContainer = findViewById(R.id.map_view);
         groupColor = findViewById(R.id.group_color);
         editButton = findViewById(R.id.edit_button);
@@ -216,6 +216,38 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
         }else{
             memoArea.setVisibility(View.VISIBLE);
             itemMemo.setText(todoItem.getItemMemo()); }
+
+
+       if(todoItem.getLatitude()==null && todoItem.getLongitude()==null){
+           addressName = "";
+           address.setText(addressName);
+           address.setVisibility(View.GONE);
+           roadAddressName = "";
+           roadAddress.setText(roadAddressName);
+           roadAddress.setVisibility(View.GONE);
+
+
+           userPlaceNameVal = todoItem.getUserPlaceName();
+           if(userPlaceNameVal == null || userPlaceNameVal.equals("")){
+               userPlaceNameVal = "";
+               userPlaceName.setText(userPlaceNameVal);
+               userPlaceName.setVisibility(View.GONE);
+               locationArea.setVisibility(View.GONE);
+           }else{
+               userPlaceName.setText(userPlaceNameVal);
+               userPlaceName.setVisibility(View.VISIBLE);
+               locationArea.setVisibility(View.VISIBLE);
+           }
+       }else{
+           mapArea.setVisibility(View.VISIBLE);
+           latitude = Double.parseDouble(todoItem.getLatitude());
+           longitude = Double.parseDouble(todoItem.getLongitude());
+           markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+           getAddress(longitude, latitude);
+           mapView = new MapView(this);
+           mapView.setMapViewEventListener(this);
+           mapViewContainer.addView(mapView);
+       }
 
 
         userPlaceNameVal = todoItem.getUserPlaceName();
@@ -395,6 +427,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                             @Override
                             public void run() {
                                 if(addressName.isEmpty()) {
+                                    address.setText("");
                                     address.setVisibility(View.GONE);
                                 }
                                 else {
@@ -404,6 +437,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                                 }
 
                                 if(roadAddressName.isEmpty()) {
+                                    roadAddress.setText("");
                                     roadAddress.setVisibility(View.GONE);
                                 }else{
                                     todoItem.setRoadAddressName(roadAddressName);
