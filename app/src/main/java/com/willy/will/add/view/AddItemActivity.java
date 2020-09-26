@@ -113,7 +113,7 @@ public class AddItemActivity extends Activity {
             startDate = simpleDateFormat.format(today.getTime());
             endDate = simpleDateFormat.format(today.getTime());
 
-            address = resources.getString(R.string.no_location);
+            address = "";
             roadAddress = "";
             userPlaceName = "";
             latitudeNum = resources.getInteger(R.integer.default_location);
@@ -563,40 +563,48 @@ public class AddItemActivity extends Activity {
                 selectedGroup = data.getParcelableExtra(groupSettingKey);
                 groupTextView.setText(selectedGroup.getGroupName());
             }else if(requestCode == resources.getInteger(R.integer.location_search_code)){
+
                 Location location = data.getParcelableExtra(resources.getString(R.string.location_search_key));
                 latitudeNum = location.getLatitude();
                 longitudeNum = location.getLongitude();
 
-                address = location.getAddressName();
-                if(address==null || address.equals("")){
-                    addressTextView.setVisibility(View.VISIBLE);
-                    addressTextView.setText("위치없음");
+                int defaultLocationNum = resources.getInteger(R.integer.default_location);
+
+                if(latitudeNum == 0.0  && longitudeNum == 0.0){
+                    latitudeNum = defaultLocationNum;
+                    longitudeNum = defaultLocationNum;
+
+                    address = "";
+                    addressTextView.setText(address);
+                    addressTextView.setVisibility(View.GONE);
+                    roadAddress = "";
+                    roadAddressTextView.setText(roadAddress);
+                    roadAddressTextView.setVisibility(View.GONE);
 
                     userPlaceName = location.getUserPlaceName();
                     if(userPlaceName == null || userPlaceName.equals("")){
+                        userPlaceName = "";
+                        userPlaceNameTextView.setText(userPlaceName);
                         userPlaceNameTextView.setVisibility(View.GONE);
-                        userPlaceNameTextView.setText("");
                     }else{
-                        addressTextView.setVisibility(View.GONE);
-                        addressTextView.setText("");
-                        roadAddressTextView.setVisibility(View.GONE);
-                        roadAddressTextView.setText("");
+                        userPlaceNameTextView.setText(userPlaceName);
                         userPlaceNameTextView.setVisibility(View.VISIBLE);
-                        userPlaceNameTextView.setText(userPlaceName); }
+                    }
+
                 }else{
-                    addressTextView.setVisibility(View.VISIBLE);
+                    address = location.getAddressName();
                     addressTextView.setText(address);
-                    userPlaceNameTextView.setVisibility(View.GONE);
-                    userPlaceNameTextView.setText("");
+                    addressTextView.setVisibility(View.VISIBLE);
 
                     roadAddress = location.getRoadAddressName();
-                    if(roadAddress == null || roadAddress.equals("")){
-                        roadAddressTextView.setVisibility(View.GONE);
-                        roadAddressTextView.setText("");
-                    }else{
-                        roadAddressTextView.setVisibility(View.VISIBLE);
-                        roadAddressTextView.setText(roadAddress); }
+                    roadAddressTextView.setText(roadAddress);
+                    roadAddressTextView.setVisibility(View.VISIBLE);
+
+                    userPlaceName = "";
+                    userPlaceNameTextView.setText(userPlaceName);
+                    userPlaceNameTextView.setVisibility(View.GONE);
                 }
+
             }
         }
         /* ~Success to receive data */
