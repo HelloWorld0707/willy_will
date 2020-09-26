@@ -307,6 +307,7 @@ public class MainActivity extends AppCompatActivity{
                 try {
                     Date rdate = sdf2.parse(receivedDate); //"YYYY-mm-DD"
                     baseDate = sdf.format(rdate.getTime());
+                    sendDate = sdf2.format(rdate.getTime());
                     todayDate.setTime(rdate);
                 } catch (ParseException e) {
                     e.printStackTrace();
