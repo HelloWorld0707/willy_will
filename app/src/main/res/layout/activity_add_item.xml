@@ -125,7 +125,6 @@
                 style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/basic_margin"
                 android:orientation="vertical">
 
                 <!-- start date -->
@@ -239,7 +238,8 @@
                 style="@style/RoundLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/basic_margin">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -264,8 +264,8 @@
                     android:id="@+id/repeat_check_boxes_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:orientation="horizontal"
+                    android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
