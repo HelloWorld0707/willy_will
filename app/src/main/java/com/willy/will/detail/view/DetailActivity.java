@@ -260,7 +260,9 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                 longitude = Double.parseDouble(todoItem.getLongitude());
                 markerPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude);
                 getAddress(longitude, latitude);
-                mapView = new MapView(this);
+                if(mapView == null){
+                    mapView = new MapView(this);
+                }
                 mapView.setMapViewEventListener(this);
                 mapViewContainer.addView(mapView); }
         }else{
