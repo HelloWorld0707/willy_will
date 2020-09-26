@@ -325,6 +325,7 @@ public class DetailActivity extends Activity implements MapView.MapViewEventList
                         intent = new Intent(DetailActivity.this, AddItemActivity.class);
                         intent.putExtra(resources.getString(R.string.selected_item_key), todoItem);
                         code = resources.getInteger(R.integer.modify_item_request_code);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         intent.putExtra(resources.getString(R.string.request_code), code);
                         startActivityForResult(intent, code);
                         return true;
