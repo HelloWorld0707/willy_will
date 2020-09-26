@@ -420,7 +420,6 @@
                         android:padding="5dp"
                         android:src="@drawable/bt_copy"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/address"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
