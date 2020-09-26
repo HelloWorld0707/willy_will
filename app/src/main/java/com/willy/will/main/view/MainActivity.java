@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity{
         tv_date.setText(todayDate);
         deleteFragment();
         updateFragement(groupId,DBDate);
+        sendDate = DBDate;
     }
 
     /** Function: Move to SearchView */

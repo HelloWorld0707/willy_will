@@ -115,7 +115,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <include layout="@layout/item_admob"></include>

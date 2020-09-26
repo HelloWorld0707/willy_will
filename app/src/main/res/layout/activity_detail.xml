@@ -464,7 +464,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
         app:layout_constraintTop_toBottomOf="@+id/scroll_view"
         app:layout_constraintBottom_toBottomOf="@+id/container"
         app:layout_constraintStart_toStartOf="@+id/container"
