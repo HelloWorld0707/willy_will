@@ -93,35 +93,43 @@ public class DBAccess extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Resources resources = App.getContext().getResources();
 
-        switch(oldVersion) {
-            case 1:
-                // DB 삭제하고 새로 만드는 소스 필요함 (사용자에게 허락 받기도 필요)
-                break;
-            case 2:
+        if(oldVersion <= 1) {
+            // DB 삭제하고 새로 만드는 소스 필요함
+            return;
+        }
+
+        if(oldVersion <= 2) {
+            Cursor cursor = db.rawQuery(
+                    "SELECT *" +
+                            " FROM pragma_table_info('" + resources.getString(R.string.item_table) + "')" +
+                            " WHERE name = '" + resources.getString(R.string.item_memo_column) + "'",
+                    null
+            );
+            if(cursor.getCount() == 0) {
                 db.execSQL(
-                        "ALTER TABLE " + resources.getString(R.string.item_table) +
-                        " ADD COLUMN " +
-                                "(" +
-                                    resources.getString(R.string.user_place_name_column) + " TEXT, " +
-                                    resources.getString(R.string.item_memo_column) + " TEXT" +
-                                ")"
+                        "ALTER TABLE " +
+                                resources.getString(R.string.item_table) +
+                                " ADD COLUMN " +
+                                resources.getString(R.string.item_memo_column) + " TEXT"
                 );
-                break;
-            case 3:
-                Cursor cursor = db.rawQuery(
-                        "SELECT * " +
-                                "FROM pragma_table_info('" + resources.getString(R.string.item_table) + "') " +
-                                "WHERE name = '" + resources.getString(R.string.user_place_name_column) + "'",
-                        null
+            }
+        }
+
+        if(oldVersion <= 3) {
+            Cursor cursor = db.rawQuery(
+                    "SELECT *" +
+                            " FROM pragma_table_info('" + resources.getString(R.string.item_table) + "')" +
+                            " WHERE name = '" + resources.getString(R.string.user_place_name_column) + "'",
+                    null
+            );
+            if(cursor.getCount() == 0) {
+                db.execSQL(
+                        "ALTER TABLE " +
+                                resources.getString(R.string.item_table) +
+                                " ADD COLUMN " +
+                                resources.getString(R.string.user_place_name_column) + " TEXT"
                 );
-                if(cursor.getCount() == 0) {
-                    db.execSQL(
-                            "ALTER TABLE " + resources.getString(R.string.item_table) +
-                                    " ADD COLUMN "
-                                    + resources.getString(R.string.user_place_name_column) + " TEXT"
-                    );
-                }
-                break;
+            }
         }
     }
 }
