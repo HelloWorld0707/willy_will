@@ -21,8 +21,8 @@ android {
         applicationId "com.willy.will"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 2
-        versionName "0.1.2"
+        versionCode 3
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release
     }
@@ -43,9 +43,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/libDaumMapAndroid.jar')
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-
-    //seongsik : chip
-    implementation 'com.android.support:design:29.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
