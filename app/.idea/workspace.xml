@@ -25,6 +25,12 @@
       </state>
     </system>
   </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/upload_key.jks" />
+    <option name="KEY_ALIAS" value="release0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -36,10 +42,15 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ApkExportedModule" value="app" />
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="ExportApk.SignV2" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="memory.settings.postsync.last.time.stamp" value="1601453600339" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -113,5 +124,27 @@
       <updated>1601453588732</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1358" height="279" key="GridCell.Tab.0.bottom" timestamp="1601454245503">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1358" height="279" key="GridCell.Tab.0.bottom/0.23.1680.947/1680.23.1920.1057@1680.23.1920.1057" timestamp="1601454245503" />
+    <state width="1358" height="279" key="GridCell.Tab.0.center" timestamp="1601454245502">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1358" height="279" key="GridCell.Tab.0.center/0.23.1680.947/1680.23.1920.1057@1680.23.1920.1057" timestamp="1601454245502" />
+    <state width="1358" height="279" key="GridCell.Tab.0.left" timestamp="1601454245500">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1358" height="279" key="GridCell.Tab.0.left/0.23.1680.947/1680.23.1920.1057@1680.23.1920.1057" timestamp="1601454245500" />
+    <state width="1358" height="279" key="GridCell.Tab.0.right" timestamp="1601454245503">
+      <screen x="1680" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1358" height="279" key="GridCell.Tab.0.right/0.23.1680.947/1680.23.1920.1057@1680.23.1920.1057" timestamp="1601454245503" />
+    <state x="340" y="112" key="SettingsEditor" timestamp="1601454239930">
+      <screen x="0" y="23" width="1680" height="947" />
+    </state>
+    <state x="340" y="112" key="SettingsEditor/0.23.1680.947/1680.23.1920.1057@1680.23.1920.1057" timestamp="1601454239930" />
   </component>
 </project>
