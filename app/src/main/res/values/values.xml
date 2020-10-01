@@ -3,6 +3,12 @@
 
     <!-- #################### ~STRING #################### -->
 
+    <!-- for AdMob -->
+    <string name="admob_app_id">ca-app-pub-1654983914122261~3692759505</string>
+    <string name="admob_banner_unit_id">ca-app-pub-1654983914122261/5935779460</string>
+    <string name="admob_test_banner_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!-- ~for AdMob -->
+
     <!-- extra names of Intent -->
     <string name="item_id">itemId</string>
 
