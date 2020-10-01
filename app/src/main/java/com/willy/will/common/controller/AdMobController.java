@@ -2,10 +2,12 @@ package com.willy.will.common.controller;
 
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.willy.will.R;
 
 import static com.willy.will.main.view.MainActivity.adRequest;
@@ -36,8 +38,9 @@ public class AdMobController {
             }
 
             @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
+            public void onAdFailedToLoad(LoadAdError error) {
+                super.onAdFailedToLoad(error);
+                Log.i("AdMobController", error.toString());
                 imageView.setVisibility(imageView.VISIBLE);
                 adView.setVisibility(adView.GONE);
             }
