@@ -22,7 +22,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-1654983914122261/5935779460">
-        <!-- 테스트용 UnitId 업로드 이전에 바꿔야함-->
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        <!-- 테스트용 UnitId 업로드 이전에 바꿔야함 -->
+        <!--ads:adUnitId="ca-app-pub-1654983914122261/5935779460">-->
     </com.google.android.gms.ads.AdView>
 </LinearLayout>

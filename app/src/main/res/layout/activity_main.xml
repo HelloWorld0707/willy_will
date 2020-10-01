@@ -10,157 +10,156 @@
     android:id="@+id/drawer_layout"
     tools:context=".main.view.MainActivity">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".main.view.MainActivity">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/main_top_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingRight="21dp"
-                android:paddingLeft="21dp"
-                android:paddingTop="@dimen/basic_padding"
-                android:paddingBottom="@dimen/basic_padding">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="TextView"
-                        android:textColor="@color/colorString"
-                        android:textSize="@dimen/main_date_text_size"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_go_today"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginEnd="107dp"
-                        android:layout_marginRight="107dp"
-                        android:layout_toEndOf="@+id/tv_date"
-                        android:onClick="todayFragment"
-                        android:text="오늘"
-                        android:textColor="@color/dark_gray"
-                        android:textSize="@dimen/main_today_text_size" />
-
-                    <ImageButton
-                        android:id="@+id/btnSearch"
-                        android:layout_width="@dimen/actionbar_button_size"
-                        android:layout_height="@dimen/actionbar_button_size"
-                        android:layout_alignBottom="@id/tv_date"
-                        android:layout_alignParentBottom="false"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/button_margin"
-                        android:layout_marginTop="@dimen/button_margin"
-                        android:layout_marginEnd="@dimen/button_margin"
-                        android:layout_marginBottom="@dimen/button_margin"
-                        android:layout_toLeftOf="@id/btnCalendar"
-                        android:background="@drawable/ic_search_24px"
-                        android:onClick="btnSearchClick" />
-
-                    <ImageButton
-                        android:id="@+id/btnCalendar"
-                        android:layout_width="@dimen/actionbar_button_size"
-                        android:layout_height="@dimen/actionbar_button_size"
-                        android:layout_alignBottom="@id/tv_date"
-                        android:layout_alignParentRight="false"
-                        android:layout_gravity="bottom"
-                        android:layout_marginStart="@dimen/button_margin"
-                        android:layout_marginTop="@dimen/button_margin"
-                        android:layout_marginEnd="@dimen/button_margin"
-                        android:layout_marginBottom="@dimen/button_margin"
-                        android:layout_toLeftOf="@id/btnSetting"
-                        android:background="@drawable/ic_date_range_24px"
-                        android:onClick="btnCalendarClick" />
-
-                    <ImageButton
-                        android:id="@+id/btnSetting"
-                        android:layout_width="@dimen/actionbar_button_size"
-                        android:layout_height="@dimen/actionbar_button_size"
-                        android:layout_alignBottom="@id/tv_date"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="bottom|left"
-                        android:layout_marginStart="@dimen/button_margin"
-                        android:layout_marginTop="@dimen/button_margin"
-                        android:layout_marginEnd="@dimen/button_margin"
-                        android:layout_marginBottom="@dimen/button_margin"
-                        android:background="@drawable/ic_settings_24px"
-                        android:onClick="btnSettingClick" />
-                </RelativeLayout>
-
-                <Spinner
-                    android:id="@+id/sp_group"
-                    android:layout_width="@dimen/spinner_width"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="21dp"
+            android:paddingTop="@dimen/basic_padding"
+            android:paddingRight="21dp"
+            android:paddingBottom="@dimen/basic_padding"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:id="@+id/fragmentcontainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/admobLayout"
-                    android:layout_marginBottom="0dp"
-                    android:baselineAligned="true">
-
-                    <!-- Fab -->
-                    <!-- ~Fab -->
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fabItemAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginBottom="30dp"
-                        android:src="@drawable/ic_add_24px"
-                        app:backgroundTint="@color/colorPrimary" />
-
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/admobLayout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="0dp">
+                    android:layout_alignParentLeft="true"
+                    android:text="TextView"
+                    android:textColor="@color/colorString"
+                    android:textSize="@dimen/main_date_text_size"
+                    android:textStyle="bold" />
 
-                    <include layout="@layout/item_admob"></include>
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_go_today"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="107dp"
+                    android:layout_marginRight="107dp"
+                    android:layout_toEndOf="@+id/tv_date"
+                    android:onClick="todayFragment"
+                    android:text="오늘"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="@dimen/main_today_text_size" />
+
+                <ImageButton
+                    android:id="@+id/btnSearch"
+                    android:layout_width="@dimen/actionbar_button_size"
+                    android:layout_height="@dimen/actionbar_button_size"
+                    android:layout_alignBottom="@id/tv_date"
+                    android:layout_alignParentBottom="false"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/button_margin"
+                    android:layout_marginTop="@dimen/button_margin"
+                    android:layout_marginEnd="@dimen/button_margin"
+                    android:layout_marginBottom="@dimen/button_margin"
+                    android:layout_toLeftOf="@id/btnCalendar"
+                    android:background="@drawable/ic_search_24px"
+                    android:onClick="btnSearchClick" />
+
+                <ImageButton
+                    android:id="@+id/btnCalendar"
+                    android:layout_width="@dimen/actionbar_button_size"
+                    android:layout_height="@dimen/actionbar_button_size"
+                    android:layout_alignBottom="@id/tv_date"
+                    android:layout_alignParentRight="false"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/button_margin"
+                    android:layout_marginTop="@dimen/button_margin"
+                    android:layout_marginEnd="@dimen/button_margin"
+                    android:layout_marginBottom="@dimen/button_margin"
+                    android:layout_toLeftOf="@id/btnSetting"
+                    android:background="@drawable/ic_date_range_24px"
+                    android:onClick="btnCalendarClick" />
+
+                <ImageButton
+                    android:id="@+id/btnSetting"
+                    android:layout_width="@dimen/actionbar_button_size"
+                    android:layout_height="@dimen/actionbar_button_size"
+                    android:layout_alignBottom="@id/tv_date"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="bottom|left"
+                    android:layout_marginStart="@dimen/button_margin"
+                    android:layout_marginTop="@dimen/button_margin"
+                    android:layout_marginEnd="@dimen/button_margin"
+                    android:layout_marginBottom="@dimen/button_margin"
+                    android:background="@drawable/ic_settings_24px"
+                    android:onClick="btnSettingClick" />
             </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/sp_group"
+                android:layout_width="@dimen/spinner_width"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/match_constraint"
+            app:layout_constraintTop_toBottomOf="@id/main_top_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/admobLayout">
 
+            <RelativeLayout
+                android:id="@+id/fragmentcontainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <!-- Fab -->
+                <!-- ~Fab -->
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabItemAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/ic_add_24px"
+                    app:backgroundTint="@color/colorPrimary" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/admobLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <include layout="@layout/item_admob"></include>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include layout="@layout/nav_view"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>

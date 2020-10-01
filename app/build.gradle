@@ -21,8 +21,8 @@ android {
         applicationId "com.willy.will"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.0"
+        versionCode 5
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release
     }
@@ -53,5 +53,5 @@ dependencies {
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
     //admob
-    implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.google.android.gms:play-services-ads:19.4.0'
 }

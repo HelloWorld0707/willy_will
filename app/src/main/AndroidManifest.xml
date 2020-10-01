@@ -30,7 +30,9 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1654983914122261~3692759505"/>
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            <!-- 테스트용 UnitId 업로드 이전에 바꿔야함 -->
+            <!--android:value="ca-app-pub-1654983914122261~3692759505"/>-->
 
         <activity
             android:name=".main.view.MainActivity"
