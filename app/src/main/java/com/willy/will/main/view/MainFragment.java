@@ -80,8 +80,8 @@ public class MainFragment extends Fragment {
         setRecyclerView();
 
         if(list.isEmpty()) {
-            recyclerView.setVisibility(rootView.GONE);
-            nullList.setVisibility(rootView.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            nullList.setVisibility(View.VISIBLE);
         }
 
         return rootView;
@@ -99,12 +99,12 @@ public class MainFragment extends Fragment {
         recyclerView.getAdapter().notifyDataSetChanged();
 
         if (list.isEmpty()) {
-            recyclerView.setVisibility(rootView.GONE);
-            nullList.setVisibility(rootView.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            nullList.setVisibility(View.VISIBLE);
         }
         else {
-            nullList.setVisibility(rootView.GONE);
-            recyclerView.setVisibility(rootView.VISIBLE);
+            nullList.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     }
 
