@@ -101,6 +101,7 @@
     <!-- Group -->
     <integer name="no_group_id">0</integer>
     <integer name="number_of_group_colors">10</integer>
+    <integer name="no_group_selected">-1</integer>
     <!-- ~Group -->
 
     <!-- Group Search Setting -->

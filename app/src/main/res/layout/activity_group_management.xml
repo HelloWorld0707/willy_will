@@ -89,11 +89,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/group_list_layout"
         style="@style/BottomLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        app:layout_constraintBottom_toTopOf="@id/admobLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/group_recycler_view"
@@ -115,6 +115,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <include layout="@layout/item_admob"></include>

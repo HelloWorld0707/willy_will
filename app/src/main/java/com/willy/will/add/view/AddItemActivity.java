@@ -473,6 +473,7 @@ public class AddItemActivity extends Activity {
 
         int code = resources.getInteger(R.integer.group_setting_code);
         intent.putExtra(resources.getString(R.string.request_code), code);
+        intent.putExtra(resources.getString(R.string.current_group_key), selectedGroup);
         startActivityForResult(intent, code);
     }
 

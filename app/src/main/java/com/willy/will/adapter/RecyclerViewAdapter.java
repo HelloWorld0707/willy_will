@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.willy.will.common.model.Group;
 import com.willy.will.common.model.RecyclerViewItemType;
 
 import java.util.ArrayList;
@@ -63,6 +64,21 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerViewHol
     }
     public void setSelectedPosition(int position) {
         this.selectedPosition = position;
+    }
+
+    // For Group Management
+    public void setSelectedGroup(int selectedGroupId) {
+        if(type == RecyclerViewItemType.GROUP) {
+            int selectedIndex = 0;
+            final int SIZE = dataset.size();
+            for(int index = 0; index < SIZE; index++) {
+                if(((Group) dataset.get(index)).getGroupId() == selectedGroupId) {
+                    selectedIndex = index;
+                    break;
+                }
+            }
+            setSelectedPosition(selectedIndex);
+        }
     }
 
     // Called for each item

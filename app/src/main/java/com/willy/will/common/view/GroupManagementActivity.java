@@ -46,6 +46,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private ArrayList<Group> groupList;
+    private Group selectedGroup;
     private int selectedColorIndex;
     private static boolean removing;
 
@@ -74,6 +75,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         );
         if(requestCode == resources.getInteger(R.integer.group_setting_code)) {
             removing = false;
+            selectedGroup = getIntent().getParcelableExtra(resources.getString(R.string.current_group_key));
         }
         else if(requestCode == resources.getInteger(R.integer.group_management_code)) {
             submitBtn.setVisibility(View.GONE);
@@ -162,9 +164,10 @@ public class GroupManagementActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         int p = ((RecyclerViewAdapter) recyclerView.getAdapter()).getSelectedPosition();
+        selectedGroup = groupList.get(p);
         intent.putExtra(
                 resources.getString(R.string.group_setting_key),
-                groupList.get(p)
+                selectedGroup
         );
         setResult(RESULT_FIRST_USER, intent);
         this.finish();
@@ -200,9 +203,11 @@ public class GroupManagementActivity extends AppCompatActivity {
             // Set Text Input Edit
             textInputEditText.setText("");
             onSoftKeyboardDown(textInputEditText);
-            // Set group list veiw
+            // Set group list
+            RecyclerViewAdapter adapter = (RecyclerViewAdapter) recyclerView.getAdapter();
+            selectedGroup = (Group) adapter.getData(adapter.getSelectedPosition());
             setGroupList();
-            ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
+            adapter.setSelectedGroup(selectedGroup.getGroupId());
             recyclerView.getAdapter().notifyDataSetChanged();
             /** Initialize setting **/
 
@@ -231,7 +236,7 @@ public class GroupManagementActivity extends AppCompatActivity {
             // Remove group
             else if(requestCode == resources.getInteger(R.integer.remove_group_code)) {
                 setGroupList();
-                ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedPosition(noGroupId);
+                ((RecyclerViewAdapter) recyclerView.getAdapter()).setSelectedGroup(noGroupId);
                 recyclerView.getAdapter().notifyDataSetChanged();
                 Toast.makeText(this, resources.getString(R.string.successful_delete), Toast.LENGTH_SHORT).show();
                 groupListChanged = true;
@@ -242,6 +247,15 @@ public class GroupManagementActivity extends AppCompatActivity {
 
     public static boolean isRemoving() {
         return removing;
+    }
+
+    public int getSelectedGroupId() {
+        if(selectedGroup == null) {
+            return App.getContext().getResources().getInteger(R.integer.no_group_selected);
+        }
+        else {
+            return selectedGroup.getGroupId();
+        }
     }
 
 }

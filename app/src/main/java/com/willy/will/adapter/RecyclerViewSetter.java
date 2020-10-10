@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.willy.will.R;
 import com.willy.will.common.model.RecyclerViewItemType;
+import com.willy.will.common.view.GroupManagementActivity;
 import com.willy.will.main.view.MainFragment;
 
 import java.util.ArrayList;
@@ -126,7 +127,13 @@ public class RecyclerViewSetter {
         /** Set Selected Position **/
         // Group Management
         if (type == RecyclerViewItemType.GROUP) {
-            adapter.setSelectedPosition(activity.getResources().getInteger(R.integer.no_group_id));
+            int selectedGroupId = ((GroupManagementActivity) activity).getSelectedGroupId();
+            if(selectedGroupId == context.getResources().getInteger(R.integer.no_group_selected)) {
+                adapter.setSelectedPosition(context.getResources().getInteger(R.integer.no_group_id));
+            }
+            else {
+                adapter.setSelectedGroup(selectedGroupId);
+            }
         }
         /* ~Set Selected Position */
         /** Or Set Tracker **/
