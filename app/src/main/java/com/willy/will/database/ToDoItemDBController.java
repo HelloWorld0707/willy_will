@@ -155,7 +155,7 @@ public class ToDoItemDBController {
                         "'" + endDate + "', " +
                         toDoId + ", " +
                         itemMemo + ", " +
-                        userPlaceName +
+                        "'" + userPlaceName + "'" +
                         "), ";
 
                 calendarTableSql += "('" + calendarDateStr + "', " + ++itemId + "), ";
