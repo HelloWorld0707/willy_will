@@ -24,10 +24,14 @@ public class ToDoItemDBController {
     private SQLiteDatabase readDatabase;
     private SQLiteDatabase writeDatabase;
 
+    private CommonDBController commonDBController;
+
     public ToDoItemDBController(Resources resources) {
         this.resources = resources;
         readDatabase = DBAccess.getDbHelper().getReadableDatabase();
         writeDatabase = DBAccess.getDbHelper().getWritableDatabase();
+
+        commonDBController = new CommonDBController();
     }
 
     public void insertDatesIntoCalendar(int itemId, String startDate, String endDate) throws ParseException {
@@ -60,6 +64,7 @@ public class ToDoItemDBController {
                               String latitude, String longitude,
                               String startDate, String endDate,
                               String itemMemo, String userPlaceName) throws ParseException {
+        String itemTable = resources.getString(R.string.item_table);
         String itemMemoColumn = resources.getString(R.string.item_memo_column);
 
         /** Set column names and values for inserting into _ITEM **/
@@ -84,7 +89,7 @@ public class ToDoItemDBController {
 
         /** Write DB (INSERT) **/
         long rowId = writeDatabase.insert(
-                resources.getString(R.string.item_table),
+                itemTable,
                 null,
                 contentValues
         );
@@ -92,7 +97,7 @@ public class ToDoItemDBController {
         /* ~Write DB (INSERT) */
 
         /** Set queries and write DB (INSERT) for inserting into _CALENDAR **/
-        insertDatesIntoCalendar(getMaxItemId(), startDate, endDate);
+        insertDatesIntoCalendar(commonDBController.getSeq(itemTable), startDate, endDate);
         /* ~Set queries and write DB (INSERT) for inserting into _CALENDAR */
     }
 
@@ -111,11 +116,12 @@ public class ToDoItemDBController {
                                               String startCount, String endCount,
                                               ArrayList<String> checkedDays,
                                               String itemMemo, String userPlaceName) throws ParseException {
+        String itemTable = resources.getString(R.string.item_table);
         if(itemMemo != null) {
             itemMemo = "'" + itemMemo + "'";
         }
 
-        String itemTableSql = "INSERT INTO " + resources.getString(R.string.item_table) + "(" +
+        String itemTableSql = "INSERT INTO " + itemTable + "(" +
                 resources.getString(R.string.group_id_column) + ", " +
                 resources.getString(R.string.item_name_column) + ", " +
                 resources.getString(R.string.item_important_column) + ", " +
@@ -137,8 +143,8 @@ public class ToDoItemDBController {
         String calendarDateStr;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(simpleDateFormat.parse(startCount));
-        final int firstItemId = getMaxItemId();
-        int itemId = firstItemId;
+        final int itemTableSeq = commonDBController.getSeq(itemTable);
+        int itemId = itemTableSeq;
         final int days = getDays(startCount, endCount);
         for (int i = 0; i < days; i++) {
             calendarDateStr = simpleDateFormat.format(calendar.getTime());
@@ -163,9 +169,9 @@ public class ToDoItemDBController {
 
             calendar.add(Calendar.DATE, 1);
         }
-        if(itemId > firstItemId) {
-            itemTableSql = itemTableSql.substring(0, itemTableSql.lastIndexOf(", ")) + ";";
-            calendarTableSql = calendarTableSql.substring(0, calendarTableSql.lastIndexOf(", ")) + ";";
+        if(itemId > itemTableSeq) {
+            itemTableSql = itemTableSql.substring(0, itemTableSql.lastIndexOf(", "));
+            calendarTableSql = calendarTableSql.substring(0, calendarTableSql.lastIndexOf(", "));
 
             /** Write DB (INSERT) **/
             writeDatabase.execSQL(itemTableSql);
@@ -323,8 +329,8 @@ public class ToDoItemDBController {
         /** Put data **/
         DateRange dateRange = new DateRange();
         cursor.moveToNext();
-        dateRange.setMinValue(cursor.getString(cursor.getColumnIndexOrThrow(DateRange.MIN)));
-        dateRange.setMaxValue(cursor.getString(cursor.getColumnIndexOrThrow(DateRange.MAX)));
+        dateRange.setMin(cursor.getString(cursor.getColumnIndexOrThrow(DateRange.MIN)));
+        dateRange.setMax(cursor.getString(cursor.getColumnIndexOrThrow(DateRange.MAX)));
         /* ~Put data */
 
         return dateRange;
@@ -523,29 +529,6 @@ public class ToDoItemDBController {
         /* ~Put data */
 
         return toDoId;
-    }
-
-    public int getMaxItemId() {
-        /** Set Column item_id **/
-        String itemIdColumn = resources.getString(R.string.item_id_column);
-        String[] columns = {
-                "max(" + itemIdColumn + ") AS " + itemIdColumn
-        };
-        /* ~Set Column item_id */
-
-        /** Read DB **/
-        Cursor cursor = readDatabase.query(
-                resources.getString(R.string.item_table),
-                columns,
-                null, null, null, null, null);
-        /* ~Read DB */
-
-        /** Put data **/
-        cursor.moveToNext();
-        int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(itemIdColumn));
-        /* ~Put data */
-
-        return itemId;
     }
 
     public String getItemIdsStr(int toDoId, String startDate, String endDate) {

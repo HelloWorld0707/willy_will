@@ -12,8 +12,10 @@ public class DateRange {
     private SimpleDateFormat simpleDateFormat;
     private Calendar calendar;
 
-    private String beforeMin;
-    private String afterMax;
+    private String oneDayBeforeMin;
+    private String oneDayAfterMax;
+    private String min;
+    private String max;
     private long minValue;
     private long maxValue;
 
@@ -25,31 +27,51 @@ public class DateRange {
     public DateRange(String min, String max) throws ParseException {
         this();
 
+        this.min = min;
+        this.max = max;
         minValue = simpleDateFormat.parse(min).getTime();
         maxValue = simpleDateFormat.parse(max).getTime();
 
         calendar.setTime(simpleDateFormat.parse(min));
         calendar.add(Calendar.DATE, -1);
-        beforeMin = simpleDateFormat.format(calendar.getTime());
+        oneDayBeforeMin = simpleDateFormat.format(calendar.getTime());
         calendar.setTime(simpleDateFormat.parse(max));
         calendar.add(Calendar.DATE, 1);
-        afterMax = simpleDateFormat.format(calendar.getTime());
+        oneDayAfterMax = simpleDateFormat.format(calendar.getTime());
     }
 
-    public void setMinValue(String min) throws ParseException {
+    public void setMin(String min) throws ParseException {
+        this.min = min;
         minValue = simpleDateFormat.parse(min).getTime();
 
         calendar.setTime(simpleDateFormat.parse(min));
         calendar.add(Calendar.DATE, -1);
-        beforeMin = simpleDateFormat.format(calendar.getTime());
+        oneDayBeforeMin = simpleDateFormat.format(calendar.getTime());
     }
 
-    public void setMaxValue(String max) throws ParseException {
+    public void setMax(String max) throws ParseException {
+        this.max = max;
         maxValue = simpleDateFormat.parse(max).getTime();
 
         calendar.setTime(simpleDateFormat.parse(max));
         calendar.add(Calendar.DATE, 1);
-        afterMax = simpleDateFormat.format(calendar.getTime());
+        oneDayAfterMax = simpleDateFormat.format(calendar.getTime());
+    }
+
+    public String getOneDayBeforeMin() {
+        return oneDayBeforeMin;
+    }
+
+    public String getOneDayAfterMax() {
+        return oneDayAfterMax;
+    }
+
+    public String getMin() {
+        return min;
+    }
+
+    public String getMax() {
+        return max;
     }
 
     public long getMinValue() {
@@ -58,14 +80,6 @@ public class DateRange {
 
     public long getMaxValue() {
         return maxValue;
-    }
-
-    public String getBeforeMin() {
-        return beforeMin;
-    }
-
-    public String getAfterMax() {
-        return afterMax;
     }
 
 }

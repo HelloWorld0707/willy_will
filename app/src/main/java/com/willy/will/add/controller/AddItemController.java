@@ -58,7 +58,7 @@ public class AddItemController {
     public void modifyItem(int itemId, int groupId, String itemName, int important,
                            String latitude, String longitude, String startDate, String endDate,
                            String loopWeek, ArrayList<String> checkedDays, String itemMemo, String userPlaceName) {
-        /** Update  **/
+        /** Update **/
         final int toDoId = toDoItemDBController.getToDoId(itemId);
         toDoItemDBController.updateItems(
                 toDoId, groupId, itemName, important,
@@ -68,25 +68,31 @@ public class AddItemController {
 
         try {
             DateRange dateRange = toDoItemDBController.getDateRange(toDoId);
+            long minValue = dateRange.getMinValue();
+            long maxValue = dateRange.getMaxValue();
             long startValue = simpleDateFormat.parse(startDate).getTime();
             long endValue = simpleDateFormat.parse(endDate).getTime();
 
             boolean delete = false;
+            boolean add = false;
             boolean addBefore = false;
             boolean addAfter = false;
 
-            if(dateRange.getMinValue() < startValue) {
+            if((startValue > minValue) || (endValue < maxValue)) {
                 delete = true;
-            }
-            else if(dateRange.getMinValue() > startValue) {
-                addBefore = true;
             }
 
-            if(dateRange.getMaxValue() > endValue) {
-                delete = true;
+            if((startValue > maxValue) || (endValue < minValue)) {
+                add = true;
             }
-            else if(dateRange.getMaxValue() < endValue) {
-                addAfter = true;
+            else {
+                if(startValue < minValue) {
+                    addBefore = true;
+                }
+
+                if(endValue > maxValue) {
+                    addAfter = true;
+                }
             }
 
             /** Update one item **/
@@ -99,16 +105,23 @@ public class AddItemController {
                     );
                 }
 
-                if(addBefore) {
+                if(add) {
                     toDoItemDBController.insertDatesIntoCalendar(
-                            itemId, startDate, dateRange.getBeforeMin()
+                            itemId, startDate, endDate
                     );
                 }
+                else {
+                    if (addBefore) {
+                        toDoItemDBController.insertDatesIntoCalendar(
+                                itemId, startDate, dateRange.getOneDayBeforeMin()
+                        );
+                    }
 
-                if(addAfter) {
-                    toDoItemDBController.insertDatesIntoCalendar(
-                            itemId, dateRange.getAfterMax(), endDate
-                    );
+                    if (addAfter) {
+                        toDoItemDBController.insertDatesIntoCalendar(
+                                itemId, dateRange.getOneDayAfterMax(), endDate
+                        );
+                    }
                 }
             }
             /* ~Update one item */
@@ -118,20 +131,29 @@ public class AddItemController {
                     toDoItemDBController.deleteItemsConditionally(toDoId, startDate, endDate);
                 }
 
-                if(addBefore) {
+                if(add) {
                     toDoItemDBController.insertItemsIntoItemAndCalendar(
                             toDoId, groupId, itemName, important, latitude, longitude,
-                            startDate, endDate, startDate, dateRange.getBeforeMin(), checkedDays,
+                            startDate, endDate, startDate, endDate, checkedDays,
                             itemMemo, userPlaceName
                     );
                 }
+                else {
+                    if (addBefore) {
+                        toDoItemDBController.insertItemsIntoItemAndCalendar(
+                                toDoId, groupId, itemName, important, latitude, longitude,
+                                startDate, endDate, startDate, dateRange.getOneDayBeforeMin(), checkedDays,
+                                itemMemo, userPlaceName
+                        );
+                    }
 
-                if(addAfter) {
-                    toDoItemDBController.insertItemsIntoItemAndCalendar(
-                            toDoId, groupId, itemName, important, latitude, longitude,
-                            startDate, endDate, dateRange.getAfterMax(), endDate, checkedDays,
-                            itemMemo, userPlaceName
-                    );
+                    if (addAfter) {
+                        toDoItemDBController.insertItemsIntoItemAndCalendar(
+                                toDoId, groupId, itemName, important, latitude, longitude,
+                                startDate, endDate, dateRange.getOneDayAfterMax(), endDate, checkedDays,
+                                itemMemo, userPlaceName
+                        );
+                    }
                 }
             }
             /* ~Update Repeated Items */
