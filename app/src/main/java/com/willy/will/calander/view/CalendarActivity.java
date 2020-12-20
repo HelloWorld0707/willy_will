@@ -203,7 +203,7 @@ public class CalendarActivity extends Activity {
             toDoItem.setItemId(itemId);
             Intent intent = new Intent(CalendarActivity.this, DetailActivity.class);
             intent.putExtra(resources.getString(R.string.item_id), toDoItem);
-            startActivity(intent);
+            startActivityForResult(intent, resources.getInteger(R.integer.detail_request_code));
         }
     }
 
@@ -284,5 +284,18 @@ public class CalendarActivity extends Activity {
         public void decorate(DayViewFacade view) {
             view.addSpan(new ForegroundColorSpan(Color.BLUE));
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /** Success to receive data **/
+        if(resultCode == resources.getInteger(R.integer.item_change_return_code)) {
+            // Modified
+            CalendarDay selectedDate = calendar.getSelectedDate();
+            setDateAtCalendar(selectedDate.getYear(), (selectedDate.getMonth() + 1), selectedDate.getDay());
+        }
+        /* ~Success to receive data */
     }
 }
