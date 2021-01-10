@@ -32,8 +32,14 @@ public class CommonDBController {
         /* ~Read DB */
 
         /** Put data **/
-        cursor.moveToNext();
-        int seq = cursor.getInt(cursor.getColumnIndexOrThrow(columns[0]));
+        int seq;
+        if(cursor.getCount() > 0) {
+            cursor.moveToNext();
+            seq = cursor.getInt(cursor.getColumnIndexOrThrow(columns[0]));
+        }
+        else {
+            seq = 0;
+        }
         /* ~Put data */
 
         return seq;
